@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="peopleData" format="json">
+      <types:shape format="weave" example="peopleName.json"><![CDATA[%dw 2.0
+
+type peopleData = {| people: {| person: {| name: String |} |} |} {"example": "{\\\"people\\\":{\\\"person\\\":{\\\"name\\\":\\\"Dora\\\"}}}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="fieldCourse" format="json">
+      <types:shape format="weave" example="examples/fieldsCourse.json"><![CDATA[%dw 2.0
+
+type fieldCourse = {|
+  field1: String, 
+  field2: String, 
+  field3: String
+|} {"example": "{\\\"field1\\\":\\\"Mulesoft\\\",\\\"field2\\\":\\\"course\\\",\\\"field3\\\":\\\"fundamentals\\\"}"}
+
+]]></types:shape>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#48b2aefb-6868-4e4d-ba8b-62651c12b0b3">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="peopleData"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#26a97e65-55a7-436b-9455-b6c22822769a">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="peopleData"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#4fd0e20a-8342-4559-8854-2a74c31b0492">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="peopleData"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#d7b4797d-2879-4086-bd25-af08d3b66a90">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="peopleData"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#e29c7cc6-5945-4a32-a8d9-310a715cc3f3">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="fieldCourse"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+</types:mule>
