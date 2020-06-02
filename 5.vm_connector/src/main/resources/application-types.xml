@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="vmPublishRequest" format="json">
+      <types:shape format="weave" example="examples/vmExample-1.json"><![CDATA[%dw 2.0
+
+type vmPublishRequest = {| destination: String |} {"example": "{\\\"destination\\\":\\\"queue.B\\\"}"}
+
+]]></types:shape>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#e65bd16b-fdfd-49ad-9522-678cc8b57dfb">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="vmPublishRequest"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+</types:mule>
