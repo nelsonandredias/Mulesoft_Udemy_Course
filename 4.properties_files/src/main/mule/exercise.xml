@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="findwords" doc:id="7c452f2d-c615-4775-9197-6a8526fdd096" >
+		<http:listener doc:name="HTTP POST" doc:id="b9546e1c-5849-41c2-a221-7fff55724e34" config-ref="HTTP_Listener_config" path="${http.path_exercise}"/>
+		<logger level="INFO" doc:name="LOG word to find" doc:id="58a7801d-ec52-44b4-a118-09779cf60bc8" message='#[%dw 2.0
+
+output application/json
+---
+{
+	"word to find": Mule::p("word")
+}]'/>
+		<set-variable value='#[lower(Mule::p("word"))]' doc:name="store word to find" doc:id="0f67ba9a-f559-4eaa-ae95-590b9e69fc33" variableName="wordToFind"/>
+		<logger level="INFO" doc:name="Log variable" doc:id="b4f2351a-db8e-4eb1-b4bc-511758e4c0f9" message="#[vars.wordToFind]"/>
+		<ee:transform doc:name="check if word to find exist in the payload list" doc:id="3c3fee2c-4e06-4e6a-b2e7-8881325b67fc" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+
+output application/json
+---
+
+"exist": if (payload.list.*word[?(lower($) contains vars.wordToFind)]?) ("YES") else ("NO") 
+	
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<set-payload value="#[payload]" doc:name="Set Payload" doc:id="6135b186-bb1f-43e7-b42b-3e10faba9412" />
+	</flow>
+</mule>

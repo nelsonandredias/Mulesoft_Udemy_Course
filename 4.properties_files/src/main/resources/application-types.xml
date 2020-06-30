@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="wordsList" format="json">
+      <types:shape format="weave" example="examples/environmentPayload.json"><![CDATA[%dw 2.0
+
+type wordsList = {| list: {| word: String |} |} {"example": "{\\\"list\\\":{\\\"word\\\":\\\"mulesoft\\\"}}"}
+
+]]></types:shape>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#7c452f2d-c615-4775-9197-6a8526fdd096">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="wordsList"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#3c3fee2c-4e06-4e6a-b2e7-8881325b67fc">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="wordsList"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+</types:mule>
