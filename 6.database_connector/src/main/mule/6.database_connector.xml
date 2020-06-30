@@ -54,7 +54,7 @@ output application/json
 	<flow name="insert_new_customer" doc:id="7107d0d2-a754-49d3-bec6-dffd5079e762" >
 		<http:listener doc:name="HTTP POST" doc:id="91c3ef1d-092c-4dde-b99f-ba9fa4fa10df" config-ref="HTTP_Listener_config" path="/customers" allowedMethods="POST"/>
 		<db:insert doc:name="Insert new customer" doc:id="8ac4df4b-589d-4720-9975-4cfb1e4dfc94" config-ref="Database_Config" autoGenerateKeys="true">
-			<db:sql ><![CDATA[INSERT INTO customers (customerName) VALUES (:clientName)]]></db:sql>
+			<db:sql ><![CDATA[INSERT INTO customers (customerName) VALUES (:clientName);]]></db:sql>
 			<db:input-parameters ><![CDATA[#[{
 	'clientName': payload.customer.customerName
 }]]]></db:input-parameters>

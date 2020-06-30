@@ -1,0 +1,25 @@
+##################################
+### VM QUEUES
+##################################
+queue:
+  environment: "TST"
+  
+##################################
+### DATABASE Connections
+##################################
+db:
+  host: "localhost"
+  port: "3306"
+  user: "root"
+  password: "admin"
+  database: "mulesoft_course"
+  
+##################################
+### HTTP Connections
+##################################
+http:
+  host: "localhost"
+  port: "8881"
+  path:
+    getAllSongs: "/getAllSongs"
+    addNewSong: "/addNewSong"

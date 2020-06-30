@@ -13,6 +13,22 @@ type customer = {|
 
 ]]></types:shape>
     </types:type>
+    <types:type name="songs" format="json">
+      <types:shape format="weave" example="examples/songExample.json"><![CDATA[%dw 2.0
+
+type songs = {|
+  song: {|
+    songId: String, 
+    songName: String
+  |}
+|} {"example": "{\\\"song\\\":{\\\"songId\\\":\\\"5\\\",\\\"songName\\\":\\\"Nothing else matters\\\"}}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="undefined" format="java">
+      <types:shape format="raml"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
   </types:catalog>
   <types:enrichment select="#7107d0d2-a754-49d3-bec6-dffd5079e762">
     <types:processor-declaration>
@@ -37,6 +53,15 @@ type customer = {|
       <types:input-event>
         <types:message>
           <types:payload type="customer"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#7af8d104-8889-4911-9c20-3669855100e9">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="songs"/>
         </types:message>
       </types:input-event>
     </types:processor-declaration>
