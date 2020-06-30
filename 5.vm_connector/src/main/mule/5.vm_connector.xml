@@ -7,7 +7,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd">
 	<flow name="publish_message_async_basic" doc:id="fcb479fc-0bc0-42de-a4b3-5f72e8f3bcc2" >
 		<http:listener doc:name="HTTP POST" doc:id="60350173-6927-4d7e-941d-12f5f47ecea9" config-ref="HTTP_Listener_config" path="/async-basic"/>
-		<logger level="INFO" doc:name="LOG START" doc:id="c71da698-2f5e-419c-b359-992ffb551749" message='"before publish to queue"'/>
+		<logger level="INFO" doc:name="LOG START" doc:id="c71da698-2f5e-419c-b359-992ffb551749" message='#["before publish to queue in "]'/>
 		<vm:publish doc:name="Publish to Queue Async" doc:id="1cbaef4c-d6f2-4966-8b38-37362367c342" config-ref="VM_Config" queueName="queue.persistent"/>
 		<logger level="INFO" doc:name="LOG END" doc:id="da2f7fc2-43ba-43a1-99cd-e4f6014baa44" message='"after publish to queue"'/>
 	</flow>

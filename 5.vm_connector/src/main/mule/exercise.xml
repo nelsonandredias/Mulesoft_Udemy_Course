@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:vm="http://www.mulesoft.org/schema/mule/vm" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd">
+	<flow name="exerciseFlow" doc:id="cffb7409-661b-4662-a998-45904a978605" >
+		<http:listener doc:name="HTTP GET" doc:id="a1a0bc11-a21e-4860-8ba7-b988f8eb93a3" config-ref="HTTP_Listener_config1" path="${http.path}" allowedMethods="GET">
+			<http:response >
+				<http:body ><![CDATA[#[vars.listenerResponse]]]></http:body>
+			</http:response>
+		</http:listener>
+		<logger level="INFO" doc:name="Log START" doc:id="77ee3249-9caf-4747-a6d9-efcd8d6f78f2" message='#[flow.name ++ " - Log START"]'/>
+		<vm:publish-consume queueName="queue.environment" doc:name="Publish consume message synchrously" doc:id="2daaa7ac-7de5-4b95-af0c-90190e04a782" config-ref="VM_Config1" target="listenerResponse">
+			<vm:content ><![CDATA[${queue.environment}]]></vm:content>
+		</vm:publish-consume>
+		<logger level="INFO" doc:name="Log END" doc:id="886f0f89-dcc6-474a-a3ef-fd4eae8a33b1" message='#[flow.name ++ " - Log END"]'/>
+	</flow>
+	<flow name="exerciseFlow1" doc:id="2857dcaf-be9a-4fce-a281-2b03190e1fd5" >
+		<vm:listener doc:name="Queue.exercise listener" doc:id="9812e64c-e9ee-4f50-86c8-f3be746bd81a" config-ref="VM_Config1" queueName="queue.environment"/>
+		<logger level="INFO" doc:name="Log START" doc:id="011f46d2-a38f-45ca-aacf-42eacdeb9e15" message='#[flow.name ++ " - Log START"]'/>
+		<flow-ref doc:name='call flow "log_and_set_payload"' doc:id="06380c6c-5751-4f90-a6f0-8120e8b58ebb" name="log_and_set_payload"/>
+		<logger level="INFO" doc:name="Log END" doc:id="3d3b50cf-93a4-4160-930e-eebbeb5f6dd8" message='#[flow.name ++ " - Log END"]'/>
+	</flow>
+	<flow name="log_and_set_payload" doc:id="97f29c52-9d9b-4aca-b908-d8718e60f13d" >
+		<logger level="INFO" doc:name="Log Payload" doc:id="e30f7214-1e9b-4b74-8832-a745fa3ede75" message="#[payload]"/>
+	</flow>
+</mule>

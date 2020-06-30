@@ -6,7 +6,7 @@
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd">
 	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="db6daaa2-fd19-45a2-93b5-21e447780ae8" >
-		<http:listener-connection host="0.0.0.0" port="8081" />
+		<http:listener-connection host="localhost" port="8081" />
 	</http:listener-config>
 	<vm:config name="VM_Config" doc:name="VM Config" doc:id="80e7ee67-fda4-479a-afc6-474745985996" >
 		<vm:queues >
@@ -16,6 +16,17 @@ http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/cu
 			<vm:queue queueName="queue.C" />
 			<vm:queue queueName="queue.transient" />
 			<vm:queue queueName="queue.persistent" queueType="PERSISTENT" />
+		</vm:queues>
+	</vm:config>
+	<configuration-properties doc:name="Configuration properties" doc:id="30885986-46d4-44ac-9446-30ec4451789e" file="common.yaml" doc:description="common config properties for exercise"/>
+	<configuration-properties doc:name="Configuration properties" doc:id="a8068077-153e-4e0c-a36a-6ceecf6050b4" file="config-${environment}.yaml" doc:description="environment config properties for exercise"/>
+	<global-property doc:name="Global Property" doc:id="6ef10fd8-ce97-470c-94fa-8173deb76792" name="environment" value="DEV" doc:description="global property for exercise"/>
+	<http:listener-config name="HTTP_Listener_config1" doc:name="HTTP Listener config" doc:id="eba479d0-6ae3-41b6-8bff-2819f4ec9f94" doc:description="http listener for exercise" >
+		<http:listener-connection host="${http.host}" port="${http.port}" />
+	</http:listener-config>
+	<vm:config name="VM_Config1" doc:name="VM Config" doc:id="9db8191d-b2a3-46ec-ac5d-d5e9ba5a6a40" doc:description="vm config for exercise">
+		<vm:queues >
+			<vm:queue queueName="queue.environment" queueType="PERSISTENT" />
 		</vm:queues>
 	</vm:config>
 </mule>

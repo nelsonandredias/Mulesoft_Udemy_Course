@@ -1,0 +1,7 @@
+##################################
+### HTTP CONNECTION
+##################################
+http:
+  host: "localhost"
+  port: "8881"
+  path: "/exercise"
