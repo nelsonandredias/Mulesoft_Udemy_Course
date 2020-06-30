@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:vm="http://www.mulesoft.org/schema/mule/vm"
+	xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
+	<flow name="get_all_countries" doc:id="2cd61dca-6d2e-42ee-985d-034ed6d5569b" >
+		<http:listener doc:name="HTTP GET" doc:id="9e0d5259-a92d-48a0-a882-46d8c705fa94" config-ref="HTTP_Listener_config1" allowedMethods="GET" path="${http.path.getAllCountries}"/>
+		<db:select doc:name="get all countries from database" doc:id="63f2a653-b817-488e-bb1e-28ee6f685b99" config-ref="Database_Config">
+			<db:sql ><![CDATA[select * from countries;]]></db:sql>
+		</db:select>
+		<logger level="INFO" doc:name="Log before notification" doc:id="1022e8fb-7cfe-4a12-877b-0c008767e673" message='#[%dw 2.0
+
+output application/json
+---
+{
+	"flowName": flow.name,
+	"message": "Log Before Notification"
+}]'/>
+		<vm:publish doc:name="Notify Request Async" doc:id="5d068e57-83a4-4749-9e47-3180c6971cfa" config-ref="VM_Config" queueName="queue.environment">
+			<vm:content ><![CDATA[#[{
+	"fileName": "get_all_countries",
+	"message": "a database call to get all countries has been performed",
+	"timestamp": now()
+}]]]></vm:content>
+		</vm:publish>
+		<logger level="INFO" doc:name="Log after notification" doc:id="2240a6f7-572e-40dc-9b8a-c2cfbfc98abb" message='#[%dw 2.0
+
+output application/json
+---
+{
+	"flowName": flow.name,
+	"message": "Log After Notification"
+}]' />
+		<set-payload value="#[%dw 2.0
+
+output application/json
+---
+payload]" doc:name="Set Payload from JAVA to JSON" doc:id="ace39bde-60e0-4bf0-b558-85d2002c9175" />
+	</flow>
+	<flow name="insert_new_country" doc:id="2988c18c-1988-4739-bc06-4527cd1a3b1d" >
+		<http:listener doc:name="HTTP POST" doc:id="e7669bdd-4454-41cd-8093-4c54435072f7" config-ref="HTTP_Listener_config1" allowedMethods="POST" path="${http.path.addNewCountry}"/>
+		<db:insert doc:name="Insert new country into database" doc:id="46afae01-f24e-4d80-ae66-fd3f0bf67496" config-ref="Database_Config" autoGenerateKeys="true">
+			<db:sql ><![CDATA[INSERT INTO countries (countryName) VALUES (:newCountry)]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	'newCountry': payload.country.countryName
+}]]]></db:input-parameters>
+		</db:insert>
+		<logger level="INFO" doc:name="Log before notification" doc:id="663d0f82-6ef5-4bf6-86d2-da722fa584e8" message='#[%dw 2.0
+
+output application/json
+---
+{
+	"flowName": flow.name,
+	"message": "Log Before Notification"
+}]' />
+		<vm:publish queueName="queue.environment" doc:name="Notify Request Async" doc:id="0cd2b457-c16c-4015-869e-3a9a961247bd" config-ref="VM_Config">
+			<vm:content><![CDATA[#[{
+	"fileName": "insert_new_country",
+	"message": "a database call to insert new country has been performed",
+	"timestamp": now()
+}]]]></vm:content>
+		</vm:publish>
+		<logger level="INFO" doc:name="Log after notification" doc:id="d217e976-df06-4994-8021-9c9c28c4da17" message='#[%dw 2.0
+
+output application/json
+---
+{
+	"flowName": flow.name,
+	"message": "Log After Notification"
+}]' />
+		<set-payload value="#[%dw 2.0
+
+output application/json
+---
+payload]" doc:name="Set Payload from JAVA to JSON" doc:id="fb337bc7-e079-4741-9cd7-367c37d896d1" />
+	</flow>
+	<flow name="add_notification_to_file" doc:id="c45b9da8-d148-41b7-8d81-dbf9e7550a83" >
+		<vm:listener doc:name="Listener" doc:id="91a6c3c6-1a9e-4c89-83e9-f724005eee08" config-ref="VM_Config" queueName="queue.environment"/>
+		<logger level="INFO" doc:name="Log notification" doc:id="098be9c8-5c83-48d3-8d39-b40f1e244543" message="#[%dw 2.0
+
+output application/json
+---
+payload]"/>
+		<file:write doc:name="Append notification into log file" doc:id="d4acd6ba-5578-4595-97bd-f51be0451bb8" config-ref="File_Config1" path='#["exercise/" ++ payload.fileName ++ ".csv"]' mode="APPEND">
+			<file:content ><![CDATA[#[%dw 2.0
+
+output application/csv header = false
+---
+payload]]]></file:content>
+		</file:write>
+	</flow>
+</mule>

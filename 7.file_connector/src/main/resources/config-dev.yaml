@@ -1,0 +1,31 @@
+##################################
+### VM QUEUES
+##################################
+queue:
+  environment: "DEV"
+  
+##################################
+### DATABASE Connections
+##################################
+db:
+  host: "localhost"
+  port: "3306"
+  user: "root"
+  password: "admin"
+  database: "mulesoft_course"
+  
+##################################
+### HTTP Connections
+##################################
+http:
+  host: "localhost"
+  port: "8881"
+  path:
+    getAllCountries: "/getAllCountries"
+    addNewCountry: "/addNewCountry"
+    
+##################################
+### File Connections
+##################################    
+file:
+  path: "C:\\Users\\nelson.dias\\Desktop\\Mulesoft_Udemy_Course\\Files"

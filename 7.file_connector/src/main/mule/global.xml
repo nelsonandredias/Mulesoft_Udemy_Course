@@ -1,14 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:file="http://www.mulesoft.org/schema/mule/file"
-	xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+<mule xmlns:vm="http://www.mulesoft.org/schema/mule/vm" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd">
 	<file:config name="File_Config" doc:name="File Config" doc:id="df88b17a-b521-4529-8048-88f4f56fe68d" >
 		<file:connection workingDir="C:\Users\nelson.dias\Desktop\Mulesoft_Udemy_Course\Files" />
 	</file:config>
 	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="75968c5f-9983-4daa-9793-de10c841a2ba" >
 		<http:listener-connection host="0.0.0.0" port="8081" />
 	</http:listener-config>
+	<http:listener-config name="HTTP_Listener_config1" doc:name="HTTP Listener config" doc:id="5227495b-1efd-4161-a791-8051032e4c5f" doc:description="http listener for exercise" >
+		<http:listener-connection host="${http.host}" port="${http.port}" />
+	</http:listener-config>
+	<db:config name="Database_Config" doc:name="Database Config" doc:id="9b1743e3-4523-4977-a3db-e6b5a840d45e" doc:description="database config for exercise">
+		<db:my-sql-connection host="${db.host}" port="${db.port}" user="${db.user}" password="${db.password}" database="${db.database}" />
+	</db:config>
+	<configuration-properties doc:name="Configuration properties" doc:id="5e0d9f25-ad49-453c-87b4-fb9b2cf432e0" doc:description="config properties for exercise" file="config-${environment}.yaml" />
+	<global-property doc:name="Global Property" doc:id="0dba5ec4-2c29-4324-827a-102b2fcfc379" doc:description="global property for exercise" name="environment" value="dev" />
+	<vm:config name="VM_Config" doc:name="VM Config" doc:id="6e17ae56-3306-4c79-88d9-2da37876081a" doc:description="vm config for exercise" >
+		<vm:queues >
+			<vm:queue queueName="queue.environment" queueType="PERSISTENT" />
+		</vm:queues>
+	</vm:config>
+	<file:config name="File_Config1" doc:name="File Config" doc:id="76e513a0-db7f-4210-acde-eb563859a053" doc:description="file config for exercise" >
+		<file:connection workingDir="${file.path}"/>
+	</file:config>
 </mule>

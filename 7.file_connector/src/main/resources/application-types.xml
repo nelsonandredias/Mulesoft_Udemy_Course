@@ -14,6 +14,18 @@ type fileExample = {|
 
 ]]></types:shape>
     </types:type>
+    <types:type name="countryExample" format="json">
+      <types:shape format="weave" example="examples/countryExample.json"><![CDATA[%dw 2.0
+
+type countryExample = {|
+  country: {|
+    countryId: String, 
+    countryName: String
+  |}
+|} {"example": "{\\\"country\\\":{\\\"countryId\\\":\\\"5\\\",\\\"countryName\\\":\\\"Portugal\\\"}}"}
+
+]]></types:shape>
+    </types:type>
   </types:catalog>
   <types:enrichment select="#13dad96e-271f-47de-b824-6329aa1cdcb5">
     <types:processor-declaration>
@@ -47,6 +59,24 @@ type fileExample = {|
       <types:input-event>
         <types:message>
           <types:payload type="fileExample"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#2988c18c-1988-4739-bc06-4527cd1a3b1d">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="countryExample"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#46afae01-f24e-4d80-ae66-fd3f0bf67496">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="countryExample"/>
         </types:message>
       </types:input-event>
     </types:processor-declaration>
