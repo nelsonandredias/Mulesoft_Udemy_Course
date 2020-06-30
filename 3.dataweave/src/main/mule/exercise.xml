@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="exerciseFlow" doc:id="e94ec300-96c2-405b-8af4-7b748f52094d" >
+		<ee:transform doc:name="Transform Message" doc:id="a2457952-f7ca-4781-ac0a-adfd2566e22b" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+
+var itemsList = {
+	"items":[
+		"item":{
+			"description": "Product1",
+			"quantity": 1,
+			"unit_price": 20,
+			"toDiscount": "No"
+		},
+		"item":{
+			"description": "Product2",
+			"quantity": 2,
+			"unit_price": 30,
+			"toDiscount": "Yes"
+		},
+		"item":{
+			"description": "Product3",
+			"quantity": 3,
+			"unit_price": 40,
+			"toDiscount": "Yes"
+		}
+	]
+}
+
+output application/json
+---
+using (sum_items_cost = [0, 1, 2, 3, 4, 5] reduce ((elt, acc) -> acc + elt))
+{
+	"prices": itemsList.items.item.*unit_price
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<ee:transform doc:name="Transform Message" doc:id="3a808864-e9fa-4fca-a169-bc93d8d470b7" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+
+var tax = 0.23
+
+var discount = 0.10
+
+var itemsList = {
+	"items":[
+		"item":{
+			"description": "Product1",
+			"quantity": 1,
+			"unit_price": 20,
+			"toDiscount": "No"
+		},
+		"item":{
+			"description": "Product2",
+			"quantity": 2,
+			"unit_price": 30,
+			"toDiscount": "Yes"
+		},
+		"item":{
+			"description": "Product3",
+			"quantity": 3,
+			"unit_price": 40,
+			"toDiscount": "Yes"
+		}
+	]
+}
+
+output application/json
+---
+
+"invoice": {
+	"items": 
+		itemsList.items.*item map ((item) -> 
+		using( item_final_price = item.unit_price * item.quantity)
+		{
+			"item": item.description,
+			"quantity": item.quantity,
+			"unit_price": item.unit_price,
+			"discount": if (item.toDiscount contains "Yes") (discount) else (0.00),
+			("cost": if (item.toDiscount contains "Yes") 
+				(item_final_price * (1- discount))
+			else item_final_price)
+		}
+				
+	),
+	"total": 
+		using (sum_items_cost = itemsList.items.item.*unit_price default [] reduce ( (element, accumulated = 0) -> accumulated + element) )
+		{
+			"total_cost_before_taxation": sum_items_cost,
+			"taxation": tax*100 ++ "%",
+			"total_cost_after_taxation": sum_items_cost * (1 + tax) as Number
+		}
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
