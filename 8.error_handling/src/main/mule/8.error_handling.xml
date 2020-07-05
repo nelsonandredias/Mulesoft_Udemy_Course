@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="default_error_handling" doc:id="b7e8f28b-c714-4832-b4f6-1fd0b7e53055" >
+		<http:listener doc:name="HTTP GET" doc:id="6944ff1a-0347-4d6a-ba70-3b629c1d8c82" config-ref="HTTP_Listener_config" path="/default-error-handling" allowedMethods="GET"/>
+		<http:request method="GET" doc:name="Request unexistent URL" doc:id="ac41c3fd-fca7-4296-89e6-add36c36088c" config-ref="HTTP_Request_configuration" path="/test"/>
+	</flow>
+	<flow name="on_error_continue_basic" doc:id="3e226767-11fd-4c4b-8a99-8e1361e0c73c" >
+		<http:listener doc:name="HTTP GET" doc:id="33a91e8c-0e55-4fb1-a574-c4a67fbe9949" config-ref="HTTP_Listener_config" path="/on-error-continue-basic" allowedMethods="GET"/>
+		<http:request method="GET" doc:name="Request unexistent URL" doc:id="86484500-30c2-4a3b-a00f-2861e9a1fe4e" config-ref="HTTP_Request_configuration" path="/test" />
+		<logger level="INFO" doc:name="Log After Request" doc:id="ae80381a-6f4c-4f4f-a21c-6c5b3e62fc67" message='#["LOG AFTER REQUEST - ON ERROR CONTINUE"]'/>
+		<error-handler >
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="cd061395-6985-41be-af63-facb32d184d9" type="ANY">
+				<logger level="ERROR" doc:name="Log on continue basics" doc:id="aad24c46-8f17-42cc-9487-b6a1bedb9781" message='#["mule flow - on error continue log"]'/>
+				<set-payload value='#[%dw 2.0
+
+output application/json
+---
+{
+	"message": "on error continue log",
+	"error": {
+		"description": error.description
+	}
+}]' doc:name="Set Payload" doc:id="61d79420-1327-41a9-830e-e41b51957862" />
+			</on-error-continue>
+		</error-handler>
+	</flow>
+	<flow name="on_error_propagate_basic" doc:id="c2d1cd9e-56b5-44cf-832d-daab9c070a47" >
+		<http:listener doc:name="HTTP GET" doc:id="a10c064b-139f-40ef-8dea-8906973b7b1b" config-ref="HTTP_Listener_config" path="/on-error-propagate-basic" allowedMethods="GET"/>
+		<http:request method="GET" doc:name="Request unexistent URL" doc:id="a2077ce8-6863-4927-b3dc-2e066aa42db8" config-ref="HTTP_Request_configuration" path="/test" />
+		<logger level="INFO" doc:name="Log After Request" doc:id="6b15dfdf-03a5-41c7-8efe-f4b40ca71355" message='#["LOG AFTER REQUEST - ON ERROR PROPAGATE"]'/>
+		<error-handler >
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="28f8fc43-333b-4d8f-bdd0-89c4590e6252" type="ANY">
+				<logger level="ERROR" doc:name="Log on propagate basics" doc:id="6456978b-cc9f-481f-a2ec-1d9d165d09f1" message='#["mule flow - on error propagate log"]'/>
+				<set-payload value='#[%dw 2.0
+
+output application/json
+---
+{
+	"message": "on error propagate log",
+	"error": {
+		"description": error.description
+	}
+}]' doc:name="Set Payload" doc:id="a5e384c5-7e95-4190-9a4d-7fc0cdd141fe" />
+			</on-error-propagate>
+		</error-handler>
+	</flow>
+	<flow name="global_error_handler" doc:id="37c04d40-fc2d-4764-857f-dd8c4e9f22d0" >
+		<http:listener doc:name="HTTP GET" doc:id="ad51e0d4-0d75-44f6-9889-217e7509fb0e" config-ref="HTTP_Listener_config" path="/global-error-handler" allowedMethods="GET"/>
+		<http:request method="GET" doc:name="Request unexistent URL" doc:id="ed742d9b-7b19-4528-b479-264c7f8f5153" config-ref="HTTP_Request_configuration" path="/test" />
+	</flow>
+	<flow name="on_error_continue_basic_flow_reference" doc:id="3d01fd94-cb61-4d61-8ca5-f844ca44b8f2" >
+		<http:listener doc:name="HTTP GET" doc:id="aadf899d-d831-4e83-899e-430efbb1ceb1" config-ref="HTTP_Listener_config" path="/on-error-continue-basic-fr" allowedMethods="GET"/>
+		<flow-ref doc:name="Call Flow Reference" doc:id="c5cacc8d-1bfb-4dfc-ab02-1bc54b1489e2" name="flow_reference"/>
+		<logger level="INFO" doc:name="Log After Request" doc:id="dfc3f929-eab6-4b21-899a-66a1d2be494c" message='#["LOG AFTER REQUEST - ON ERROR CONTINUE"]'/>
+		<error-handler >
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="f43a2378-5038-4f46-b90a-9fda618850e3" type="ANY">
+				<logger level="ERROR" doc:name="Log on continue basics" doc:id="d0251e3c-c9a8-4173-a769-94eedd2e98b2" message='#["mule flow - on error continue log"]'/>
+				<set-payload value='#[%dw 2.0
+
+output application/json
+---
+{
+	"message": "on error continue log",
+	"error": {
+		"description": error.description
+	}
+}]' doc:name="Set Payload" doc:id="c1e1bd95-f4b4-41c9-95bf-3649e3ce9a3b" />
+			</on-error-continue>
+		</error-handler>
+	</flow>
+	<flow name="on_error_propagate_basic_flow_reference" doc:id="18e0b659-1c13-4487-9ac6-3fa6ea3f9243" >
+		<http:listener doc:name="HTTP GET" doc:id="fcf58b5e-e849-40d7-a408-5f2b66c087ab" config-ref="HTTP_Listener_config" path="/on-error-propagate-basic-fr" allowedMethods="GET"/>
+		<flow-ref doc:name="Call Flow Reference" doc:id="31b4dcf6-1339-4a2e-a552-15735646a404" name="flow_reference"/>
+		<logger level="INFO" doc:name="Log After Request" doc:id="898584d9-b138-4372-9044-777e33f28aa4" message='#["LOG AFTER REQUEST - ON ERROR PROPAGATE"]'/>
+		<error-handler >
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="f0b0139a-a576-4876-a130-8e4b3ae8303c" type="ANY">
+				<logger level="ERROR" doc:name="Log on propagate basics" doc:id="f2c40ddd-c711-4824-a24d-0ea9f218ee8d" message='#["mule flow - on error propagate log"]'/>
+				<set-payload value='#[%dw 2.0
+
+output application/json
+---
+{
+	"message": "on error propagate log",
+	"error": {
+		"description": error.description
+	}
+}]' doc:name="Set Payload" doc:id="f07cddb3-207c-412b-944e-66a7696ba891" />
+			</on-error-propagate>
+		</error-handler>
+	</flow>
+	<flow name="flow_reference" doc:id="431bc545-87bc-4353-aad6-11e15946a72b" >
+		<logger level="INFO" doc:name="Log BEFORE REQUEST" doc:id="fa308ea1-45de-4255-9fd1-89d1facc3784" message='#["Log BEFORE REQUEST - flow reference"]'/>
+		<http:request method="GET" doc:name="Request unexistent URL" doc:id="75102c2a-d94a-486a-a4a3-38b25f36b65b" config-ref="HTTP_Request_configuration" path="/test" />
+		<logger level="INFO" doc:name="Log AFTER REQUEST" doc:id="32bf87a3-a422-4823-8281-4396d5924a28" message='#["Log AFTER REQUEST - flow reference"]'/>
+	</flow>
+	<flow name="raise_an_error_based_on_customer_id" doc:id="f9def77e-97a6-41af-88dc-27ddfbfcdbe2" >
+		<http:listener doc:name="HTTP GET" doc:id="de9e82db-f801-4905-abeb-9477d7cd7efc" config-ref="HTTP_Listener_config" path="/raise-error/{customerID}" allowedMethods="GET"/>
+		<logger level="INFO" doc:name="Log CustomerID" doc:id="9793df26-73b6-44c0-a02e-cce2b0a3795b" message='#[%dw 2.0
+
+output application/json
+---
+{
+	"customerID" : attributes.uriParams.customerID
+}]'/>
+		<choice doc:name="validate customerID" doc:id="17ccbfba-e745-46e8-97c5-732c5753eb23" >
+			<when expression="#[attributes.uriParams.customerID as Number == 2]">
+				<logger level="INFO" doc:name="Log VALIDATED" doc:id="018b2b7e-ce2d-4684-85b5-67ea11797e26" message='#["Customer ID is VALIDATED!!!!"]'/>
+				<set-payload value='#[%dw 2.0
+
+output application/json
+---
+{
+	"message": "Customer ID " ++ attributes.uriParams.customerID as String ++ " is VALID"
+}]' doc:name="Set Payload" doc:id="db3bded4-6cb2-4fd8-a56e-33d65d5e7d4a" />
+			</when>
+			<when expression="#[attributes.uriParams.customerID as Number == 1]">
+				<logger level="INFO" doc:name="Log RESERVED" doc:id="0bcf0492-1289-4bf8-97fc-9a167e4626db" message='#["Customer ID is RESERVERD!!!!"]' />
+				<raise-error doc:name="Raise error for reserved customer" doc:id="e51e7f07-ddac-4719-add8-a62d152e14c1" type="CUSTOMER:RESERVED_ID" description='"Customer ID 1 is reserved. Cannot complete flow!!!!"'/>
+			</when>
+			<otherwise >
+				<raise-error doc:name="Raise default error invalid data" doc:id="e9014d84-534f-4bfd-8d74-4e63a9f153ca" type="CUSTOMER:INVALID_DATA" description='"Customer ID is necessary. Cannot complete flow!!!!"'/>
+			</otherwise>
+		</choice>
+		<error-handler >
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="e90d83bb-9e35-4d0b-947b-b606ea5e5cdd" type="CUSTOMER:INVALID_DATA">
+				<logger level="INFO" doc:name="Logger" doc:id="23025bed-9331-4d0a-b53b-0c3f61279fbf" message='#[%dw 2.0
+
+output application/json
+---
+{
+	"message": "On error continue - CUSTOMER:INVALID_DATA - the customer ID is NOT OK!!!"
+}]'/>
+				<set-payload value='#[%dw 2.0
+
+output application/json
+---
+{
+	"message": "On error continue - CUSTOMER:INVALID_DATA - the customer ID is NOT OK!!!"
+}]' doc:name="Set Payload" doc:id="d4b03421-9460-4cd7-8c3a-584a136a8678" />
+			</on-error-continue>
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="eb94bc9e-b7f8-489c-b7ab-609fce61fec6" type="ANY">
+				<logger level="INFO" doc:name="Logger" doc:id="439e0e2d-84f7-4c32-a455-834fa2dd43f1" message='#[%dw 2.0
+
+output application/json
+---
+{
+	"message": "On error continue - ANY - the customer ID is missing or invalid!!!"
+}]' />
+				<set-payload value='#[%dw 2.0
+
+output application/json
+---
+{
+	"message": "On error continue - ANY - the customer ID is missing or invalid!!!"
+}]' doc:name="Set Payload" doc:id="537b7d36-af80-4ebb-8623-d6806cb4cf04" />
+			</on-error-continue>
+		</error-handler>
+	</flow>
+</mule>
