@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension-documentation>
+    <configs>
+        <config name="config">
+            <description><![CDATA[Default configuration]]></description>
+            <parameters>
+                <parameter name="queues">
+                    <description><![CDATA[The queues that this config owns]]></description>
+                </parameter>
+                <parameter name="sendCorrelationId">
+                    <description><![CDATA[Whether to specify a correlationId when publishing messages. This applies both for custom correlation ids specifies at the operation level and for default correlation Ids taken from the current event]]></description>
+                </parameter>
+                <parameter name="expirationPolicy">
+                    <description><![CDATA[Configures the minimum amount of time that a dynamic configuration instance can remain idle before the runtime considers it eligible for expiration. This does not mean that the platform will expire the instance at the exact moment that it becomes eligible. The runtime will actually purge the instances when it sees it fit.]]></description>
+                </parameter>
+            </parameters>
+        </config>
+    </configs>
+    <connections>
+        <connection name="connection">
+            <description><![CDATA[Returns instances of VMConnection]]></description>
+            <parameters>
+                <parameter name="reconnection">
+                    <description><![CDATA[When the application is deployed, a connectivity test is performed on all connectors. If set to true, deployment will fail if the test doesn't pass after exhausting the associated reconnection strategy]]></description>
+                </parameter>
+            </parameters>
+        </connection>
+        <connection name="connection">
+            <description><![CDATA[Returns instances of VMConnection]]></description>
+            <parameters>
+                <parameter name="reconnection">
+                    <description><![CDATA[When the application is deployed, a connectivity test is performed on all connectors. If set to true, deployment will fail if the test doesn't pass after exhausting the associated reconnection strategy]]></description>
+                </parameter>
+            </parameters>
+        </connection>
+    </connections>
+    <extension name="VM">
+        <description><![CDATA[The VM Connector is used for intra/inter app communication. The communication is done through asynchronous queues, which can be either transient or persistent. Transient queues are faster, but not reliable in the case of a system crash. Persistent queues, on the other hand are slower but reliable. When running on a single instance, persistent queues work by serializing and storing the contents into disk. When running in cluster mode, persistent queues are backed by the memory grid instead. This means that when a flow uses the VM connector to publish content to a queue, the Runtime will decide whether to process that message in the same origin node or to send it out to the cluster for another node to pick it up. This is an easy way to distribute load across the cluster. In either way, transactions are always supported. Each config defines its own set of queues. Those queues are only visible to components referencing that config.]]></description>
+        <parameters/>
+    </extension>
+    <operations>
+        <operation name="consume">
+            <description><![CDATA[Pull one message from a queue. If a message is not immediately available, it will wait up to the configured queueTimeout, after which a VM:QUEUE_TIMEOUT error will be thrown. <p> The queue on which the content is published has to be one for which a <vm:listener> <b>doesn't </b> exists. Consuming from queues on which a <vm:listener> exists is not allowed.]]></description>
+            <parameters>
+                <parameter name="transactionalAction">
+                    <description><![CDATA[The type of joining action that operations can take regarding transactions.]]></description>
+                </parameter>
+                <parameter name="queueName">
+                    <description><![CDATA[The name of the queue]]></description>
+                </parameter>
+                <parameter name="timeout">
+                    <description><![CDATA[How long to wait on the queue to complete and operation (either publishing or consuming) before failing with a timeout error]]></description>
+                </parameter>
+                <parameter name="timeoutUnit">
+                    <description><![CDATA[A TimeUnit which qualifies the #timeoutUnit]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="publish">
+            <description><![CDATA[Publishes the given content into the queue of the given queueName.]]></description>
+            <parameters>
+                <parameter name="content">
+                    <description><![CDATA[the content to be published]]></description>
+                </parameter>
+                <parameter name="sendCorrelationId">
+                    <description><![CDATA[options on whether to include an outbound correlation id or not]]></description>
+                </parameter>
+                <parameter name="correlationId">
+                    <description><![CDATA[allows to set a custom correlation id]]></description>
+                </parameter>
+                <parameter name="transactionalAction">
+                    <description><![CDATA[The type of joining action that operations can take regarding transactions.]]></description>
+                </parameter>
+                <parameter name="queueName">
+                    <description><![CDATA[The name of the queue]]></description>
+                </parameter>
+                <parameter name="timeout">
+                    <description><![CDATA[How long to wait on the queue to complete and operation (either publishing or consuming) before failing with a timeout error]]></description>
+                </parameter>
+                <parameter name="timeoutUnit">
+                    <description><![CDATA[A TimeUnit which qualifies the #timeoutUnit]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="publishConsume">
+            <description><![CDATA[Publishes the given content into a queue, and then awaits up to the queueTimeout for a response to be supplied on a temporal reply-To queue that this operation automatically creates. <p> The temporal reply queue is automatically disposed after a response is received or the timeout expires. <p> The queue on which the content is published has to be one for which a <vm:listener> <b>doesn't </b> exists. Consuming from queues on which a <vm:listener> exists is not allowed. <p> If the flow that receives and processed the message fails, then that error is propagated and re-thrown by this operation. Notice that such error type will not be predictable by this operation and could be anything. You need to be mindful of the listening flow when writing your error handlers.]]></description>
+            <parameters>
+                <parameter name="content">
+                    <description><![CDATA[the content to be published]]></description>
+                </parameter>
+                <parameter name="sendCorrelationId">
+                    <description><![CDATA[options on whether to include an outbound correlation id or not]]></description>
+                </parameter>
+                <parameter name="correlationId">
+                    <description><![CDATA[allows to set a custom correlation id]]></description>
+                </parameter>
+                <parameter name="transactionalAction">
+                    <description><![CDATA[The type of joining action that operations can take regarding transactions.]]></description>
+                </parameter>
+                <parameter name="queueName">
+                    <description><![CDATA[The name of the queue]]></description>
+                </parameter>
+                <parameter name="timeout">
+                    <description><![CDATA[How long to wait on the queue to complete and operation (either publishing or consuming) before failing with a timeout error]]></description>
+                </parameter>
+                <parameter name="timeoutUnit">
+                    <description><![CDATA[A TimeUnit which qualifies the #timeoutUnit]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+    </operations>
+    <sources>
+        <source name="listener">
+            <description><![CDATA[A source which creates and listens on a VM queues. <p> VM queues are created by placing listeners on them, which is why this listener contains parameters on the queue's behaviour, such as it being persistent or not, the max capacity, etc.]]></description>
+            <parameters>
+                <parameter name="numberOfConsumers">
+                    <description><![CDATA[The amount of concurrent consumers to be placed on the queue. As the number of consumers increases, so does the speed on which this source pushes messages into the owning flow.]]></description>
+                </parameter>
+                <parameter name="transactionalAction">
+                    <description><![CDATA[The type of beginning action that sources can take regarding transactions.]]></description>
+                </parameter>
+                <parameter name="transactionType">
+                    <description><![CDATA[The type of transaction to create. Availability will depend on the runtime version.]]></description>
+                </parameter>
+                <parameter name="primaryNodeOnly">
+                    <description><![CDATA[Whether this source should only be executed on the primary node when runnning in Cluster]]></description>
+                </parameter>
+                <parameter name="redeliveryPolicy">
+                    <description><![CDATA[Defines a policy for processing the redelivery of the same message]]></description>
+                </parameter>
+                <parameter name="queueName">
+                    <description><![CDATA[The name of the queue]]></description>
+                </parameter>
+                <parameter name="timeout">
+                    <description><![CDATA[How long to wait on the queue to complete and operation (either publishing or consuming) before failing with a timeout error]]></description>
+                </parameter>
+                <parameter name="timeoutUnit">
+                    <description><![CDATA[A TimeUnit which qualifies the #timeoutUnit]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+                <parameter name="content">
+                    <description><![CDATA[The content to send to the reply-To queue. Will only be used and evaluated if the message got into the queue through the vm:publish-consume operation]]></description>
+                </parameter>
+            </parameters>
+        </source>
+    </sources>
+    <types>
+        <type name="org.mule.extensions.vm.api.QueueDefinition">
+            <description><![CDATA[Defines a queue and its properties
+
+ @since 1.0]]></description>
+            <parameters>
+                <parameter name="queueName">
+                    <description><![CDATA[The name of the queue]]></description>
+                </parameter>
+                <parameter name="queueType">
+                    <description><![CDATA[Whether the queue is transient or persistent]]></description>
+                </parameter>
+                <parameter name="maxOutstandingMessages">
+                    <description><![CDATA[Defines the maximum number of messages that can be queued.]]></description>
+                </parameter>
+            </parameters>
+        </type>
+        <type name="org.mule.extensions.vm.api.VMMessageAttributes">
+            <description><![CDATA[Attributes on the message content generated by a VM connector operation
+
+ @since 1.0]]></description>
+            <parameters>
+                <parameter name="correlationId">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="queueName">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="timestamp">
+                    <description><![CDATA[]]></description>
+                </parameter>
+            </parameters>
+        </type>
+    </types>
+</extension-documentation>

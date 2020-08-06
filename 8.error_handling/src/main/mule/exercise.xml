@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="get_artist_by_ID" doc:id="a1320d51-51e5-43c0-8e89-ebe85be7835b">
+		<http:listener doc:name="HTTP GET" doc:id="f0283691-f7ca-4ecb-ac13-4bd40e539081" config-ref="HTTP_Listener_config1" path="/getAllArtists/{ID}" allowedMethods="GET"/>
+		<db:select doc:name="Select artist by ID" doc:id="3ce3eb87-798d-4dcc-81be-4ad39c9b8c67" config-ref="Database_Config">
+			<db:sql ><![CDATA[SELECT * from artists WHERE id = :customerID;]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	'customerID': attributes.uriParams.ID
+}]]]></db:input-parameters>
+		</db:select>
+		<logger level="INFO" doc:name="Log artist info" doc:id="7bce5e3e-039e-434f-9478-c4a4ab6984ce" message='#[%dw 2.0
+
+output application/json
+---
+{
+	"artists" : payload
+}]' />
+		<set-payload value='#[%dw 2.0
+
+output application/json
+---
+payload]' doc:name="Set Payload artist info" doc:id="ea79ac51-1633-4f56-a52f-a415a2e3d985" />
+	</flow>
+	<flow name="validate_customerID" doc:id="6fb93daa-20e1-4abb-8413-513fe2830126">
+		<http:listener doc:name="HTTP GET" doc:id="21afd46f-b262-43fc-9954-1bb1f76d96b5" config-ref="HTTP_Listener_config1" path="/validate/{artistID}" allowedMethods="GET"/>
+		<logger level="INFO" doc:name="Log artist ID" doc:id="02a86705-49a7-48bc-a578-448588c9a47d" message='#[%dw 2.0
+
+output application/json
+---
+{
+	"artistID" : attributes.uriParams.artistID
+}]'/>
+		<choice doc:name="validate artist ID exist and is greater than 0" doc:id="c2cc65ec-27fb-4ccf-bbd6-fcb24cb533a2" >
+			<when expression="#[attributes.uriParams.artistID != null and attributes.uriParams.artistID !='' and attributes.uriParams.artistID &gt; 0]">
+				<logger level="INFO" doc:name="Log UriParams VALIDATED" doc:id="e89d5d94-be20-41e2-982c-8873ade05f88" message='#["Artist ID IS VALID!!!!"]'/>
+			</when>
+			<otherwise >
+				<raise-error doc:name="Raise error artist id missing or invalid" doc:id="df5de8ca-c2ff-4289-8881-e09d7521c081" type="ARTIST:MISSING_ID" description='"Artist ID is missing or invalid. Please validate!"'/>
+			</otherwise>
+		</choice>
+		<set-variable value="#[attributes.uriParams.artistID as Number]" doc:name="Set Variable with artist ID as Number" doc:id="e383f0cb-82fb-4255-8c04-257c03a5f262" variableName="artistID"/>
+		<choice doc:name="check artist ID" doc:id="0b88e34b-222b-4c16-af62-b137286b5564" >
+			<when expression="#[vars.artistID &gt;= 2]">
+				<http:request method="GET" doc:name="Request get Artist By ID" doc:id="df2aa318-b1f6-4668-9c26-d3549dd836f5" config-ref="HTTP_Request_configuration1" path="/getAllArtists/{ID}" target="infoArtist" >
+					<http:uri-params ><![CDATA[#[output application/json
+---
+{
+	('ID': vars.artistID) if (vars.artistID != null and vars.artistID !='')
+}]]]></http:uri-params>
+				</http:request>
+				<choice doc:name="Choice" doc:id="de3c21d1-3193-4947-9357-c449d8283ebc" >
+					<when expression="#[!isEmpty(vars.infoArtist)]">
+						<logger level="INFO" doc:name="Log OK" doc:id="2f897bc7-2293-45b7-bba6-fd52815d7898" message='"Artist ID is OK!!!!"' />
+						<set-payload value='#[%dw 2.0
+
+output application/json
+---
+{
+	"message": "Artist ID " ++ attributes.uriParams.artistID as String ++ " is OK",
+	"artist": vars.infoArtist
+}]' doc:name="Set Payload OK" doc:id="61b35afa-21b8-4c75-9faa-df435e6a1485" />
+					</when>
+					<otherwise >
+						<raise-error doc:name="Raise error artist does not exist in database" doc:id="e590c1be-15d2-4ab1-b609-2cc6f8324ff9" type="ARTIST:INVALID_DATA" description='"Artist ID does not exist in database. Please add it!"'/>
+					</otherwise>
+				</choice>
+			</when>
+			<when expression="#[vars.artistID == 1]">
+				<logger level="INFO" doc:name="Log RESERVED" doc:id="3faf7977-97e1-4bb4-93c1-39f41a5f3907" message='#["Artist ID is RESERVED!!!!"]'/>
+				<raise-error doc:name="Raise error artist ID reserved" doc:id="75f90b55-25d3-4157-90c9-2c8825b26127" type="ARTIST:RESERVED_ID" description='"Artist ID 1 is Reserved. Please validate!"'/>
+			</when>
+			<otherwise >
+				<raise-error doc:name="Raise default error invalid data" doc:id="fe8f5a0a-f479-4b21-9813-d52a4de43373" type="ARTIST:INVALID_DATA" description='"Artist ID does not exist in database. Please add it!"'/>
+			</otherwise>
+		</choice>
+		<error-handler >
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="f4bb4347-36f9-4341-b45a-b5ccda44e686" type="ARTIST:MISSING_ID">
+				<logger level="INFO" doc:name="Logger" doc:id="6cb73a6a-e408-408e-9024-e594c15143dd" message='#["On error propagate - ARTIST:MISSING_ID - the artist ID is missing or invalid!!!"]'/>
+			</on-error-propagate>
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="c5a724ab-4f58-44c5-962b-d0bcc77f08dd" type="ARTIST:RESERVED_ID">
+				<logger level="INFO" doc:name="Logger" doc:id="e5c410e3-7c4f-48f4-ba94-061ad47491a3" message='#["On error propagate - ARTIST:RESERVED_ID - the artist ID is reserved!!!"]'/>
+			</on-error-propagate>
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="16ea1dff-dbb8-426b-afe9-1fa0a67f648b" type="ANY">
+				<logger level="INFO" doc:name="Logger" doc:id="40c4c1c3-eaea-4e6c-abda-267369e4bd3e" message='#["On error propagate - ANY - the artist ID does not exist!!!"]'/>
+			</on-error-propagate>
+		</error-handler>
+	</flow>
+</mule>

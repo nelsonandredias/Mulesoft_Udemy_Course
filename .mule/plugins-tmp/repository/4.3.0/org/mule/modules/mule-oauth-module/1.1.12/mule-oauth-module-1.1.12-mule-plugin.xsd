@@ -1,0 +1,474 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:mule="http://www.mulesoft.org/schema/mule/core" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.mulesoft.org/schema/mule/oauth" attributeFormDefault="unqualified" elementFormDefault="qualified">
+  <xs:import namespace="http://www.w3.org/XML/1998/namespace"></xs:import>
+  <xs:import namespace="http://www.springframework.org/schema/beans" schemaLocation="http://www.springframework.org/schema/beans/spring-beans.xsd"></xs:import>
+  <xs:import namespace="http://www.mulesoft.org/schema/mule/core" schemaLocation="http://www.mulesoft.org/schema/mule/core/current/mule.xsd"></xs:import>
+  <xs:import namespace="http://www.mulesoft.org/schema/mule/http" schemaLocation="http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd"></xs:import>
+  <xs:import namespace="http://www.mulesoft.org/schema/mule/tls" schemaLocation="http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd"></xs:import>
+  <xs:complexType name="org.mule.runtime.api.store.ObjectStore">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType"></xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" xmlns:oauth="http://www.mulesoft.org/schema/mule/oauth" type="oauth:org.mule.runtime.api.store.ObjectStore" substitutionGroup="mule:abstract-shared-extension" abstract="true" name="global-abstract-object-store"></xs:element>
+  <xs:element xmlns:oauth="http://www.mulesoft.org/schema/mule/oauth" type="oauth:org.mule.runtime.api.store.ObjectStore" abstract="true" name="abstract-object-store"></xs:element>
+  <xs:complexType name="org.mule.extension.oauth2.api.tokenmanager.TokenManagerConfig">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" name="object-store">
+            <xs:complexType>
+              <xs:choice minOccurs="1" maxOccurs="1">
+                <xs:element minOccurs="1" maxOccurs="1" ref="mule:abstract-private-object-store"></xs:element>
+              </xs:choice>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="optional" name="objectStore"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstract-shared-extension" abstract="true" name="abstract-token-manager-config"></xs:element>
+  <xs:element xmlns:oauth="http://www.mulesoft.org/schema/mule/oauth" substitutionGroup="oauth:abstract-token-manager-config" name="token-manager-config">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="oauth:org.mule.extension.oauth2.api.tokenmanager.TokenManagerConfig">
+          <xs:attribute type="xs:string" use="optional" name="name"></xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="org.mule.extension.oauth2.internal.ParameterExtractor">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:attribute type="mule:expressionString" use="required" name="paramName"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="value"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:oauth="http://www.mulesoft.org/schema/mule/oauth" type="oauth:org.mule.extension.oauth2.internal.ParameterExtractor" abstract="true" name="abstract-parameter-extractor"></xs:element>
+  <xs:element xmlns:oauth="http://www.mulesoft.org/schema/mule/oauth" substitutionGroup="oauth:abstract-parameter-extractor" name="parameter-extractor">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="oauth:org.mule.extension.oauth2.internal.ParameterExtractor"></xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="org.mule.extension.oauth2.api.authorizationcode.DefaultAuthorizationCodeGrantType">
+    <xs:complexContent>
+      <xs:extension xmlns:http="http://www.mulesoft.org/schema/mule/http" base="http:org.mule.extension.http.api.request.authentication.HttpRequestAuthentication">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" name="custom-parameters">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" name="custom-parameter">
+                  <xs:complexType>
+                    <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="required" name="key"></xs:attribute>
+                    <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="required" name="value"></xs:attribute>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="token-manager">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension xmlns:oauth="http://www.mulesoft.org/schema/mule/oauth" base="oauth:org.mule.extension.oauth2.api.tokenmanager.TokenManagerConfig"></xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="custom-parameter-extractors">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element xmlns:oauth="http://www.mulesoft.org/schema/mule/oauth" minOccurs="0" maxOccurs="unbounded" ref="oauth:abstract-parameter-extractor"></xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element xmlns:tls="http://www.mulesoft.org/schema/mule/tls" minOccurs="0" maxOccurs="1" ref="tls:context"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="proxy-config">
+            <xs:complexType>
+              <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element minOccurs="1" maxOccurs="1" ref="http:abstract-http-proxy-config"></xs:element>
+                <xs:element minOccurs="1" maxOccurs="1" ref="http:global-abstract-http-proxy-config"></xs:element>
+              </xs:choice>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="optional" name="localCallbackConfig"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="optional" name="localCallbackConfigPath"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="optional" name="localCallbackUrl"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="required" name="externalCallbackUrl"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="optional" name="state"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="optional" name="localAuthorizationUrlResourceOwnerId"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="required" name="localAuthorizationUrl"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="required" name="authorizationUrl"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionMap" use="optional" name="custom-parameters"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="optional" default="default" name="resourceOwnerId"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionBoolean" use="optional" default="true" name="encodeClientCredentialsInBody"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="required" name="clientId"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="required" name="clientSecret"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="optional" name="scopes"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="tokenManager"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="required" name="tokenUrl"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="optional" default="#[payload.access_token]" name="responseAccessToken"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="optional" default="#[payload.refresh_token]" name="responseRefreshToken"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="optional" default="#[payload.expires_in]" name="responseExpiresIn"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionList" use="optional" name="customParameterExtractors"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionBoolean" use="optional" default="#[attributes.statusCode == 401 or attributes.statusCode == 403]" name="refreshTokenWhen"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="tlsContext"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="proxyConfig"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:oauth="http://www.mulesoft.org/schema/mule/oauth" type="oauth:org.mule.extension.oauth2.api.authorizationcode.DefaultAuthorizationCodeGrantType" substitutionGroup="http:abstract-http-request-authentication" abstract="true" name="abstract-authorization-code-grant-type"></xs:element>
+  <xs:element xmlns:oauth="http://www.mulesoft.org/schema/mule/oauth" substitutionGroup="oauth:abstract-authorization-code-grant-type" name="authorization-code-grant-type">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="oauth:org.mule.extension.oauth2.api.authorizationcode.DefaultAuthorizationCodeGrantType"></xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="org.mule.extension.oauth2.api.clientcredentials.ClientCredentialsGrantType">
+    <xs:complexContent>
+      <xs:extension xmlns:http="http://www.mulesoft.org/schema/mule/http" base="http:org.mule.extension.http.api.request.authentication.HttpRequestAuthentication">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" name="token-manager">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension xmlns:oauth="http://www.mulesoft.org/schema/mule/oauth" base="oauth:org.mule.extension.oauth2.api.tokenmanager.TokenManagerConfig"></xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="custom-parameter-extractors">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element xmlns:oauth="http://www.mulesoft.org/schema/mule/oauth" minOccurs="0" maxOccurs="unbounded" ref="oauth:abstract-parameter-extractor"></xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element xmlns:tls="http://www.mulesoft.org/schema/mule/tls" minOccurs="0" maxOccurs="1" ref="tls:context"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="proxy-config">
+            <xs:complexType>
+              <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element minOccurs="1" maxOccurs="1" ref="http:abstract-http-proxy-config"></xs:element>
+                <xs:element minOccurs="1" maxOccurs="1" ref="http:global-abstract-http-proxy-config"></xs:element>
+              </xs:choice>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionBoolean" use="optional" default="false" name="encodeClientCredentialsInBody"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="required" name="clientId"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="required" name="clientSecret"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="optional" name="scopes"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="tokenManager"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="required" name="tokenUrl"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="optional" default="#[payload.access_token]" name="responseAccessToken"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="optional" default="#[payload.refresh_token]" name="responseRefreshToken"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="optional" default="#[payload.expires_in]" name="responseExpiresIn"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionList" use="optional" name="customParameterExtractors"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionBoolean" use="optional" default="#[attributes.statusCode == 401 or attributes.statusCode == 403]" name="refreshTokenWhen"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="tlsContext"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="proxyConfig"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:oauth="http://www.mulesoft.org/schema/mule/oauth" type="oauth:org.mule.extension.oauth2.api.clientcredentials.ClientCredentialsGrantType" substitutionGroup="http:abstract-http-request-authentication" abstract="true" name="abstract-client-credentials-grant-type"></xs:element>
+  <xs:element xmlns:oauth="http://www.mulesoft.org/schema/mule/oauth" substitutionGroup="oauth:abstract-client-credentials-grant-type" name="client-credentials-grant-type">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="oauth:org.mule.extension.oauth2.api.clientcredentials.ClientCredentialsGrantType"></xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstract-shared-extension" name="config">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractExtensionType">
+          <xs:annotation>
+            <xs:documentation>Default configuration</xs:documentation>
+          </xs:annotation>
+          <xs:sequence minOccurs="0" maxOccurs="1"></xs:sequence>
+          <xs:attribute type="xs:string" use="required" name="name">
+            <xs:annotation>
+              <xs:documentation>The identifier of this element used to reference it in other components</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/oauth" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="InvalidateOauthContextType" substitutionGroup="mule:abstract-operator" name="invalidate-oauth-context">
+    <xs:annotation>
+      <xs:documentation>Clears the oauth context for a token manager and a resource owner id.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="InvalidateOauthContextType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" name="token-manager">
+            <xs:annotation>
+              <xs:documentation>The token manager which holds the credentials to invalidate.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension xmlns:oauth="http://www.mulesoft.org/schema/mule/oauth" base="oauth:org.mule.extension.oauth2.api.tokenmanager.TokenManagerConfig"></xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="optional" name="tokenManager">
+          <xs:annotation>
+            <xs:documentation>The token manager which holds the credentials to invalidate.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="default" name="resourceOwnerId">
+          <xs:annotation>
+            <xs:documentation>The resource owner id to invalidate. This attribute is only allowed for authorization code grant type.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/oauth" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="RetrieveAccessTokenType" substitutionGroup="mule:abstract-operator" name="retrieve-access-token">
+    <xs:annotation>
+      <xs:documentation>Returns the access token of the token manager for the parametrized resource owner ID</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="RetrieveAccessTokenType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" name="token-manager">
+            <xs:annotation>
+              <xs:documentation>The token manager which holds the access token.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension xmlns:oauth="http://www.mulesoft.org/schema/mule/oauth" base="oauth:org.mule.extension.oauth2.api.tokenmanager.TokenManagerConfig"></xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="optional" name="tokenManager">
+          <xs:annotation>
+            <xs:documentation>The token manager which holds the access token.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="default" name="resourceOwnerId">
+          <xs:annotation>
+            <xs:documentation>The resource owner id to invalidate. This attribute is only allowed for authorization code grant type.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="outputMimeType">
+          <xs:annotation>
+            <xs:documentation>The mime type of the payload that this operation outputs.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/oauth" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="RetrieveCustomTokenResponseParamType" substitutionGroup="mule:abstract-operator" name="retrieve-custom-token-response-param">
+    <xs:annotation>
+      <xs:documentation>Returns the value of the parameter that was extracted during the dance from the token manager for the parametrized resource owner ID</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="RetrieveCustomTokenResponseParamType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" name="token-manager">
+            <xs:annotation>
+              <xs:documentation>The token manager which holds the access token.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension xmlns:oauth="http://www.mulesoft.org/schema/mule/oauth" base="oauth:org.mule.extension.oauth2.api.tokenmanager.TokenManagerConfig"></xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="optional" name="tokenManager">
+          <xs:annotation>
+            <xs:documentation>The token manager which holds the access token.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="default" name="resourceOwnerId">
+          <xs:annotation>
+            <xs:documentation>The resource owner id to invalidate. This attribute is only allowed for authorization code grant type.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="key">
+          <xs:annotation>
+            <xs:documentation>to look for in the elements that has been extracted after the previous OAuth dance.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/oauth" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="RetrieveExpiresInType" substitutionGroup="mule:abstract-operator" name="retrieve-expires-in">
+    <xs:annotation>
+      <xs:documentation>Returns the expiration of the oauth context for the parametrized resource owner ID</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="RetrieveExpiresInType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" name="token-manager">
+            <xs:annotation>
+              <xs:documentation>The token manager which holds the access token.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension xmlns:oauth="http://www.mulesoft.org/schema/mule/oauth" base="oauth:org.mule.extension.oauth2.api.tokenmanager.TokenManagerConfig"></xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="optional" name="tokenManager">
+          <xs:annotation>
+            <xs:documentation>The token manager which holds the access token.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="default" name="resourceOwnerId">
+          <xs:annotation>
+            <xs:documentation>The resource owner id to invalidate. This attribute is only allowed for authorization code grant type.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="outputMimeType">
+          <xs:annotation>
+            <xs:documentation>The mime type of the payload that this operation outputs.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/oauth" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="RetrieveRefreshTokenType" substitutionGroup="mule:abstract-operator" name="retrieve-refresh-token">
+    <xs:annotation>
+      <xs:documentation>Returns the refresh token of the oauth context for the parametrized resource owner ID</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="RetrieveRefreshTokenType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" name="token-manager">
+            <xs:annotation>
+              <xs:documentation>The token manager which holds the refresh token.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension xmlns:oauth="http://www.mulesoft.org/schema/mule/oauth" base="oauth:org.mule.extension.oauth2.api.tokenmanager.TokenManagerConfig"></xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="optional" name="tokenManager">
+          <xs:annotation>
+            <xs:documentation>The token manager which holds the refresh token.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="default" name="resourceOwnerId">
+          <xs:annotation>
+            <xs:documentation>The resource owner id to invalidate. This attribute is only allowed for authorization code grant type.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="outputMimeType">
+          <xs:annotation>
+            <xs:documentation>The mime type of the payload that this operation outputs.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/oauth" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="RetrieveStateType" substitutionGroup="mule:abstract-operator" name="retrieve-state">
+    <xs:annotation>
+      <xs:documentation>Returns the state of the oauth context for the parametrized resource owner ID</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="RetrieveStateType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" name="token-manager">
+            <xs:annotation>
+              <xs:documentation>The token manager which holds the access token.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension xmlns:oauth="http://www.mulesoft.org/schema/mule/oauth" base="oauth:org.mule.extension.oauth2.api.tokenmanager.TokenManagerConfig"></xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="optional" name="tokenManager">
+          <xs:annotation>
+            <xs:documentation>The token manager which holds the access token.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="default" name="resourceOwnerId">
+          <xs:annotation>
+            <xs:documentation>The resource owner id to invalidate. This attribute is only allowed for authorization code grant type.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="outputMimeType">
+          <xs:annotation>
+            <xs:documentation>The mime type of the payload that this operation outputs.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:schema>

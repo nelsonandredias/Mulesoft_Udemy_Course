@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <title>APIkit Console</title>
+    <style>
+      html, body {margin: 0; padding: 0; font-size: 15px; color: #424242; height: 100%;}
+      .api-dropdown {
+        --anypoint-dropdown-menu-background-color: #1c2831;
+        --anypoint-dropdown-menu-label-color: #fff;
+      }
+      .icon {display: inlink-block; width: 24px; height: 24px; fill: currentColor;}
+     </style>
+</head>
+
+<body class="apic-container">
+<script src="package/build/vendor.js"></script>
+<script src="package/build/apic-import.js"></script>
+<api-console-app id="api-console-app" app compatibility allowCustom selectedShape="summary" selectedShapeType="summary"></api-console-app>
+<script>
+        var xhr = new XMLHttpRequest();
+        xhr.addEventListener('load', (e) => {
+          try {
+              let data = JSON.parse(e.target.response);
+              const apic = document.getElementById('api-console-app');
+              apic.amf = data;
+          } catch (e) {
+              window.alert('Unable to parse AMF model');
+          }
+        });
+        xhr.addEventListener('error', () => window.alert('Unable to load AMF model'));
+        xhr.open('GET', '*/?amf');
+        xhr.send();
+    </script>
+</body>
+</html>

@@ -1,0 +1,1124 @@
+{
+  "minMuleVersion": "4.1.1",
+  "extensionModel": {
+    "types": [{
+      "format": "java",
+      "annotations": {
+        "classInformation": {
+          "implementedInterfaces": [],
+          "parent": "",
+          "classname": "org.mule.module.apikit.FlowMapping",
+          "hasDefaultConstructor": true,
+          "isInstantiable": true,
+          "isFinal": false,
+          "genericTypes": [],
+          "isInterface": false,
+          "isAbstract": false,
+          "isMap": false
+        },
+        "typeId": "org.mule.module.apikit.FlowMapping",
+        "typeAlias": {"value": "FlowMapping"}
+      },
+      "type": "Object",
+      "fields": [
+        {
+          "annotations": {"expressionSupport": {"value": "SUPPORTED"}},
+          "model": {"type": "String"},
+          "key": {
+            "name": "resource",
+            "required": "true"
+          }
+        },
+        {
+          "annotations": {"expressionSupport": {"value": "SUPPORTED"}},
+          "model": {"type": "String"},
+          "key": {
+            "name": "action",
+            "required": "true"
+          }
+        },
+        {
+          "annotations": {"expressionSupport": {"value": "SUPPORTED"}},
+          "model": {"type": "String"},
+          "key": {"name": "content-type"}
+        },
+        {
+          "annotations": {"expressionSupport": {"value": "SUPPORTED"}},
+          "model": {"type": "String"},
+          "key": {
+            "name": "flow-ref",
+            "required": "true"
+          }
+        }
+      ]
+    }],
+    "messageSources": [],
+    "functions": [],
+    "configurations": [{
+      "externalLibraryModels": [],
+      "operations": [
+        {
+          "kind": "operation",
+          "executionType": "CPU_LITE",
+          "description": "",
+          "modelProperties": {},
+          "parameterGroupModels": [
+            {
+              "name": "General",
+              "description": "",
+              "modelProperties": {},
+              "parameters": [{
+                "role": "BEHAVIOUR",
+                "hasDynamicType": false,
+                "isConfigOverride": false,
+                "dslConfiguration": {
+                  "allowTopLevelDefinition": false,
+                  "allowsInlineDefinition": false,
+                  "allowsReferences": true
+                },
+                "name": "config-ref",
+                "description": "The name of the configuration to be used to execute this component",
+                "modelProperties": {},
+                "allowedStereotypeModels": [{
+                  "parent": {
+                    "namespace": "MULE",
+                    "type": "MODULE_CONFIG"
+                  },
+                  "namespace": "APIKIT",
+                  "type": "APIKIT_CONFIG"
+                }],
+                "type": {
+                  "format": "java",
+                  "annotations": {"typeId": "org.mule.runtime.extension.api.runtime.config.ConfigurationProvider"},
+                  "type": "Object",
+                  "fields": []
+                },
+                "required": true,
+                "isComponentId": false,
+                "expressionSupport": "NOT_SUPPORTED"
+              }],
+              "exclusiveParametersModels": [],
+              "showInDsl": false
+            },
+            {
+              "name": "Output",
+              "description": "",
+              "modelProperties": {},
+              "parameters": [
+                {
+                  "displayModel": {"displayName": "Target Variable"},
+                  "role": "BEHAVIOUR",
+                  "description": "The name of a variable on which the operation's output will be placed",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "type": "String"
+                  },
+                  "required": false,
+                  "expressionSupport": "NOT_SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": false
+                  },
+                  "name": "target",
+                  "layoutModel": {
+                    "password": false,
+                    "tabName": "Advanced",
+                    "query": false,
+                    "text": false
+                  },
+                  "allowedStereotypeModels": [],
+                  "isComponentId": false
+                },
+                {
+                  "displayModel": {"displayName": "Target Value"},
+                  "role": "BEHAVIOUR",
+                  "defaultValue": "#[payload]",
+                  "description": "An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "type": "String"
+                  },
+                  "required": false,
+                  "expressionSupport": "REQUIRED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": false
+                  },
+                  "name": "targetValue",
+                  "layoutModel": {
+                    "password": false,
+                    "tabName": "Advanced",
+                    "query": false,
+                    "text": false
+                  },
+                  "allowedStereotypeModels": [],
+                  "isComponentId": false
+                }
+              ],
+              "exclusiveParametersModels": [],
+              "showInDsl": false
+            }
+          ],
+          "output": {
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "annotations": {
+                "classInformation": {
+                  "implementedInterfaces": [],
+                  "parent": "",
+                  "classname": "java.lang.Object",
+                  "hasDefaultConstructor": true,
+                  "isInstantiable": true,
+                  "isFinal": false,
+                  "genericTypes": [],
+                  "isInterface": false,
+                  "isAbstract": false,
+                  "isMap": false
+                },
+                "typeId": "java.lang.Object",
+                "typeAlias": {"value": "Object"}
+              },
+              "type": "Object",
+              "fields": []
+            }
+          },
+          "outputAttributes": {
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "@ref:org.mule.extension.http.api.HttpRequestAttributes"
+            }
+          },
+          "supportsStreaming": false,
+          "requiresConnection": false,
+          "blocking": true,
+          "name": "console",
+          "stereotype": {
+            "namespace": "MULE",
+            "type": "PROCESSOR"
+          },
+          "nestedComponents": [],
+          "transactional": false,
+          "notifications": [],
+          "errors": ["APIKIT:NOT_FOUND"]
+        },
+        {
+          "kind": "operation",
+          "executionType": "CPU_LITE",
+          "description": "",
+          "modelProperties": {},
+          "parameterGroupModels": [
+            {
+              "name": "General",
+              "description": "",
+              "modelProperties": {},
+              "parameters": [{
+                "role": "BEHAVIOUR",
+                "hasDynamicType": false,
+                "isConfigOverride": false,
+                "dslConfiguration": {
+                  "allowTopLevelDefinition": false,
+                  "allowsInlineDefinition": false,
+                  "allowsReferences": true
+                },
+                "name": "config-ref",
+                "description": "The name of the configuration to be used to execute this component",
+                "modelProperties": {},
+                "allowedStereotypeModels": [{
+                  "parent": {
+                    "namespace": "MULE",
+                    "type": "MODULE_CONFIG"
+                  },
+                  "namespace": "APIKIT",
+                  "type": "APIKIT_CONFIG"
+                }],
+                "type": {
+                  "format": "java",
+                  "annotations": {"typeId": "org.mule.runtime.extension.api.runtime.config.ConfigurationProvider"},
+                  "type": "Object",
+                  "fields": []
+                },
+                "required": true,
+                "isComponentId": false,
+                "expressionSupport": "NOT_SUPPORTED"
+              }],
+              "exclusiveParametersModels": [],
+              "showInDsl": false
+            },
+            {
+              "name": "Output",
+              "description": "",
+              "modelProperties": {},
+              "parameters": [
+                {
+                  "displayModel": {"displayName": "Target Variable"},
+                  "role": "BEHAVIOUR",
+                  "description": "The name of a variable on which the operation's output will be placed",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "type": "String"
+                  },
+                  "required": false,
+                  "expressionSupport": "NOT_SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": false
+                  },
+                  "name": "target",
+                  "layoutModel": {
+                    "password": false,
+                    "tabName": "Advanced",
+                    "query": false,
+                    "text": false
+                  },
+                  "allowedStereotypeModels": [],
+                  "isComponentId": false
+                },
+                {
+                  "displayModel": {"displayName": "Target Value"},
+                  "role": "BEHAVIOUR",
+                  "defaultValue": "#[payload]",
+                  "description": "An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "type": "String"
+                  },
+                  "required": false,
+                  "expressionSupport": "REQUIRED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": false
+                  },
+                  "name": "targetValue",
+                  "layoutModel": {
+                    "password": false,
+                    "tabName": "Advanced",
+                    "query": false,
+                    "text": false
+                  },
+                  "allowedStereotypeModels": [],
+                  "isComponentId": false
+                }
+              ],
+              "exclusiveParametersModels": [],
+              "showInDsl": false
+            }
+          ],
+          "output": {
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "annotations": {
+                "classInformation": {
+                  "implementedInterfaces": [],
+                  "parent": "",
+                  "classname": "java.lang.Object",
+                  "hasDefaultConstructor": true,
+                  "isInstantiable": true,
+                  "isFinal": false,
+                  "genericTypes": [],
+                  "isInterface": false,
+                  "isAbstract": false,
+                  "isMap": false
+                },
+                "typeId": "java.lang.Object",
+                "typeAlias": {"value": "Object"}
+              },
+              "type": "Object",
+              "fields": []
+            }
+          },
+          "outputAttributes": {
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "@ref:org.mule.extension.http.api.HttpRequestAttributes"
+            }
+          },
+          "supportsStreaming": false,
+          "requiresConnection": false,
+          "blocking": true,
+          "name": "router",
+          "stereotype": {
+            "namespace": "MULE",
+            "type": "PROCESSOR"
+          },
+          "nestedComponents": [],
+          "transactional": false,
+          "notifications": [],
+          "errors": [
+            "APIKIT:NOT_ACCEPTABLE",
+            "APIKIT:BAD_REQUEST",
+            "APIKIT:UNSUPPORTED_MEDIA_TYPE",
+            "APIKIT:METHOD_NOT_ALLOWED",
+            "APIKIT:NOT_FOUND"
+          ]
+        }
+      ],
+      "messageSources": [],
+      "name": "config",
+      "description": "apikit",
+      "modelProperties": {},
+      "stereotype": {
+        "parent": {
+          "namespace": "MULE",
+          "type": "MODULE_CONFIG"
+        },
+        "namespace": "APIKIT",
+        "type": "APIKIT_CONFIG"
+      },
+      "parameterGroupModels": [{
+        "name": "General",
+        "description": "",
+        "modelProperties": {},
+        "parameters": [
+          {
+            "role": "BEHAVIOUR",
+            "hasDynamicType": false,
+            "isConfigOverride": false,
+            "dslConfiguration": {
+              "allowTopLevelDefinition": false,
+              "allowsInlineDefinition": false,
+              "allowsReferences": false
+            },
+            "name": "raml",
+            "description": "",
+            "modelProperties": {},
+            "allowedStereotypeModels": [],
+            "type": {
+              "format": "java",
+              "type": "String"
+            },
+            "required": false,
+            "isComponentId": false,
+            "expressionSupport": "SUPPORTED"
+          },
+          {
+            "role": "BEHAVIOUR",
+            "hasDynamicType": false,
+            "isConfigOverride": false,
+            "dslConfiguration": {
+              "allowTopLevelDefinition": false,
+              "allowsInlineDefinition": false,
+              "allowsReferences": false
+            },
+            "name": "api",
+            "description": "",
+            "modelProperties": {},
+            "allowedStereotypeModels": [],
+            "type": {
+              "format": "java",
+              "type": "String"
+            },
+            "required": false,
+            "isComponentId": false,
+            "expressionSupport": "SUPPORTED"
+          },
+          {
+            "role": "BEHAVIOUR",
+            "hasDynamicType": false,
+            "isConfigOverride": false,
+            "dslConfiguration": {
+              "allowTopLevelDefinition": false,
+              "allowsInlineDefinition": false,
+              "allowsReferences": false
+            },
+            "name": "outboundHeadersMapName",
+            "description": "",
+            "modelProperties": {},
+            "allowedStereotypeModels": [],
+            "type": {
+              "format": "java",
+              "type": "String"
+            },
+            "required": true,
+            "isComponentId": false,
+            "expressionSupport": "SUPPORTED"
+          },
+          {
+            "role": "BEHAVIOUR",
+            "hasDynamicType": false,
+            "isConfigOverride": false,
+            "dslConfiguration": {
+              "allowTopLevelDefinition": false,
+              "allowsInlineDefinition": false,
+              "allowsReferences": false
+            },
+            "name": "httpStatusVarName",
+            "description": "",
+            "modelProperties": {},
+            "allowedStereotypeModels": [],
+            "type": {
+              "format": "java",
+              "type": "String"
+            },
+            "required": true,
+            "isComponentId": false,
+            "expressionSupport": "SUPPORTED"
+          },
+          {
+            "role": "BEHAVIOUR",
+            "defaultValue": false,
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "String"
+            },
+            "required": false,
+            "expressionSupport": "SUPPORTED",
+            "hasDynamicType": false,
+            "isConfigOverride": false,
+            "dslConfiguration": {
+              "allowTopLevelDefinition": false,
+              "allowsInlineDefinition": false,
+              "allowsReferences": false
+            },
+            "name": "keepApiBaseUri",
+            "allowedStereotypeModels": [],
+            "isComponentId": false
+          },
+          {
+            "role": "BEHAVIOUR",
+            "defaultValue": false,
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "String"
+            },
+            "required": false,
+            "expressionSupport": "SUPPORTED",
+            "hasDynamicType": false,
+            "isConfigOverride": false,
+            "dslConfiguration": {
+              "allowTopLevelDefinition": false,
+              "allowsInlineDefinition": false,
+              "allowsReferences": false
+            },
+            "name": "keepRamlBaseUri",
+            "allowedStereotypeModels": [],
+            "isComponentId": false
+          },
+          {
+            "role": "BEHAVIOUR",
+            "defaultValue": false,
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "String"
+            },
+            "required": false,
+            "expressionSupport": "SUPPORTED",
+            "hasDynamicType": false,
+            "isConfigOverride": false,
+            "dslConfiguration": {
+              "allowTopLevelDefinition": false,
+              "allowsInlineDefinition": false,
+              "allowsReferences": false
+            },
+            "name": "disableValidations",
+            "allowedStereotypeModels": [],
+            "isComponentId": false
+          },
+          {
+            "role": "BEHAVIOUR",
+            "defaultValue": false,
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "String"
+            },
+            "required": false,
+            "expressionSupport": "SUPPORTED",
+            "hasDynamicType": false,
+            "isConfigOverride": false,
+            "dslConfiguration": {
+              "allowTopLevelDefinition": false,
+              "allowsInlineDefinition": false,
+              "allowsReferences": false
+            },
+            "name": "queryParamsStrictValidation",
+            "allowedStereotypeModels": [],
+            "isComponentId": false
+          },
+          {
+            "role": "BEHAVIOUR",
+            "defaultValue": false,
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "String"
+            },
+            "required": false,
+            "expressionSupport": "SUPPORTED",
+            "hasDynamicType": false,
+            "isConfigOverride": false,
+            "dslConfiguration": {
+              "allowTopLevelDefinition": false,
+              "allowsInlineDefinition": false,
+              "allowsReferences": false
+            },
+            "name": "headersStrictValidation",
+            "allowedStereotypeModels": [],
+            "isComponentId": false
+          },
+          {
+            "role": "BEHAVIOUR",
+            "defaultValue": "AUTO",
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "annotations": {
+                "typeId": "org.mule.parser.service.ParserMode",
+                "enum": {
+                  "values": [
+                    "AMF",
+                    "RAML",
+                    "AUTO"
+                  ],
+                  "type": "[Ljava.lang.String;"
+                }
+              },
+              "type": "String"
+            },
+            "required": false,
+            "expressionSupport": "SUPPORTED",
+            "hasDynamicType": false,
+            "isConfigOverride": false,
+            "dslConfiguration": {
+              "allowTopLevelDefinition": false,
+              "allowsInlineDefinition": false,
+              "allowsReferences": false
+            },
+            "name": "parser",
+            "allowedStereotypeModels": [],
+            "isComponentId": false
+          },
+          {
+            "role": "BEHAVIOUR",
+            "hasDynamicType": false,
+            "isConfigOverride": false,
+            "dslConfiguration": {
+              "allowTopLevelDefinition": false,
+              "allowsInlineDefinition": true,
+              "allowsReferences": false
+            },
+            "name": "flowMappings",
+            "description": "",
+            "modelProperties": {},
+            "allowedStereotypeModels": [],
+            "type": {
+              "item": {"type": "@ref:org.mule.module.apikit.FlowMapping"},
+              "format": "java",
+              "type": "Array"
+            },
+            "required": false,
+            "isComponentId": false,
+            "expressionSupport": "NOT_SUPPORTED"
+          },
+          {
+            "role": "BEHAVIOUR",
+            "hasDynamicType": false,
+            "isConfigOverride": false,
+            "dslConfiguration": {
+              "allowTopLevelDefinition": false,
+              "allowsInlineDefinition": false,
+              "allowsReferences": false
+            },
+            "name": "name",
+            "description": "The identifier of this element used to reference it in other components",
+            "modelProperties": {},
+            "allowedStereotypeModels": [],
+            "type": {
+              "format": "java",
+              "type": "String"
+            },
+            "required": true,
+            "isComponentId": true,
+            "expressionSupport": "NOT_SUPPORTED"
+          },
+          {
+            "role": "BEHAVIOUR",
+            "description": "Configures the minimum amount of time that a dynamic configuration instance can remain idle before the runtime considers it eligible for expiration. This does not mean that the platform will expire the instance at the exact moment that it becomes eligible. The runtime will actually purge the instances when it sees it fit.",
+            "modelProperties": {
+              "org.mule.runtime.extension.api.property.InfrastructureParameterModelProperty": {"sequence": 4},
+              "org.mule.runtime.extension.api.property.QNameModelProperty": {"value": {
+                "localPart": "expiration-policy",
+                "prefix": "mule",
+                "namespaceURI": "http://www.mulesoft.org/schema/mule/core"
+              }}
+            },
+            "type": {
+              "format": "java",
+              "annotations": {
+                "typeDsl": {
+                  "allowTopLevelDefinition": false,
+                  "allowInlineDefinition": true
+                },
+                "description": {"value": "Configures the minimum amount of time that a dynamic configuration instance can remain idle before the runtime considers it eligible for expiration. This does not mean that the platform will expire the instance at the exact moment that it becomes eligible. The runtime will actually purge the instances when it sees it fit."},
+                "typeId": "org.mule.runtime.extension.api.runtime.ExpirationPolicy"
+              },
+              "type": "Object",
+              "fields": [
+                {
+                  "annotations": {
+                    "description": {"value": "A scalar time value for the maximum amount of time a dynamic configuration instance should be allowed to be idle before it's considered eligible for expiration"},
+                    "expressionSupport": {"value": "NOT_SUPPORTED"}
+                  },
+                  "model": {
+                    "annotations": {
+                      "default": "5",
+                      "classInformation": {
+                        "implementedInterfaces": ["java.lang.Comparable"],
+                        "parent": "java.lang.Number",
+                        "classname": "java.lang.Long",
+                        "hasDefaultConstructor": false,
+                        "isInstantiable": false,
+                        "isFinal": true,
+                        "genericTypes": [],
+                        "isInterface": false,
+                        "isAbstract": false,
+                        "isMap": false
+                      },
+                      "int": {}
+                    },
+                    "type": "Number"
+                  },
+                  "key": {"name": "maxIdleTime"}
+                },
+                {
+                  "annotations": {
+                    "description": {"value": "A time unit that qualifies the maxIdleTime attribute"},
+                    "expressionSupport": {"value": "NOT_SUPPORTED"}
+                  },
+                  "model": {
+                    "annotations": {
+                      "default": "MINUTES",
+                      "enum": {
+                        "values": [
+                          "NANOSECONDS",
+                          "MICROSECONDS",
+                          "MILLISECONDS",
+                          "SECONDS",
+                          "MINUTES",
+                          "HOURS",
+                          "DAYS"
+                        ],
+                        "type": "[Ljava.lang.String;"
+                      }
+                    },
+                    "type": "String"
+                  },
+                  "key": {"name": "timeUnit"}
+                }
+              ]
+            },
+            "required": false,
+            "expressionSupport": "NOT_SUPPORTED",
+            "hasDynamicType": false,
+            "isConfigOverride": false,
+            "dslConfiguration": {
+              "allowTopLevelDefinition": false,
+              "allowsInlineDefinition": true,
+              "allowsReferences": false
+            },
+            "name": "expirationPolicy",
+            "layoutModel": {
+              "password": false,
+              "tabName": "Advanced",
+              "query": false,
+              "text": false
+            },
+            "allowedStereotypeModels": [],
+            "isComponentId": false
+          }
+        ],
+        "exclusiveParametersModels": [],
+        "showInDsl": false
+      }],
+      "connectionProviders": []
+    }],
+    "externalLibraries": [],
+    "description": "APIKit plugin",
+    "resources": [],
+    "subTypes": [],
+    "modelProperties": {},
+    "constructs": [],
+    "connectionProviders": [],
+    "version": "1.3.7-SNAPSHOT",
+    "privilegedArtifacts": [],
+    "importedTypes": [{
+      "format": "java",
+      "annotations": {
+        "classInformation": {
+          "implementedInterfaces": [],
+          "parent": "org.mule.extension.http.api.BaseHttpRequestAttributes",
+          "classname": "org.mule.extension.http.api.HttpRequestAttributes",
+          "hasDefaultConstructor": false,
+          "isInstantiable": false,
+          "isFinal": false,
+          "genericTypes": [],
+          "isInterface": false,
+          "isAbstract": false,
+          "isMap": false
+        },
+        "typeId": "org.mule.extension.http.api.HttpRequestAttributes",
+        "typeAlias": {"value": "HttpRequestAttributes"}
+      },
+      "type": "Object",
+      "fields": [
+        {
+          "annotations": {"expressionSupport": {"value": "SUPPORTED"}},
+          "model": {"type": "String"},
+          "key": {
+            "name": "listenerPath",
+            "required": "true"
+          }
+        },
+        {
+          "annotations": {"expressionSupport": {"value": "SUPPORTED"}},
+          "model": {"type": "String"},
+          "key": {
+            "name": "rawRequestPath",
+            "required": "true"
+          }
+        },
+        {
+          "annotations": {"expressionSupport": {"value": "SUPPORTED"}},
+          "model": {"type": "String"},
+          "key": {
+            "name": "relativePath",
+            "required": "true"
+          }
+        },
+        {
+          "annotations": {"expressionSupport": {"value": "SUPPORTED"}},
+          "model": {"type": "String"},
+          "key": {
+            "name": "maskedRequestPath",
+            "required": "true"
+          }
+        },
+        {
+          "annotations": {"expressionSupport": {"value": "SUPPORTED"}},
+          "model": {"type": "String"},
+          "key": {
+            "name": "version",
+            "required": "true"
+          }
+        },
+        {
+          "annotations": {"expressionSupport": {"value": "SUPPORTED"}},
+          "model": {"type": "String"},
+          "key": {
+            "name": "scheme",
+            "required": "true"
+          }
+        },
+        {
+          "annotations": {"expressionSupport": {"value": "SUPPORTED"}},
+          "model": {"type": "String"},
+          "key": {
+            "name": "method",
+            "required": "true"
+          }
+        },
+        {
+          "annotations": {"expressionSupport": {"value": "SUPPORTED"}},
+          "model": {"type": "String"},
+          "key": {
+            "name": "requestUri",
+            "required": "true"
+          }
+        },
+        {
+          "annotations": {"expressionSupport": {"value": "SUPPORTED"}},
+          "model": {"type": "String"},
+          "key": {
+            "name": "rawRequestUri",
+            "required": "true"
+          }
+        },
+        {
+          "annotations": {"expressionSupport": {"value": "SUPPORTED"}},
+          "model": {"type": "String"},
+          "key": {
+            "name": "queryString",
+            "required": "true"
+          }
+        },
+        {
+          "annotations": {"expressionSupport": {"value": "SUPPORTED"}},
+          "model": {"type": "String"},
+          "key": {
+            "name": "localAddress",
+            "required": "true"
+          }
+        },
+        {
+          "annotations": {"expressionSupport": {"value": "SUPPORTED"}},
+          "model": {"type": "String"},
+          "key": {
+            "name": "remoteAddress",
+            "required": "true"
+          }
+        },
+        {
+          "annotations": {"expressionSupport": {"value": "SUPPORTED"}},
+          "model": {
+            "annotations": {
+              "classInformation": {
+                "implementedInterfaces": ["java.io.Serializable"],
+                "parent": "",
+                "classname": "java.security.cert.Certificate",
+                "hasDefaultConstructor": false,
+                "isInstantiable": false,
+                "isFinal": false,
+                "genericTypes": [],
+                "isInterface": false,
+                "isAbstract": true,
+                "isMap": false
+              },
+              "typeId": "java.security.cert.Certificate",
+              "typeAlias": {"value": "Certificate"}
+            },
+            "type": "Object",
+            "fields": [
+              {
+                "annotations": {"visibility": "READ_ONLY"},
+                "model": {
+                  "annotations": {"classInformation": {
+                    "implementedInterfaces": [
+                      "java.lang.Cloneable",
+                      "java.io.Serializable"
+                    ],
+                    "parent": "",
+                    "classname": "byte[]",
+                    "hasDefaultConstructor": false,
+                    "isInstantiable": false,
+                    "isFinal": true,
+                    "genericTypes": [],
+                    "isInterface": false,
+                    "isAbstract": true,
+                    "isMap": false
+                  }},
+                  "type": "Binary"
+                },
+                "key": {"name": "encoded"}
+              },
+              {
+                "annotations": {"visibility": "READ_ONLY"},
+                "model": {
+                  "annotations": {
+                    "classInformation": {
+                      "implementedInterfaces": ["java.security.Key"],
+                      "parent": "",
+                      "classname": "java.security.PublicKey",
+                      "hasDefaultConstructor": false,
+                      "isInstantiable": false,
+                      "isFinal": false,
+                      "genericTypes": [],
+                      "isInterface": true,
+                      "isAbstract": true,
+                      "isMap": false
+                    },
+                    "typeId": "java.security.PublicKey",
+                    "typeAlias": {"value": "PublicKey"}
+                  },
+                  "type": "Object",
+                  "fields": []
+                },
+                "key": {"name": "publicKey"}
+              },
+              {
+                "annotations": {"visibility": "READ_ONLY"},
+                "model": {"type": "String"},
+                "key": {"name": "type"}
+              }
+            ]
+          },
+          "key": {"name": "clientCertificate"}
+        },
+        {
+          "annotations": {"expressionSupport": {"value": "SUPPORTED"}},
+          "model": {
+            "annotations": {"classInformation": {
+              "implementedInterfaces": [
+                "java.util.Map",
+                "java.io.Serializable"
+              ],
+              "parent": "",
+              "classname": "org.mule.runtime.api.util.MultiMap",
+              "hasDefaultConstructor": true,
+              "isInstantiable": true,
+              "isFinal": false,
+              "genericTypes": [
+                "java.lang.String",
+                "java.lang.String"
+              ],
+              "isInterface": false,
+              "isAbstract": false,
+              "isMap": true
+            }},
+            "type": "Object",
+            "fields": [],
+            "open": {"type": "String"}
+          },
+          "key": {
+            "name": "queryParams",
+            "required": "true"
+          }
+        },
+        {
+          "annotations": {"expressionSupport": {"value": "SUPPORTED"}},
+          "model": {
+            "annotations": {"classInformation": {
+              "implementedInterfaces": [],
+              "parent": "",
+              "classname": "java.util.Map",
+              "hasDefaultConstructor": false,
+              "isInstantiable": false,
+              "isFinal": false,
+              "genericTypes": [
+                "java.lang.String",
+                "java.lang.String"
+              ],
+              "isInterface": true,
+              "isAbstract": true,
+              "isMap": true
+            }},
+            "type": "Object",
+            "fields": [],
+            "open": {"type": "String"}
+          },
+          "key": {
+            "name": "uriParams",
+            "required": "true"
+          }
+        },
+        {
+          "annotations": {"expressionSupport": {"value": "SUPPORTED"}},
+          "model": {"type": "String"},
+          "key": {
+            "name": "requestPath",
+            "required": "true"
+          }
+        },
+        {
+          "annotations": {"expressionSupport": {"value": "SUPPORTED"}},
+          "model": {
+            "annotations": {"classInformation": {
+              "implementedInterfaces": [
+                "java.util.Map",
+                "java.io.Serializable"
+              ],
+              "parent": "",
+              "classname": "org.mule.runtime.api.util.MultiMap",
+              "hasDefaultConstructor": true,
+              "isInstantiable": true,
+              "isFinal": false,
+              "genericTypes": [
+                "java.lang.String",
+                "java.lang.String"
+              ],
+              "isInterface": false,
+              "isAbstract": false,
+              "isMap": true
+            }},
+            "type": "Object",
+            "fields": [],
+            "open": {"type": "String"}
+          },
+          "key": {
+            "name": "headers",
+            "required": "true"
+          }
+        }
+      ]
+    }],
+    "xmlDsl": {
+      "schemaVersion": "1.3.7-SNAPSHOT",
+      "prefix": "apikit",
+      "schemaLocation": "http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd",
+      "namespace": "http://www.mulesoft.org/schema/mule/mule-apikit",
+      "xsdFileName": "mule-apikit.xsd"
+    },
+    "operations": [],
+    "vendor": "Mulesoft",
+    "name": "APIKit",
+    "privilegedPackages": [],
+    "category": "COMMUNITY",
+    "notifications": [],
+    "errors": [
+      {
+        "parent": "MULE:ANY",
+        "error": "APIKIT:ANY",
+        "handleable": true
+      },
+      {
+        "error": "MULE:ANY",
+        "handleable": true
+      },
+      {
+        "parent": "APIKIT:ANY",
+        "error": "APIKIT:NOT_IMPLEMENTED",
+        "handleable": true
+      },
+      {
+        "parent": "APIKIT:ANY",
+        "error": "APIKIT:NOT_ACCEPTABLE",
+        "handleable": true
+      },
+      {
+        "parent": "APIKIT:ANY",
+        "error": "APIKIT:BAD_REQUEST",
+        "handleable": true
+      },
+      {
+        "parent": "APIKIT:ANY",
+        "error": "APIKIT:NOT_FOUND",
+        "handleable": true
+      },
+      {
+        "parent": "APIKIT:ANY",
+        "error": "APIKIT:UNSUPPORTED_MEDIA_TYPE",
+        "handleable": true
+      },
+      {
+        "parent": "APIKIT:ANY",
+        "error": "APIKIT:METHOD_NOT_ALLOWED",
+        "handleable": true
+      }
+    ]
+  }
+}

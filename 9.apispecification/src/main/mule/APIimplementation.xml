@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:vm="http://www.mulesoft.org/schema/mule/vm" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd">
+	<flow name="getAllArtists" doc:id="349e8317-4e62-4cb0-852f-0d84c02f8f94" >
+		<db:select doc:name="Select all artists" doc:id="05a3c864-b07f-45d6-8268-7541bafc619d" config-ref="Database_Config">
+			<db:sql ><![CDATA[SELECT * FROM artists;]]></db:sql>
+		</db:select>
+		<set-payload value="#[%dw 2.0
+
+output application/json
+---
+payload]" doc:name="Set Payload from JAVA to JSON" doc:id="fc4f1899-8010-49dd-a51c-9ddca16d2ca9" />
+	</flow>
+	<flow name="getArtistByID" doc:id="cbc4647b-eda9-485b-a829-c5ab11a2de13" >
+		<vm:listener doc:name="Queue Listener" doc:id="860cd86c-cc38-4d43-8f3e-d365c29188b9" config-ref="VM_Config" queueName="artistId.toGet"/>
+		<db:select doc:name="Select artist by ID" doc:id="f1df0038-07a1-43b0-90ce-00c3358e0d4c" config-ref="Database_Config">
+			<db:sql ><![CDATA[SELECT * FROM artists WHERE id = :artistID;]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	'artistID': payload
+}]]]></db:input-parameters>
+		</db:select>
+		<set-payload value="#[%dw 2.0
+
+output application/json
+---
+payload]" doc:name="Set Payload from JAVA to JSON" doc:id="374c86d8-c69a-4da9-a281-391cce48d22d" />
+	</flow>
+	<flow name="createNewArtist" doc:id="c0fed5e6-c6b4-4cab-addb-f2a708a2b1fb" >
+		<vm:listener doc:name="Queue Listener" doc:id="2a8b7bc8-089c-4f60-a480-3fa9a9d7bb76" config-ref="VM_Config" queueName="artistInfo.toPost"/>
+		<db:insert doc:name="Insert new artist" doc:id="5f9d2678-0fa5-48a4-bec2-0a1406df0714" config-ref="Database_Config" autoGenerateKeys="true">
+			<db:sql ><![CDATA[INSERT INTO artists (name, genre) VALUES (:artistName, :artistGenre)]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	'artistName': payload.artistName,
+	'artistGenre': payload.genre
+}]]]></db:input-parameters>
+		</db:insert>
+		<set-payload value="#[%dw 2.0
+
+output application/json
+---
+payload]" doc:name="Set Payload from JAVA to JSON" doc:id="a147f864-f861-444e-855f-126ed81782f4" />
+	</flow>
+	<flow name="deleteArtists" doc:id="c323b6f1-ed2b-4bf7-9dc5-9c57c895f8a2" >
+		<vm:listener doc:name="Queue Listener" doc:id="e92b7e82-eac3-4fc8-8f67-61020bcac1ea" config-ref="VM_Config" queueName="artistId.toDelete"/>
+		<db:delete doc:name="Delete artist" doc:id="9395c4d1-0449-49ae-ac6f-026cc0c89696" config-ref="Database_Config">
+			<db:sql ><![CDATA[DELETE FROM artists WHERE id = :artistID;]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	'artistID': payload
+}]]]></db:input-parameters>
+		</db:delete>
+		<set-payload value="#[%dw 2.0
+
+output application/json
+---
+payload]" doc:name="Set Payload from JAVA to JSON" doc:id="5265708c-67b0-4522-befb-b1162bb03fc8" />
+	</flow>
+	<flow name="updateArtistInfo" doc:id="ed425e82-6a4d-4f13-84e3-96feb4b26e50" >
+		<vm:listener doc:name="Queue Listener" doc:id="6bdc54e2-d46f-4391-9459-1e2c01af28df" config-ref="VM_Config" queueName="artistInfo.toPut"/>
+		<db:update doc:name="Update artist data" doc:id="27faea67-311c-4cf5-86c3-5012bcd807fb" config-ref="Database_Config">
+			<db:sql ><![CDATA[UPDATE artists SET genre = :artistGenre WHERE id= :artistID;]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	'artistGenre': payload.artistINFO.genre,
+	'artistID': payload.artistID
+}]]]></db:input-parameters>
+		</db:update>
+		<set-payload value="#[%dw 2.0
+
+output application/json
+---
+payload]" doc:name="Set Payload from JAVA to JSON" doc:id="9fd62d31-77da-4340-9d95-22a65b8231dd" />
+	</flow>
+</mule>

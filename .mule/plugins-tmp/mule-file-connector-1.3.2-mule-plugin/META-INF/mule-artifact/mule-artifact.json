@@ -1,0 +1,29 @@
+{
+  "extensionModelLoaderDescriptor": {
+    "id": "java",
+    "attributes": {
+      "type": "org.mule.extension.file.internal.FileConnector",
+      "version": "1.3.2"
+    }
+  },
+  "name": "File",
+  "requiredProduct": "MULE",
+  "classLoaderModelLoaderDescriptor": {
+    "id": "mule",
+    "attributes": {
+      "privilegedExportedPackages": [],
+      "privilegedArtifactIds": [],
+      "exportedPackages": [
+        "org.mule.extension.file.common.api.matcher",
+        "org.mule.extension.file.common.api",
+        "org.mule.extension.file.api"
+      ],
+      "exportedResources": []
+    }
+  },
+  "bundleDescriptorLoader": {
+    "id": "mule",
+    "attributes": {}
+  },
+  "minMuleVersion": "4.1.1"
+}

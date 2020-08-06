@@ -1,0 +1,29 @@
+{
+  "version": "6.0.61",
+  "name": "@mulesoft/anypoint-api-console",
+  "description": "Anypoint API Console",
+  "main": "index.js",
+  "scripts": {
+    "build": "./build.sh",
+    "postbuild": "npm prune --production",
+    "test": "echo 'no test'",
+    "start": "serve build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mulesoft/anypoint-api-console.git"
+  },
+  "author": "APIC Dev team",
+  "bugs": {
+    "url": "https://www.mulesoft.org/jira/browse/APIC"
+  },
+  "homepage": "https://www.mulesoft.org/jira/browse/APIC",
+  "devDependencies": {
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "serve": "^11.3.0"
+  },
+  "dependencies": {
+    "rollup-plugin-cpy": "^2.0.1"
+  }
+}

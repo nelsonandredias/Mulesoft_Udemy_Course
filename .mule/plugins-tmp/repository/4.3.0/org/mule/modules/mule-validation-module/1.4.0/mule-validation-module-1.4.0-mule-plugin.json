@@ -1,0 +1,4829 @@
+{
+  "minMuleVersion": "4.1.1",
+  "extensionModel": {
+    "types": [
+      {
+        "format": "java",
+        "annotations": {
+          "typeDsl": {
+            "allowTopLevelDefinition": true,
+            "allowInlineDefinition": true
+          },
+          "classInformation": {
+            "implementedInterfaces": [],
+            "parent": "",
+            "classname": "org.mule.extension.validation.api.I18NConfig",
+            "hasDefaultConstructor": true,
+            "isInstantiable": true,
+            "isFinal": false,
+            "genericTypes": [],
+            "isInterface": false,
+            "isAbstract": false,
+            "isMap": false
+          },
+          "typeId": "org.mule.extension.validation.api.I18NConfig",
+          "stereotype": {"allowedStereotypes": [{
+            "namespace": "VALIDATION",
+            "type": "I18_N_CONFIG"
+          }]},
+          "typeAlias": {"value": "i18n"}
+        },
+        "type": "Object",
+        "fields": [
+          {
+            "annotations": {"expressionSupport": {"value": "SUPPORTED"}},
+            "model": {"type": "String"},
+            "key": {
+              "name": "bundlePath",
+              "required": "true"
+            }
+          },
+          {
+            "annotations": {
+              "default": "",
+              "expressionSupport": {"value": "SUPPORTED"}
+            },
+            "model": {"type": "String"},
+            "key": {"name": "locale"}
+          }
+        ]
+      },
+      {
+        "format": "java",
+        "annotations": {
+          "typeDsl": {
+            "allowTopLevelDefinition": true,
+            "allowInlineDefinition": true
+          },
+          "classInformation": {
+            "implementedInterfaces": [],
+            "parent": "",
+            "classname": "org.mule.extension.validation.api.IpFilterList",
+            "hasDefaultConstructor": true,
+            "isInstantiable": true,
+            "isFinal": false,
+            "genericTypes": [],
+            "isInterface": false,
+            "isAbstract": false,
+            "isMap": false
+          },
+          "typeId": "org.mule.extension.validation.api.IpFilterList",
+          "stereotype": {"allowedStereotypes": [{
+            "namespace": "VALIDATION",
+            "type": "IP_FILTER_LIST"
+          }]},
+          "typeAlias": {"value": "IpFilterList"}
+        },
+        "type": "Object",
+        "fields": [{
+          "annotations": {"expressionSupport": {"value": "SUPPORTED"}},
+          "model": {
+            "item": {"type": "String"},
+            "annotations": {"classInformation": {
+              "implementedInterfaces": ["java.util.Collection"],
+              "parent": "",
+              "classname": "java.util.List",
+              "hasDefaultConstructor": false,
+              "isInstantiable": false,
+              "isFinal": false,
+              "genericTypes": ["java.lang.String"],
+              "isInterface": true,
+              "isAbstract": true,
+              "isMap": false
+            }},
+            "type": "Array"
+          },
+          "key": {
+            "name": "ips",
+            "required": "true"
+          }
+        }]
+      }
+    ],
+    "messageSources": [],
+    "functions": [
+      {
+        "output": {
+          "hasDynamicType": false,
+          "description": "",
+          "modelProperties": {},
+          "type": {
+            "format": "java",
+            "annotations": {"typeId": "boolean"},
+            "type": "Boolean"
+          }
+        },
+        "kind": "function",
+        "name": "isEmail",
+        "description": "",
+        "modelProperties": {},
+        "parameterGroupModels": [{
+          "name": "General",
+          "description": "",
+          "modelProperties": {},
+          "parameters": [{
+            "role": "BEHAVIOUR",
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "String"
+            },
+            "required": true,
+            "expressionSupport": "SUPPORTED",
+            "hasDynamicType": false,
+            "isConfigOverride": false,
+            "dslConfiguration": {
+              "allowTopLevelDefinition": false,
+              "allowsInlineDefinition": false,
+              "allowsReferences": false
+            },
+            "name": "email",
+            "layoutModel": {
+              "password": false,
+              "query": false,
+              "text": false
+            },
+            "allowedStereotypeModels": [],
+            "isComponentId": false
+          }],
+          "exclusiveParametersModels": [],
+          "showInDsl": false
+        }]
+      },
+      {
+        "output": {
+          "hasDynamicType": false,
+          "description": "",
+          "modelProperties": {},
+          "type": {
+            "format": "java",
+            "annotations": {"typeId": "boolean"},
+            "type": "Boolean"
+          }
+        },
+        "kind": "function",
+        "name": "isIp",
+        "description": "",
+        "modelProperties": {},
+        "parameterGroupModels": [{
+          "name": "General",
+          "description": "",
+          "modelProperties": {},
+          "parameters": [{
+            "role": "BEHAVIOUR",
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "String"
+            },
+            "required": true,
+            "expressionSupport": "SUPPORTED",
+            "hasDynamicType": false,
+            "isConfigOverride": false,
+            "dslConfiguration": {
+              "allowTopLevelDefinition": false,
+              "allowsInlineDefinition": false,
+              "allowsReferences": false
+            },
+            "name": "ip",
+            "layoutModel": {
+              "password": false,
+              "query": false,
+              "text": false
+            },
+            "allowedStereotypeModels": [],
+            "isComponentId": false
+          }],
+          "exclusiveParametersModels": [],
+          "showInDsl": false
+        }]
+      },
+      {
+        "output": {
+          "hasDynamicType": false,
+          "description": "",
+          "modelProperties": {},
+          "type": {
+            "format": "java",
+            "annotations": {"typeId": "boolean"},
+            "type": "Boolean"
+          }
+        },
+        "kind": "function",
+        "name": "isNumber",
+        "description": "",
+        "modelProperties": {},
+        "parameterGroupModels": [{
+          "name": "General",
+          "description": "",
+          "modelProperties": {},
+          "parameters": [
+            {
+              "role": "BEHAVIOUR",
+              "description": "",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "required": true,
+              "expressionSupport": "SUPPORTED",
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": false
+              },
+              "name": "value",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            },
+            {
+              "role": "BEHAVIOUR",
+              "description": "",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "annotations": {
+                  "typeId": "org.mule.extension.validation.api.NumberType",
+                  "enum": {
+                    "values": [
+                      "INTEGER",
+                      "LONG",
+                      "SHORT",
+                      "DOUBLE",
+                      "FLOAT"
+                    ],
+                    "type": "[Ljava.lang.String;"
+                  }
+                },
+                "type": "String"
+              },
+              "required": true,
+              "expressionSupport": "SUPPORTED",
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": false
+              },
+              "name": "numberType",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            }
+          ],
+          "exclusiveParametersModels": [],
+          "showInDsl": false
+        }]
+      },
+      {
+        "output": {
+          "hasDynamicType": false,
+          "description": "",
+          "modelProperties": {},
+          "type": {
+            "format": "java",
+            "annotations": {"typeId": "boolean"},
+            "type": "Boolean"
+          }
+        },
+        "kind": "function",
+        "name": "isTime",
+        "description": "",
+        "modelProperties": {},
+        "parameterGroupModels": [{
+          "name": "General",
+          "description": "",
+          "modelProperties": {},
+          "parameters": [
+            {
+              "role": "BEHAVIOUR",
+              "description": "",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "required": true,
+              "expressionSupport": "SUPPORTED",
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": false
+              },
+              "name": "time",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            },
+            {
+              "role": "BEHAVIOUR",
+              "description": "",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "required": false,
+              "expressionSupport": "SUPPORTED",
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": false
+              },
+              "name": "pattern",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            },
+            {
+              "role": "BEHAVIOUR",
+              "description": "",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "required": false,
+              "expressionSupport": "SUPPORTED",
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": false
+              },
+              "name": "locale",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            }
+          ],
+          "exclusiveParametersModels": [],
+          "showInDsl": false
+        }]
+      },
+      {
+        "output": {
+          "hasDynamicType": false,
+          "description": "",
+          "modelProperties": {},
+          "type": {
+            "format": "java",
+            "annotations": {"typeId": "boolean"},
+            "type": "Boolean"
+          }
+        },
+        "kind": "function",
+        "name": "isUrl",
+        "description": "",
+        "modelProperties": {},
+        "parameterGroupModels": [{
+          "name": "General",
+          "description": "",
+          "modelProperties": {},
+          "parameters": [{
+            "role": "BEHAVIOUR",
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "String"
+            },
+            "required": true,
+            "expressionSupport": "SUPPORTED",
+            "hasDynamicType": false,
+            "isConfigOverride": false,
+            "dslConfiguration": {
+              "allowTopLevelDefinition": false,
+              "allowsInlineDefinition": false,
+              "allowsReferences": false
+            },
+            "name": "url",
+            "layoutModel": {
+              "password": false,
+              "query": false,
+              "text": false
+            },
+            "allowedStereotypeModels": [],
+            "isComponentId": false
+          }],
+          "exclusiveParametersModels": [],
+          "showInDsl": false
+        }]
+      },
+      {
+        "output": {
+          "hasDynamicType": false,
+          "description": "",
+          "modelProperties": {},
+          "type": {
+            "format": "java",
+            "annotations": {"typeId": "boolean"},
+            "type": "Boolean"
+          }
+        },
+        "kind": "function",
+        "name": "matchesRegex",
+        "description": "",
+        "modelProperties": {},
+        "parameterGroupModels": [{
+          "name": "General",
+          "description": "",
+          "modelProperties": {},
+          "parameters": [
+            {
+              "role": "BEHAVIOUR",
+              "description": "",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "required": true,
+              "expressionSupport": "SUPPORTED",
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": false
+              },
+              "name": "value",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            },
+            {
+              "role": "BEHAVIOUR",
+              "description": "",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "required": true,
+              "expressionSupport": "SUPPORTED",
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": false
+              },
+              "name": "regex",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            },
+            {
+              "role": "BEHAVIOUR",
+              "defaultValue": "true",
+              "description": "",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "annotations": {"typeId": "boolean"},
+                "type": "Boolean"
+              },
+              "required": false,
+              "expressionSupport": "SUPPORTED",
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": false
+              },
+              "name": "caseSensitive",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            }
+          ],
+          "exclusiveParametersModels": [],
+          "showInDsl": false
+        }]
+      }
+    ],
+    "configurations": [{
+      "externalLibraryModels": [],
+      "operations": [
+        {
+          "kind": "operation",
+          "executionType": "CPU_LITE",
+          "description": "Validates that value is a blank String.",
+          "modelProperties": {},
+          "parameterGroupModels": [
+            {
+              "name": "General",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 1
+              },
+              "description": "",
+              "modelProperties": {},
+              "parameters": [
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "the value to check",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "type": "String"
+                  },
+                  "required": true,
+                  "expressionSupport": "SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": false
+                  },
+                  "name": "value",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 1
+                  },
+                  "allowedStereotypeModels": [],
+                  "isComponentId": false
+                },
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "The name of the configuration to be used to execute this component",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "annotations": {"typeId": "org.mule.runtime.extension.api.runtime.config.ConfigurationProvider"},
+                    "type": "Object",
+                    "fields": []
+                  },
+                  "required": false,
+                  "expressionSupport": "NOT_SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": true
+                  },
+                  "name": "config-ref",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 2
+                  },
+                  "allowedStereotypeModels": [{
+                    "parent": {
+                      "namespace": "MULE",
+                      "type": "MODULE_CONFIG"
+                    },
+                    "namespace": "VALIDATION",
+                    "type": "CONFIG"
+                  }],
+                  "isComponentId": false
+                }
+              ],
+              "exclusiveParametersModels": [],
+              "showInDsl": false
+            },
+            {
+              "name": "Error options",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 2
+              },
+              "description": "",
+              "modelProperties": {},
+              "parameters": [{
+                "role": "BEHAVIOUR",
+                "description": "Specifies the message that is to be notified to the user if the validation fails. It's marked as not dynamic to allow eager evaluation of the expression in case that the validation is successful and the message is not needed. Components consuming this value are to manually check if this is an expression and evaluate it in case that the validation failed",
+                "modelProperties": {},
+                "type": {
+                  "format": "java",
+                  "type": "String"
+                },
+                "required": false,
+                "expressionSupport": "SUPPORTED",
+                "hasDynamicType": false,
+                "isConfigOverride": false,
+                "dslConfiguration": {
+                  "allowTopLevelDefinition": false,
+                  "allowsInlineDefinition": false,
+                  "allowsReferences": false
+                },
+                "name": "message",
+                "layoutModel": {
+                  "password": false,
+                  "query": false,
+                  "text": false,
+                  "order": 3
+                },
+                "allowedStereotypeModels": [],
+                "isComponentId": false
+              }],
+              "exclusiveParametersModels": [],
+              "showInDsl": false
+            }
+          ],
+          "output": {
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "Void"
+            }
+          },
+          "outputAttributes": {
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "Void"
+            }
+          },
+          "supportsStreaming": false,
+          "requiresConnection": false,
+          "blocking": true,
+          "name": "isBlankString",
+          "stereotype": {
+            "parent": {
+              "parent": {
+                "namespace": "MULE",
+                "type": "PROCESSOR"
+              },
+              "namespace": "MULE",
+              "type": "VALIDATOR"
+            },
+            "namespace": "VALIDATION",
+            "type": "VALIDATOR"
+          },
+          "nestedComponents": [],
+          "transactional": false,
+          "notifications": [],
+          "errors": ["VALIDATION:NOT_BLANK_STRING"]
+        },
+        {
+          "kind": "operation",
+          "executionType": "CPU_LITE",
+          "description": "Validates the amount of time that has elapsed since the moment in the since parameter is greater than an specified amount of time.",
+          "modelProperties": {},
+          "parameterGroupModels": [
+            {
+              "name": "General",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 1
+              },
+              "description": "",
+              "modelProperties": {},
+              "parameters": [
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "the interval size",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "annotations": {
+                      "classInformation": {
+                        "implementedInterfaces": ["java.lang.Comparable"],
+                        "parent": "java.lang.Number",
+                        "classname": "java.lang.Long",
+                        "hasDefaultConstructor": false,
+                        "isInstantiable": false,
+                        "isFinal": true,
+                        "genericTypes": [],
+                        "isInterface": false,
+                        "isAbstract": false,
+                        "isMap": false
+                      },
+                      "int": {}
+                    },
+                    "type": "Number"
+                  },
+                  "required": true,
+                  "expressionSupport": "SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": false
+                  },
+                  "name": "time",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 1
+                  },
+                  "allowedStereotypeModels": [],
+                  "isComponentId": false
+                },
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "the interval unit (as a TimeUnit)",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "annotations": {
+                      "typeId": "java.util.concurrent.TimeUnit",
+                      "enum": {
+                        "values": [
+                          "NANOSECONDS",
+                          "MICROSECONDS",
+                          "MILLISECONDS",
+                          "SECONDS",
+                          "MINUTES",
+                          "HOURS",
+                          "DAYS"
+                        ],
+                        "type": "[Ljava.lang.String;"
+                      }
+                    },
+                    "type": "String"
+                  },
+                  "required": true,
+                  "expressionSupport": "SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": false
+                  },
+                  "name": "timeUnit",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 2
+                  },
+                  "allowedStereotypeModels": [],
+                  "isComponentId": false
+                },
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "the time to validate",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "annotations": {"typeId": "java.time.LocalDateTime"},
+                    "type": "DateTime"
+                  },
+                  "required": true,
+                  "expressionSupport": "SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": false
+                  },
+                  "name": "since",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 3
+                  },
+                  "allowedStereotypeModels": [],
+                  "isComponentId": false
+                },
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "The name of the configuration to be used to execute this component",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "annotations": {"typeId": "org.mule.runtime.extension.api.runtime.config.ConfigurationProvider"},
+                    "type": "Object",
+                    "fields": []
+                  },
+                  "required": false,
+                  "expressionSupport": "NOT_SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": true
+                  },
+                  "name": "config-ref",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 4
+                  },
+                  "allowedStereotypeModels": [{
+                    "parent": {
+                      "namespace": "MULE",
+                      "type": "MODULE_CONFIG"
+                    },
+                    "namespace": "VALIDATION",
+                    "type": "CONFIG"
+                  }],
+                  "isComponentId": false
+                }
+              ],
+              "exclusiveParametersModels": [],
+              "showInDsl": false
+            },
+            {
+              "name": "Error options",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 2
+              },
+              "description": "",
+              "modelProperties": {},
+              "parameters": [{
+                "role": "BEHAVIOUR",
+                "description": "Specifies the message that is to be notified to the user if the validation fails. It's marked as not dynamic to allow eager evaluation of the expression in case that the validation is successful and the message is not needed. Components consuming this value are to manually check if this is an expression and evaluate it in case that the validation failed",
+                "modelProperties": {},
+                "type": {
+                  "format": "java",
+                  "type": "String"
+                },
+                "required": false,
+                "expressionSupport": "SUPPORTED",
+                "hasDynamicType": false,
+                "isConfigOverride": false,
+                "dslConfiguration": {
+                  "allowTopLevelDefinition": false,
+                  "allowsInlineDefinition": false,
+                  "allowsReferences": false
+                },
+                "name": "message",
+                "layoutModel": {
+                  "password": false,
+                  "query": false,
+                  "text": false,
+                  "order": 5
+                },
+                "allowedStereotypeModels": [],
+                "isComponentId": false
+              }],
+              "exclusiveParametersModels": [],
+              "showInDsl": false
+            }
+          ],
+          "output": {
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "Void"
+            }
+          },
+          "outputAttributes": {
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "Void"
+            }
+          },
+          "supportsStreaming": false,
+          "requiresConnection": false,
+          "blocking": true,
+          "name": "isElapsed",
+          "stereotype": {
+            "parent": {
+              "parent": {
+                "namespace": "MULE",
+                "type": "PROCESSOR"
+              },
+              "namespace": "MULE",
+              "type": "VALIDATOR"
+            },
+            "namespace": "VALIDATION",
+            "type": "VALIDATOR"
+          },
+          "nestedComponents": [],
+          "transactional": false,
+          "notifications": [],
+          "errors": ["VALIDATION:NOT_ELAPSED_TIME"]
+        },
+        {
+          "kind": "operation",
+          "executionType": "CPU_LITE",
+          "description": "Validates that the email address is valid",
+          "modelProperties": {},
+          "parameterGroupModels": [
+            {
+              "name": "General",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 1
+              },
+              "description": "",
+              "modelProperties": {},
+              "parameters": [
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "an email address",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "type": "String"
+                  },
+                  "required": true,
+                  "expressionSupport": "SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": false
+                  },
+                  "name": "email",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 1
+                  },
+                  "allowedStereotypeModels": [],
+                  "isComponentId": false
+                },
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "The name of the configuration to be used to execute this component",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "annotations": {"typeId": "org.mule.runtime.extension.api.runtime.config.ConfigurationProvider"},
+                    "type": "Object",
+                    "fields": []
+                  },
+                  "required": false,
+                  "expressionSupport": "NOT_SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": true
+                  },
+                  "name": "config-ref",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 2
+                  },
+                  "allowedStereotypeModels": [{
+                    "parent": {
+                      "namespace": "MULE",
+                      "type": "MODULE_CONFIG"
+                    },
+                    "namespace": "VALIDATION",
+                    "type": "CONFIG"
+                  }],
+                  "isComponentId": false
+                }
+              ],
+              "exclusiveParametersModels": [],
+              "showInDsl": false
+            },
+            {
+              "name": "Error options",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 2
+              },
+              "description": "",
+              "modelProperties": {},
+              "parameters": [{
+                "role": "BEHAVIOUR",
+                "description": "Specifies the message that is to be notified to the user if the validation fails. It's marked as not dynamic to allow eager evaluation of the expression in case that the validation is successful and the message is not needed. Components consuming this value are to manually check if this is an expression and evaluate it in case that the validation failed",
+                "modelProperties": {},
+                "type": {
+                  "format": "java",
+                  "type": "String"
+                },
+                "required": false,
+                "expressionSupport": "SUPPORTED",
+                "hasDynamicType": false,
+                "isConfigOverride": false,
+                "dslConfiguration": {
+                  "allowTopLevelDefinition": false,
+                  "allowsInlineDefinition": false,
+                  "allowsReferences": false
+                },
+                "name": "message",
+                "layoutModel": {
+                  "password": false,
+                  "query": false,
+                  "text": false,
+                  "order": 3
+                },
+                "allowedStereotypeModels": [],
+                "isComponentId": false
+              }],
+              "exclusiveParametersModels": [],
+              "showInDsl": false
+            }
+          ],
+          "output": {
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "Void"
+            }
+          },
+          "outputAttributes": {
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "Void"
+            }
+          },
+          "supportsStreaming": false,
+          "requiresConnection": false,
+          "blocking": true,
+          "name": "isEmail",
+          "stereotype": {
+            "parent": {
+              "parent": {
+                "namespace": "MULE",
+                "type": "PROCESSOR"
+              },
+              "namespace": "MULE",
+              "type": "VALIDATOR"
+            },
+            "namespace": "VALIDATION",
+            "type": "VALIDATOR"
+          },
+          "nestedComponents": [],
+          "transactional": false,
+          "notifications": [],
+          "errors": ["VALIDATION:INVALID_EMAIL"]
+        },
+        {
+          "kind": "operation",
+          "executionType": "CPU_LITE",
+          "description": "Validates that value is an empty collection.",
+          "modelProperties": {},
+          "parameterGroupModels": [
+            {
+              "name": "General",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 1
+              },
+              "description": "",
+              "modelProperties": {},
+              "parameters": [
+                {
+                  "role": "BEHAVIOUR",
+                  "defaultValue": "#[payload]",
+                  "description": "the value to check",
+                  "modelProperties": {},
+                  "type": {
+                    "item": {
+                      "annotations": {
+                        "classInformation": {
+                          "implementedInterfaces": [],
+                          "parent": "",
+                          "classname": "java.lang.Object",
+                          "hasDefaultConstructor": true,
+                          "isInstantiable": true,
+                          "isFinal": false,
+                          "genericTypes": [],
+                          "isInterface": false,
+                          "isAbstract": false,
+                          "isMap": false
+                        },
+                        "typeId": "java.lang.Object",
+                        "typeAlias": {"value": "Object"}
+                      },
+                      "type": "Object",
+                      "fields": []
+                    },
+                    "format": "java",
+                    "annotations": {"classInformation": {
+                      "implementedInterfaces": ["java.lang.Iterable"],
+                      "parent": "",
+                      "classname": "java.util.Collection",
+                      "hasDefaultConstructor": false,
+                      "isInstantiable": false,
+                      "isFinal": false,
+                      "genericTypes": ["java.lang.Object"],
+                      "isInterface": true,
+                      "isAbstract": true,
+                      "isMap": false
+                    }},
+                    "type": "Array"
+                  },
+                  "required": false,
+                  "expressionSupport": "SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": true
+                  },
+                  "name": "values",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 1
+                  },
+                  "allowedStereotypeModels": [],
+                  "isComponentId": false
+                },
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "The name of the configuration to be used to execute this component",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "annotations": {"typeId": "org.mule.runtime.extension.api.runtime.config.ConfigurationProvider"},
+                    "type": "Object",
+                    "fields": []
+                  },
+                  "required": false,
+                  "expressionSupport": "NOT_SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": true
+                  },
+                  "name": "config-ref",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 2
+                  },
+                  "allowedStereotypeModels": [{
+                    "parent": {
+                      "namespace": "MULE",
+                      "type": "MODULE_CONFIG"
+                    },
+                    "namespace": "VALIDATION",
+                    "type": "CONFIG"
+                  }],
+                  "isComponentId": false
+                }
+              ],
+              "exclusiveParametersModels": [],
+              "showInDsl": false
+            },
+            {
+              "name": "Error options",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 2
+              },
+              "description": "",
+              "modelProperties": {},
+              "parameters": [{
+                "role": "BEHAVIOUR",
+                "description": "Specifies the message that is to be notified to the user if the validation fails. It's marked as not dynamic to allow eager evaluation of the expression in case that the validation is successful and the message is not needed. Components consuming this value are to manually check if this is an expression and evaluate it in case that the validation failed",
+                "modelProperties": {},
+                "type": {
+                  "format": "java",
+                  "type": "String"
+                },
+                "required": false,
+                "expressionSupport": "SUPPORTED",
+                "hasDynamicType": false,
+                "isConfigOverride": false,
+                "dslConfiguration": {
+                  "allowTopLevelDefinition": false,
+                  "allowsInlineDefinition": false,
+                  "allowsReferences": false
+                },
+                "name": "message",
+                "layoutModel": {
+                  "password": false,
+                  "query": false,
+                  "text": false,
+                  "order": 3
+                },
+                "allowedStereotypeModels": [],
+                "isComponentId": false
+              }],
+              "exclusiveParametersModels": [],
+              "showInDsl": false
+            }
+          ],
+          "output": {
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "Void"
+            }
+          },
+          "outputAttributes": {
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "Void"
+            }
+          },
+          "supportsStreaming": false,
+          "requiresConnection": false,
+          "blocking": true,
+          "name": "isEmptyCollection",
+          "stereotype": {
+            "parent": {
+              "parent": {
+                "namespace": "MULE",
+                "type": "PROCESSOR"
+              },
+              "namespace": "MULE",
+              "type": "VALIDATOR"
+            },
+            "namespace": "VALIDATION",
+            "type": "VALIDATOR"
+          },
+          "nestedComponents": [],
+          "transactional": false,
+          "notifications": [],
+          "errors": ["VALIDATION:NOT_EMPTY_COLLECTION"]
+        },
+        {
+          "kind": "operation",
+          "executionType": "CPU_LITE",
+          "description": "Validates that the given value is false",
+          "modelProperties": {},
+          "parameterGroupModels": [
+            {
+              "name": "General",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 1
+              },
+              "description": "",
+              "modelProperties": {},
+              "parameters": [
+                {
+                  "role": "BEHAVIOUR",
+                  "defaultValue": "false",
+                  "description": "the boolean to test",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "annotations": {"typeId": "boolean"},
+                    "type": "Boolean"
+                  },
+                  "required": false,
+                  "expressionSupport": "SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": false
+                  },
+                  "name": "expression",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 1
+                  },
+                  "allowedStereotypeModels": [],
+                  "isComponentId": false
+                },
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "The name of the configuration to be used to execute this component",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "annotations": {"typeId": "org.mule.runtime.extension.api.runtime.config.ConfigurationProvider"},
+                    "type": "Object",
+                    "fields": []
+                  },
+                  "required": false,
+                  "expressionSupport": "NOT_SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": true
+                  },
+                  "name": "config-ref",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 2
+                  },
+                  "allowedStereotypeModels": [{
+                    "parent": {
+                      "namespace": "MULE",
+                      "type": "MODULE_CONFIG"
+                    },
+                    "namespace": "VALIDATION",
+                    "type": "CONFIG"
+                  }],
+                  "isComponentId": false
+                }
+              ],
+              "exclusiveParametersModels": [],
+              "showInDsl": false
+            },
+            {
+              "name": "Error options",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 2
+              },
+              "description": "",
+              "modelProperties": {},
+              "parameters": [{
+                "role": "BEHAVIOUR",
+                "description": "Specifies the message that is to be notified to the user if the validation fails. It's marked as not dynamic to allow eager evaluation of the expression in case that the validation is successful and the message is not needed. Components consuming this value are to manually check if this is an expression and evaluate it in case that the validation failed",
+                "modelProperties": {},
+                "type": {
+                  "format": "java",
+                  "type": "String"
+                },
+                "required": false,
+                "expressionSupport": "SUPPORTED",
+                "hasDynamicType": false,
+                "isConfigOverride": false,
+                "dslConfiguration": {
+                  "allowTopLevelDefinition": false,
+                  "allowsInlineDefinition": false,
+                  "allowsReferences": false
+                },
+                "name": "message",
+                "layoutModel": {
+                  "password": false,
+                  "query": false,
+                  "text": false,
+                  "order": 3
+                },
+                "allowedStereotypeModels": [],
+                "isComponentId": false
+              }],
+              "exclusiveParametersModels": [],
+              "showInDsl": false
+            }
+          ],
+          "output": {
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "Void"
+            }
+          },
+          "outputAttributes": {
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "Void"
+            }
+          },
+          "supportsStreaming": false,
+          "requiresConnection": false,
+          "blocking": true,
+          "name": "isFalse",
+          "stereotype": {
+            "parent": {
+              "parent": {
+                "namespace": "MULE",
+                "type": "PROCESSOR"
+              },
+              "namespace": "MULE",
+              "type": "VALIDATOR"
+            },
+            "namespace": "VALIDATION",
+            "type": "VALIDATOR"
+          },
+          "nestedComponents": [],
+          "transactional": false,
+          "notifications": [],
+          "errors": ["VALIDATION:INVALID_BOOLEAN"]
+        },
+        {
+          "displayModel": {"displayName": "Is IP"},
+          "kind": "operation",
+          "executionType": "CPU_LITE",
+          "description": "Validates that an ip address represented as a String is valid",
+          "modelProperties": {},
+          "parameterGroupModels": [
+            {
+              "name": "General",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 1
+              },
+              "description": "",
+              "modelProperties": {},
+              "parameters": [
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "the ip address to validate",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "type": "String"
+                  },
+                  "required": true,
+                  "expressionSupport": "SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": false
+                  },
+                  "name": "ip",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 1
+                  },
+                  "allowedStereotypeModels": [],
+                  "isComponentId": false
+                },
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "The name of the configuration to be used to execute this component",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "annotations": {"typeId": "org.mule.runtime.extension.api.runtime.config.ConfigurationProvider"},
+                    "type": "Object",
+                    "fields": []
+                  },
+                  "required": false,
+                  "expressionSupport": "NOT_SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": true
+                  },
+                  "name": "config-ref",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 2
+                  },
+                  "allowedStereotypeModels": [{
+                    "parent": {
+                      "namespace": "MULE",
+                      "type": "MODULE_CONFIG"
+                    },
+                    "namespace": "VALIDATION",
+                    "type": "CONFIG"
+                  }],
+                  "isComponentId": false
+                }
+              ],
+              "exclusiveParametersModels": [],
+              "showInDsl": false
+            },
+            {
+              "name": "Error options",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 2
+              },
+              "description": "",
+              "modelProperties": {},
+              "parameters": [{
+                "role": "BEHAVIOUR",
+                "description": "Specifies the message that is to be notified to the user if the validation fails. It's marked as not dynamic to allow eager evaluation of the expression in case that the validation is successful and the message is not needed. Components consuming this value are to manually check if this is an expression and evaluate it in case that the validation failed",
+                "modelProperties": {},
+                "type": {
+                  "format": "java",
+                  "type": "String"
+                },
+                "required": false,
+                "expressionSupport": "SUPPORTED",
+                "hasDynamicType": false,
+                "isConfigOverride": false,
+                "dslConfiguration": {
+                  "allowTopLevelDefinition": false,
+                  "allowsInlineDefinition": false,
+                  "allowsReferences": false
+                },
+                "name": "message",
+                "layoutModel": {
+                  "password": false,
+                  "query": false,
+                  "text": false,
+                  "order": 3
+                },
+                "allowedStereotypeModels": [],
+                "isComponentId": false
+              }],
+              "exclusiveParametersModels": [],
+              "showInDsl": false
+            }
+          ],
+          "output": {
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "Void"
+            }
+          },
+          "outputAttributes": {
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "Void"
+            }
+          },
+          "supportsStreaming": false,
+          "requiresConnection": false,
+          "blocking": true,
+          "name": "isIp",
+          "stereotype": {
+            "parent": {
+              "parent": {
+                "namespace": "MULE",
+                "type": "PROCESSOR"
+              },
+              "namespace": "MULE",
+              "type": "VALIDATOR"
+            },
+            "namespace": "VALIDATION",
+            "type": "VALIDATOR"
+          },
+          "nestedComponents": [],
+          "transactional": false,
+          "notifications": [],
+          "errors": ["VALIDATION:INVALID_IP"]
+        },
+        {
+          "kind": "operation",
+          "executionType": "CPU_LITE",
+          "description": "Validates that a ipAddress is not present in the ipList.",
+          "modelProperties": {},
+          "parameterGroupModels": [
+            {
+              "name": "General",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 1
+              },
+              "description": "",
+              "modelProperties": {},
+              "parameters": [
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "the address to validate",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "type": "String"
+                  },
+                  "required": true,
+                  "expressionSupport": "SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": false
+                  },
+                  "name": "ipAddress",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 1
+                  },
+                  "allowedStereotypeModels": [],
+                  "isComponentId": false
+                },
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "the list of disallowed addresses",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "type": "@ref:org.mule.extension.validation.api.IpFilterList"
+                  },
+                  "required": true,
+                  "expressionSupport": "SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": true,
+                    "allowsReferences": true
+                  },
+                  "name": "blackList",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 2
+                  },
+                  "allowedStereotypeModels": [{
+                    "namespace": "VALIDATION",
+                    "type": "IP_FILTER_LIST"
+                  }],
+                  "isComponentId": false
+                },
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "The name of the configuration to be used to execute this component",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "annotations": {"typeId": "org.mule.runtime.extension.api.runtime.config.ConfigurationProvider"},
+                    "type": "Object",
+                    "fields": []
+                  },
+                  "required": false,
+                  "expressionSupport": "NOT_SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": true
+                  },
+                  "name": "config-ref",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 3
+                  },
+                  "allowedStereotypeModels": [{
+                    "parent": {
+                      "namespace": "MULE",
+                      "type": "MODULE_CONFIG"
+                    },
+                    "namespace": "VALIDATION",
+                    "type": "CONFIG"
+                  }],
+                  "isComponentId": false
+                }
+              ],
+              "exclusiveParametersModels": [],
+              "showInDsl": false
+            },
+            {
+              "name": "Error options",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 2
+              },
+              "description": "",
+              "modelProperties": {},
+              "parameters": [{
+                "role": "BEHAVIOUR",
+                "description": "Specifies the message that is to be notified to the user if the validation fails. It's marked as not dynamic to allow eager evaluation of the expression in case that the validation is successful and the message is not needed. Components consuming this value are to manually check if this is an expression and evaluate it in case that the validation failed",
+                "modelProperties": {},
+                "type": {
+                  "format": "java",
+                  "type": "String"
+                },
+                "required": false,
+                "expressionSupport": "SUPPORTED",
+                "hasDynamicType": false,
+                "isConfigOverride": false,
+                "dslConfiguration": {
+                  "allowTopLevelDefinition": false,
+                  "allowsInlineDefinition": false,
+                  "allowsReferences": false
+                },
+                "name": "message",
+                "layoutModel": {
+                  "password": false,
+                  "query": false,
+                  "text": false,
+                  "order": 4
+                },
+                "allowedStereotypeModels": [],
+                "isComponentId": false
+              }],
+              "exclusiveParametersModels": [],
+              "showInDsl": false
+            }
+          ],
+          "output": {
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "Void"
+            }
+          },
+          "outputAttributes": {
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "Void"
+            }
+          },
+          "supportsStreaming": false,
+          "requiresConnection": false,
+          "blocking": true,
+          "name": "isNotBlacklistedIp",
+          "stereotype": {
+            "parent": {
+              "parent": {
+                "namespace": "MULE",
+                "type": "PROCESSOR"
+              },
+              "namespace": "MULE",
+              "type": "VALIDATOR"
+            },
+            "namespace": "VALIDATION",
+            "type": "VALIDATOR"
+          },
+          "nestedComponents": [],
+          "transactional": false,
+          "notifications": [],
+          "errors": [
+            "VALIDATION:INVALID_IP",
+            "VALIDATION:REJECTED_IP"
+          ]
+        },
+        {
+          "kind": "operation",
+          "executionType": "CPU_LITE",
+          "description": "Validates that value is not a blank String.",
+          "modelProperties": {},
+          "parameterGroupModels": [
+            {
+              "name": "General",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 1
+              },
+              "description": "",
+              "modelProperties": {},
+              "parameters": [
+                {
+                  "role": "BEHAVIOUR",
+                  "defaultValue": "#[payload]",
+                  "description": "the String to check",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "type": "String"
+                  },
+                  "required": false,
+                  "expressionSupport": "SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": false
+                  },
+                  "name": "value",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 1
+                  },
+                  "allowedStereotypeModels": [],
+                  "isComponentId": false
+                },
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "The name of the configuration to be used to execute this component",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "annotations": {"typeId": "org.mule.runtime.extension.api.runtime.config.ConfigurationProvider"},
+                    "type": "Object",
+                    "fields": []
+                  },
+                  "required": false,
+                  "expressionSupport": "NOT_SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": true
+                  },
+                  "name": "config-ref",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 2
+                  },
+                  "allowedStereotypeModels": [{
+                    "parent": {
+                      "namespace": "MULE",
+                      "type": "MODULE_CONFIG"
+                    },
+                    "namespace": "VALIDATION",
+                    "type": "CONFIG"
+                  }],
+                  "isComponentId": false
+                }
+              ],
+              "exclusiveParametersModels": [],
+              "showInDsl": false
+            },
+            {
+              "name": "Error options",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 2
+              },
+              "description": "",
+              "modelProperties": {},
+              "parameters": [{
+                "role": "BEHAVIOUR",
+                "description": "Specifies the message that is to be notified to the user if the validation fails. It's marked as not dynamic to allow eager evaluation of the expression in case that the validation is successful and the message is not needed. Components consuming this value are to manually check if this is an expression and evaluate it in case that the validation failed",
+                "modelProperties": {},
+                "type": {
+                  "format": "java",
+                  "type": "String"
+                },
+                "required": false,
+                "expressionSupport": "SUPPORTED",
+                "hasDynamicType": false,
+                "isConfigOverride": false,
+                "dslConfiguration": {
+                  "allowTopLevelDefinition": false,
+                  "allowsInlineDefinition": false,
+                  "allowsReferences": false
+                },
+                "name": "message",
+                "layoutModel": {
+                  "password": false,
+                  "query": false,
+                  "text": false,
+                  "order": 3
+                },
+                "allowedStereotypeModels": [],
+                "isComponentId": false
+              }],
+              "exclusiveParametersModels": [],
+              "showInDsl": false
+            }
+          ],
+          "output": {
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "Void"
+            }
+          },
+          "outputAttributes": {
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "Void"
+            }
+          },
+          "supportsStreaming": false,
+          "requiresConnection": false,
+          "blocking": true,
+          "name": "isNotBlankString",
+          "stereotype": {
+            "parent": {
+              "parent": {
+                "namespace": "MULE",
+                "type": "PROCESSOR"
+              },
+              "namespace": "MULE",
+              "type": "VALIDATOR"
+            },
+            "namespace": "VALIDATION",
+            "type": "VALIDATOR"
+          },
+          "nestedComponents": [],
+          "transactional": false,
+          "notifications": [],
+          "errors": ["VALIDATION:BLANK_STRING"]
+        },
+        {
+          "kind": "operation",
+          "executionType": "CPU_LITE",
+          "description": "Validates the amount of time that has elapsed since the moment in the since parameter is greater than an specified amount of time.",
+          "modelProperties": {},
+          "parameterGroupModels": [
+            {
+              "name": "General",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 1
+              },
+              "description": "",
+              "modelProperties": {},
+              "parameters": [
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "the interval size",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "annotations": {
+                      "classInformation": {
+                        "implementedInterfaces": ["java.lang.Comparable"],
+                        "parent": "java.lang.Number",
+                        "classname": "java.lang.Long",
+                        "hasDefaultConstructor": false,
+                        "isInstantiable": false,
+                        "isFinal": true,
+                        "genericTypes": [],
+                        "isInterface": false,
+                        "isAbstract": false,
+                        "isMap": false
+                      },
+                      "int": {}
+                    },
+                    "type": "Number"
+                  },
+                  "required": true,
+                  "expressionSupport": "SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": false
+                  },
+                  "name": "time",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 1
+                  },
+                  "allowedStereotypeModels": [],
+                  "isComponentId": false
+                },
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "the interval unit (as a TimeUnit)",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "annotations": {
+                      "typeId": "java.util.concurrent.TimeUnit",
+                      "enum": {
+                        "values": [
+                          "NANOSECONDS",
+                          "MICROSECONDS",
+                          "MILLISECONDS",
+                          "SECONDS",
+                          "MINUTES",
+                          "HOURS",
+                          "DAYS"
+                        ],
+                        "type": "[Ljava.lang.String;"
+                      }
+                    },
+                    "type": "String"
+                  },
+                  "required": true,
+                  "expressionSupport": "SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": false
+                  },
+                  "name": "timeUnit",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 2
+                  },
+                  "allowedStereotypeModels": [],
+                  "isComponentId": false
+                },
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "the time to validate",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "annotations": {"typeId": "java.time.LocalDateTime"},
+                    "type": "DateTime"
+                  },
+                  "required": true,
+                  "expressionSupport": "SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": false
+                  },
+                  "name": "since",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 3
+                  },
+                  "allowedStereotypeModels": [],
+                  "isComponentId": false
+                },
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "The name of the configuration to be used to execute this component",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "annotations": {"typeId": "org.mule.runtime.extension.api.runtime.config.ConfigurationProvider"},
+                    "type": "Object",
+                    "fields": []
+                  },
+                  "required": false,
+                  "expressionSupport": "NOT_SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": true
+                  },
+                  "name": "config-ref",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 4
+                  },
+                  "allowedStereotypeModels": [{
+                    "parent": {
+                      "namespace": "MULE",
+                      "type": "MODULE_CONFIG"
+                    },
+                    "namespace": "VALIDATION",
+                    "type": "CONFIG"
+                  }],
+                  "isComponentId": false
+                }
+              ],
+              "exclusiveParametersModels": [],
+              "showInDsl": false
+            },
+            {
+              "name": "Error options",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 2
+              },
+              "description": "",
+              "modelProperties": {},
+              "parameters": [{
+                "role": "BEHAVIOUR",
+                "description": "Specifies the message that is to be notified to the user if the validation fails. It's marked as not dynamic to allow eager evaluation of the expression in case that the validation is successful and the message is not needed. Components consuming this value are to manually check if this is an expression and evaluate it in case that the validation failed",
+                "modelProperties": {},
+                "type": {
+                  "format": "java",
+                  "type": "String"
+                },
+                "required": false,
+                "expressionSupport": "SUPPORTED",
+                "hasDynamicType": false,
+                "isConfigOverride": false,
+                "dslConfiguration": {
+                  "allowTopLevelDefinition": false,
+                  "allowsInlineDefinition": false,
+                  "allowsReferences": false
+                },
+                "name": "message",
+                "layoutModel": {
+                  "password": false,
+                  "query": false,
+                  "text": false,
+                  "order": 5
+                },
+                "allowedStereotypeModels": [],
+                "isComponentId": false
+              }],
+              "exclusiveParametersModels": [],
+              "showInDsl": false
+            }
+          ],
+          "output": {
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "Void"
+            }
+          },
+          "outputAttributes": {
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "Void"
+            }
+          },
+          "supportsStreaming": false,
+          "requiresConnection": false,
+          "blocking": true,
+          "name": "isNotElapsed",
+          "stereotype": {
+            "parent": {
+              "parent": {
+                "namespace": "MULE",
+                "type": "PROCESSOR"
+              },
+              "namespace": "MULE",
+              "type": "VALIDATOR"
+            },
+            "namespace": "VALIDATION",
+            "type": "VALIDATOR"
+          },
+          "nestedComponents": [],
+          "transactional": false,
+          "notifications": [],
+          "errors": ["VALIDATION:ELAPSED_TIME"]
+        },
+        {
+          "kind": "operation",
+          "executionType": "CPU_LITE",
+          "description": "Validates that value is not an empty collection.",
+          "modelProperties": {},
+          "parameterGroupModels": [
+            {
+              "name": "General",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 1
+              },
+              "description": "",
+              "modelProperties": {},
+              "parameters": [
+                {
+                  "role": "BEHAVIOUR",
+                  "defaultValue": "#[payload]",
+                  "description": "the value to check",
+                  "modelProperties": {},
+                  "type": {
+                    "item": {
+                      "annotations": {
+                        "classInformation": {
+                          "implementedInterfaces": [],
+                          "parent": "",
+                          "classname": "java.lang.Object",
+                          "hasDefaultConstructor": true,
+                          "isInstantiable": true,
+                          "isFinal": false,
+                          "genericTypes": [],
+                          "isInterface": false,
+                          "isAbstract": false,
+                          "isMap": false
+                        },
+                        "typeId": "java.lang.Object",
+                        "typeAlias": {"value": "Object"}
+                      },
+                      "type": "Object",
+                      "fields": []
+                    },
+                    "format": "java",
+                    "annotations": {"classInformation": {
+                      "implementedInterfaces": ["java.lang.Iterable"],
+                      "parent": "",
+                      "classname": "java.util.Collection",
+                      "hasDefaultConstructor": false,
+                      "isInstantiable": false,
+                      "isFinal": false,
+                      "genericTypes": ["java.lang.Object"],
+                      "isInterface": true,
+                      "isAbstract": true,
+                      "isMap": false
+                    }},
+                    "type": "Array"
+                  },
+                  "required": false,
+                  "expressionSupport": "SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": true
+                  },
+                  "name": "values",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 1
+                  },
+                  "allowedStereotypeModels": [],
+                  "isComponentId": false
+                },
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "The name of the configuration to be used to execute this component",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "annotations": {"typeId": "org.mule.runtime.extension.api.runtime.config.ConfigurationProvider"},
+                    "type": "Object",
+                    "fields": []
+                  },
+                  "required": false,
+                  "expressionSupport": "NOT_SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": true
+                  },
+                  "name": "config-ref",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 2
+                  },
+                  "allowedStereotypeModels": [{
+                    "parent": {
+                      "namespace": "MULE",
+                      "type": "MODULE_CONFIG"
+                    },
+                    "namespace": "VALIDATION",
+                    "type": "CONFIG"
+                  }],
+                  "isComponentId": false
+                }
+              ],
+              "exclusiveParametersModels": [],
+              "showInDsl": false
+            },
+            {
+              "name": "Error options",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 2
+              },
+              "description": "",
+              "modelProperties": {},
+              "parameters": [{
+                "role": "BEHAVIOUR",
+                "description": "Specifies the message that is to be notified to the user if the validation fails. It's marked as not dynamic to allow eager evaluation of the expression in case that the validation is successful and the message is not needed. Components consuming this value are to manually check if this is an expression and evaluate it in case that the validation failed",
+                "modelProperties": {},
+                "type": {
+                  "format": "java",
+                  "type": "String"
+                },
+                "required": false,
+                "expressionSupport": "SUPPORTED",
+                "hasDynamicType": false,
+                "isConfigOverride": false,
+                "dslConfiguration": {
+                  "allowTopLevelDefinition": false,
+                  "allowsInlineDefinition": false,
+                  "allowsReferences": false
+                },
+                "name": "message",
+                "layoutModel": {
+                  "password": false,
+                  "query": false,
+                  "text": false,
+                  "order": 3
+                },
+                "allowedStereotypeModels": [],
+                "isComponentId": false
+              }],
+              "exclusiveParametersModels": [],
+              "showInDsl": false
+            }
+          ],
+          "output": {
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "Void"
+            }
+          },
+          "outputAttributes": {
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "Void"
+            }
+          },
+          "supportsStreaming": false,
+          "requiresConnection": false,
+          "blocking": true,
+          "name": "isNotEmptyCollection",
+          "stereotype": {
+            "parent": {
+              "parent": {
+                "namespace": "MULE",
+                "type": "PROCESSOR"
+              },
+              "namespace": "MULE",
+              "type": "VALIDATOR"
+            },
+            "namespace": "VALIDATION",
+            "type": "VALIDATOR"
+          },
+          "nestedComponents": [],
+          "transactional": false,
+          "notifications": [],
+          "errors": ["VALIDATION:EMPTY_COLLECTION"]
+        },
+        {
+          "kind": "operation",
+          "executionType": "CPU_LITE",
+          "description": "Validates that the given value is not null. Keep in mind that the definition of null may vary depending on the value's mimeType. For example, for an application/java mimeType, null means a blank pointer. However, is the mimeType is application/json then the String &quot;null&quot; is also a null value.",
+          "modelProperties": {},
+          "parameterGroupModels": [
+            {
+              "name": "General",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 1
+              },
+              "description": "",
+              "modelProperties": {},
+              "parameters": [
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "the value to test",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "annotations": {
+                      "classInformation": {
+                        "implementedInterfaces": [],
+                        "parent": "",
+                        "classname": "java.lang.Object",
+                        "hasDefaultConstructor": true,
+                        "isInstantiable": true,
+                        "isFinal": false,
+                        "genericTypes": [],
+                        "isInterface": false,
+                        "isAbstract": false,
+                        "isMap": false
+                      },
+                      "typeId": "java.lang.Object",
+                      "typeAlias": {"value": "Object"}
+                    },
+                    "type": "Object",
+                    "fields": []
+                  },
+                  "required": true,
+                  "expressionSupport": "SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": true
+                  },
+                  "name": "value",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 1
+                  },
+                  "allowedStereotypeModels": [],
+                  "isComponentId": false
+                },
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "The name of the configuration to be used to execute this component",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "annotations": {"typeId": "org.mule.runtime.extension.api.runtime.config.ConfigurationProvider"},
+                    "type": "Object",
+                    "fields": []
+                  },
+                  "required": false,
+                  "expressionSupport": "NOT_SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": true
+                  },
+                  "name": "config-ref",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 2
+                  },
+                  "allowedStereotypeModels": [{
+                    "parent": {
+                      "namespace": "MULE",
+                      "type": "MODULE_CONFIG"
+                    },
+                    "namespace": "VALIDATION",
+                    "type": "CONFIG"
+                  }],
+                  "isComponentId": false
+                }
+              ],
+              "exclusiveParametersModels": [],
+              "showInDsl": false
+            },
+            {
+              "name": "Error options",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 2
+              },
+              "description": "",
+              "modelProperties": {},
+              "parameters": [{
+                "role": "BEHAVIOUR",
+                "description": "Specifies the message that is to be notified to the user if the validation fails. It's marked as not dynamic to allow eager evaluation of the expression in case that the validation is successful and the message is not needed. Components consuming this value are to manually check if this is an expression and evaluate it in case that the validation failed",
+                "modelProperties": {},
+                "type": {
+                  "format": "java",
+                  "type": "String"
+                },
+                "required": false,
+                "expressionSupport": "SUPPORTED",
+                "hasDynamicType": false,
+                "isConfigOverride": false,
+                "dslConfiguration": {
+                  "allowTopLevelDefinition": false,
+                  "allowsInlineDefinition": false,
+                  "allowsReferences": false
+                },
+                "name": "message",
+                "layoutModel": {
+                  "password": false,
+                  "query": false,
+                  "text": false,
+                  "order": 3
+                },
+                "allowedStereotypeModels": [],
+                "isComponentId": false
+              }],
+              "exclusiveParametersModels": [],
+              "showInDsl": false
+            }
+          ],
+          "output": {
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "Void"
+            }
+          },
+          "outputAttributes": {
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "Void"
+            }
+          },
+          "supportsStreaming": false,
+          "requiresConnection": false,
+          "blocking": true,
+          "name": "isNotNull",
+          "stereotype": {
+            "parent": {
+              "parent": {
+                "namespace": "MULE",
+                "type": "PROCESSOR"
+              },
+              "namespace": "MULE",
+              "type": "VALIDATOR"
+            },
+            "namespace": "VALIDATION",
+            "type": "VALIDATOR"
+          },
+          "nestedComponents": [],
+          "transactional": false,
+          "notifications": [],
+          "errors": ["VALIDATION:NULL"]
+        },
+        {
+          "kind": "operation",
+          "executionType": "CPU_LITE",
+          "description": "Validates that the given value is null. Keep in mind that the definition of null may vary depending on the value's mimeType. For example, for an application/java mimeType, null means a blank pointer. However, is the mimeType is application/json then the String &quot;null&quot; is also a null value.",
+          "modelProperties": {},
+          "parameterGroupModels": [
+            {
+              "name": "General",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 1
+              },
+              "description": "",
+              "modelProperties": {},
+              "parameters": [
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "the value to test",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "annotations": {
+                      "classInformation": {
+                        "implementedInterfaces": [],
+                        "parent": "",
+                        "classname": "java.lang.Object",
+                        "hasDefaultConstructor": true,
+                        "isInstantiable": true,
+                        "isFinal": false,
+                        "genericTypes": [],
+                        "isInterface": false,
+                        "isAbstract": false,
+                        "isMap": false
+                      },
+                      "typeId": "java.lang.Object",
+                      "typeAlias": {"value": "Object"}
+                    },
+                    "type": "Object",
+                    "fields": []
+                  },
+                  "required": true,
+                  "expressionSupport": "SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": true
+                  },
+                  "name": "value",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 1
+                  },
+                  "allowedStereotypeModels": [],
+                  "isComponentId": false
+                },
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "The name of the configuration to be used to execute this component",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "annotations": {"typeId": "org.mule.runtime.extension.api.runtime.config.ConfigurationProvider"},
+                    "type": "Object",
+                    "fields": []
+                  },
+                  "required": false,
+                  "expressionSupport": "NOT_SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": true
+                  },
+                  "name": "config-ref",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 2
+                  },
+                  "allowedStereotypeModels": [{
+                    "parent": {
+                      "namespace": "MULE",
+                      "type": "MODULE_CONFIG"
+                    },
+                    "namespace": "VALIDATION",
+                    "type": "CONFIG"
+                  }],
+                  "isComponentId": false
+                }
+              ],
+              "exclusiveParametersModels": [],
+              "showInDsl": false
+            },
+            {
+              "name": "Error options",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 2
+              },
+              "description": "",
+              "modelProperties": {},
+              "parameters": [{
+                "role": "BEHAVIOUR",
+                "description": "Specifies the message that is to be notified to the user if the validation fails. It's marked as not dynamic to allow eager evaluation of the expression in case that the validation is successful and the message is not needed. Components consuming this value are to manually check if this is an expression and evaluate it in case that the validation failed",
+                "modelProperties": {},
+                "type": {
+                  "format": "java",
+                  "type": "String"
+                },
+                "required": false,
+                "expressionSupport": "SUPPORTED",
+                "hasDynamicType": false,
+                "isConfigOverride": false,
+                "dslConfiguration": {
+                  "allowTopLevelDefinition": false,
+                  "allowsInlineDefinition": false,
+                  "allowsReferences": false
+                },
+                "name": "message",
+                "layoutModel": {
+                  "password": false,
+                  "query": false,
+                  "text": false,
+                  "order": 3
+                },
+                "allowedStereotypeModels": [],
+                "isComponentId": false
+              }],
+              "exclusiveParametersModels": [],
+              "showInDsl": false
+            }
+          ],
+          "output": {
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "Void"
+            }
+          },
+          "outputAttributes": {
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "Void"
+            }
+          },
+          "supportsStreaming": false,
+          "requiresConnection": false,
+          "blocking": true,
+          "name": "isNull",
+          "stereotype": {
+            "parent": {
+              "parent": {
+                "namespace": "MULE",
+                "type": "PROCESSOR"
+              },
+              "namespace": "MULE",
+              "type": "VALIDATOR"
+            },
+            "namespace": "VALIDATION",
+            "type": "VALIDATOR"
+          },
+          "nestedComponents": [],
+          "transactional": false,
+          "notifications": [],
+          "errors": ["VALIDATION:NOT_NULL"]
+        },
+        {
+          "kind": "operation",
+          "executionType": "CPU_LITE",
+          "description": "Receives a numeric value as a String and validates that it can be parsed per the rules of a numberType",
+          "modelProperties": {},
+          "parameterGroupModels": [
+            {
+              "name": "General",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 1
+              },
+              "description": "",
+              "modelProperties": {},
+              "parameters": [
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "the value to be tested",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "type": "String"
+                  },
+                  "required": true,
+                  "expressionSupport": "SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": false
+                  },
+                  "name": "value",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 1
+                  },
+                  "allowedStereotypeModels": [],
+                  "isComponentId": false
+                },
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "The locale to use for the format. If not provided it defaults to the system Locale",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "type": "String"
+                  },
+                  "required": false,
+                  "expressionSupport": "SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": false
+                  },
+                  "name": "locale",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 2
+                  },
+                  "allowedStereotypeModels": [],
+                  "isComponentId": false
+                },
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "The pattern used to format the value",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "type": "String"
+                  },
+                  "required": false,
+                  "expressionSupport": "SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": false
+                  },
+                  "name": "pattern",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 3
+                  },
+                  "allowedStereotypeModels": [],
+                  "isComponentId": false
+                },
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "If provided, check that the parsed value is greater or equal than this value",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "type": "String"
+                  },
+                  "required": false,
+                  "expressionSupport": "SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": false
+                  },
+                  "name": "minValue",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 4
+                  },
+                  "allowedStereotypeModels": [],
+                  "isComponentId": false
+                },
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "If provided, check that the parsed value is less or equal than this value",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "type": "String"
+                  },
+                  "required": false,
+                  "expressionSupport": "SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": false
+                  },
+                  "name": "maxValue",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 5
+                  },
+                  "allowedStereotypeModels": [],
+                  "isComponentId": false
+                },
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "the type of number to test value against",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "annotations": {
+                      "typeId": "org.mule.extension.validation.api.NumberType",
+                      "enum": {
+                        "values": [
+                          "INTEGER",
+                          "LONG",
+                          "SHORT",
+                          "DOUBLE",
+                          "FLOAT"
+                        ],
+                        "type": "[Ljava.lang.String;"
+                      }
+                    },
+                    "type": "String"
+                  },
+                  "required": true,
+                  "expressionSupport": "SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": false
+                  },
+                  "name": "numberType",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 6
+                  },
+                  "allowedStereotypeModels": [],
+                  "isComponentId": false
+                },
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "The name of the configuration to be used to execute this component",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "annotations": {"typeId": "org.mule.runtime.extension.api.runtime.config.ConfigurationProvider"},
+                    "type": "Object",
+                    "fields": []
+                  },
+                  "required": false,
+                  "expressionSupport": "NOT_SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": true
+                  },
+                  "name": "config-ref",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 7
+                  },
+                  "allowedStereotypeModels": [{
+                    "parent": {
+                      "namespace": "MULE",
+                      "type": "MODULE_CONFIG"
+                    },
+                    "namespace": "VALIDATION",
+                    "type": "CONFIG"
+                  }],
+                  "isComponentId": false
+                }
+              ],
+              "exclusiveParametersModels": [],
+              "showInDsl": false
+            },
+            {
+              "name": "Error options",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 2
+              },
+              "description": "",
+              "modelProperties": {},
+              "parameters": [{
+                "role": "BEHAVIOUR",
+                "description": "Specifies the message that is to be notified to the user if the validation fails. It's marked as not dynamic to allow eager evaluation of the expression in case that the validation is successful and the message is not needed. Components consuming this value are to manually check if this is an expression and evaluate it in case that the validation failed",
+                "modelProperties": {},
+                "type": {
+                  "format": "java",
+                  "type": "String"
+                },
+                "required": false,
+                "expressionSupport": "SUPPORTED",
+                "hasDynamicType": false,
+                "isConfigOverride": false,
+                "dslConfiguration": {
+                  "allowTopLevelDefinition": false,
+                  "allowsInlineDefinition": false,
+                  "allowsReferences": false
+                },
+                "name": "message",
+                "layoutModel": {
+                  "password": false,
+                  "query": false,
+                  "text": false,
+                  "order": 8
+                },
+                "allowedStereotypeModels": [],
+                "isComponentId": false
+              }],
+              "exclusiveParametersModels": [],
+              "showInDsl": false
+            }
+          ],
+          "output": {
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "Void"
+            }
+          },
+          "outputAttributes": {
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "Void"
+            }
+          },
+          "supportsStreaming": false,
+          "requiresConnection": false,
+          "blocking": true,
+          "name": "isNumber",
+          "stereotype": {
+            "parent": {
+              "parent": {
+                "namespace": "MULE",
+                "type": "PROCESSOR"
+              },
+              "namespace": "MULE",
+              "type": "VALIDATOR"
+            },
+            "namespace": "VALIDATION",
+            "type": "VALIDATOR"
+          },
+          "nestedComponents": [],
+          "transactional": false,
+          "notifications": [],
+          "errors": ["VALIDATION:INVALID_NUMBER"]
+        },
+        {
+          "kind": "operation",
+          "executionType": "CPU_LITE",
+          "description": "Validates that a time in String format is valid for the given pattern and locale. If no pattern is provided, then the locale's default will be used",
+          "modelProperties": {},
+          "parameterGroupModels": [
+            {
+              "name": "General",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 1
+              },
+              "description": "",
+              "modelProperties": {},
+              "parameters": [
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "A date in String format",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "type": "String"
+                  },
+                  "required": true,
+                  "expressionSupport": "SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": false
+                  },
+                  "name": "time",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 1
+                  },
+                  "allowedStereotypeModels": [],
+                  "isComponentId": false
+                },
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "the locale of the String",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "type": "String"
+                  },
+                  "required": false,
+                  "expressionSupport": "SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": false
+                  },
+                  "name": "locale",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 2
+                  },
+                  "allowedStereotypeModels": [],
+                  "isComponentId": false
+                },
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "the pattern for the date",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "type": "String"
+                  },
+                  "required": false,
+                  "expressionSupport": "SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": false
+                  },
+                  "name": "pattern",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 3
+                  },
+                  "allowedStereotypeModels": [],
+                  "isComponentId": false
+                },
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "The name of the configuration to be used to execute this component",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "annotations": {"typeId": "org.mule.runtime.extension.api.runtime.config.ConfigurationProvider"},
+                    "type": "Object",
+                    "fields": []
+                  },
+                  "required": false,
+                  "expressionSupport": "NOT_SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": true
+                  },
+                  "name": "config-ref",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 4
+                  },
+                  "allowedStereotypeModels": [{
+                    "parent": {
+                      "namespace": "MULE",
+                      "type": "MODULE_CONFIG"
+                    },
+                    "namespace": "VALIDATION",
+                    "type": "CONFIG"
+                  }],
+                  "isComponentId": false
+                }
+              ],
+              "exclusiveParametersModels": [],
+              "showInDsl": false
+            },
+            {
+              "name": "Error options",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 2
+              },
+              "description": "",
+              "modelProperties": {},
+              "parameters": [{
+                "role": "BEHAVIOUR",
+                "description": "Specifies the message that is to be notified to the user if the validation fails. It's marked as not dynamic to allow eager evaluation of the expression in case that the validation is successful and the message is not needed. Components consuming this value are to manually check if this is an expression and evaluate it in case that the validation failed",
+                "modelProperties": {},
+                "type": {
+                  "format": "java",
+                  "type": "String"
+                },
+                "required": false,
+                "expressionSupport": "SUPPORTED",
+                "hasDynamicType": false,
+                "isConfigOverride": false,
+                "dslConfiguration": {
+                  "allowTopLevelDefinition": false,
+                  "allowsInlineDefinition": false,
+                  "allowsReferences": false
+                },
+                "name": "message",
+                "layoutModel": {
+                  "password": false,
+                  "query": false,
+                  "text": false,
+                  "order": 5
+                },
+                "allowedStereotypeModels": [],
+                "isComponentId": false
+              }],
+              "exclusiveParametersModels": [],
+              "showInDsl": false
+            }
+          ],
+          "output": {
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "Void"
+            }
+          },
+          "outputAttributes": {
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "Void"
+            }
+          },
+          "supportsStreaming": false,
+          "requiresConnection": false,
+          "blocking": true,
+          "name": "isTime",
+          "stereotype": {
+            "parent": {
+              "parent": {
+                "namespace": "MULE",
+                "type": "PROCESSOR"
+              },
+              "namespace": "MULE",
+              "type": "VALIDATOR"
+            },
+            "namespace": "VALIDATION",
+            "type": "VALIDATOR"
+          },
+          "nestedComponents": [],
+          "transactional": false,
+          "notifications": [],
+          "errors": ["VALIDATION:INVALID_TIME"]
+        },
+        {
+          "kind": "operation",
+          "executionType": "CPU_LITE",
+          "description": "Validates that the given value is true",
+          "modelProperties": {},
+          "parameterGroupModels": [
+            {
+              "name": "General",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 1
+              },
+              "description": "",
+              "modelProperties": {},
+              "parameters": [
+                {
+                  "role": "BEHAVIOUR",
+                  "defaultValue": "false",
+                  "description": "the boolean to test",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "annotations": {"typeId": "boolean"},
+                    "type": "Boolean"
+                  },
+                  "required": false,
+                  "expressionSupport": "SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": false
+                  },
+                  "name": "expression",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 1
+                  },
+                  "allowedStereotypeModels": [],
+                  "isComponentId": false
+                },
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "The name of the configuration to be used to execute this component",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "annotations": {"typeId": "org.mule.runtime.extension.api.runtime.config.ConfigurationProvider"},
+                    "type": "Object",
+                    "fields": []
+                  },
+                  "required": false,
+                  "expressionSupport": "NOT_SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": true
+                  },
+                  "name": "config-ref",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 2
+                  },
+                  "allowedStereotypeModels": [{
+                    "parent": {
+                      "namespace": "MULE",
+                      "type": "MODULE_CONFIG"
+                    },
+                    "namespace": "VALIDATION",
+                    "type": "CONFIG"
+                  }],
+                  "isComponentId": false
+                }
+              ],
+              "exclusiveParametersModels": [],
+              "showInDsl": false
+            },
+            {
+              "name": "Error options",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 2
+              },
+              "description": "",
+              "modelProperties": {},
+              "parameters": [{
+                "role": "BEHAVIOUR",
+                "description": "Specifies the message that is to be notified to the user if the validation fails. It's marked as not dynamic to allow eager evaluation of the expression in case that the validation is successful and the message is not needed. Components consuming this value are to manually check if this is an expression and evaluate it in case that the validation failed",
+                "modelProperties": {},
+                "type": {
+                  "format": "java",
+                  "type": "String"
+                },
+                "required": false,
+                "expressionSupport": "SUPPORTED",
+                "hasDynamicType": false,
+                "isConfigOverride": false,
+                "dslConfiguration": {
+                  "allowTopLevelDefinition": false,
+                  "allowsInlineDefinition": false,
+                  "allowsReferences": false
+                },
+                "name": "message",
+                "layoutModel": {
+                  "password": false,
+                  "query": false,
+                  "text": false,
+                  "order": 3
+                },
+                "allowedStereotypeModels": [],
+                "isComponentId": false
+              }],
+              "exclusiveParametersModels": [],
+              "showInDsl": false
+            }
+          ],
+          "output": {
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "Void"
+            }
+          },
+          "outputAttributes": {
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "Void"
+            }
+          },
+          "supportsStreaming": false,
+          "requiresConnection": false,
+          "blocking": true,
+          "name": "isTrue",
+          "stereotype": {
+            "parent": {
+              "parent": {
+                "namespace": "MULE",
+                "type": "PROCESSOR"
+              },
+              "namespace": "MULE",
+              "type": "VALIDATOR"
+            },
+            "namespace": "VALIDATION",
+            "type": "VALIDATOR"
+          },
+          "nestedComponents": [],
+          "transactional": false,
+          "notifications": [],
+          "errors": ["VALIDATION:INVALID_BOOLEAN"]
+        },
+        {
+          "displayModel": {"displayName": "Is URL"},
+          "kind": "operation",
+          "executionType": "CPU_LITE",
+          "description": "Validates that url is a valid one",
+          "modelProperties": {},
+          "parameterGroupModels": [
+            {
+              "name": "General",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 1
+              },
+              "description": "",
+              "modelProperties": {},
+              "parameters": [
+                {
+                  "displayModel": {"displayName": "URL"},
+                  "role": "BEHAVIOUR",
+                  "description": "the URL to validate as a String",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "type": "String"
+                  },
+                  "required": true,
+                  "expressionSupport": "SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": false
+                  },
+                  "name": "url",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 1
+                  },
+                  "allowedStereotypeModels": [],
+                  "isComponentId": false
+                },
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "The name of the configuration to be used to execute this component",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "annotations": {"typeId": "org.mule.runtime.extension.api.runtime.config.ConfigurationProvider"},
+                    "type": "Object",
+                    "fields": []
+                  },
+                  "required": false,
+                  "expressionSupport": "NOT_SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": true
+                  },
+                  "name": "config-ref",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 2
+                  },
+                  "allowedStereotypeModels": [{
+                    "parent": {
+                      "namespace": "MULE",
+                      "type": "MODULE_CONFIG"
+                    },
+                    "namespace": "VALIDATION",
+                    "type": "CONFIG"
+                  }],
+                  "isComponentId": false
+                }
+              ],
+              "exclusiveParametersModels": [],
+              "showInDsl": false
+            },
+            {
+              "name": "Error options",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 2
+              },
+              "description": "",
+              "modelProperties": {},
+              "parameters": [{
+                "role": "BEHAVIOUR",
+                "description": "Specifies the message that is to be notified to the user if the validation fails. It's marked as not dynamic to allow eager evaluation of the expression in case that the validation is successful and the message is not needed. Components consuming this value are to manually check if this is an expression and evaluate it in case that the validation failed",
+                "modelProperties": {},
+                "type": {
+                  "format": "java",
+                  "type": "String"
+                },
+                "required": false,
+                "expressionSupport": "SUPPORTED",
+                "hasDynamicType": false,
+                "isConfigOverride": false,
+                "dslConfiguration": {
+                  "allowTopLevelDefinition": false,
+                  "allowsInlineDefinition": false,
+                  "allowsReferences": false
+                },
+                "name": "message",
+                "layoutModel": {
+                  "password": false,
+                  "query": false,
+                  "text": false,
+                  "order": 3
+                },
+                "allowedStereotypeModels": [],
+                "isComponentId": false
+              }],
+              "exclusiveParametersModels": [],
+              "showInDsl": false
+            }
+          ],
+          "output": {
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "Void"
+            }
+          },
+          "outputAttributes": {
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "Void"
+            }
+          },
+          "supportsStreaming": false,
+          "requiresConnection": false,
+          "blocking": true,
+          "name": "isUrl",
+          "stereotype": {
+            "parent": {
+              "parent": {
+                "namespace": "MULE",
+                "type": "PROCESSOR"
+              },
+              "namespace": "MULE",
+              "type": "VALIDATOR"
+            },
+            "namespace": "VALIDATION",
+            "type": "VALIDATOR"
+          },
+          "nestedComponents": [],
+          "transactional": false,
+          "notifications": [],
+          "errors": ["VALIDATION:INVALID_URL"]
+        },
+        {
+          "kind": "operation",
+          "executionType": "CPU_LITE",
+          "description": "Validates that a ipAddress is present in the ipList.",
+          "modelProperties": {},
+          "parameterGroupModels": [
+            {
+              "name": "General",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 1
+              },
+              "description": "",
+              "modelProperties": {},
+              "parameters": [
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "the address to validate",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "type": "String"
+                  },
+                  "required": true,
+                  "expressionSupport": "SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": false
+                  },
+                  "name": "ipAddress",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 1
+                  },
+                  "allowedStereotypeModels": [],
+                  "isComponentId": false
+                },
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "the list of allowed addresses",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "type": "@ref:org.mule.extension.validation.api.IpFilterList"
+                  },
+                  "required": true,
+                  "expressionSupport": "SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": true,
+                    "allowsReferences": true
+                  },
+                  "name": "whiteList",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 2
+                  },
+                  "allowedStereotypeModels": [{
+                    "namespace": "VALIDATION",
+                    "type": "IP_FILTER_LIST"
+                  }],
+                  "isComponentId": false
+                },
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "The name of the configuration to be used to execute this component",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "annotations": {"typeId": "org.mule.runtime.extension.api.runtime.config.ConfigurationProvider"},
+                    "type": "Object",
+                    "fields": []
+                  },
+                  "required": false,
+                  "expressionSupport": "NOT_SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": true
+                  },
+                  "name": "config-ref",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 3
+                  },
+                  "allowedStereotypeModels": [{
+                    "parent": {
+                      "namespace": "MULE",
+                      "type": "MODULE_CONFIG"
+                    },
+                    "namespace": "VALIDATION",
+                    "type": "CONFIG"
+                  }],
+                  "isComponentId": false
+                }
+              ],
+              "exclusiveParametersModels": [],
+              "showInDsl": false
+            },
+            {
+              "name": "Error options",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 2
+              },
+              "description": "",
+              "modelProperties": {},
+              "parameters": [{
+                "role": "BEHAVIOUR",
+                "description": "Specifies the message that is to be notified to the user if the validation fails. It's marked as not dynamic to allow eager evaluation of the expression in case that the validation is successful and the message is not needed. Components consuming this value are to manually check if this is an expression and evaluate it in case that the validation failed",
+                "modelProperties": {},
+                "type": {
+                  "format": "java",
+                  "type": "String"
+                },
+                "required": false,
+                "expressionSupport": "SUPPORTED",
+                "hasDynamicType": false,
+                "isConfigOverride": false,
+                "dslConfiguration": {
+                  "allowTopLevelDefinition": false,
+                  "allowsInlineDefinition": false,
+                  "allowsReferences": false
+                },
+                "name": "message",
+                "layoutModel": {
+                  "password": false,
+                  "query": false,
+                  "text": false,
+                  "order": 4
+                },
+                "allowedStereotypeModels": [],
+                "isComponentId": false
+              }],
+              "exclusiveParametersModels": [],
+              "showInDsl": false
+            }
+          ],
+          "output": {
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "Void"
+            }
+          },
+          "outputAttributes": {
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "Void"
+            }
+          },
+          "supportsStreaming": false,
+          "requiresConnection": false,
+          "blocking": true,
+          "name": "isWhitelistedIp",
+          "stereotype": {
+            "parent": {
+              "parent": {
+                "namespace": "MULE",
+                "type": "PROCESSOR"
+              },
+              "namespace": "MULE",
+              "type": "VALIDATOR"
+            },
+            "namespace": "VALIDATION",
+            "type": "VALIDATOR"
+          },
+          "nestedComponents": [],
+          "transactional": false,
+          "notifications": [],
+          "errors": [
+            "VALIDATION:INVALID_IP",
+            "VALIDATION:REJECTED_IP"
+          ]
+        },
+        {
+          "kind": "operation",
+          "executionType": "CPU_LITE",
+          "description": "Validates that value matches the regex regular expression",
+          "modelProperties": {},
+          "parameterGroupModels": [
+            {
+              "name": "General",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 1
+              },
+              "description": "",
+              "modelProperties": {},
+              "parameters": [
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "the value to check",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "type": "String"
+                  },
+                  "required": true,
+                  "expressionSupport": "SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": false
+                  },
+                  "name": "value",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 1
+                  },
+                  "allowedStereotypeModels": [],
+                  "isComponentId": false
+                },
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "the regular expression to check against",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "type": "String"
+                  },
+                  "required": true,
+                  "expressionSupport": "SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": false
+                  },
+                  "name": "regex",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 2
+                  },
+                  "allowedStereotypeModels": [],
+                  "isComponentId": false
+                },
+                {
+                  "role": "BEHAVIOUR",
+                  "defaultValue": "true",
+                  "description": "when true matching is case sensitive, otherwise matching is case in-sensitive",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "annotations": {"typeId": "boolean"},
+                    "type": "Boolean"
+                  },
+                  "required": false,
+                  "expressionSupport": "SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": false
+                  },
+                  "name": "caseSensitive",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 3
+                  },
+                  "allowedStereotypeModels": [],
+                  "isComponentId": false
+                },
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "The name of the configuration to be used to execute this component",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "annotations": {"typeId": "org.mule.runtime.extension.api.runtime.config.ConfigurationProvider"},
+                    "type": "Object",
+                    "fields": []
+                  },
+                  "required": false,
+                  "expressionSupport": "NOT_SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": true
+                  },
+                  "name": "config-ref",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 4
+                  },
+                  "allowedStereotypeModels": [{
+                    "parent": {
+                      "namespace": "MULE",
+                      "type": "MODULE_CONFIG"
+                    },
+                    "namespace": "VALIDATION",
+                    "type": "CONFIG"
+                  }],
+                  "isComponentId": false
+                }
+              ],
+              "exclusiveParametersModels": [],
+              "showInDsl": false
+            },
+            {
+              "name": "Error options",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 2
+              },
+              "description": "",
+              "modelProperties": {},
+              "parameters": [{
+                "role": "BEHAVIOUR",
+                "description": "Specifies the message that is to be notified to the user if the validation fails. It's marked as not dynamic to allow eager evaluation of the expression in case that the validation is successful and the message is not needed. Components consuming this value are to manually check if this is an expression and evaluate it in case that the validation failed",
+                "modelProperties": {},
+                "type": {
+                  "format": "java",
+                  "type": "String"
+                },
+                "required": false,
+                "expressionSupport": "SUPPORTED",
+                "hasDynamicType": false,
+                "isConfigOverride": false,
+                "dslConfiguration": {
+                  "allowTopLevelDefinition": false,
+                  "allowsInlineDefinition": false,
+                  "allowsReferences": false
+                },
+                "name": "message",
+                "layoutModel": {
+                  "password": false,
+                  "query": false,
+                  "text": false,
+                  "order": 5
+                },
+                "allowedStereotypeModels": [],
+                "isComponentId": false
+              }],
+              "exclusiveParametersModels": [],
+              "showInDsl": false
+            }
+          ],
+          "output": {
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "Void"
+            }
+          },
+          "outputAttributes": {
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "Void"
+            }
+          },
+          "supportsStreaming": false,
+          "requiresConnection": false,
+          "blocking": true,
+          "name": "matchesRegex",
+          "stereotype": {
+            "parent": {
+              "parent": {
+                "namespace": "MULE",
+                "type": "PROCESSOR"
+              },
+              "namespace": "MULE",
+              "type": "VALIDATOR"
+            },
+            "namespace": "VALIDATION",
+            "type": "VALIDATOR"
+          },
+          "nestedComponents": [],
+          "transactional": false,
+          "notifications": [],
+          "errors": ["VALIDATION:MISMATCH"]
+        },
+        {
+          "kind": "operation",
+          "executionType": "CPU_LITE",
+          "description": "Validates that value has a size between certain inclusive boundaries. This validator is capable of handling instances of String, Collection, Map and arrays",
+          "modelProperties": {},
+          "parameterGroupModels": [
+            {
+              "name": "General",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 1
+              },
+              "description": "",
+              "modelProperties": {},
+              "parameters": [
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "the value to validate",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "annotations": {
+                      "classInformation": {
+                        "implementedInterfaces": [],
+                        "parent": "",
+                        "classname": "java.lang.Object",
+                        "hasDefaultConstructor": true,
+                        "isInstantiable": true,
+                        "isFinal": false,
+                        "genericTypes": [],
+                        "isInterface": false,
+                        "isAbstract": false,
+                        "isMap": false
+                      },
+                      "typeId": "java.lang.Object",
+                      "typeAlias": {"value": "Object"}
+                    },
+                    "type": "Object",
+                    "fields": []
+                  },
+                  "required": true,
+                  "expressionSupport": "SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": true
+                  },
+                  "name": "value",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 1
+                  },
+                  "allowedStereotypeModels": [],
+                  "isComponentId": false
+                },
+                {
+                  "role": "BEHAVIOUR",
+                  "defaultValue": "0",
+                  "description": "the minimum expected length (inclusive, defaults to zero)",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "annotations": {
+                      "classInformation": {
+                        "implementedInterfaces": [],
+                        "parent": "",
+                        "classname": "int",
+                        "hasDefaultConstructor": false,
+                        "isInstantiable": false,
+                        "isFinal": true,
+                        "genericTypes": [],
+                        "isInterface": false,
+                        "isAbstract": true,
+                        "isMap": false
+                      },
+                      "int": {}
+                    },
+                    "type": "Number"
+                  },
+                  "required": false,
+                  "expressionSupport": "SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": false
+                  },
+                  "name": "min",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 2
+                  },
+                  "allowedStereotypeModels": [],
+                  "isComponentId": false
+                },
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "the maximum expected length (inclusive). Leave unspecified or null to allow any max length",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "annotations": {
+                      "classInformation": {
+                        "implementedInterfaces": ["java.lang.Comparable"],
+                        "parent": "java.lang.Number",
+                        "classname": "java.lang.Integer",
+                        "hasDefaultConstructor": false,
+                        "isInstantiable": false,
+                        "isFinal": true,
+                        "genericTypes": [],
+                        "isInterface": false,
+                        "isAbstract": false,
+                        "isMap": false
+                      },
+                      "int": {}
+                    },
+                    "type": "Number"
+                  },
+                  "required": false,
+                  "expressionSupport": "SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": false
+                  },
+                  "name": "max",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 3
+                  },
+                  "allowedStereotypeModels": [],
+                  "isComponentId": false
+                },
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "The name of the configuration to be used to execute this component",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "annotations": {"typeId": "org.mule.runtime.extension.api.runtime.config.ConfigurationProvider"},
+                    "type": "Object",
+                    "fields": []
+                  },
+                  "required": false,
+                  "expressionSupport": "NOT_SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": true
+                  },
+                  "name": "config-ref",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 4
+                  },
+                  "allowedStereotypeModels": [{
+                    "parent": {
+                      "namespace": "MULE",
+                      "type": "MODULE_CONFIG"
+                    },
+                    "namespace": "VALIDATION",
+                    "type": "CONFIG"
+                  }],
+                  "isComponentId": false
+                }
+              ],
+              "exclusiveParametersModels": [],
+              "showInDsl": false
+            },
+            {
+              "name": "Error options",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 2
+              },
+              "description": "",
+              "modelProperties": {},
+              "parameters": [{
+                "role": "BEHAVIOUR",
+                "description": "Specifies the message that is to be notified to the user if the validation fails. It's marked as not dynamic to allow eager evaluation of the expression in case that the validation is successful and the message is not needed. Components consuming this value are to manually check if this is an expression and evaluate it in case that the validation failed",
+                "modelProperties": {},
+                "type": {
+                  "format": "java",
+                  "type": "String"
+                },
+                "required": false,
+                "expressionSupport": "SUPPORTED",
+                "hasDynamicType": false,
+                "isConfigOverride": false,
+                "dslConfiguration": {
+                  "allowTopLevelDefinition": false,
+                  "allowsInlineDefinition": false,
+                  "allowsReferences": false
+                },
+                "name": "message",
+                "layoutModel": {
+                  "password": false,
+                  "query": false,
+                  "text": false,
+                  "order": 5
+                },
+                "allowedStereotypeModels": [],
+                "isComponentId": false
+              }],
+              "exclusiveParametersModels": [],
+              "showInDsl": false
+            }
+          ],
+          "output": {
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "Void"
+            }
+          },
+          "outputAttributes": {
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "Void"
+            }
+          },
+          "supportsStreaming": false,
+          "requiresConnection": false,
+          "blocking": true,
+          "name": "validateSize",
+          "stereotype": {
+            "parent": {
+              "parent": {
+                "namespace": "MULE",
+                "type": "PROCESSOR"
+              },
+              "namespace": "MULE",
+              "type": "VALIDATOR"
+            },
+            "namespace": "VALIDATION",
+            "type": "VALIDATOR"
+          },
+          "nestedComponents": [],
+          "transactional": false,
+          "notifications": [],
+          "errors": ["VALIDATION:INVALID_SIZE"]
+        }
+      ],
+      "messageSources": [],
+      "name": "config",
+      "description": "Default configuration",
+      "modelProperties": {"requiredForMetadata": {"requiredParameters": [
+        "i18n",
+        "name"
+      ]}},
+      "stereotype": {
+        "parent": {
+          "namespace": "MULE",
+          "type": "MODULE_CONFIG"
+        },
+        "namespace": "VALIDATION",
+        "type": "CONFIG"
+      },
+      "parameterGroupModels": [{
+        "name": "General",
+        "layoutModel": {
+          "password": false,
+          "query": false,
+          "text": false,
+          "order": 1
+        },
+        "description": "",
+        "modelProperties": {},
+        "parameters": [
+          {
+            "role": "BEHAVIOUR",
+            "description": "Allows to configure I18n for the standard error messages",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "@ref:org.mule.extension.validation.api.I18NConfig"
+            },
+            "required": false,
+            "expressionSupport": "SUPPORTED",
+            "hasDynamicType": false,
+            "isConfigOverride": false,
+            "dslConfiguration": {
+              "allowTopLevelDefinition": false,
+              "allowsInlineDefinition": true,
+              "allowsReferences": true
+            },
+            "name": "i18n",
+            "layoutModel": {
+              "password": false,
+              "query": false,
+              "text": false,
+              "order": 1
+            },
+            "allowedStereotypeModels": [{
+              "namespace": "VALIDATION",
+              "type": "I18_N_CONFIG"
+            }],
+            "isComponentId": false
+          },
+          {
+            "role": "BEHAVIOUR",
+            "description": "The identifier of this element used to reference it in other components",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "String"
+            },
+            "required": true,
+            "expressionSupport": "NOT_SUPPORTED",
+            "hasDynamicType": false,
+            "isConfigOverride": false,
+            "dslConfiguration": {
+              "allowTopLevelDefinition": false,
+              "allowsInlineDefinition": false,
+              "allowsReferences": false
+            },
+            "name": "name",
+            "layoutModel": {
+              "password": false,
+              "query": false,
+              "text": false,
+              "order": 3
+            },
+            "allowedStereotypeModels": [],
+            "isComponentId": true
+          },
+          {
+            "role": "BEHAVIOUR",
+            "description": "Configures the minimum amount of time that a dynamic configuration instance can remain idle before the runtime considers it eligible for expiration. This does not mean that the platform will expire the instance at the exact moment that it becomes eligible. The runtime will actually purge the instances when it sees it fit.",
+            "modelProperties": {
+              "org.mule.runtime.extension.api.property.InfrastructureParameterModelProperty": {"sequence": 4},
+              "org.mule.runtime.extension.api.property.QNameModelProperty": {"value": {
+                "localPart": "expiration-policy",
+                "prefix": "mule",
+                "namespaceURI": "http://www.mulesoft.org/schema/mule/core"
+              }}
+            },
+            "type": {
+              "format": "java",
+              "annotations": {
+                "typeDsl": {
+                  "allowTopLevelDefinition": false,
+                  "allowInlineDefinition": true
+                },
+                "description": {"value": "Configures the minimum amount of time that a dynamic configuration instance can remain idle before the runtime considers it eligible for expiration. This does not mean that the platform will expire the instance at the exact moment that it becomes eligible. The runtime will actually purge the instances when it sees it fit."},
+                "typeId": "org.mule.runtime.extension.api.runtime.ExpirationPolicy"
+              },
+              "type": "Object",
+              "fields": [
+                {
+                  "annotations": {
+                    "description": {"value": "A scalar time value for the maximum amount of time a dynamic configuration instance should be allowed to be idle before it's considered eligible for expiration"},
+                    "expressionSupport": {"value": "NOT_SUPPORTED"}
+                  },
+                  "model": {
+                    "annotations": {
+                      "default": "5",
+                      "classInformation": {
+                        "implementedInterfaces": ["java.lang.Comparable"],
+                        "parent": "java.lang.Number",
+                        "classname": "java.lang.Long",
+                        "hasDefaultConstructor": false,
+                        "isInstantiable": false,
+                        "isFinal": true,
+                        "genericTypes": [],
+                        "isInterface": false,
+                        "isAbstract": false,
+                        "isMap": false
+                      },
+                      "int": {}
+                    },
+                    "type": "Number"
+                  },
+                  "key": {"name": "maxIdleTime"}
+                },
+                {
+                  "annotations": {
+                    "description": {"value": "A time unit that qualifies the maxIdleTime attribute"},
+                    "expressionSupport": {"value": "NOT_SUPPORTED"}
+                  },
+                  "model": {
+                    "annotations": {
+                      "default": "MINUTES",
+                      "enum": {
+                        "values": [
+                          "NANOSECONDS",
+                          "MICROSECONDS",
+                          "MILLISECONDS",
+                          "SECONDS",
+                          "MINUTES",
+                          "HOURS",
+                          "DAYS"
+                        ],
+                        "type": "[Ljava.lang.String;"
+                      }
+                    },
+                    "type": "String"
+                  },
+                  "key": {"name": "timeUnit"}
+                }
+              ]
+            },
+            "required": false,
+            "expressionSupport": "NOT_SUPPORTED",
+            "hasDynamicType": false,
+            "isConfigOverride": false,
+            "dslConfiguration": {
+              "allowTopLevelDefinition": false,
+              "allowsInlineDefinition": true,
+              "allowsReferences": false
+            },
+            "name": "expirationPolicy",
+            "layoutModel": {
+              "password": false,
+              "tabName": "Advanced",
+              "query": false,
+              "text": false,
+              "order": 2
+            },
+            "allowedStereotypeModels": [],
+            "isComponentId": false
+          }
+        ],
+        "exclusiveParametersModels": [],
+        "showInDsl": false
+      }],
+      "connectionProviders": []
+    }],
+    "externalLibraries": [],
+    "description": "A module which allows to perform data validations. If the validation fails, an Error is thrown. The error type might vary but it will always be a child of VALIDATION:VALIDATION",
+    "resources": ["/META-INF/org/mule/runtime/core/i18n/validation-messages.properties"],
+    "subTypes": [],
+    "modelProperties": {},
+    "constructs": [],
+    "connectionProviders": [],
+    "version": "1.4.0",
+    "privilegedArtifacts": [],
+    "importedTypes": [],
+    "xmlDsl": {
+      "schemaVersion": "1.4.0",
+      "prefix": "validation",
+      "schemaLocation": "http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd",
+      "namespace": "http://www.mulesoft.org/schema/mule/validation",
+      "xsdFileName": "mule-validation.xsd"
+    },
+    "operations": [
+      {
+        "kind": "operation",
+        "executionType": "CPU_LITE",
+        "description": "Perform a list of nested validation operations and informs only one VALIDATION:MULTIPLE error which summarizes all of the found errors (if any).",
+        "modelProperties": {},
+        "parameterGroupModels": [],
+        "output": {
+          "hasDynamicType": false,
+          "description": "",
+          "modelProperties": {},
+          "type": {
+            "format": "java",
+            "type": "Void"
+          }
+        },
+        "outputAttributes": {
+          "hasDynamicType": false,
+          "description": "",
+          "modelProperties": {},
+          "type": {
+            "format": "java",
+            "type": "Void"
+          }
+        },
+        "supportsStreaming": false,
+        "requiresConnection": false,
+        "blocking": false,
+        "name": "all",
+        "stereotype": {
+          "parent": {
+            "parent": {
+              "namespace": "MULE",
+              "type": "PROCESSOR"
+            },
+            "namespace": "MULE",
+            "type": "VALIDATOR"
+          },
+          "namespace": "VALIDATION",
+          "type": "VALIDATOR"
+        },
+        "nestedComponents": [{
+          "allowedStereotypes": [{
+            "parent": {
+              "namespace": "MULE",
+              "type": "PROCESSOR"
+            },
+            "namespace": "MULE",
+            "type": "VALIDATOR"
+          }],
+          "isRequired": true,
+          "kind": "chain",
+          "name": "validations",
+          "description": "",
+          "modelProperties": {}
+        }],
+        "transactional": false,
+        "notifications": [],
+        "errors": ["VALIDATION:MULTIPLE"]
+      },
+      {
+        "kind": "operation",
+        "executionType": "CPU_LITE",
+        "description": "Perform a list of nested validation operations and informs only one VALIDATION:MULTIPLE error which summarizes all of the found errors (if all failed).",
+        "modelProperties": {},
+        "parameterGroupModels": [],
+        "output": {
+          "hasDynamicType": false,
+          "description": "",
+          "modelProperties": {},
+          "type": {
+            "format": "java",
+            "type": "Void"
+          }
+        },
+        "outputAttributes": {
+          "hasDynamicType": false,
+          "description": "",
+          "modelProperties": {},
+          "type": {
+            "format": "java",
+            "type": "Void"
+          }
+        },
+        "supportsStreaming": false,
+        "requiresConnection": false,
+        "blocking": false,
+        "name": "any",
+        "stereotype": {
+          "parent": {
+            "parent": {
+              "namespace": "MULE",
+              "type": "PROCESSOR"
+            },
+            "namespace": "MULE",
+            "type": "VALIDATOR"
+          },
+          "namespace": "VALIDATION",
+          "type": "VALIDATOR"
+        },
+        "nestedComponents": [{
+          "allowedStereotypes": [{
+            "parent": {
+              "namespace": "MULE",
+              "type": "PROCESSOR"
+            },
+            "namespace": "MULE",
+            "type": "VALIDATOR"
+          }],
+          "isRequired": true,
+          "kind": "chain",
+          "name": "validations",
+          "description": "",
+          "modelProperties": {}
+        }],
+        "transactional": false,
+        "notifications": [],
+        "errors": ["VALIDATION:MULTIPLE"]
+      }
+    ],
+    "vendor": "Mulesoft",
+    "name": "Validation",
+    "privilegedPackages": [],
+    "category": "COMMUNITY",
+    "notifications": [],
+    "errors": [
+      {
+        "parent": "VALIDATION:VALIDATION",
+        "error": "VALIDATION:INVALID_URL",
+        "handleable": true
+      },
+      {
+        "parent": "MULE:VALIDATION",
+        "error": "VALIDATION:VALIDATION",
+        "handleable": true
+      },
+      {
+        "parent": "MULE:ANY",
+        "error": "MULE:VALIDATION",
+        "handleable": true
+      },
+      {
+        "error": "MULE:ANY",
+        "handleable": true
+      },
+      {
+        "parent": "VALIDATION:VALIDATION",
+        "error": "VALIDATION:INVALID_TIME",
+        "handleable": true
+      },
+      {
+        "parent": "VALIDATION:VALIDATION",
+        "error": "VALIDATION:MISMATCH",
+        "handleable": true
+      },
+      {
+        "parent": "MULE:CONNECTIVITY",
+        "error": "VALIDATION:CONNECTIVITY",
+        "handleable": true
+      },
+      {
+        "parent": "MULE:ANY",
+        "error": "MULE:CONNECTIVITY",
+        "handleable": true
+      },
+      {
+        "parent": "VALIDATION:VALIDATION",
+        "error": "VALIDATION:NOT_BLANK_STRING",
+        "handleable": true
+      },
+      {
+        "parent": "VALIDATION:VALIDATION",
+        "error": "VALIDATION:BLANK_STRING",
+        "handleable": true
+      },
+      {
+        "parent": "VALIDATION:VALIDATION",
+        "error": "VALIDATION:INVALID_IP",
+        "handleable": true
+      },
+      {
+        "parent": "VALIDATION:VALIDATION",
+        "error": "VALIDATION:EMPTY_COLLECTION",
+        "handleable": true
+      },
+      {
+        "parent": "VALIDATION:VALIDATION",
+        "error": "VALIDATION:REJECTED_IP",
+        "handleable": true
+      },
+      {
+        "parent": "VALIDATION:VALIDATION",
+        "error": "VALIDATION:INVALID_EMAIL",
+        "handleable": true
+      },
+      {
+        "parent": "VALIDATION:VALIDATION",
+        "error": "VALIDATION:INVALID_SIZE",
+        "handleable": true
+      },
+      {
+        "parent": "VALIDATION:VALIDATION",
+        "error": "VALIDATION:ELAPSED_TIME",
+        "handleable": true
+      },
+      {
+        "parent": "MULE:RETRY_EXHAUSTED",
+        "error": "VALIDATION:RETRY_EXHAUSTED",
+        "handleable": true
+      },
+      {
+        "parent": "MULE:ANY",
+        "error": "MULE:RETRY_EXHAUSTED",
+        "handleable": true
+      },
+      {
+        "parent": "VALIDATION:VALIDATION",
+        "error": "VALIDATION:NOT_EMPTY_COLLECTION",
+        "handleable": true
+      },
+      {
+        "parent": "VALIDATION:VALIDATION",
+        "error": "VALIDATION:INVALID_BOOLEAN",
+        "handleable": true
+      },
+      {
+        "parent": "VALIDATION:VALIDATION",
+        "error": "VALIDATION:NOT_NULL",
+        "handleable": true
+      },
+      {
+        "parent": "VALIDATION:VALIDATION",
+        "error": "VALIDATION:MULTIPLE",
+        "handleable": true
+      },
+      {
+        "parent": "VALIDATION:VALIDATION",
+        "error": "VALIDATION:NULL",
+        "handleable": true
+      },
+      {
+        "parent": "VALIDATION:VALIDATION",
+        "error": "VALIDATION:NOT_ELAPSED_TIME",
+        "handleable": true
+      },
+      {
+        "parent": "VALIDATION:VALIDATION",
+        "error": "VALIDATION:INVALID_NUMBER",
+        "handleable": true
+      }
+    ]
+  }
+}

@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:mule="http://www.mulesoft.org/schema/mule/core" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.mulesoft.org/schema/mule/os" attributeFormDefault="unqualified" elementFormDefault="qualified">
+  <xs:import namespace="http://www.w3.org/XML/1998/namespace"></xs:import>
+  <xs:import namespace="http://www.springframework.org/schema/beans" schemaLocation="http://www.springframework.org/schema/beans/spring-beans.xsd"></xs:import>
+  <xs:import namespace="http://www.mulesoft.org/schema/mule/core" schemaLocation="http://www.mulesoft.org/schema/mule/core/current/mule.xsd"></xs:import>
+  <xs:complexType name="org.mule.extension.objectstore.internal.ObjectStoreConnector">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:attribute type="mule:expressionString" use="optional" name="configName"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="org.mule.extension.objectstore.api.TopLevelObjectStore">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractObjectStoreType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" name="config-ref">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension xmlns:os="http://www.mulesoft.org/schema/mule/os" base="os:org.mule.extension.objectstore.internal.ObjectStoreConnector"></xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:substitutableBoolean" use="optional" default="true" name="persistent"></xs:attribute>
+        <xs:attribute type="mule:substitutableInt" use="optional" name="maxEntries"></xs:attribute>
+        <xs:attribute type="mule:substitutableLong" use="optional" name="entryTtl"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/os" type="java.util.concurrent.TimeUnitEnumType" use="optional" default="SECONDS" name="entryTtlUnit"></xs:attribute>
+        <xs:attribute type="mule:substitutableLong" use="optional" default="1" name="expirationInterval"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/os" type="java.util.concurrent.TimeUnitEnumType" use="optional" default="MINUTES" name="expirationIntervalUnit"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="config-ref"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:global-abstract-object-store" abstract="true" name="abstract-object-store"></xs:element>
+  <xs:element xmlns:os="http://www.mulesoft.org/schema/mule/os" substitutionGroup="os:abstract-object-store" name="object-store">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="os:org.mule.extension.objectstore.api.TopLevelObjectStore">
+          <xs:attribute type="xs:string" use="optional" name="name"></xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="org.mule.extension.objectstore.api.PrivateObjectStore">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractObjectStoreType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" name="config-ref">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension xmlns:os="http://www.mulesoft.org/schema/mule/os" base="os:org.mule.extension.objectstore.internal.ObjectStoreConnector"></xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="optional" name="alias"></xs:attribute>
+        <xs:attribute type="mule:substitutableBoolean" use="optional" default="true" name="persistent"></xs:attribute>
+        <xs:attribute type="mule:substitutableInt" use="optional" name="maxEntries"></xs:attribute>
+        <xs:attribute type="mule:substitutableLong" use="optional" name="entryTtl"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/os" type="java.util.concurrent.TimeUnitEnumType" use="optional" default="SECONDS" name="entryTtlUnit"></xs:attribute>
+        <xs:attribute type="mule:substitutableLong" use="optional" default="1" name="expirationInterval"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/os" type="java.util.concurrent.TimeUnitEnumType" use="optional" default="MINUTES" name="expirationIntervalUnit"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="config-ref"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" xmlns:os="http://www.mulesoft.org/schema/mule/os" type="os:org.mule.extension.objectstore.api.PrivateObjectStore" substitutionGroup="mule:abstract-private-object-store" abstract="true" name="abstract-private-object-store"></xs:element>
+  <xs:element xmlns:os="http://www.mulesoft.org/schema/mule/os" substitutionGroup="os:abstract-private-object-store" name="private-object-store">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="os:org.mule.extension.objectstore.api.PrivateObjectStore"></xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstract-shared-extension" name="config">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractExtensionType">
+          <xs:annotation>
+            <xs:documentation>Default configuration</xs:documentation>
+          </xs:annotation>
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstractConnectionProvider"></xs:element>
+          </xs:sequence>
+          <xs:attribute type="xs:string" use="required" name="name">
+            <xs:annotation>
+              <xs:documentation>The identifier of this element used to reference it in other components</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstractConnectionProvider" name="connection">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractConnectionProviderType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:reconnection"></xs:element>
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstractConnectionProvider" name="connection">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractConnectionProviderType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:reconnection"></xs:element>
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/os" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ClearType" substitutionGroup="mule:abstract-operator" name="clear">
+    <xs:annotation>
+      <xs:documentation>Removes all the contents in the store.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ClearType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1"></xs:sequence>
+        <xs:attribute type="xs:string" use="optional" name="objectStore">
+          <xs:annotation>
+            <xs:documentation>A reference to the ObjectStore to be used. If not defined, the runtime's default partition will be used</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/os" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ContainsType" substitutionGroup="mule:abstract-operator" name="contains">
+    <xs:annotation>
+      <xs:documentation>Checks if there is any value associated to the given key. If no value exist for the key, then false will be returned. &lt;p&gt; This operation is synchronized on the key level. No other operation will be able to access the same key on the same object store while this operation is running. If the runtime is running on cluster mode, this synchronization is also guaranteed across nodes.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ContainsType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1"></xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="key">
+          <xs:annotation>
+            <xs:documentation>the key of the object to be removed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="objectStore">
+          <xs:annotation>
+            <xs:documentation>A reference to the ObjectStore to be used. If not defined, the runtime's default partition will be used</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/os" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="RemoveType" substitutionGroup="mule:abstract-operator" name="remove">
+    <xs:annotation>
+      <xs:documentation>Removes the value associated to the given key. If no value exist for the key, then a OS:KEY_NOT_FOUND error will be thrown. &lt;p&gt; This operation is synchronized on the key level. No other operation will be able to access the same key on the same object store while this operation is running. If the runtime is running on cluster mode, this synchronization is also guaranteed across nodes.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="RemoveType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1"></xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="key">
+          <xs:annotation>
+            <xs:documentation>the key of the object to be removed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="objectStore">
+          <xs:annotation>
+            <xs:documentation>A reference to the ObjectStore to be used. If not defined, the runtime's default partition will be used</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/os" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="RetrieveType" substitutionGroup="mule:abstract-operator" name="retrieve">
+    <xs:annotation>
+      <xs:documentation>Retrieves the value stored for the given key. &lt;p&gt; If no value exists for the key, behaviour will depend on the defaultValue parameter. If the parameter was not provided or resolved to a null value, then a OS:KEY_NOT_FOUND error will be thrown. Otherwise, the defaultValue will be returned &lt;b&gt;BUT&lt;/b&gt; keep in mind that such value &lt;b&gt;WILL NOT&lt;/b&gt; be stored. &lt;p&gt; Finally, this operation is synchronized on the key level. No other operation will be able to access the same key on the same object store while this operation is running. If the runtime is running on cluster mode, this synchronization is also guaranteed across nodes.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="RetrieveType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="default-value">
+            <xs:annotation>
+              <xs:documentation>value to be returned if the key doesn't exist in the store</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="key">
+          <xs:annotation>
+            <xs:documentation>the key of the value to be retrieved</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="objectStore">
+          <xs:annotation>
+            <xs:documentation>A reference to the ObjectStore to be used. If not defined, the runtime's default partition will be used</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/os" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="RetrieveAllType" substitutionGroup="mule:abstract-operator" name="retrieve-all">
+    <xs:annotation>
+      <xs:documentation>Retrieves all the key value pairs in the object store</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="RetrieveAllType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1"></xs:sequence>
+        <xs:attribute type="xs:string" use="optional" name="objectStore">
+          <xs:annotation>
+            <xs:documentation>A reference to the ObjectStore to be used. If not defined, the runtime's default partition will be used</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/os" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="RetrieveAllKeysType" substitutionGroup="mule:abstract-operator" name="retrieve-all-keys">
+    <xs:annotation>
+      <xs:documentation>Returns a List containing all keys that the objectStore currently holds values for.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="RetrieveAllKeysType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1"></xs:sequence>
+        <xs:attribute type="xs:string" use="optional" name="objectStore">
+          <xs:annotation>
+            <xs:documentation>A reference to the ObjectStore to be used. If not defined, the runtime's default partition will be used</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="outputMimeType">
+          <xs:annotation>
+            <xs:documentation>The mime type of the payload that this operation outputs.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/os" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="StoreType" substitutionGroup="mule:abstract-operator" name="store">
+    <xs:annotation>
+      <xs:documentation>Stores the given value using the given key. &lt;p&gt; This operation can be used either for storing new values or updating existing ones, depending on the value of the failIfPresent. When that parameter is set to false (default value) then any pre existing value associated to that key will be overwritten. If the parameter is set to true, then a OS:KEY_ALREADY_EXISTS error will be thrown instead. &lt;p&gt; Another important consideration is regarding null values. It is not allowed to store a null value. However, a common use case is to obtain a value (most likely by evaluating a expression or transformation), testing the value for not null, storing it if present and doing nothing otherwise. The failOnNullValue parameter simplifies this use case. On its default value of true, a OS:NULL_VALUE error is thrown if a null value is supplied. However, when set to false, a null value will cause this operation to do nothing, no error will be raised but no value will be altered either. &lt;p&gt; Finally, this operation is synchronized on the key level. No other operation will be able to access the same key on the same object store while this operation is running. If the runtime is running on cluster mode, this synchronization is also guaranteed across nodes.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="StoreType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="value">
+            <xs:annotation>
+              <xs:documentation>the value to be stored. Should not be null if failOnNullValue is set to true</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="key">
+          <xs:annotation>
+            <xs:documentation>the key of the value to be stored</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="failIfPresent">
+          <xs:annotation>
+            <xs:documentation>Whether to fail or update the pre existing value if the key already exists on the store</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="true" name="failOnNullValue">
+          <xs:annotation>
+            <xs:documentation>Whether to fail or skip the operation if the value is null</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="objectStore">
+          <xs:annotation>
+            <xs:documentation>A reference to the ObjectStore to be used. If not defined, the runtime's default partition will be used</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="java.util.concurrent.TimeUnitEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="NANOSECONDS"></xs:enumeration>
+          <xs:enumeration value="MICROSECONDS"></xs:enumeration>
+          <xs:enumeration value="MILLISECONDS"></xs:enumeration>
+          <xs:enumeration value="SECONDS"></xs:enumeration>
+          <xs:enumeration value="MINUTES"></xs:enumeration>
+          <xs:enumeration value="HOURS"></xs:enumeration>
+          <xs:enumeration value="DAYS"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+</xs:schema>

@@ -1,0 +1,31 @@
+{
+  "extensionModelLoaderDescriptor": {
+    "id": "java",
+    "attributes": {
+      "type": "org.mule.extension.db.internal.DbConnector",
+      "version": "1.7.0"
+    }
+  },
+  "name": "Database",
+  "requiredProduct": "MULE",
+  "classLoaderModelLoaderDescriptor": {
+    "id": "mule",
+    "attributes": {
+      "privilegedExportedPackages": [],
+      "privilegedArtifactIds": [],
+      "exportedPackages": [
+        "org.mule.extension.db.api.exception.connection",
+        "org.mule.extension.db.api.config",
+        "org.mule.extension.db.api.param",
+        "org.mule.extension.db.api.logger",
+        "org.mule.extension.db.api"
+      ],
+      "exportedResources": []
+    }
+  },
+  "bundleDescriptorLoader": {
+    "id": "mule",
+    "attributes": {}
+  },
+  "minMuleVersion": "4.1.1"
+}

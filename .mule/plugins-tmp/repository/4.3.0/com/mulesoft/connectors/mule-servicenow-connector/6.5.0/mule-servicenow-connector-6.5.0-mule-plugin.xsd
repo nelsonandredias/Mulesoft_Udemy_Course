@@ -1,0 +1,562 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:mule="http://www.mulesoft.org/schema/mule/core" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.mulesoft.org/schema/mule/servicenow" attributeFormDefault="unqualified" elementFormDefault="qualified">
+  <xs:import namespace="http://www.w3.org/XML/1998/namespace"></xs:import>
+  <xs:import namespace="http://www.springframework.org/schema/beans" schemaLocation="http://www.springframework.org/schema/beans/spring-beans.xsd"></xs:import>
+  <xs:import namespace="http://www.mulesoft.org/schema/mule/core" schemaLocation="http://www.mulesoft.org/schema/mule/core/current/mule.xsd"></xs:import>
+  <xs:complexType name="com.mulesoft.connectors.servicenow.internal.transport.CustomTransportConfiguration">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType"></xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" xmlns:servicenow="http://www.mulesoft.org/schema/mule/servicenow" type="servicenow:com.mulesoft.connectors.servicenow.internal.transport.CustomTransportConfiguration" substitutionGroup="mule:abstract-shared-extension" abstract="true" name="global-abstract-custom-transport-configuration"></xs:element>
+  <xs:element xmlns:servicenow="http://www.mulesoft.org/schema/mule/servicenow" type="servicenow:com.mulesoft.connectors.servicenow.internal.transport.CustomTransportConfiguration" abstract="true" name="abstract-custom-transport-configuration"></xs:element>
+  <xs:complexType name="com.mulesoft.connectors.servicenow.internal.transport.CustomHttpTransportConfiguration">
+    <xs:complexContent>
+      <xs:extension xmlns:servicenow="http://www.mulesoft.org/schema/mule/servicenow" base="servicenow:com.mulesoft.connectors.servicenow.internal.transport.CustomTransportConfiguration">
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="required" name="requesterConfig"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:servicenow="http://www.mulesoft.org/schema/mule/servicenow" type="servicenow:com.mulesoft.connectors.servicenow.internal.transport.CustomHttpTransportConfiguration" substitutionGroup="servicenow:abstract-custom-transport-configuration" abstract="true" name="abstract-http-requester-based-transport-provider"></xs:element>
+  <xs:element xmlns:servicenow="http://www.mulesoft.org/schema/mule/servicenow" substitutionGroup="servicenow:abstract-http-requester-based-transport-provider" name="http-requester-based-transport-provider">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="servicenow:com.mulesoft.connectors.servicenow.internal.transport.CustomHttpTransportConfiguration"></xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="com.mulesoft.connectors.servicenow.internal.transport.DefaultHttpTransportConfiguration">
+    <xs:complexContent>
+      <xs:extension xmlns:servicenow="http://www.mulesoft.org/schema/mule/servicenow" base="servicenow:com.mulesoft.connectors.servicenow.internal.transport.CustomTransportConfiguration">
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="required" name="username"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="required" name="password"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionInt" use="optional" default="5000" name="readTimeout"></xs:attribute>
+        <xs:attribute type="servicenow:java.util.concurrent.TimeUnitEnumType" use="optional" default="MILLISECONDS" name="readTimeoutUnit"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:servicenow="http://www.mulesoft.org/schema/mule/servicenow" type="servicenow:com.mulesoft.connectors.servicenow.internal.transport.DefaultHttpTransportConfiguration" substitutionGroup="servicenow:abstract-custom-transport-configuration" abstract="true" name="abstract-basic-auth-http-message-dispatcher-provider"></xs:element>
+  <xs:element xmlns:servicenow="http://www.mulesoft.org/schema/mule/servicenow" substitutionGroup="servicenow:abstract-basic-auth-http-message-dispatcher-provider" name="basic-auth-http-message-dispatcher-provider">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="servicenow:com.mulesoft.connectors.servicenow.internal.transport.DefaultHttpTransportConfiguration"></xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstract-shared-extension" name="config">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractExtensionType">
+          <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element minOccurs="1" maxOccurs="1" ref="mule:abstractConnectionProvider"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:expiration-policy"></xs:element>
+          </xs:sequence>
+          <xs:attribute type="xs:string" use="required" name="name">
+            <xs:annotation>
+              <xs:documentation>The identifier of this element used to reference it in other components</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstractConnectionProvider" name="basic-connection">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractConnectionProviderType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:reconnection"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:pooling-profile"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="user-tables">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element minOccurs="0" maxOccurs="unbounded" name="user-table">
+                    <xs:complexType>
+                      <xs:attribute type="mule:expressionString" use="required" name="value"></xs:attribute>
+                    </xs:complexType>
+                  </xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="transport">
+              <xs:complexType>
+                <xs:choice minOccurs="1" maxOccurs="1">
+                  <xs:element xmlns:servicenow="http://www.mulesoft.org/schema/mule/servicenow" minOccurs="1" maxOccurs="1" ref="servicenow:abstract-custom-transport-configuration"></xs:element>
+                  <xs:element xmlns:servicenow="http://www.mulesoft.org/schema/mule/servicenow" minOccurs="1" maxOccurs="1" ref="servicenow:global-abstract-custom-transport-configuration"></xs:element>
+                </xs:choice>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="web-service-security">
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension base="mule:abstractExtensionType">
+                    <xs:sequence>
+                      <xs:element minOccurs="0" maxOccurs="1" name="sign-security-strategy">
+                        <xs:annotation>
+                          <xs:documentation>a sign WSS configuration</xs:documentation>
+                        </xs:annotation>
+                        <xs:complexType>
+                          <xs:complexContent>
+                            <xs:extension xmlns:servicenow="http://www.mulesoft.org/schema/mule/servicenow" base="servicenow:com.mulesoft.connectors.servicenow.api.security.WssSignSecurityStrategyAdapter"></xs:extension>
+                          </xs:complexContent>
+                        </xs:complexType>
+                      </xs:element>
+                      <xs:element minOccurs="0" maxOccurs="1" name="username-token-security-strategy">
+                        <xs:annotation>
+                          <xs:documentation>a usernameToken WSS configuration</xs:documentation>
+                        </xs:annotation>
+                        <xs:complexType>
+                          <xs:complexContent>
+                            <xs:extension xmlns:servicenow="http://www.mulesoft.org/schema/mule/servicenow" base="servicenow:com.mulesoft.connectors.servicenow.api.security.WssUsernameTokenSecurityStrategyAdapter"></xs:extension>
+                          </xs:complexContent>
+                        </xs:complexType>
+                      </xs:element>
+                    </xs:sequence>
+                    <xs:attribute type="xs:string" use="optional" name="signSecurityStrategy">
+                      <xs:annotation>
+                        <xs:documentation>a sign WSS configuration</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="xs:string" use="optional" name="usernameTokenSecurityStrategy">
+                      <xs:annotation>
+                        <xs:documentation>a usernameToken WSS configuration</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                  </xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute type="mule:expressionString" use="required" name="serviceAddress"></xs:attribute>
+          <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/servicenow" type="com.mulesoft.connectors.servicenow.internal.ServiceNowVersionEnumType" use="optional" default="NEW_YORK" name="serviceNowVersion"></xs:attribute>
+          <xs:attribute type="mule:expressionList" use="optional" name="userTables"></xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="username"></xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="password"></xs:attribute>
+          <xs:attribute type="xs:string" use="optional" name="transport"></xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="com.mulesoft.connectors.servicenow.api.security.WssKeyStoreConfigurationAdapter">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:attribute type="mule:expressionString" use="required" name="keyStorePath"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="alias"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="password"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="keyPassword"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="jks" name="type"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="com.mulesoft.connectors.servicenow.api.security.WssSignConfigurationAdapter">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/servicenow" type="com.mulesoft.connectors.servicenow.api.security.enums.SignatureKeyIdentifierEnumType" use="optional" default="X509_KEY_IDENTIFIER" name="signatureKeyIdentifier"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/servicenow" type="com.mulesoft.connectors.servicenow.api.security.enums.SignatureAlgorithmEnumType" use="optional" name="signatureAlgorithm"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/servicenow" type="com.mulesoft.connectors.servicenow.api.security.enums.SignatureDigestAlgorithmEnumType" use="optional" default="SHA1" name="signatureDigestAlgorithm"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/servicenow" type="com.mulesoft.connectors.servicenow.api.security.enums.SignatureC14nAlgorithmEnumType" use="optional" default="ExclusiveXMLCanonicalization_1_0" name="signatureC14nAlgorithm"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="com.mulesoft.connectors.servicenow.api.security.WssSignSecurityStrategyAdapter">
+    <xs:annotation>
+      <xs:documentation>a sign WSS configuration</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" name="key-store-configuration">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension xmlns:servicenow="http://www.mulesoft.org/schema/mule/servicenow" base="servicenow:com.mulesoft.connectors.servicenow.api.security.WssKeyStoreConfigurationAdapter"></xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="sign-algorithm-configuration">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension xmlns:servicenow="http://www.mulesoft.org/schema/mule/servicenow" base="servicenow:com.mulesoft.connectors.servicenow.api.security.WssSignConfigurationAdapter"></xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="optional" name="keyStoreConfiguration"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="signAlgorithmConfiguration"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="com.mulesoft.connectors.servicenow.api.security.WssUsernameTokenSecurityStrategyAdapter">
+    <xs:annotation>
+      <xs:documentation>a usernameToken WSS configuration</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:attribute type="mule:expressionString" use="required" name="username"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="password"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/servicenow" type="com.mulesoft.connectors.servicenow.api.security.PasswordTypeAdapterEnumType" use="optional" default="DIGEST" name="passwordType"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstractConnectionProvider" name="oauth2-auth-code-connection">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractConnectionProviderType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:reconnection"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="user-tables">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element minOccurs="0" maxOccurs="unbounded" name="user-table">
+                    <xs:complexType>
+                      <xs:attribute type="mule:expressionString" use="required" name="value"></xs:attribute>
+                    </xs:complexType>
+                  </xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="oauth-transport">
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension xmlns:servicenow="http://www.mulesoft.org/schema/mule/servicenow" base="servicenow:com.mulesoft.connectors.servicenow.api.transport.DefaultOAuthTransportConfiguration"></xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="web-service-security">
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension base="mule:abstractExtensionType">
+                    <xs:sequence>
+                      <xs:element minOccurs="0" maxOccurs="1" name="sign-security-strategy">
+                        <xs:annotation>
+                          <xs:documentation>a sign WSS configuration</xs:documentation>
+                        </xs:annotation>
+                        <xs:complexType>
+                          <xs:complexContent>
+                            <xs:extension xmlns:servicenow="http://www.mulesoft.org/schema/mule/servicenow" base="servicenow:com.mulesoft.connectors.servicenow.api.security.WssSignSecurityStrategyAdapter"></xs:extension>
+                          </xs:complexContent>
+                        </xs:complexType>
+                      </xs:element>
+                      <xs:element minOccurs="0" maxOccurs="1" name="username-token-security-strategy">
+                        <xs:annotation>
+                          <xs:documentation>a usernameToken WSS configuration</xs:documentation>
+                        </xs:annotation>
+                        <xs:complexType>
+                          <xs:complexContent>
+                            <xs:extension xmlns:servicenow="http://www.mulesoft.org/schema/mule/servicenow" base="servicenow:com.mulesoft.connectors.servicenow.api.security.WssUsernameTokenSecurityStrategyAdapter"></xs:extension>
+                          </xs:complexContent>
+                        </xs:complexType>
+                      </xs:element>
+                    </xs:sequence>
+                    <xs:attribute type="xs:string" use="optional" name="signSecurityStrategy">
+                      <xs:annotation>
+                        <xs:documentation>a sign WSS configuration</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="xs:string" use="optional" name="usernameTokenSecurityStrategy">
+                      <xs:annotation>
+                        <xs:documentation>a usernameToken WSS configuration</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                  </xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="1" maxOccurs="1" name="oauth-authorization-code">
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension base="mule:abstractExtensionType">
+                    <xs:sequence></xs:sequence>
+                    <xs:attribute type="xs:string" use="required" name="consumerKey">
+                      <xs:annotation>
+                        <xs:documentation>The OAuth consumerKey as registered with the service provider</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="xs:string" use="required" name="consumerSecret">
+                      <xs:annotation>
+                        <xs:documentation>The OAuth consumerSecret as registered with the service provider</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="xs:string" use="optional" default="https://{instance-id}.service-now.com/oauth_auth.do" name="authorizationUrl">
+                      <xs:annotation>
+                        <xs:documentation>The service provider's authorization endpoint URL</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="xs:string" use="optional" default="https://{instance-id}.service-now.com/oauth_token.do" name="accessTokenUrl">
+                      <xs:annotation>
+                        <xs:documentation>The service provider's accessToken endpoint URL</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="xs:string" use="optional" name="scopes">
+                      <xs:annotation>
+                        <xs:documentation>The OAuth scopes to be requested during the dance. If not provided, it will default to those in the annotation</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="mule:expressionString" use="optional" name="resourceOwnerId">
+                      <xs:annotation>
+                        <xs:documentation>The resourceOwnerId which each component should use if it doesn't reference otherwise.</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="xs:string" use="optional" name="before">
+                      <xs:annotation>
+                        <xs:documentation>The name of a flow to be executed right before starting the OAuth dance</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="xs:string" use="optional" name="after">
+                      <xs:annotation>
+                        <xs:documentation>The name of a flow to be executed right after an accessToken has been received</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                  </xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="1" maxOccurs="1" name="oauth-callback-config">
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension base="mule:abstractExtensionType">
+                    <xs:sequence></xs:sequence>
+                    <xs:attribute type="xs:string" use="required" name="listenerConfig">
+                      <xs:annotation>
+                        <xs:documentation>A reference to a &lt;http:listener-config /&gt; to be used in order to create the listener that will catch the access token callback endpoint.</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="xs:string" use="required" name="callbackPath">
+                      <xs:annotation>
+                        <xs:documentation>The path of the access token callback endpoint</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="xs:string" use="required" name="authorizePath">
+                      <xs:annotation>
+                        <xs:documentation>The path of the local http endpoint which triggers the OAuth dance</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="xs:string" use="optional" name="externalCallbackUrl">
+                      <xs:annotation>
+                        <xs:documentation>If the callback endpoint is behind a proxy or should be accessed through a non direct URL, use this parameter to tell the OAuth provider the URL it should use to access the callback</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                  </xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="oauth-store-config">
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension base="mule:abstractExtensionType">
+                    <xs:sequence></xs:sequence>
+                    <xs:attribute type="xs:string" use="optional" name="objectStore">
+                      <xs:annotation>
+                        <xs:documentation>A reference to the object store that should be used to store each resource owner id's data. If not specified, runtime will automatically provision the default one.</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                  </xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute type="mule:expressionString" use="required" name="serviceAddress"></xs:attribute>
+          <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/servicenow" type="com.mulesoft.connectors.servicenow.internal.ServiceNowVersionEnumType" use="optional" default="NEW_YORK" name="serviceNowVersion"></xs:attribute>
+          <xs:attribute type="mule:expressionList" use="optional" name="userTables"></xs:attribute>
+          <xs:attribute type="xs:string" use="optional" name="oauthTransport"></xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="com.mulesoft.connectors.servicenow.api.transport.DefaultOAuthTransportConfiguration">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:attribute type="mule:expressionInt" use="optional" default="5000" name="readTimeout"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/servicenow" type="java.util.concurrent.TimeUnitEnumType" use="optional" default="MILLISECONDS" name="readTimeoutUnit"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/servicenow" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="InvokeType" substitutionGroup="mule:abstract-operator" name="invoke">
+    <xs:annotation>
+      <xs:documentation>This is the default operation for ServiceNow SOAP invocations</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="InvokeType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="message">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension base="mule:abstractExtensionType">
+                  <xs:sequence>
+                    <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="body">
+                      <xs:annotation>
+                        <xs:documentation>The XML body to include in the SOAP message, with all the required parameters, or null if no params are required.</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="headers">
+                      <xs:annotation>
+                        <xs:documentation>The XML headers to include in the SOAP message.</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="attachments">
+                      <xs:annotation>
+                        <xs:documentation>The attachments to include in the SOAP request.</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="service"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="operation"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/servicenow" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="UnauthorizeType" substitutionGroup="mule:abstract-operator" name="unauthorize">
+    <xs:annotation>
+      <xs:documentation>Deletes all the access token information of a given resource owner id so that it's impossible to execute any operation for that user without doing the authorization dance again</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="UnauthorizeType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1"></xs:sequence>
+        <xs:attribute type="mule:expressionString" use="optional" name="resourceOwnerId">
+          <xs:annotation>
+            <xs:documentation>The id of the resource owner which access should be invalidated</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="java.util.concurrent.TimeUnitEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="NANOSECONDS"></xs:enumeration>
+          <xs:enumeration value="MICROSECONDS"></xs:enumeration>
+          <xs:enumeration value="MILLISECONDS"></xs:enumeration>
+          <xs:enumeration value="SECONDS"></xs:enumeration>
+          <xs:enumeration value="MINUTES"></xs:enumeration>
+          <xs:enumeration value="HOURS"></xs:enumeration>
+          <xs:enumeration value="DAYS"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="com.mulesoft.connectors.servicenow.internal.ServiceNowVersionEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="EUREKA"></xs:enumeration>
+          <xs:enumeration value="FUJI"></xs:enumeration>
+          <xs:enumeration value="GENEVA"></xs:enumeration>
+          <xs:enumeration value="HELSINKI"></xs:enumeration>
+          <xs:enumeration value="ISTANBUL"></xs:enumeration>
+          <xs:enumeration value="JAKARTA"></xs:enumeration>
+          <xs:enumeration value="KINGSTON"></xs:enumeration>
+          <xs:enumeration value="MADRID"></xs:enumeration>
+          <xs:enumeration value="NEW_YORK"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="com.mulesoft.connectors.servicenow.api.security.enums.SignatureKeyIdentifierEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="DIRECT_REFERENCE"></xs:enumeration>
+          <xs:enumeration value="X509_KEY_IDENTIFIER"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="com.mulesoft.connectors.servicenow.api.security.enums.SignatureAlgorithmEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="RSAwithSHA1"></xs:enumeration>
+          <xs:enumeration value="RSAwithSHA224"></xs:enumeration>
+          <xs:enumeration value="RSAwithSHA256"></xs:enumeration>
+          <xs:enumeration value="RSAwithSHA384"></xs:enumeration>
+          <xs:enumeration value="RSAwithSHA512"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="com.mulesoft.connectors.servicenow.api.security.enums.SignatureDigestAlgorithmEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="SHA1"></xs:enumeration>
+          <xs:enumeration value="SHA256"></xs:enumeration>
+          <xs:enumeration value="SHA224"></xs:enumeration>
+          <xs:enumeration value="SHA384"></xs:enumeration>
+          <xs:enumeration value="SHA512"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="com.mulesoft.connectors.servicenow.api.security.enums.SignatureC14nAlgorithmEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="CanonicalXML_1_0"></xs:enumeration>
+          <xs:enumeration value="CanonicalXML_1_1"></xs:enumeration>
+          <xs:enumeration value="ExclusiveXMLCanonicalization_1_0"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="com.mulesoft.connectors.servicenow.api.security.PasswordTypeAdapterEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="DIGEST"></xs:enumeration>
+          <xs:enumeration value="TEXT"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+</xs:schema>

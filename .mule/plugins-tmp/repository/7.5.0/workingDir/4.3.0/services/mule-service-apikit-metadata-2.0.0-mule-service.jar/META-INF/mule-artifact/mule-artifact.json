@@ -1,0 +1,19 @@
+{
+  "name": "Apikit Metadata service",
+  "minMuleVersion": "4.2.0",
+  "requiredProduct": "MULE",
+  "contracts": [
+    {
+      "serviceProviderClassName": "org.mule.module.apikit.metadata.internal.MetadataServiceProvider",
+      "contractClassName": "org.mule.runtime.apikit.metadata.api.MetadataService"
+    }
+  ],
+  "classLoaderModelLoaderDescriptor": {
+    "id": "mule",
+    "attributes": {}
+  },
+  "bundleDescriptorLoader": {
+    "id": "mule",
+    "attributes": {}
+  }
+}

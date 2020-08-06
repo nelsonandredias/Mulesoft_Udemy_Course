@@ -1,0 +1,334 @@
+{
+  "minMuleVersion": "4.1.1",
+  "extensionModel": {
+    "types": [{
+      "format": "java",
+      "annotations": {
+        "classInformation": {
+          "implementedInterfaces": [],
+          "parent": "",
+          "classname": "org.mule.extension.spring.internal.SpringSecurityProvider",
+          "hasDefaultConstructor": true,
+          "isInstantiable": true,
+          "isFinal": false,
+          "genericTypes": [],
+          "isInterface": false,
+          "isAbstract": false,
+          "isMap": false
+        },
+        "typeId": "org.mule.extension.spring.internal.SpringSecurityProvider",
+        "typeAlias": {"value": "DelegateSecurityProvider"}
+      },
+      "type": "Object",
+      "fields": [
+        {
+          "annotations": {
+            "description": {"value": "Provider name to allow referencing it."},
+            "expressionSupport": {"value": "NOT_SUPPORTED"}
+          },
+          "model": {"type": "String"},
+          "key": {
+            "name": "name",
+            "required": "true"
+          }
+        },
+        {
+          "annotations": {
+            "display": {"displayModel": {"displayName": "Delegate Reference"}},
+            "description": {"value": "Reference to a Spring Security Manager to use."},
+            "expressionSupport": {"value": "NOT_SUPPORTED"}
+          },
+          "model": {"type": "String"},
+          "key": {
+            "name": "delegate-ref",
+            "required": "true"
+          }
+        },
+        {
+          "annotations": {
+            "display": {"displayModel": {"displayName": "Authentication Provider Reference"}},
+            "description": {"value": "Reference to an authentication provider to use."},
+            "expressionSupport": {"value": "NOT_SUPPORTED"}
+          },
+          "model": {"type": "String"},
+          "key": {"name": "authenticationProvider-ref"}
+        }
+      ]
+    }],
+    "messageSources": [],
+    "functions": [],
+    "configurations": [{
+      "externalLibraryModels": [],
+      "operations": [],
+      "messageSources": [],
+      "name": "config",
+      "description": "Spring configuration that allows to define a set of spring XML files and create an application context with objects to be used in the mule artifact.",
+      "modelProperties": {},
+      "parameterGroupModels": [{
+        "name": "General",
+        "description": "",
+        "modelProperties": {},
+        "parameters": [
+          {
+            "role": "BEHAVIOUR",
+            "hasDynamicType": false,
+            "isConfigOverride": false,
+            "dslConfiguration": {
+              "allowTopLevelDefinition": false,
+              "allowsInlineDefinition": false,
+              "allowsReferences": false
+            },
+            "name": "files",
+            "description": "",
+            "modelProperties": {},
+            "allowedStereotypeModels": [],
+            "type": {
+              "format": "java",
+              "type": "String"
+            },
+            "required": true,
+            "isComponentId": false,
+            "expressionSupport": "NOT_SUPPORTED"
+          },
+          {
+            "role": "BEHAVIOUR",
+            "hasDynamicType": false,
+            "isConfigOverride": false,
+            "dslConfiguration": {
+              "allowTopLevelDefinition": false,
+              "allowsInlineDefinition": false,
+              "allowsReferences": false
+            },
+            "name": "name",
+            "description": "The identifier of this element used to reference it in other components",
+            "modelProperties": {},
+            "allowedStereotypeModels": [],
+            "type": {
+              "format": "java",
+              "type": "String"
+            },
+            "required": true,
+            "isComponentId": true,
+            "expressionSupport": "NOT_SUPPORTED"
+          }
+        ],
+        "exclusiveParametersModels": [],
+        "showInDsl": false
+      }],
+      "connectionProviders": []
+    }],
+    "externalLibraries": [
+      {
+        "suggestedCoordinates": "org.springframework:spring-beans:5.1.6.RELEASE",
+        "name": "Spring Beans",
+        "description": "Spring Beans (http://projects.spring.io/spring-framework). Based on the application usage of the Spring Framework, other spring dependencies may be required.",
+        "optional": false,
+        "type": "DEPENDENCY"
+      },
+      {
+        "suggestedCoordinates": "org.springframework:spring-context:5.1.6.RELEASE",
+        "name": "Spring Context",
+        "description": "Spring Context (http://projects.spring.io/spring-framework). Based on the application usage of the Spring Framework, other spring dependencies may be required.",
+        "optional": false,
+        "type": "DEPENDENCY"
+      },
+      {
+        "suggestedCoordinates": "org.springframework:spring-core:5.1.6.RELEASE",
+        "name": "Spring Core",
+        "description": "Spring Core (http://projects.spring.io/spring-framework). Based on the application usage of the Spring Framework, other spring dependencies may be required.",
+        "optional": false,
+        "type": "DEPENDENCY"
+      },
+      {
+        "suggestedCoordinates": "org.springframework.security:spring-security-config:5.1.5.RELEASE",
+        "name": "Spring Security Config",
+        "description": "Spring Security Config (http://spring.io/spring-security). Based on the application usage of the Spring Framework, other spring/spring-security dependencies may be required.",
+        "optional": false,
+        "type": "DEPENDENCY"
+      },
+      {
+        "suggestedCoordinates": "org.springframework.security:spring-security-core:5.1.5.RELEASE",
+        "name": "Spring Security Core",
+        "description": "Spring Security Context (http://spring.io/spring-security). Based on the application usage of the Spring Framework, other spring/spring-security dependencies may be required.",
+        "optional": false,
+        "type": "DEPENDENCY"
+      },
+      {
+        "suggestedCoordinates": "org.springframework.security:spring-security-ldap:5.1.5.RELEASE",
+        "name": "Spring Security LDAP",
+        "description": "Spring Security LDAP (http://spring.io/spring-security). Based on the application usage of the Spring Framework, other spring/spring-security dependencies may be required.",
+        "optional": true,
+        "type": "DEPENDENCY"
+      },
+      {
+        "suggestedCoordinates": "org.springframework.security:spring-security-web:5.1.5.RELEASE",
+        "name": "Spring Security Web",
+        "description": "Spring Security Web (http://spring.io/spring-security). Based on the application usage of the Spring Framework, other spring/spring-security dependencies may be required.",
+        "optional": true,
+        "type": "DEPENDENCY"
+      }
+    ],
+    "description": "Spring Module Plugin",
+    "resources": [],
+    "subTypes": [],
+    "modelProperties": {},
+    "constructs": [{
+      "kind": "construct",
+      "name": "securityManager",
+      "description": "Security manager that allows configuring Spring security providers.",
+      "modelProperties": {},
+      "stereotype": {
+        "parent": {
+          "namespace": "MULE",
+          "type": "APP_CONFIG"
+        },
+        "namespace": "SPRING",
+        "type": "SECURITY_MANAGER"
+      },
+      "parameterGroupModels": [{
+        "name": "General",
+        "description": "",
+        "modelProperties": {},
+        "parameters": [
+          {
+            "role": "BEHAVIOUR",
+            "hasDynamicType": false,
+            "isConfigOverride": false,
+            "dslConfiguration": {
+              "allowTopLevelDefinition": false,
+              "allowsInlineDefinition": false,
+              "allowsReferences": false
+            },
+            "name": "name",
+            "description": "",
+            "modelProperties": {},
+            "allowedStereotypeModels": [],
+            "type": {
+              "format": "java",
+              "type": "String"
+            },
+            "required": true,
+            "isComponentId": true,
+            "expressionSupport": "NOT_SUPPORTED"
+          },
+          {
+            "role": "BEHAVIOUR",
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "@ref:org.mule.extension.spring.internal.SpringSecurityProvider"
+            },
+            "required": true,
+            "expressionSupport": "NOT_SUPPORTED",
+            "hasDynamicType": false,
+            "isConfigOverride": false,
+            "dslConfiguration": {
+              "allowTopLevelDefinition": false,
+              "allowsInlineDefinition": true,
+              "allowsReferences": false
+            },
+            "name": "delegateSecurityProvider",
+            "layoutModel": {
+              "password": false,
+              "query": false,
+              "text": false,
+              "order": 1
+            },
+            "allowedStereotypeModels": [],
+            "isComponentId": false
+          }
+        ],
+        "exclusiveParametersModels": [],
+        "showInDsl": false
+      }],
+      "nestedComponents": [],
+      "allowsTopLevelDefinition": true,
+      "errors": []
+    }],
+    "connectionProviders": [],
+    "version": "1.3.3",
+    "privilegedArtifacts": [],
+    "importedTypes": [],
+    "xmlDsl": {
+      "schemaVersion": "1.3.3",
+      "prefix": "spring",
+      "schemaLocation": "http://www.mulesoft.org/schema/mule/spring/current/mule-spring.xsd",
+      "namespace": "http://www.mulesoft.org/schema/mule/spring",
+      "xsdFileName": "mule-spring.xsd"
+    },
+    "operations": [{
+      "kind": "operation",
+      "executionType": "CPU_LITE",
+      "description": "Authorize users against a required set of authorities.",
+      "modelProperties": {},
+      "parameterGroupModels": [{
+        "name": "General",
+        "description": "",
+        "modelProperties": {},
+        "parameters": [{
+          "role": "BEHAVIOUR",
+          "hasDynamicType": false,
+          "isConfigOverride": false,
+          "dslConfiguration": {
+            "allowTopLevelDefinition": false,
+            "allowsInlineDefinition": false,
+            "allowsReferences": false
+          },
+          "name": "requiredAuthorities",
+          "description": "",
+          "modelProperties": {},
+          "allowedStereotypeModels": [],
+          "type": {
+            "format": "java",
+            "type": "String"
+          },
+          "required": true,
+          "isComponentId": false,
+          "expressionSupport": "NOT_SUPPORTED"
+        }],
+        "exclusiveParametersModels": [],
+        "showInDsl": false
+      }],
+      "output": {
+        "hasDynamicType": false,
+        "description": "",
+        "modelProperties": {},
+        "type": {
+          "format": "java",
+          "type": "Void"
+        }
+      },
+      "outputAttributes": {
+        "hasDynamicType": false,
+        "description": "",
+        "modelProperties": {},
+        "type": {
+          "format": "java",
+          "type": "Void"
+        }
+      },
+      "supportsStreaming": false,
+      "requiresConnection": false,
+      "blocking": true,
+      "name": "authorization-filter",
+      "stereotype": {
+        "namespace": "MULE",
+        "type": "PROCESSOR"
+      },
+      "nestedComponents": [],
+      "transactional": false,
+      "notifications": [],
+      "errors": [
+        "MULE:NOT_PERMITTED",
+        "MULE:SERVER_SECURITY"
+      ]
+    }],
+    "vendor": "Mulesoft",
+    "name": "Spring",
+    "privilegedPackages": [],
+    "category": "COMMUNITY",
+    "notifications": [],
+    "errors": []
+  }
+}

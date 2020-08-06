@@ -1,0 +1,1591 @@
+{
+  "minMuleVersion": "4.1.1",
+  "extensionModel": {
+    "types": [],
+    "messageSources": [],
+    "functions": [],
+    "configurations": [{
+      "displayModel": {"displayName": "Configuration"},
+      "externalLibraryModels": [],
+      "operations": [
+        {
+          "displayModel": {"displayName": "SOAP Fault"},
+          "kind": "operation",
+          "executionType": "CPU_LITE",
+          "description": "APIKit for SOAP Fault",
+          "modelProperties": {
+            "metadataKeyId": {
+              "parameterName": "SOAP Fault Information",
+              "type": {
+                "format": "java",
+                "annotations": {
+                  "classInformation": {
+                    "implementedInterfaces": [],
+                    "parent": "",
+                    "classname": "org.mule.module.soapkit.internal.OperationFaultPair",
+                    "hasDefaultConstructor": true,
+                    "isInstantiable": true,
+                    "isFinal": false,
+                    "genericTypes": [],
+                    "isInterface": false,
+                    "isAbstract": false,
+                    "isMap": false
+                  },
+                  "typeId": "org.mule.module.soapkit.internal.OperationFaultPair",
+                  "typeAlias": {"value": "OperationFaultPair"}
+                },
+                "type": "Object",
+                "fields": [
+                  {
+                    "annotations": {"expressionSupport": {"value": "SUPPORTED"}},
+                    "model": {"type": "String"},
+                    "key": {
+                      "name": "operation",
+                      "required": "true"
+                    }
+                  },
+                  {
+                    "annotations": {"expressionSupport": {"value": "SUPPORTED"}},
+                    "model": {"type": "String"},
+                    "key": {
+                      "name": "fault",
+                      "required": "true"
+                    }
+                  }
+                ]
+              },
+              "categoryName": "SoapkitResolverCategory"
+            },
+            "typeResolversInformation": {
+              "inputResolvers": {"payload": {
+                "resolverName": "OperationFaultPairResolver",
+                "requiresConnection": false,
+                "requiresConfiguration": false
+              }},
+              "outputResolver": {
+                "resolverName": "OperationFaultPairResolver",
+                "requiresConnection": false,
+                "requiresConfiguration": false
+              },
+              "keysResolver": {
+                "resolverName": "OperationFaultPairResolver",
+                "requiresConnection": false,
+                "requiresConfiguration": false
+              },
+              "category": "SoapkitResolverCategory"
+            }
+          },
+          "parameterGroupModels": [
+            {
+              "name": "General",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 1
+              },
+              "description": "",
+              "modelProperties": {},
+              "parameters": [
+                {
+                  "role": "BEHAVIOUR",
+                  "defaultValue": "#[payload]",
+                  "description": "",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "annotations": {"classInformation": {
+                      "implementedInterfaces": ["java.io.Closeable"],
+                      "parent": "",
+                      "classname": "java.io.InputStream",
+                      "hasDefaultConstructor": true,
+                      "isInstantiable": false,
+                      "isFinal": false,
+                      "genericTypes": [],
+                      "isInterface": false,
+                      "isAbstract": true,
+                      "isMap": false
+                    }},
+                    "type": "Any"
+                  },
+                  "required": false,
+                  "expressionSupport": "SUPPORTED",
+                  "hasDynamicType": true,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": false
+                  },
+                  "name": "payload",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 1
+                  },
+                  "allowedStereotypeModels": [],
+                  "isComponentId": false
+                },
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "The name of the configuration to be used to execute this component",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "annotations": {"typeId": "org.mule.runtime.extension.api.runtime.config.ConfigurationProvider"},
+                    "type": "Object",
+                    "fields": []
+                  },
+                  "required": true,
+                  "expressionSupport": "NOT_SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": true
+                  },
+                  "name": "config-ref",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 3
+                  },
+                  "allowedStereotypeModels": [{
+                    "parent": {
+                      "namespace": "MULE",
+                      "type": "MODULE_CONFIG"
+                    },
+                    "namespace": "APIKIT-SOAP",
+                    "type": "CONFIG"
+                  }],
+                  "isComponentId": false
+                },
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "Configure if repeatable streams should be used and their behaviour",
+                  "modelProperties": {
+                    "org.mule.runtime.extension.api.property.InfrastructureParameterModelProperty": {"sequence": 2},
+                    "org.mule.runtime.extension.api.property.QNameModelProperty": {"value": {
+                      "localPart": "abstract-byte-streaming-strategy",
+                      "prefix": "mule",
+                      "namespaceURI": "http://www.mulesoft.org/schema/mule/core"
+                    }}
+                  },
+                  "type": {
+                    "of": [
+                      {
+                        "annotations": {"typeId": "repeatable-in-memory-stream"},
+                        "type": "Object",
+                        "fields": [
+                          {
+                            "annotations": {"description": {"value": "This is the amount of memory that will be allocated in order to consume the stream and provide random access to it. If the stream contains more data than can be fit into this buffer, then it will be expanded by according to the bufferSizeIncrement attribute, with an upper limit of maxInMemorySize."}},
+                            "model": {
+                              "annotations": {
+                                "default": "512",
+                                "int": {}
+                              },
+                              "type": "Number"
+                            },
+                            "key": {"name": "initialBufferSize"}
+                          },
+                          {
+                            "annotations": {"description": {"value": "This is by how much will be buffer size by expanded if it exceeds its initial size. Setting a value of zero or lower will mean that the buffer should not expand, meaning that a STREAM_MAXIMUM_SIZE_EXCEEDED error will be raised when the buffer gets full."}},
+                            "model": {
+                              "annotations": {
+                                "default": "512",
+                                "int": {}
+                              },
+                              "type": "Number"
+                            },
+                            "key": {"name": "bufferSizeIncrement"}
+                          },
+                          {
+                            "annotations": {"description": {"value": "This is the maximum amount of memory that will be used. If more than that is used then a STREAM_MAXIMUM_SIZE_EXCEEDED error will be raised. A value lower or equal to zero means no limit."}},
+                            "model": {
+                              "annotations": {
+                                "default": "1024",
+                                "int": {}
+                              },
+                              "type": "Number"
+                            },
+                            "key": {"name": "maxBufferSize"}
+                          },
+                          {
+                            "annotations": {"description": {"value": "The unit in which all these attributes are expressed"}},
+                            "model": {
+                              "annotations": {
+                                "default": "KB",
+                                "enum": {
+                                  "values": [
+                                    "BYTE",
+                                    "KB",
+                                    "MB",
+                                    "GB"
+                                  ],
+                                  "type": "[Ljava.lang.String;"
+                                }
+                              },
+                              "type": "String"
+                            },
+                            "key": {"name": "bufferUnit"}
+                          }
+                        ]
+                      },
+                      {
+                        "annotations": {"typeId": "repeatable-file-store-stream"},
+                        "type": "Object",
+                        "fields": [
+                          {
+                            "annotations": {"description": {"value": "Defines the maximum memory that the stream should use to keep data in memory. If more than that is consumed then it will start to buffer the content on disk."}},
+                            "model": {
+                              "annotations": {
+                                "default": "512",
+                                "int": {}
+                              },
+                              "type": "Number"
+                            },
+                            "key": {"name": "inMemorySize"}
+                          },
+                          {
+                            "annotations": {"description": {"value": "The unit in which maxInMemorySize is expressed"}},
+                            "model": {
+                              "annotations": {
+                                "default": "KB",
+                                "enum": {
+                                  "values": [
+                                    "BYTE",
+                                    "KB",
+                                    "MB",
+                                    "GB"
+                                  ],
+                                  "type": "[Ljava.lang.String;"
+                                }
+                              },
+                              "type": "String"
+                            },
+                            "key": {"name": "bufferUnit"}
+                          }
+                        ]
+                      },
+                      {
+                        "annotations": {
+                          "description": {"value": "This configuration allows the input stream to be read only once. It will not allow to seek randomly which will limit the transformations that DW can perform on this stream. Use this option for use cases which just require moving data around from one system to another to get optimum performance."},
+                          "typeId": "non-repeatable-stream"
+                        },
+                        "type": "Object",
+                        "fields": []
+                      }
+                    ],
+                    "format": "java",
+                    "annotations": {"typeId": "ByteStreamingStrategy"},
+                    "type": "Union"
+                  },
+                  "required": false,
+                  "expressionSupport": "NOT_SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": true,
+                    "allowsReferences": false
+                  },
+                  "name": "streamingStrategy",
+                  "layoutModel": {
+                    "password": false,
+                    "tabName": "Advanced",
+                    "query": false,
+                    "text": false,
+                    "order": 2
+                  },
+                  "allowedStereotypeModels": [],
+                  "isComponentId": false
+                }
+              ],
+              "exclusiveParametersModels": [],
+              "showInDsl": false
+            },
+            {
+              "name": "SOAP Fault Information",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 2
+              },
+              "description": "",
+              "modelProperties": {},
+              "parameters": [
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "",
+                  "modelProperties": {"org.mule.runtime.extension.api.property.MetadataKeyPartModelProperty": {
+                    "providedByKeyResolver": true,
+                    "order": 1
+                  }},
+                  "type": {
+                    "format": "java",
+                    "type": "String"
+                  },
+                  "required": true,
+                  "expressionSupport": "SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": false
+                  },
+                  "name": "operation",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 4
+                  },
+                  "allowedStereotypeModels": [],
+                  "isComponentId": false
+                },
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "",
+                  "modelProperties": {"org.mule.runtime.extension.api.property.MetadataKeyPartModelProperty": {
+                    "providedByKeyResolver": true,
+                    "order": 2
+                  }},
+                  "type": {
+                    "format": "java",
+                    "type": "String"
+                  },
+                  "required": true,
+                  "expressionSupport": "SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": false
+                  },
+                  "name": "fault",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 5
+                  },
+                  "allowedStereotypeModels": [],
+                  "isComponentId": false
+                }
+              ],
+              "exclusiveParametersModels": [],
+              "showInDsl": false
+            },
+            {
+              "name": "Output",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 3
+              },
+              "description": "",
+              "modelProperties": {},
+              "parameters": [
+                {
+                  "displayModel": {"displayName": "Target Variable"},
+                  "role": "BEHAVIOUR",
+                  "description": "The name of a variable on which the operation's output will be placed",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "type": "String"
+                  },
+                  "required": false,
+                  "expressionSupport": "NOT_SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": false
+                  },
+                  "name": "target",
+                  "layoutModel": {
+                    "password": false,
+                    "tabName": "Advanced",
+                    "query": false,
+                    "text": false,
+                    "order": 6
+                  },
+                  "allowedStereotypeModels": [],
+                  "isComponentId": false
+                },
+                {
+                  "displayModel": {"displayName": "Target Value"},
+                  "role": "BEHAVIOUR",
+                  "defaultValue": "#[payload]",
+                  "description": "An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "type": "String"
+                  },
+                  "required": false,
+                  "expressionSupport": "REQUIRED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": false
+                  },
+                  "name": "targetValue",
+                  "layoutModel": {
+                    "password": false,
+                    "tabName": "Advanced",
+                    "query": false,
+                    "text": false,
+                    "order": 7
+                  },
+                  "allowedStereotypeModels": [],
+                  "isComponentId": false
+                }
+              ],
+              "exclusiveParametersModels": [],
+              "showInDsl": false
+            }
+          ],
+          "output": {
+            "hasDynamicType": true,
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "xml",
+              "annotations": {"classInformation": {
+                "implementedInterfaces": ["java.io.Closeable"],
+                "parent": "",
+                "classname": "java.io.InputStream",
+                "hasDefaultConstructor": true,
+                "isInstantiable": false,
+                "isFinal": false,
+                "genericTypes": [],
+                "isInterface": false,
+                "isAbstract": true,
+                "isMap": false
+              }},
+              "type": "Any"
+            }
+          },
+          "outputAttributes": {
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "Void"
+            }
+          },
+          "supportsStreaming": true,
+          "requiresConnection": false,
+          "blocking": true,
+          "name": "fault",
+          "stereotype": {
+            "parent": {
+              "parent": {
+                "namespace": "MULE",
+                "type": "PROCESSOR"
+              },
+              "namespace": "APIKIT-SOAP",
+              "type": "PROCESSOR"
+            },
+            "namespace": "APIKIT-SOAP",
+            "type": "FAULT"
+          },
+          "nestedComponents": [],
+          "transactional": false,
+          "notifications": [],
+          "errors": [
+            "APIKIT-SOAP:FAULT",
+            "APIKIT-SOAP:ROUTER"
+          ]
+        },
+        {
+          "displayModel": {"displayName": "SOAP Router"},
+          "kind": "operation",
+          "executionType": "BLOCKING",
+          "description": "APIKit for SOAP Router",
+          "modelProperties": {},
+          "parameterGroupModels": [
+            {
+              "name": "General",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 1
+              },
+              "description": "",
+              "modelProperties": {},
+              "parameters": [
+                {
+                  "role": "PRIMARY_CONTENT",
+                  "defaultValue": "#[payload]",
+                  "description": "",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "annotations": {"classInformation": {
+                      "implementedInterfaces": ["java.io.Closeable"],
+                      "parent": "",
+                      "classname": "java.io.InputStream",
+                      "hasDefaultConstructor": true,
+                      "isInstantiable": false,
+                      "isFinal": false,
+                      "genericTypes": [],
+                      "isInterface": false,
+                      "isAbstract": true,
+                      "isMap": false
+                    }},
+                    "type": "Any"
+                  },
+                  "required": false,
+                  "expressionSupport": "SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": true,
+                    "allowsReferences": false
+                  },
+                  "name": "message",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 1
+                  },
+                  "allowedStereotypeModels": [],
+                  "isComponentId": false
+                },
+                {
+                  "role": "CONTENT",
+                  "description": "",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "annotations": {"classInformation": {
+                      "implementedInterfaces": [],
+                      "parent": "",
+                      "classname": "java.util.Map",
+                      "hasDefaultConstructor": false,
+                      "isInstantiable": false,
+                      "isFinal": false,
+                      "genericTypes": [
+                        "java.lang.String",
+                        "java.lang.Object"
+                      ],
+                      "isInterface": true,
+                      "isAbstract": true,
+                      "isMap": true
+                    }},
+                    "type": "Object",
+                    "fields": [],
+                    "open": {
+                      "annotations": {
+                        "classInformation": {
+                          "implementedInterfaces": [],
+                          "parent": "",
+                          "classname": "java.lang.Object",
+                          "hasDefaultConstructor": true,
+                          "isInstantiable": true,
+                          "isFinal": false,
+                          "genericTypes": [],
+                          "isInterface": false,
+                          "isAbstract": false,
+                          "isMap": false
+                        },
+                        "typeId": "java.lang.Object",
+                        "typeAlias": {"value": "Object"}
+                      },
+                      "type": "Object",
+                      "fields": []
+                    }
+                  },
+                  "required": true,
+                  "expressionSupport": "SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": true,
+                    "allowsReferences": false
+                  },
+                  "name": "attributes",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 2
+                  },
+                  "allowedStereotypeModels": [],
+                  "isComponentId": false
+                },
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "The mime type of the payload that this operation outputs.",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "type": "String"
+                  },
+                  "required": false,
+                  "expressionSupport": "SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": false
+                  },
+                  "name": "outputMimeType",
+                  "layoutModel": {
+                    "password": false,
+                    "tabName": "Advanced",
+                    "query": false,
+                    "text": false,
+                    "order": 3
+                  },
+                  "allowedStereotypeModels": [],
+                  "isComponentId": false
+                },
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "The encoding of the payload that this operation outputs.",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "type": "String"
+                  },
+                  "required": false,
+                  "expressionSupport": "SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": false
+                  },
+                  "name": "outputEncoding",
+                  "layoutModel": {
+                    "password": false,
+                    "tabName": "Advanced",
+                    "query": false,
+                    "text": false,
+                    "order": 4
+                  },
+                  "allowedStereotypeModels": [],
+                  "isComponentId": false
+                },
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "The name of the configuration to be used to execute this component",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "annotations": {"typeId": "org.mule.runtime.extension.api.runtime.config.ConfigurationProvider"},
+                    "type": "Object",
+                    "fields": []
+                  },
+                  "required": true,
+                  "expressionSupport": "NOT_SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": true
+                  },
+                  "name": "config-ref",
+                  "layoutModel": {
+                    "password": false,
+                    "query": false,
+                    "text": false,
+                    "order": 6
+                  },
+                  "allowedStereotypeModels": [{
+                    "parent": {
+                      "namespace": "MULE",
+                      "type": "MODULE_CONFIG"
+                    },
+                    "namespace": "APIKIT-SOAP",
+                    "type": "CONFIG"
+                  }],
+                  "isComponentId": false
+                },
+                {
+                  "role": "BEHAVIOUR",
+                  "description": "Configure if repeatable streams should be used and their behaviour",
+                  "modelProperties": {
+                    "org.mule.runtime.extension.api.property.InfrastructureParameterModelProperty": {"sequence": 2},
+                    "org.mule.runtime.extension.api.property.QNameModelProperty": {"value": {
+                      "localPart": "abstract-byte-streaming-strategy",
+                      "prefix": "mule",
+                      "namespaceURI": "http://www.mulesoft.org/schema/mule/core"
+                    }}
+                  },
+                  "type": {
+                    "of": [
+                      {
+                        "annotations": {"typeId": "repeatable-in-memory-stream"},
+                        "type": "Object",
+                        "fields": [
+                          {
+                            "annotations": {"description": {"value": "This is the amount of memory that will be allocated in order to consume the stream and provide random access to it. If the stream contains more data than can be fit into this buffer, then it will be expanded by according to the bufferSizeIncrement attribute, with an upper limit of maxInMemorySize."}},
+                            "model": {
+                              "annotations": {
+                                "default": "512",
+                                "int": {}
+                              },
+                              "type": "Number"
+                            },
+                            "key": {"name": "initialBufferSize"}
+                          },
+                          {
+                            "annotations": {"description": {"value": "This is by how much will be buffer size by expanded if it exceeds its initial size. Setting a value of zero or lower will mean that the buffer should not expand, meaning that a STREAM_MAXIMUM_SIZE_EXCEEDED error will be raised when the buffer gets full."}},
+                            "model": {
+                              "annotations": {
+                                "default": "512",
+                                "int": {}
+                              },
+                              "type": "Number"
+                            },
+                            "key": {"name": "bufferSizeIncrement"}
+                          },
+                          {
+                            "annotations": {"description": {"value": "This is the maximum amount of memory that will be used. If more than that is used then a STREAM_MAXIMUM_SIZE_EXCEEDED error will be raised. A value lower or equal to zero means no limit."}},
+                            "model": {
+                              "annotations": {
+                                "default": "1024",
+                                "int": {}
+                              },
+                              "type": "Number"
+                            },
+                            "key": {"name": "maxBufferSize"}
+                          },
+                          {
+                            "annotations": {"description": {"value": "The unit in which all these attributes are expressed"}},
+                            "model": {
+                              "annotations": {
+                                "default": "KB",
+                                "enum": {
+                                  "values": [
+                                    "BYTE",
+                                    "KB",
+                                    "MB",
+                                    "GB"
+                                  ],
+                                  "type": "[Ljava.lang.String;"
+                                }
+                              },
+                              "type": "String"
+                            },
+                            "key": {"name": "bufferUnit"}
+                          }
+                        ]
+                      },
+                      {
+                        "annotations": {"typeId": "repeatable-file-store-stream"},
+                        "type": "Object",
+                        "fields": [
+                          {
+                            "annotations": {"description": {"value": "Defines the maximum memory that the stream should use to keep data in memory. If more than that is consumed then it will start to buffer the content on disk."}},
+                            "model": {
+                              "annotations": {
+                                "default": "512",
+                                "int": {}
+                              },
+                              "type": "Number"
+                            },
+                            "key": {"name": "inMemorySize"}
+                          },
+                          {
+                            "annotations": {"description": {"value": "The unit in which maxInMemorySize is expressed"}},
+                            "model": {
+                              "annotations": {
+                                "default": "KB",
+                                "enum": {
+                                  "values": [
+                                    "BYTE",
+                                    "KB",
+                                    "MB",
+                                    "GB"
+                                  ],
+                                  "type": "[Ljava.lang.String;"
+                                }
+                              },
+                              "type": "String"
+                            },
+                            "key": {"name": "bufferUnit"}
+                          }
+                        ]
+                      },
+                      {
+                        "annotations": {
+                          "description": {"value": "This configuration allows the input stream to be read only once. It will not allow to seek randomly which will limit the transformations that DW can perform on this stream. Use this option for use cases which just require moving data around from one system to another to get optimum performance."},
+                          "typeId": "non-repeatable-stream"
+                        },
+                        "type": "Object",
+                        "fields": []
+                      }
+                    ],
+                    "format": "java",
+                    "annotations": {"typeId": "ByteStreamingStrategy"},
+                    "type": "Union"
+                  },
+                  "required": false,
+                  "expressionSupport": "NOT_SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": true,
+                    "allowsReferences": false
+                  },
+                  "name": "streamingStrategy",
+                  "layoutModel": {
+                    "password": false,
+                    "tabName": "Advanced",
+                    "query": false,
+                    "text": false,
+                    "order": 5
+                  },
+                  "allowedStereotypeModels": [],
+                  "isComponentId": false
+                }
+              ],
+              "exclusiveParametersModels": [],
+              "showInDsl": false
+            },
+            {
+              "name": "Output",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 2
+              },
+              "description": "",
+              "modelProperties": {},
+              "parameters": [
+                {
+                  "displayModel": {"displayName": "Target Variable"},
+                  "role": "BEHAVIOUR",
+                  "description": "The name of a variable on which the operation's output will be placed",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "type": "String"
+                  },
+                  "required": false,
+                  "expressionSupport": "NOT_SUPPORTED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": false
+                  },
+                  "name": "target",
+                  "layoutModel": {
+                    "password": false,
+                    "tabName": "Advanced",
+                    "query": false,
+                    "text": false,
+                    "order": 7
+                  },
+                  "allowedStereotypeModels": [],
+                  "isComponentId": false
+                },
+                {
+                  "displayModel": {"displayName": "Target Value"},
+                  "role": "BEHAVIOUR",
+                  "defaultValue": "#[payload]",
+                  "description": "An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable",
+                  "modelProperties": {},
+                  "type": {
+                    "format": "java",
+                    "type": "String"
+                  },
+                  "required": false,
+                  "expressionSupport": "REQUIRED",
+                  "hasDynamicType": false,
+                  "isConfigOverride": false,
+                  "dslConfiguration": {
+                    "allowTopLevelDefinition": false,
+                    "allowsInlineDefinition": false,
+                    "allowsReferences": false
+                  },
+                  "name": "targetValue",
+                  "layoutModel": {
+                    "password": false,
+                    "tabName": "Advanced",
+                    "query": false,
+                    "text": false,
+                    "order": 8
+                  },
+                  "allowedStereotypeModels": [],
+                  "isComponentId": false
+                }
+              ],
+              "exclusiveParametersModels": [],
+              "showInDsl": false
+            }
+          ],
+          "output": {
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": {
+                "validMimeTypes": ["*/*"],
+                "id": "*/*",
+                "label": "*/*"
+              },
+              "annotations": {"classInformation": {
+                "implementedInterfaces": ["java.io.Closeable"],
+                "parent": "",
+                "classname": "java.io.InputStream",
+                "hasDefaultConstructor": true,
+                "isInstantiable": false,
+                "isFinal": false,
+                "genericTypes": [],
+                "isInterface": false,
+                "isAbstract": true,
+                "isMap": false
+              }},
+              "type": "Any"
+            }
+          },
+          "outputAttributes": {
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "annotations": {
+                "classInformation": {
+                  "implementedInterfaces": ["java.io.Serializable"],
+                  "parent": "",
+                  "classname": "org.mule.runtime.extension.api.soap.SoapAttributes",
+                  "hasDefaultConstructor": false,
+                  "isInstantiable": false,
+                  "isFinal": true,
+                  "genericTypes": [],
+                  "isInterface": false,
+                  "isAbstract": false,
+                  "isMap": false
+                },
+                "typeId": "org.mule.runtime.extension.api.soap.SoapAttributes",
+                "typeAlias": {"value": "SoapAttributes"}
+              },
+              "type": "Object",
+              "fields": [{
+                "annotations": {"visibility": "READ_ONLY"},
+                "model": {
+                  "annotations": {"classInformation": {
+                    "implementedInterfaces": [],
+                    "parent": "",
+                    "classname": "java.util.Map",
+                    "hasDefaultConstructor": false,
+                    "isInstantiable": false,
+                    "isFinal": false,
+                    "genericTypes": [
+                      "java.lang.String",
+                      "java.lang.String"
+                    ],
+                    "isInterface": true,
+                    "isAbstract": true,
+                    "isMap": true
+                  }},
+                  "type": "Object",
+                  "fields": [],
+                  "open": {"type": "String"}
+                },
+                "key": {"name": "protocolHeaders"}
+              }]
+            }
+          },
+          "supportsStreaming": true,
+          "requiresConnection": false,
+          "blocking": false,
+          "name": "router",
+          "stereotype": {
+            "parent": {
+              "parent": {
+                "namespace": "MULE",
+                "type": "PROCESSOR"
+              },
+              "namespace": "APIKIT-SOAP",
+              "type": "PROCESSOR"
+            },
+            "namespace": "APIKIT-SOAP",
+            "type": "ROUTER"
+          },
+          "nestedComponents": [],
+          "transactional": false,
+          "notifications": [],
+          "errors": [
+            "APIKIT-SOAP:FAULT",
+            "APIKIT-SOAP:ROUTER"
+          ]
+        }
+      ],
+      "messageSources": [],
+      "name": "config",
+      "description": "Configuration element for a SOAP Router.",
+      "modelProperties": {"requiredForMetadata": {"requiredParameters": [
+        "soapVersion",
+        "address",
+        "mtomEnabled",
+        "inboundValidationEnabled",
+        "httpStatusVarName",
+        "namespacePrefixes",
+        "name",
+        "wsdlLocation",
+        "service",
+        "port"
+      ]}},
+      "stereotype": {
+        "parent": {
+          "namespace": "MULE",
+          "type": "MODULE_CONFIG"
+        },
+        "namespace": "APIKIT-SOAP",
+        "type": "CONFIG"
+      },
+      "parameterGroupModels": [
+        {
+          "name": "General",
+          "layoutModel": {
+            "password": false,
+            "query": false,
+            "text": false,
+            "order": 1
+          },
+          "description": "",
+          "modelProperties": {},
+          "parameters": [
+            {
+              "role": "BEHAVIOUR",
+              "description": "The soap version of the WSDL.",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "annotations": {
+                  "typeId": "org.mule.runtime.soap.api.SoapVersion",
+                  "enum": {
+                    "values": [
+                      "SOAP11",
+                      "SOAP12"
+                    ],
+                    "type": "[Ljava.lang.String;"
+                  }
+                },
+                "type": "String"
+              },
+              "required": false,
+              "expressionSupport": "NOT_SUPPORTED",
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": false
+              },
+              "name": "soapVersion",
+              "layoutModel": {
+                "password": false,
+                "tabName": "General",
+                "query": false,
+                "text": false,
+                "order": 5
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            },
+            {
+              "role": "BEHAVIOUR",
+              "description": "The address of the web service.",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "required": false,
+              "expressionSupport": "SUPPORTED",
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": false
+              },
+              "name": "address",
+              "layoutModel": {
+                "password": false,
+                "tabName": "General",
+                "query": false,
+                "text": false,
+                "order": 6
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            },
+            {
+              "role": "BEHAVIOUR",
+              "defaultValue": "false",
+              "description": "If should use the MTOM protocol to manage the attachments or not.",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "annotations": {"typeId": "boolean"},
+                "type": "Boolean"
+              },
+              "required": false,
+              "expressionSupport": "NOT_SUPPORTED",
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": false
+              },
+              "name": "mtomEnabled",
+              "layoutModel": {
+                "password": false,
+                "tabName": "General",
+                "query": false,
+                "text": false,
+                "order": 7
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            },
+            {
+              "role": "BEHAVIOUR",
+              "defaultValue": "false",
+              "description": "If should use the MTOM protocol to manage the attachments or not.",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "annotations": {"typeId": "boolean"},
+                "type": "Boolean"
+              },
+              "required": false,
+              "expressionSupport": "NOT_SUPPORTED",
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": false
+              },
+              "name": "inboundValidationEnabled",
+              "layoutModel": {
+                "password": false,
+                "tabName": "General",
+                "query": false,
+                "text": false,
+                "order": 8
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            },
+            {
+              "role": "BEHAVIOUR",
+              "defaultValue": "httpStatus",
+              "description": "The variable name for the http status.",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "required": false,
+              "expressionSupport": "NOT_SUPPORTED",
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": false
+              },
+              "name": "httpStatusVarName",
+              "layoutModel": {
+                "password": false,
+                "tabName": "General",
+                "query": false,
+                "text": false,
+                "order": 9
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            },
+            {
+              "role": "BEHAVIOUR",
+              "description": "",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "annotations": {"classInformation": {
+                  "implementedInterfaces": [],
+                  "parent": "",
+                  "classname": "java.util.Map",
+                  "hasDefaultConstructor": false,
+                  "isInstantiable": false,
+                  "isFinal": false,
+                  "genericTypes": [
+                    "java.lang.String",
+                    "java.lang.String"
+                  ],
+                  "isInterface": true,
+                  "isAbstract": true,
+                  "isMap": true
+                }},
+                "type": "Object",
+                "fields": [],
+                "open": {"type": "String"}
+              },
+              "required": false,
+              "expressionSupport": "NOT_SUPPORTED",
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": true,
+                "allowsReferences": true
+              },
+              "name": "namespacePrefixes",
+              "layoutModel": {
+                "password": false,
+                "tabName": "General",
+                "query": false,
+                "text": false,
+                "order": 10
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            },
+            {
+              "role": "BEHAVIOUR",
+              "description": "The identifier of this element used to reference it in other components",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "required": true,
+              "expressionSupport": "NOT_SUPPORTED",
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": false
+              },
+              "name": "name",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 11
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": true
+            },
+            {
+              "role": "BEHAVIOUR",
+              "description": "Configures the minimum amount of time that a dynamic configuration instance can remain idle before the runtime considers it eligible for expiration. This does not mean that the platform will expire the instance at the exact moment that it becomes eligible. The runtime will actually purge the instances when it sees it fit.",
+              "modelProperties": {
+                "org.mule.runtime.extension.api.property.InfrastructureParameterModelProperty": {"sequence": 4},
+                "org.mule.runtime.extension.api.property.QNameModelProperty": {"value": {
+                  "localPart": "expiration-policy",
+                  "prefix": "mule",
+                  "namespaceURI": "http://www.mulesoft.org/schema/mule/core"
+                }}
+              },
+              "type": {
+                "format": "java",
+                "annotations": {
+                  "typeDsl": {
+                    "allowTopLevelDefinition": false,
+                    "allowInlineDefinition": true
+                  },
+                  "description": {"value": "Configures the minimum amount of time that a dynamic configuration instance can remain idle before the runtime considers it eligible for expiration. This does not mean that the platform will expire the instance at the exact moment that it becomes eligible. The runtime will actually purge the instances when it sees it fit."},
+                  "typeId": "org.mule.runtime.extension.api.runtime.ExpirationPolicy"
+                },
+                "type": "Object",
+                "fields": [
+                  {
+                    "annotations": {
+                      "description": {"value": "A scalar time value for the maximum amount of time a dynamic configuration instance should be allowed to be idle before it's considered eligible for expiration"},
+                      "expressionSupport": {"value": "NOT_SUPPORTED"}
+                    },
+                    "model": {
+                      "annotations": {
+                        "default": "5",
+                        "classInformation": {
+                          "implementedInterfaces": ["java.lang.Comparable"],
+                          "parent": "java.lang.Number",
+                          "classname": "java.lang.Long",
+                          "hasDefaultConstructor": false,
+                          "isInstantiable": false,
+                          "isFinal": true,
+                          "genericTypes": [],
+                          "isInterface": false,
+                          "isAbstract": false,
+                          "isMap": false
+                        },
+                        "int": {}
+                      },
+                      "type": "Number"
+                    },
+                    "key": {"name": "maxIdleTime"}
+                  },
+                  {
+                    "annotations": {
+                      "description": {"value": "A time unit that qualifies the maxIdleTime attribute"},
+                      "expressionSupport": {"value": "NOT_SUPPORTED"}
+                    },
+                    "model": {
+                      "annotations": {
+                        "default": "MINUTES",
+                        "enum": {
+                          "values": [
+                            "NANOSECONDS",
+                            "MICROSECONDS",
+                            "MILLISECONDS",
+                            "SECONDS",
+                            "MINUTES",
+                            "HOURS",
+                            "DAYS"
+                          ],
+                          "type": "[Ljava.lang.String;"
+                        }
+                      },
+                      "type": "String"
+                    },
+                    "key": {"name": "timeUnit"}
+                  }
+                ]
+              },
+              "required": false,
+              "expressionSupport": "NOT_SUPPORTED",
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": true,
+                "allowsReferences": false
+              },
+              "name": "expirationPolicy",
+              "layoutModel": {
+                "password": false,
+                "tabName": "Advanced",
+                "query": false,
+                "text": false,
+                "order": 4
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            }
+          ],
+          "exclusiveParametersModels": [],
+          "showInDsl": false
+        },
+        {
+          "name": "Connection",
+          "layoutModel": {
+            "password": false,
+            "query": false,
+            "text": false,
+            "order": 2
+          },
+          "description": "",
+          "modelProperties": {},
+          "parameters": [
+            {
+              "displayModel": {"pathModel": {
+                "fileExtensions": ["wsdl"],
+                "acceptsUrls": true,
+                "location": "ANY",
+                "type": "FILE"
+              }},
+              "role": "BEHAVIOUR",
+              "description": "The WSDL file URL remote or local.",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "required": true,
+              "expressionSupport": "SUPPORTED",
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": false
+              },
+              "name": "wsdlLocation",
+              "layoutModel": {
+                "password": false,
+                "tabName": "General",
+                "query": false,
+                "text": false,
+                "order": 1
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            },
+            {
+              "role": "BEHAVIOUR",
+              "description": "The service name.",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "required": true,
+              "expressionSupport": "SUPPORTED",
+              "valueProviderModel": {
+                "partOrder": 1,
+                "requiresConnection": false,
+                "isOpen": true,
+                "actingParameters": ["wsdlLocation"],
+                "requiresConfiguration": false,
+                "providerName": "Connection"
+              },
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": false
+              },
+              "name": "service",
+              "layoutModel": {
+                "password": false,
+                "tabName": "General",
+                "query": false,
+                "text": false,
+                "order": 2
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            },
+            {
+              "role": "BEHAVIOUR",
+              "description": "The port name.",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "required": true,
+              "expressionSupport": "SUPPORTED",
+              "valueProviderModel": {
+                "partOrder": 2,
+                "requiresConnection": false,
+                "isOpen": true,
+                "actingParameters": ["wsdlLocation"],
+                "requiresConfiguration": false,
+                "providerName": "Connection"
+              },
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": false
+              },
+              "name": "port",
+              "layoutModel": {
+                "password": false,
+                "tabName": "General",
+                "query": false,
+                "text": false,
+                "order": 3
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            }
+          ],
+          "exclusiveParametersModels": [],
+          "showInDsl": false
+        }
+      ],
+      "connectionProviders": []
+    }],
+    "externalLibraries": [],
+    "description": "",
+    "resources": [],
+    "subTypes": [],
+    "modelProperties": {},
+    "constructs": [],
+    "connectionProviders": [],
+    "version": "1.2.6",
+    "privilegedArtifacts": [],
+    "importedTypes": [],
+    "xmlDsl": {
+      "schemaVersion": "1.2.6",
+      "prefix": "apikit-soap",
+      "schemaLocation": "http://www.mulesoft.org/schema/mule/apikit-soap/current/mule-apikit-soap.xsd",
+      "namespace": "http://www.mulesoft.org/schema/mule/apikit-soap",
+      "xsdFileName": "mule-apikit-soap.xsd"
+    },
+    "operations": [],
+    "vendor": "Mulesoft",
+    "name": "APIKit for SOAP",
+    "privilegedPackages": [],
+    "category": "COMMUNITY",
+    "notifications": [],
+    "errors": [
+      {
+        "parent": "MULE:CONNECTIVITY",
+        "error": "APIKIT-SOAP:CONNECTIVITY",
+        "handleable": true
+      },
+      {
+        "parent": "MULE:ANY",
+        "error": "MULE:CONNECTIVITY",
+        "handleable": true
+      },
+      {
+        "error": "MULE:ANY",
+        "handleable": true
+      },
+      {
+        "parent": "MULE:RETRY_EXHAUSTED",
+        "error": "APIKIT-SOAP:RETRY_EXHAUSTED",
+        "handleable": true
+      },
+      {
+        "parent": "MULE:ANY",
+        "error": "MULE:RETRY_EXHAUSTED",
+        "handleable": true
+      },
+      {
+        "parent": "MULE:ANY",
+        "error": "APIKIT-SOAP:ROUTER",
+        "handleable": true
+      },
+      {
+        "parent": "MULE:ANY",
+        "error": "APIKIT-SOAP:FAULT",
+        "handleable": true
+      }
+    ]
+  }
+}

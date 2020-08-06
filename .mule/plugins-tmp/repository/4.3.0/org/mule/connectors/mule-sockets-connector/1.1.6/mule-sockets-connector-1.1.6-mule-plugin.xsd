@@ -1,0 +1,700 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:mule="http://www.mulesoft.org/schema/mule/core" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.mulesoft.org/schema/mule/sockets" attributeFormDefault="unqualified" elementFormDefault="qualified">
+  <xs:import namespace="http://www.w3.org/XML/1998/namespace"></xs:import>
+  <xs:import namespace="http://www.springframework.org/schema/beans" schemaLocation="http://www.springframework.org/schema/beans/spring-beans.xsd"></xs:import>
+  <xs:import namespace="http://www.mulesoft.org/schema/mule/core" schemaLocation="http://www.mulesoft.org/schema/mule/core/current/mule.xsd"></xs:import>
+  <xs:import namespace="http://www.mulesoft.org/schema/mule/tls" schemaLocation="http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd"></xs:import>
+  <xs:complexType name="org.mule.extension.socket.api.socket.tcp.TcpProtocol">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType"></xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" xmlns:sockets="http://www.mulesoft.org/schema/mule/sockets" type="sockets:org.mule.extension.socket.api.socket.tcp.TcpProtocol" substitutionGroup="mule:abstract-shared-extension" abstract="true" name="global-abstract-tcp-protocol"></xs:element>
+  <xs:element xmlns:sockets="http://www.mulesoft.org/schema/mule/sockets" type="sockets:org.mule.extension.socket.api.socket.tcp.TcpProtocol" abstract="true" name="abstract-tcp-protocol"></xs:element>
+  <xs:complexType name="org.mule.extension.socket.api.connection.tcp.protocol.SafeProtocol">
+    <xs:complexContent>
+      <xs:extension xmlns:sockets="http://www.mulesoft.org/schema/mule/sockets" base="sockets:org.mule.extension.socket.api.socket.tcp.TcpProtocol">
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionInt" use="optional" default="-1" name="maxMessageLeght"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="optional" name="encoding"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionBoolean" use="optional" default="false" name="rethrowExceptionOnRead"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:sockets="http://www.mulesoft.org/schema/mule/sockets" substitutionGroup="sockets:global-abstract-tcp-protocol" abstract="true" name="abstract-safe-protocol"></xs:element>
+  <xs:element xmlns:sockets="http://www.mulesoft.org/schema/mule/sockets" substitutionGroup="sockets:abstract-safe-protocol" name="safe-protocol">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="sockets:org.mule.extension.socket.api.connection.tcp.protocol.SafeProtocol">
+          <xs:attribute type="xs:string" use="optional" name="name"></xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="org.mule.extension.socket.api.connection.tcp.protocol.DirectProtocol">
+    <xs:complexContent>
+      <xs:extension xmlns:sockets="http://www.mulesoft.org/schema/mule/sockets" base="sockets:org.mule.extension.socket.api.socket.tcp.TcpProtocol">
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionBoolean" use="optional" default="false" name="rethrowExceptionOnRead"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:sockets="http://www.mulesoft.org/schema/mule/sockets" substitutionGroup="sockets:global-abstract-tcp-protocol" abstract="true" name="abstract-direct-protocol"></xs:element>
+  <xs:element xmlns:sockets="http://www.mulesoft.org/schema/mule/sockets" substitutionGroup="sockets:abstract-direct-protocol" name="direct-protocol">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="sockets:org.mule.extension.socket.api.connection.tcp.protocol.DirectProtocol">
+          <xs:attribute type="xs:string" use="optional" name="name"></xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="org.mule.extension.socket.api.connection.tcp.protocol.LengthProtocol">
+    <xs:complexContent>
+      <xs:extension xmlns:sockets="http://www.mulesoft.org/schema/mule/sockets" base="sockets:org.mule.extension.socket.api.socket.tcp.TcpProtocol">
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionInt" use="optional" default="-1" name="maxMessageLength"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionBoolean" use="optional" default="false" name="rethrowExceptionOnRead"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:sockets="http://www.mulesoft.org/schema/mule/sockets" substitutionGroup="sockets:global-abstract-tcp-protocol" abstract="true" name="abstract-length-protocol"></xs:element>
+  <xs:element xmlns:sockets="http://www.mulesoft.org/schema/mule/sockets" substitutionGroup="sockets:abstract-length-protocol" name="length-protocol">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="sockets:org.mule.extension.socket.api.connection.tcp.protocol.LengthProtocol">
+          <xs:attribute type="xs:string" use="optional" name="name"></xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="org.mule.extension.socket.api.connection.tcp.protocol.StreamingProtocol">
+    <xs:complexContent>
+      <xs:extension xmlns:sockets="http://www.mulesoft.org/schema/mule/sockets" base="sockets:org.mule.extension.socket.api.socket.tcp.TcpProtocol">
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionBoolean" use="optional" default="false" name="rethrowExceptionOnRead"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:sockets="http://www.mulesoft.org/schema/mule/sockets" substitutionGroup="sockets:global-abstract-tcp-protocol" abstract="true" name="abstract-streaming-protocol"></xs:element>
+  <xs:element xmlns:sockets="http://www.mulesoft.org/schema/mule/sockets" substitutionGroup="sockets:abstract-streaming-protocol" name="streaming-protocol">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="sockets:org.mule.extension.socket.api.connection.tcp.protocol.StreamingProtocol">
+          <xs:attribute type="xs:string" use="optional" name="name"></xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="org.mule.extension.socket.api.connection.tcp.protocol.XmlMessageProtocol">
+    <xs:complexContent>
+      <xs:extension xmlns:sockets="http://www.mulesoft.org/schema/mule/sockets" base="sockets:org.mule.extension.socket.api.socket.tcp.TcpProtocol">
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionBoolean" use="optional" default="false" name="rethrowExceptionOnRead"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:sockets="http://www.mulesoft.org/schema/mule/sockets" substitutionGroup="sockets:global-abstract-tcp-protocol" abstract="true" name="abstract-xml-message-protocol"></xs:element>
+  <xs:element xmlns:sockets="http://www.mulesoft.org/schema/mule/sockets" substitutionGroup="sockets:abstract-xml-message-protocol" name="xml-message-protocol">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="sockets:org.mule.extension.socket.api.connection.tcp.protocol.XmlMessageProtocol">
+          <xs:attribute type="xs:string" use="optional" name="name"></xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="org.mule.extension.socket.api.connection.tcp.protocol.XmlMessageEOFProtocol">
+    <xs:complexContent>
+      <xs:extension xmlns:sockets="http://www.mulesoft.org/schema/mule/sockets" base="sockets:org.mule.extension.socket.api.socket.tcp.TcpProtocol">
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionBoolean" use="optional" default="false" name="rethrowExceptionOnRead"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:sockets="http://www.mulesoft.org/schema/mule/sockets" substitutionGroup="sockets:global-abstract-tcp-protocol" abstract="true" name="abstract-xml-message-eof-protocol"></xs:element>
+  <xs:element xmlns:sockets="http://www.mulesoft.org/schema/mule/sockets" substitutionGroup="sockets:abstract-xml-message-eof-protocol" name="xml-message-eof-protocol">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="sockets:org.mule.extension.socket.api.connection.tcp.protocol.XmlMessageEOFProtocol">
+          <xs:attribute type="xs:string" use="optional" name="name"></xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="org.mule.extension.socket.api.connection.tcp.protocol.CustomProtocol">
+    <xs:complexContent>
+      <xs:extension xmlns:sockets="http://www.mulesoft.org/schema/mule/sockets" base="sockets:org.mule.extension.socket.api.socket.tcp.TcpProtocol">
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="required" name="class"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:sockets="http://www.mulesoft.org/schema/mule/sockets" substitutionGroup="sockets:global-abstract-tcp-protocol" abstract="true" name="abstract-custom-protocol"></xs:element>
+  <xs:element xmlns:sockets="http://www.mulesoft.org/schema/mule/sockets" substitutionGroup="sockets:abstract-custom-protocol" name="custom-protocol">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="sockets:org.mule.extension.socket.api.connection.tcp.protocol.CustomProtocol">
+          <xs:attribute type="xs:string" use="optional" name="name"></xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="org.mule.extension.socket.api.connection.tcp.protocol.EOFProtocol">
+    <xs:complexContent>
+      <xs:extension xmlns:sockets="http://www.mulesoft.org/schema/mule/sockets" base="sockets:org.mule.extension.socket.api.socket.tcp.TcpProtocol">
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionBoolean" use="optional" default="false" name="rethrowExceptionOnRead"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:sockets="http://www.mulesoft.org/schema/mule/sockets" substitutionGroup="sockets:global-abstract-tcp-protocol" abstract="true" name="abstract-eof-protocol"></xs:element>
+  <xs:element xmlns:sockets="http://www.mulesoft.org/schema/mule/sockets" substitutionGroup="sockets:abstract-eof-protocol" name="eof-protocol">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="sockets:org.mule.extension.socket.api.connection.tcp.protocol.EOFProtocol">
+          <xs:attribute type="xs:string" use="optional" name="name"></xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="org.mule.extension.socket.api.connection.tcp.protocol.CustomClassLoadingLengthProtocol">
+    <xs:complexContent>
+      <xs:extension xmlns:sockets="http://www.mulesoft.org/schema/mule/sockets" base="sockets:org.mule.extension.socket.api.socket.tcp.TcpProtocol">
+        <xs:attribute type="xs:string" use="optional" name="classLoader"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionInt" use="optional" default="-1" name="maxMessageLength"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionBoolean" use="optional" default="false" name="rethrowExceptionOnRead"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:sockets="http://www.mulesoft.org/schema/mule/sockets" substitutionGroup="sockets:global-abstract-tcp-protocol" abstract="true" name="abstract-custom-class-loading-length-protocol"></xs:element>
+  <xs:element xmlns:sockets="http://www.mulesoft.org/schema/mule/sockets" substitutionGroup="sockets:abstract-custom-class-loading-length-protocol" name="custom-class-loading-length-protocol">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="sockets:org.mule.extension.socket.api.connection.tcp.protocol.CustomClassLoadingLengthProtocol">
+          <xs:attribute type="xs:string" use="optional" name="name"></xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="org.mule.extension.socket.api.socket.tcp.TcpClientSocketProperties">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:attribute type="mule:expressionInt" use="optional" default="30000" name="connectionTimeout"></xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="true" name="sendTcpNoDelay"></xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="linger"></xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="keepAlive"></xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="true" name="failOnUnresolvedHost"></xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="sendBufferSize"></xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="receiveBufferSize"></xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="clientTimeout"></xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="true" name="reuseAddress"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstract-shared-extension" abstract="true" name="global-abstract-tcp-client-socket-properties"></xs:element>
+  <xs:element xmlns:sockets="http://www.mulesoft.org/schema/mule/sockets" substitutionGroup="sockets:global-abstract-tcp-client-socket-properties" abstract="true" name="abstract-tcp-client-socket-properties"></xs:element>
+  <xs:element xmlns:sockets="http://www.mulesoft.org/schema/mule/sockets" substitutionGroup="sockets:abstract-tcp-client-socket-properties" name="tcp-client-socket-properties">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="sockets:org.mule.extension.socket.api.socket.tcp.TcpClientSocketProperties">
+          <xs:attribute type="xs:string" use="optional" name="name"></xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="org.mule.extension.socket.api.socket.tcp.TcpServerSocketProperties">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:attribute type="mule:expressionInt" use="optional" name="serverTimeout"></xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" default="50" name="receiveBacklog"></xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="true" name="sendTcpNoDelay"></xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="linger"></xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="keepAlive"></xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="true" name="failOnUnresolvedHost"></xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="sendBufferSize"></xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="receiveBufferSize"></xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="clientTimeout"></xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="true" name="reuseAddress"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstract-shared-extension" abstract="true" name="abstract-tcp-server-socket-properties"></xs:element>
+  <xs:element xmlns:sockets="http://www.mulesoft.org/schema/mule/sockets" substitutionGroup="sockets:abstract-tcp-server-socket-properties" name="tcp-server-socket-properties">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="sockets:org.mule.extension.socket.api.socket.tcp.TcpServerSocketProperties">
+          <xs:attribute type="xs:string" use="optional" name="name"></xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="org.mule.extension.socket.api.socket.udp.UdpSocketProperties">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="broadcast"></xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="sendBufferSize"></xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="receiveBufferSize"></xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="clientTimeout"></xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="true" name="reuseAddress"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstract-shared-extension" abstract="true" name="abstract-udp-socket-properties"></xs:element>
+  <xs:element xmlns:sockets="http://www.mulesoft.org/schema/mule/sockets" substitutionGroup="sockets:abstract-udp-socket-properties" name="udp-socket-properties">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="sockets:org.mule.extension.socket.api.socket.udp.UdpSocketProperties">
+          <xs:attribute type="xs:string" use="optional" name="name"></xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstract-shared-extension" name="listener-config">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractExtensionType">
+          <xs:annotation>
+            <xs:documentation>Config for listener sockets</xs:documentation>
+          </xs:annotation>
+          <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element minOccurs="1" maxOccurs="1" ref="mule:abstractConnectionProvider"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:expiration-policy"></xs:element>
+          </xs:sequence>
+          <xs:attribute type="xs:string" use="required" name="name">
+            <xs:annotation>
+              <xs:documentation>The identifier of this element used to reference it in other components</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstractConnectionProvider" name="tcp-listener-connection">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractConnectionProviderType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:reconnection"></xs:element>
+            <xs:element xmlns:tls="http://www.mulesoft.org/schema/mule/tls" minOccurs="0" maxOccurs="1" ref="tls:context"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="protocol">
+              <xs:annotation>
+                <xs:documentation>TcpProtocol that knows how the data is going to be read and written. If not specified, the SafeProtocol will be used.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:choice minOccurs="1" maxOccurs="1">
+                  <xs:element xmlns:sockets="http://www.mulesoft.org/schema/mule/sockets" minOccurs="1" maxOccurs="1" ref="sockets:abstract-tcp-protocol"></xs:element>
+                  <xs:element xmlns:sockets="http://www.mulesoft.org/schema/mule/sockets" minOccurs="1" maxOccurs="1" ref="sockets:global-abstract-tcp-protocol"></xs:element>
+                </xs:choice>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute type="xs:string" use="optional" name="tlsContext"></xs:attribute>
+          <xs:attribute type="xs:string" use="optional" name="protocol">
+            <xs:annotation>
+              <xs:documentation>TcpProtocol that knows how the data is going to be read and written. If not specified, the SafeProtocol will be used.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="required" name="port">
+            <xs:annotation>
+              <xs:documentation>Connection's port number</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="host">
+            <xs:annotation>
+              <xs:documentation>Connection's host name</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="optional" name="sendBufferSize">
+            <xs:annotation>
+              <xs:documentation>The size of the buffer (in bytes) used when sending data, set on the socket itself.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="optional" name="receiveBufferSize">
+            <xs:annotation>
+              <xs:documentation>The size of the buffer (in bytes) used when receiving data, set on the socket itself.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="optional" name="clientTimeout">
+            <xs:annotation>
+              <xs:documentation>This sets the SO_TIMEOUT value on sockets. Indicates the amount of time (in milliseconds) that the socket will wait in a blocking operation before failing. &lt;p&gt; A value of 0 (the default) means waiting indefinitely.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionBoolean" use="optional" default="true" name="reuseAddress">
+            <xs:annotation>
+              <xs:documentation>If set (the default), SO_REUSEADDRESS is set on the sockets before binding. This helps reduce "address already in use" errors when a socket is re-used.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionBoolean" use="optional" default="true" name="sendTcpNoDelay">
+            <xs:annotation>
+              <xs:documentation>If set, transmitted data is not collected together for greater efficiency but sent immediately. &lt;p&gt; Defaults to true even though Socket default is false because optimizing to reduce amount of network traffic over latency is hardly ever a concern today.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="optional" name="linger">
+            <xs:annotation>
+              <xs:documentation>This sets the SO_LINGER value. This is related to how long (in milliseconds) the socket will take to close so that any remaining data is transmitted correctly.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="keepAlive">
+            <xs:annotation>
+              <xs:documentation>Enables SO_KEEPALIVE behavior on open sockets. This automatically checks socket connections that are open but unused for long periods and closes them if the connection becomes unavailable. &lt;p&gt; This is a property on the socket itself and is used by a server socket to control whether connections to the server are kept alive before they are recycled.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionBoolean" use="optional" default="true" name="failOnUnresolvedHost">
+            <xs:annotation>
+              <xs:documentation>Whether the socket should fail during its creation if the host set on the endpoint cannot be resolved. However, it can be set to false to allow unresolved hosts (useful when connecting through a proxy).</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="optional" name="serverTimeout">
+            <xs:annotation>
+              <xs:documentation>This sets the SO_TIMEOUT value when the socket is used as a server. This is the timeout that applies to the "accept" operation. A value of 0 (the ServerSocket default) causes the accept to wait indefinitely (if no connection arrives).</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="optional" default="50" name="receiveBacklog">
+            <xs:annotation>
+              <xs:documentation>The maximum queue length for incoming connections.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstractConnectionProvider" name="udp-listener-connection">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractConnectionProviderType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:reconnection"></xs:element>
+          </xs:sequence>
+          <xs:attribute type="mule:expressionInt" use="required" name="port">
+            <xs:annotation>
+              <xs:documentation>Connection's port number</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="host">
+            <xs:annotation>
+              <xs:documentation>Connection's host name</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="optional" name="sendBufferSize">
+            <xs:annotation>
+              <xs:documentation>The size of the buffer (in bytes) used when sending data, set on the socket itself.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="optional" name="receiveBufferSize">
+            <xs:annotation>
+              <xs:documentation>The size of the buffer (in bytes) used when receiving data, set on the socket itself.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="optional" name="clientTimeout">
+            <xs:annotation>
+              <xs:documentation>This sets the SO_TIMEOUT value on sockets. Indicates the amount of time (in milliseconds) that the socket will wait in a blocking operation before failing. &lt;p&gt; A value of 0 (the default) means waiting indefinitely.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionBoolean" use="optional" default="true" name="reuseAddress">
+            <xs:annotation>
+              <xs:documentation>If set (the default), SO_REUSEADDRESS is set on the sockets before binding. This helps reduce "address already in use" errors when a socket is re-used.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="broadcast">
+            <xs:annotation>
+              <xs:documentation>Enable/disable SO_BROADCAST into the DatagramSocket</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sockets" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ListenerType" substitutionGroup="mule:abstract-message-source" name="listener">
+    <xs:annotation>
+      <xs:documentation>Listens for socket connections of the given protocol in the configured host and port. &lt;p&gt; Whenever a new connection is received, this Source will schedule a a SocketWorker that will handle the communication for that particular connection.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ListenerType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageSourceType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-redelivery-policy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="optional" name="outputMimeType">
+          <xs:annotation>
+            <xs:documentation>The mime type of the payload that this operation outputs.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="outputEncoding">
+          <xs:annotation>
+            <xs:documentation>The encoding of the payload that this operation outputs.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:substitutableBoolean" use="optional" name="primaryNodeOnly">
+          <xs:annotation>
+            <xs:documentation>Whether this source should only be executed on the primary node when runnning in Cluster</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" default="#[payload]" name="responseValue"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstract-shared-extension" name="request-config">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractExtensionType">
+          <xs:annotation>
+            <xs:documentation>Config for requester sockets</xs:documentation>
+          </xs:annotation>
+          <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element minOccurs="1" maxOccurs="1" ref="mule:abstractConnectionProvider"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:expiration-policy"></xs:element>
+          </xs:sequence>
+          <xs:attribute type="xs:string" use="required" name="name">
+            <xs:annotation>
+              <xs:documentation>The identifier of this element used to reference it in other components</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstractConnectionProvider" name="tcp-requester-connection">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractConnectionProviderType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:reconnection"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:pooling-profile"></xs:element>
+            <xs:element xmlns:tls="http://www.mulesoft.org/schema/mule/tls" minOccurs="0" maxOccurs="1" ref="tls:context"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="local-address-settings">
+              <xs:annotation>
+                <xs:documentation>This configuration parameter refers to the address where the Socket should bind to.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension xmlns:sockets="http://www.mulesoft.org/schema/mule/sockets" base="sockets:org.mule.extension.socket.api.SocketConnectionSettings"></xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="protocol">
+              <xs:annotation>
+                <xs:documentation>TcpProtocol that knows how the data is going to be read and written. If not specified, the SafeProtocol will be used.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:choice minOccurs="1" maxOccurs="1">
+                  <xs:element xmlns:sockets="http://www.mulesoft.org/schema/mule/sockets" minOccurs="1" maxOccurs="1" ref="sockets:abstract-tcp-protocol"></xs:element>
+                  <xs:element xmlns:sockets="http://www.mulesoft.org/schema/mule/sockets" minOccurs="1" maxOccurs="1" ref="sockets:global-abstract-tcp-protocol"></xs:element>
+                </xs:choice>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute type="xs:string" use="optional" name="tlsContext"></xs:attribute>
+          <xs:attribute type="xs:string" use="optional" name="localAddressSettings">
+            <xs:annotation>
+              <xs:documentation>This configuration parameter refers to the address where the Socket should bind to.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="xs:string" use="optional" name="protocol">
+            <xs:annotation>
+              <xs:documentation>TcpProtocol that knows how the data is going to be read and written. If not specified, the SafeProtocol will be used.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="required" name="port">
+            <xs:annotation>
+              <xs:documentation>Connection's port number</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="host">
+            <xs:annotation>
+              <xs:documentation>Connection's host name</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="optional" name="sendBufferSize">
+            <xs:annotation>
+              <xs:documentation>The size of the buffer (in bytes) used when sending data, set on the socket itself.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="optional" name="receiveBufferSize">
+            <xs:annotation>
+              <xs:documentation>The size of the buffer (in bytes) used when receiving data, set on the socket itself.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="optional" name="clientTimeout">
+            <xs:annotation>
+              <xs:documentation>This sets the SO_TIMEOUT value on sockets. Indicates the amount of time (in milliseconds) that the socket will wait in a blocking operation before failing. &lt;p&gt; A value of 0 (the default) means waiting indefinitely.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionBoolean" use="optional" default="true" name="reuseAddress">
+            <xs:annotation>
+              <xs:documentation>If set (the default), SO_REUSEADDRESS is set on the sockets before binding. This helps reduce "address already in use" errors when a socket is re-used.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionBoolean" use="optional" default="true" name="sendTcpNoDelay">
+            <xs:annotation>
+              <xs:documentation>If set, transmitted data is not collected together for greater efficiency but sent immediately. &lt;p&gt; Defaults to true even though Socket default is false because optimizing to reduce amount of network traffic over latency is hardly ever a concern today.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="optional" name="linger">
+            <xs:annotation>
+              <xs:documentation>This sets the SO_LINGER value. This is related to how long (in milliseconds) the socket will take to close so that any remaining data is transmitted correctly.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="keepAlive">
+            <xs:annotation>
+              <xs:documentation>Enables SO_KEEPALIVE behavior on open sockets. This automatically checks socket connections that are open but unused for long periods and closes them if the connection becomes unavailable. &lt;p&gt; This is a property on the socket itself and is used by a server socket to control whether connections to the server are kept alive before they are recycled.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionBoolean" use="optional" default="true" name="failOnUnresolvedHost">
+            <xs:annotation>
+              <xs:documentation>Whether the socket should fail during its creation if the host set on the endpoint cannot be resolved. However, it can be set to false to allow unresolved hosts (useful when connecting through a proxy).</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="optional" default="30000" name="connectionTimeout">
+            <xs:annotation>
+              <xs:documentation>Number of milliseconds to wait until an outbound connection to a remote server is successfully created. Defaults to 30 seconds.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="org.mule.extension.socket.api.SocketConnectionSettings">
+    <xs:annotation>
+      <xs:documentation>This configuration parameter refers to the address where the Socket should bind to.</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:attribute type="mule:expressionInt" use="required" name="port"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="host"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstractConnectionProvider" name="udp-requester-connection">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractConnectionProviderType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:reconnection"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:pooling-profile"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="local-address-settings">
+              <xs:annotation>
+                <xs:documentation>This configuration parameter refers to the address where the DatagramSocket should bind to.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension xmlns:sockets="http://www.mulesoft.org/schema/mule/sockets" base="sockets:org.mule.extension.socket.api.SocketConnectionSettings"></xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute type="xs:string" use="optional" name="localAddressSettings">
+            <xs:annotation>
+              <xs:documentation>This configuration parameter refers to the address where the DatagramSocket should bind to.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="required" name="port">
+            <xs:annotation>
+              <xs:documentation>Connection's port number</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="host">
+            <xs:annotation>
+              <xs:documentation>Connection's host name</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="optional" name="sendBufferSize">
+            <xs:annotation>
+              <xs:documentation>The size of the buffer (in bytes) used when sending data, set on the socket itself.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="optional" name="receiveBufferSize">
+            <xs:annotation>
+              <xs:documentation>The size of the buffer (in bytes) used when receiving data, set on the socket itself.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="optional" name="clientTimeout">
+            <xs:annotation>
+              <xs:documentation>This sets the SO_TIMEOUT value on sockets. Indicates the amount of time (in milliseconds) that the socket will wait in a blocking operation before failing. &lt;p&gt; A value of 0 (the default) means waiting indefinitely.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionBoolean" use="optional" default="true" name="reuseAddress">
+            <xs:annotation>
+              <xs:documentation>If set (the default), SO_REUSEADDRESS is set on the sockets before binding. This helps reduce "address already in use" errors when a socket is re-used.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="broadcast">
+            <xs:annotation>
+              <xs:documentation>Enable/disable SO_BROADCAST into the DatagramSocket</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sockets" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="SendType" substitutionGroup="mule:abstract-operator" name="send">
+    <xs:annotation>
+      <xs:documentation>Sends the data using the client associated to the RequesterConnection.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="SendType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>data that will be serialized and sent through the socket.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sockets" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="SendAndReceiveType" substitutionGroup="mule:abstract-operator" name="send-and-receive">
+    <xs:annotation>
+      <xs:documentation>Sends the data using the client associated to the RequesterConnection and then blocks until a response is received or the timeout is met, in which case the operation will return a null payload.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="SendAndReceiveType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>data that will be serialized and sent through the socket.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="optional" name="outputMimeType">
+          <xs:annotation>
+            <xs:documentation>The mime type of the payload that this operation outputs.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="outputEncoding">
+          <xs:annotation>
+            <xs:documentation>The encoding of the payload that this operation outputs.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:schema>

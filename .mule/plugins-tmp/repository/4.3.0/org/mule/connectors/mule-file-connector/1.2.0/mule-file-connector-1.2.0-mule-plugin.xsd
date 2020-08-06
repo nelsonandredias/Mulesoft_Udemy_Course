@@ -1,0 +1,610 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:mule="http://www.mulesoft.org/schema/mule/core" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.mulesoft.org/schema/mule/file" attributeFormDefault="unqualified" elementFormDefault="qualified">
+  <xs:import namespace="http://www.w3.org/XML/1998/namespace"></xs:import>
+  <xs:import namespace="http://www.springframework.org/schema/beans" schemaLocation="http://www.springframework.org/schema/beans/spring-beans.xsd"></xs:import>
+  <xs:import namespace="http://www.mulesoft.org/schema/mule/core" schemaLocation="http://www.mulesoft.org/schema/mule/core/current/mule.xsd"></xs:import>
+  <xs:complexType name="org.mule.extension.file.api.LocalFileMatcher">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:attribute type="mule:expressionDateTime" use="optional" name="createdSince"></xs:attribute>
+        <xs:attribute type="mule:expressionDateTime" use="optional" name="createdUntil"></xs:attribute>
+        <xs:attribute type="mule:expressionDateTime" use="optional" name="updatedSince"></xs:attribute>
+        <xs:attribute type="mule:expressionDateTime" use="optional" name="updatedUntil"></xs:attribute>
+        <xs:attribute type="mule:expressionDateTime" use="optional" name="accessedSince"></xs:attribute>
+        <xs:attribute type="mule:expressionDateTime" use="optional" name="accessedUntil"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="filenamePattern"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="pathPattern"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/file" type="org.mule.extension.file.common.api.matcher.MatchPolicyEnumType" use="optional" default="INCLUDE" name="directories"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/file" type="org.mule.extension.file.common.api.matcher.MatchPolicyEnumType" use="optional" default="INCLUDE" name="regularFiles"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/file" type="org.mule.extension.file.common.api.matcher.MatchPolicyEnumType" use="optional" default="INCLUDE" name="symLinks"></xs:attribute>
+        <xs:attribute type="mule:expressionLong" use="optional" name="minSize"></xs:attribute>
+        <xs:attribute type="mule:expressionLong" use="optional" name="maxSize"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstract-shared-extension" abstract="true" name="abstract-matcher"></xs:element>
+  <xs:element xmlns:file="http://www.mulesoft.org/schema/mule/file" substitutionGroup="file:abstract-matcher" name="matcher">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="file:org.mule.extension.file.api.LocalFileMatcher">
+          <xs:attribute type="xs:string" use="optional" name="name"></xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstract-shared-extension" name="config">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractExtensionType">
+          <xs:annotation>
+            <xs:documentation>Default configuration</xs:documentation>
+          </xs:annotation>
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstractConnectionProvider"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:expiration-policy"></xs:element>
+          </xs:sequence>
+          <xs:attribute type="mule:expressionString" use="optional" name="defaultWriteEncoding"></xs:attribute>
+          <xs:attribute type="mule:expressionLong" use="optional" name="timeBetweenSizeCheck">
+            <xs:annotation>
+              <xs:documentation>Wait time between size checks to determine if a file is ready to be read. This allows a file write to complete before processing. If no value is provided, the check will not be performed. When enabled, Mule performs two size checks waiting the specified time between calls. If both checks return the same value, the file is ready to be read.This attribute works in tandem with #timeBetweenSizeCheckUnit.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/file" type="java.util.concurrent.TimeUnitEnumType" use="optional" default="MILLISECONDS" name="timeBetweenSizeCheckUnit">
+            <xs:annotation>
+              <xs:documentation>A TimeUnit which qualifies the #timeBetweenSizeCheck attribute. &lt;p&gt; Defaults to MILLISECONDS</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="xs:string" use="required" name="name">
+            <xs:annotation>
+              <xs:documentation>The identifier of this element used to reference it in other components</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstractConnectionProvider" name="connection">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractConnectionProviderType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:reconnection"></xs:element>
+          </xs:sequence>
+          <xs:attribute type="mule:expressionString" use="optional" name="workingDir">
+            <xs:annotation>
+              <xs:documentation>The directory to be considered as the root of every relative path used with this connector. If not provided, it will default to the value of the user.home system property. If that system property is not set, then the connector will fail to initialise.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/file" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ListenerType" substitutionGroup="mule:abstract-message-source" name="listener">
+    <xs:annotation>
+      <xs:documentation>Polls a directory looking for files that have been created or updated. One message will be generated for each file that is found. &lt;p&gt; The key part of this functionality is how to determine that a file is actually new. There're three strategies for that: &lt;ul&gt; &lt;li&gt;Set the &lt;i&gt;autoDelete&lt;/i&gt; parameter to &lt;i&gt;true&lt;/i&gt;: This will delete each processed file after it has been processed, causing all files obtained in the next poll to be necessarily new&lt;/li&gt; &lt;li&gt;Set &lt;i&gt;moveToDirectory&lt;/i&gt; parameter: This will move each processed file to a different directory after it has been processed, achieving the same effect as &lt;i&gt;autoDelete&lt;/i&gt; but without loosing the file&lt;/li&gt; &lt;li&gt;&lt;/li&gt; &lt;li&gt;Use the &lt;i&gt;watermarkMode&lt;/i&gt; parameter to only pick files that have been created/updated after the last poll was executed.&lt;/li&gt; &lt;/ul&gt; &lt;p&gt; A matcher can also be used for additional filtering of files.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ListenerType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageSourceType">
+        <xs:sequence minOccurs="1" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-redelivery-policy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element minOccurs="1" maxOccurs="1" ref="mule:scheduling-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="matcher">
+            <xs:annotation>
+              <xs:documentation>A matcher used to filter events on files which do not meet the matcher's criteria</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension xmlns:file="http://www.mulesoft.org/schema/mule/file" base="file:org.mule.extension.file.api.LocalFileMatcher"></xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="optional" name="directory">
+          <xs:annotation>
+            <xs:documentation>The directory on which polled files are contained</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:substitutableBoolean" use="optional" default="true" name="recursive">
+          <xs:annotation>
+            <xs:documentation>Whether or not to also files contained in sub directories.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="matcher">
+          <xs:annotation>
+            <xs:documentation>A matcher used to filter events on files which do not meet the matcher's criteria</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/file" type="org.mule.extension.file.api.WatermarkModeEnumType" use="optional" default="DISABLED" name="watermarkMode">
+          <xs:annotation>
+            <xs:documentation>Controls whether or not to do watermarking, and if so, if the watermark should consider the file's modification or creation timestamps</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:substitutableLong" use="optional" name="timeBetweenSizeCheck">
+          <xs:annotation>
+            <xs:documentation>Wait time in milliseconds between size checks to determine if a file is ready to be read. This allows a file write to complete before processing. You can disable this feature by omitting a value. When enabled, Mule performs two size checks waiting the specified time between calls. If both checks return the same value, the file is ready to be read.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/file" type="java.util.concurrent.TimeUnitEnumType" use="optional" name="timeBetweenSizeCheckUnit">
+          <xs:annotation>
+            <xs:documentation>A TimeUnit which qualifies the #timeBetweenSizeCheck attribute.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="outputMimeType">
+          <xs:annotation>
+            <xs:documentation>The mime type of the payload that this operation outputs.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="outputEncoding">
+          <xs:annotation>
+            <xs:documentation>The encoding of the payload that this operation outputs.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:substitutableBoolean" use="optional" name="primaryNodeOnly">
+          <xs:annotation>
+            <xs:documentation>Whether this source should only be executed on the primary node when runnning in Cluster</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="autoDelete">
+          <xs:annotation>
+            <xs:documentation>Whether each file should be deleted after processing or not</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="moveToDirectory">
+          <xs:annotation>
+            <xs:documentation>If provided, each processed file will be moved to a directory pointed by this path.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="renameTo">
+          <xs:annotation>
+            <xs:documentation>This parameter works in tandem with moveToDirectory. Use this parameter to enter the name under which the file should be moved. Do not set this parameter if moveToDirectory hasn't been set as well.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="true" name="applyPostActionWhenFailed">
+          <xs:annotation>
+            <xs:documentation>Whether any of the post actions (autoDelete and moveToDirectory) should also be applied in case the file failed to be processed. If set to false, no failed files will be moved nor deleted.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/file" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="CopyType" substitutionGroup="mule:abstract-operator" name="copy">
+    <xs:annotation>
+      <xs:documentation>Copies the file at the sourcePath into the targetPath. &lt;p&gt; If targetPath doesn't exist, and neither does its parent, then an attempt will be made to create depending on the value of the createParentFolder argument. If such argument is , then a FILE:ILLEGAL_PATH will be thrown. &lt;p&gt; If the target file already exists, then it will be overwritten if the overwrite argument is true. Otherwise, FILE:FILE_ALREADY_EXISTS error will be thrown. &lt;p&gt; As for the sourcePath, it can either be a file or a directory. If it points to a directory, then it will be copied recursively.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="CopyType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="sourcePath">
+          <xs:annotation>
+            <xs:documentation>the path to the file to be copied</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="targetPath">
+          <xs:annotation>
+            <xs:documentation>the target directory where the file is going to be copied</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="true" name="createParentDirectories">
+          <xs:annotation>
+            <xs:documentation>whether or not to attempt creating any parent directories which don't exists.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="overwrite">
+          <xs:annotation>
+            <xs:documentation>whether or not overwrite the file if the target destination already exists.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="renameTo">
+          <xs:annotation>
+            <xs:documentation>copied file's new name. If not provided, original file name will be kept.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/file" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="CreateDirectoryType" substitutionGroup="mule:abstract-operator" name="create-directory">
+    <xs:annotation>
+      <xs:documentation>Creates a new directory on directoryPath</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="CreateDirectoryType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="directoryPath">
+          <xs:annotation>
+            <xs:documentation>the new directory's name</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/file" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="DeleteType" substitutionGroup="mule:abstract-operator" name="delete">
+    <xs:annotation>
+      <xs:documentation>Deletes the file pointed by path, provided that it's not locked</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="DeleteType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="path">
+          <xs:annotation>
+            <xs:documentation>the path to the file to be deleted</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/file" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ListType" substitutionGroup="mule:abstract-operator" name="list">
+    <xs:annotation>
+      <xs:documentation>Lists all the files in the directoryPath which match the given matcher. &lt;p&gt; If the listing encounters a directory, the output list will include its contents depending on the value of the recursive parameter. &lt;p&gt;</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ListType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-object-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="matcher">
+            <xs:annotation>
+              <xs:documentation>a matcher used to filter the output list</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension xmlns:file="http://www.mulesoft.org/schema/mule/file" base="file:org.mule.extension.file.api.LocalFileMatcher"></xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="directoryPath">
+          <xs:annotation>
+            <xs:documentation>the path to the directory to be listed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="recursive">
+          <xs:annotation>
+            <xs:documentation>whether to include the contents of sub-directories. Defaults to false.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="matcher">
+          <xs:annotation>
+            <xs:documentation>a matcher used to filter the output list</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionLong" use="optional" name="timeBetweenSizeCheck">
+          <xs:annotation>
+            <xs:documentation>wait time between size checks to determine if a file is ready to be read.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/file" type="java.util.concurrent.TimeUnitEnumType" use="optional" name="timeBetweenSizeCheckUnit">
+          <xs:annotation>
+            <xs:documentation>time unit to be used in the wait time between size checks.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="outputMimeType">
+          <xs:annotation>
+            <xs:documentation>The mime type of the payload that this operation outputs.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="outputEncoding">
+          <xs:annotation>
+            <xs:documentation>The encoding of the payload that this operation outputs.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/file" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="MoveType" substitutionGroup="mule:abstract-operator" name="move">
+    <xs:annotation>
+      <xs:documentation>Moves the file at the sourcePath into the targetPath. &lt;p&gt; If targetPath doesn't exist, and neither does its parent, then an attempt will be made to create depending on the value of the createParentFolder argument. If such argument is , then a FILE:ILLEGAL_PATH will be thrown. &lt;p&gt; If the target file already exists, then it will be overwritten if the overwrite argument is true. Otherwise, FILE:FILE_ALREADY_EXISTS error will be thrown. &lt;p&gt; As for the sourcePath, it can either be a file or a directory. If it points to a directory, then it will be moved recursively.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="MoveType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="sourcePath">
+          <xs:annotation>
+            <xs:documentation>the path to the file to be copied</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="targetPath">
+          <xs:annotation>
+            <xs:documentation>the target directory</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="true" name="createParentDirectories">
+          <xs:annotation>
+            <xs:documentation>whether or not to attempt creating any parent directories which don't exists.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="overwrite">
+          <xs:annotation>
+            <xs:documentation>whether or not overwrite the file if the target destination already exists.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="renameTo">
+          <xs:annotation>
+            <xs:documentation>moved file's new name. If not provided, original file name will be kept.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/file" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ReadType" substitutionGroup="mule:abstract-operator" name="read">
+    <xs:annotation>
+      <xs:documentation>Obtains the content and metadata of a file at a given path. The operation itself returns a Message which payload is a InputStream with the file's content, and the metadata is represent as a LocalFileAttributes object that's placed as the message Message#getAttributes() attributes. &lt;p&gt; If the lock parameter is set to true, then a file system level lock will be placed on the file until the input stream this operation returns is closed or fully consumed. Because the lock is actually provided by the host file system, its behavior might change depending on the mounted drive and the operation system on which mule is running. Take that into consideration before blindly relying on this lock. &lt;p&gt; This method also makes a best effort to determine the mime type of the file being read. The file's extension will be used to make an educated guess on the file's mime type. The user also has the chance to force the output encoding and mimeType through the outputEncoding and outputMimeType optional parameters.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ReadType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="path">
+          <xs:annotation>
+            <xs:documentation>the path to the file to be read</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="lock">
+          <xs:annotation>
+            <xs:documentation>whether or not to lock the file. Defaults to false.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionLong" use="optional" name="timeBetweenSizeCheck">
+          <xs:annotation>
+            <xs:documentation>wait time between size checks to determine if a file is ready to be read.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/file" type="java.util.concurrent.TimeUnitEnumType" use="optional" name="timeBetweenSizeCheckUnit">
+          <xs:annotation>
+            <xs:documentation>time unit to be used in the wait time between size checks.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="outputMimeType">
+          <xs:annotation>
+            <xs:documentation>The mime type of the payload that this operation outputs.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="outputEncoding">
+          <xs:annotation>
+            <xs:documentation>The encoding of the payload that this operation outputs.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/file" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="RenameType" substitutionGroup="mule:abstract-operator" name="rename">
+    <xs:annotation>
+      <xs:documentation>Renames the file pointed by path to the name provided on the to parameter &lt;p&gt; to argument should not contain any path separator. FILE:ILLEGAL_PATH will be thrown if this precondition is not honored.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="RenameType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="path">
+          <xs:annotation>
+            <xs:documentation>the path to the file to be renamed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="to">
+          <xs:annotation>
+            <xs:documentation>the file's new name</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="overwrite">
+          <xs:annotation>
+            <xs:documentation>whether or not overwrite the file if the target destination already exists.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/file" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="WriteType" substitutionGroup="mule:abstract-operator" name="write">
+    <xs:annotation>
+      <xs:documentation>Writes the content into the file pointed by path. &lt;p&gt; If the directory on which the file is attempting to be written doesn't exist, then the operation will either throw FILE:ILLEGAL_PATH error or create such folder depending on the value of the createParentDirectory. &lt;p&gt; If the file itself already exists, then the behavior depends on the supplied mode. &lt;p&gt; This operation also supports locking support depending on the value of the lock argument, but following the same rules and considerations as described in the read operation.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="WriteType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>the content to be written into the file. Defaults to the current Message payload</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="path">
+          <xs:annotation>
+            <xs:documentation>the path of the file to be written</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="encoding">
+          <xs:annotation>
+            <xs:documentation>this parameter is deprecated and will do nothing if configured</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="true" name="createParentDirectories">
+          <xs:annotation>
+            <xs:documentation>whether or not to attempt creating any parent directories which don't exists.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="lock">
+          <xs:annotation>
+            <xs:documentation>whether or not to lock the file. Defaults to false</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/file" type="org.mule.extension.file.common.api.FileWriteModeEnumType" use="optional" default="OVERWRITE" name="mode">
+          <xs:annotation>
+            <xs:documentation>a FileWriteMode. Defaults to OVERWRITE</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstractConnectionProvider" name="connection">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractConnectionProviderType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:reconnection"></xs:element>
+          </xs:sequence>
+          <xs:attribute type="mule:expressionString" use="optional" name="workingDir">
+            <xs:annotation>
+              <xs:documentation>The directory to be considered as the root of every relative path used with this connector. If not provided, it will default to the value of the user.home system property. If that system property is not set, then the connector will fail to initialise.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:simpleType name="org.mule.extension.file.common.api.matcher.MatchPolicyEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="REQUIRE"></xs:enumeration>
+          <xs:enumeration value="INCLUDE"></xs:enumeration>
+          <xs:enumeration value="EXCLUDE"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="java.util.concurrent.TimeUnitEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="NANOSECONDS"></xs:enumeration>
+          <xs:enumeration value="MICROSECONDS"></xs:enumeration>
+          <xs:enumeration value="MILLISECONDS"></xs:enumeration>
+          <xs:enumeration value="SECONDS"></xs:enumeration>
+          <xs:enumeration value="MINUTES"></xs:enumeration>
+          <xs:enumeration value="HOURS"></xs:enumeration>
+          <xs:enumeration value="DAYS"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="org.mule.extension.file.api.WatermarkModeEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="DISABLED"></xs:enumeration>
+          <xs:enumeration value="MODIFIED_TIMESTAMP"></xs:enumeration>
+          <xs:enumeration value="CREATED_TIMESTAMP"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="org.mule.extension.file.common.api.FileWriteModeEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="OVERWRITE"></xs:enumeration>
+          <xs:enumeration value="APPEND"></xs:enumeration>
+          <xs:enumeration value="CREATE_NEW"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+</xs:schema>

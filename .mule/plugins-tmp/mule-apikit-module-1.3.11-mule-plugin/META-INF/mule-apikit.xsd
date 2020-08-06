@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:mule="http://www.mulesoft.org/schema/mule/core"
+            xmlns:schemadoc="http://www.mulesoft.org/schema/mule/schemadoc"
+            targetNamespace="http://www.mulesoft.org/schema/mule/mule-apikit"
+            elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:import namespace="http://www.springframework.org/schema/beans" schemaLocation="http://www.springframework.org/schema/beans/spring-beans-current.xsd" />
+    <xsd:import namespace="http://www.mulesoft.org/schema/mule/core" schemaLocation="http://www.mulesoft.org/schema/mule/core/current/mule.xsd" />
+    <xsd:import namespace="http://www.mulesoft.org/schema/mule/schemadoc" schemaLocation="http://www.mulesoft.org/schema/mule/schemadoc/current/mule-schemadoc.xsd" />
+
+    <xsd:annotation>
+        <xsd:documentation>
+            APIkit is a Mule module for building ReST API's
+        </xsd:documentation>
+        <xsd:appinfo>
+            <schemadoc:short-name>APIkit</schemadoc:short-name>
+            <schemadoc:page-title>APIkit Module</schemadoc:page-title>
+        </xsd:appinfo>
+    </xsd:annotation>
+
+    <xsd:element name="config" type="configType" substitutionGroup="mule:abstract-extension">
+        <xsd:annotation>
+            <xsd:documentation>
+                APIkit configuration element.
+            </xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+
+    <xsd:complexType name="flow-mappings">
+        <xsd:sequence>
+            <xsd:element name="flow-mapping" maxOccurs="unbounded" minOccurs="0">
+                <xsd:complexType>
+                    <xsd:attribute name="resource" use="required" type="mule:nonBlankString" />
+                    <xsd:attribute name="action" use="required" type="mule:nonBlankString" />
+                    <xsd:attribute name="content-type" use="optional" type="mule:nonBlankString" />
+                    <xsd:attribute name="flow-ref" use="required" type="mule:nonBlankString" />
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="configType">
+        <xsd:complexContent>
+            <xsd:extension base="mule:abstractExtensionType">
+                <xsd:sequence>
+                    <xsd:element type="flow-mappings" name="flow-mappings" maxOccurs="1" minOccurs="0"/>
+                </xsd:sequence>
+                <xsd:attribute name="name" type="mule:nonBlankString" use="optional"/>
+                <xsd:attribute name="raml" type="mule:nonBlankString" use="optional"/>
+                <xsd:attribute name="api" type="mule:nonBlankString" use="optional"/>
+                <xsd:attribute name="outboundHeadersMapName" type="mule:nonBlankString" use="required"/>
+                <xsd:attribute name="httpStatusVarName" type="mule:nonBlankString" use="required"/>
+                <xsd:attribute name="keepApiBaseUri" type="mule:substitutableBoolean" default="false" use="optional"/>
+                <xsd:attribute name="keepRamlBaseUri" type="mule:substitutableBoolean" default="false" use="optional"/>
+                <xsd:attribute name="disableValidations" type="mule:substitutableBoolean" default="false" use="optional">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            Do no perform validation of uri parameters, headers, query parameters and body schemas.
+                            Default values are not enforced by the server.
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:attribute>
+                <xsd:attribute name="queryParamsStrictValidation" type="mule:substitutableBoolean" default="false" use="optional">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            Query parameters strict validations, all request query parameters must be defined in the RAML.
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:attribute>
+                <xsd:attribute name="headersStrictValidation" type="mule:substitutableBoolean" default="false" use="optional">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            Headers strict validations, all request headers must be defined in the RAML.
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:attribute>
+                <xsd:attribute name="parser" default="AUTO" type="parserType" use="optional" >
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            The parser to be used for request validation. There are three valid values: AMF, RAML and AUTO.
+                            In case of using AUTO, APIkit will try first with AMF and then, if any error was found, will try with RAML
+
+                            Default value: AUTO
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:attribute>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:simpleType name="parserType" final="restriction" >
+        <xsd:restriction base="mule:nonBlankString">
+            <xsd:enumeration value="AMF"/>
+            <xsd:enumeration value="AUTO"/>
+            <xsd:enumeration value="RAML"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:element name="router" type="routerType" substitutionGroup="mule:abstract-message-processor">
+        <xsd:annotation>
+            <xsd:documentation>
+                A rest routing message processor.
+            </xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+
+    <xsd:complexType name="routerType">
+        <xsd:complexContent>
+            <xsd:extension base="mule:abstractMessageProcessorType">
+                <xsd:attribute name="config-ref" type="mule:nonBlankString" use="optional">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            The Router configuration.
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:attribute>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:element name="console" type="consoleType" substitutionGroup="mule:abstract-message-processor">
+        <xsd:annotation>
+            <xsd:documentation>
+                Message processor that exposes a rest console.
+            </xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+
+    <xsd:complexType name="consoleType">
+        <xsd:complexContent>
+            <xsd:extension base="mule:abstractMessageProcessorType">
+                <xsd:attribute name="config-ref" type="mule:nonBlankString" use="optional">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            The Console configuration.
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:attribute>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+
+
+</xsd:schema>

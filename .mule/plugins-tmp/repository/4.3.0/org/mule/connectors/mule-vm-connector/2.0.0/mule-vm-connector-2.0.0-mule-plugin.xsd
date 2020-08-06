@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:mule="http://www.mulesoft.org/schema/mule/core" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.mulesoft.org/schema/mule/vm" attributeFormDefault="unqualified" elementFormDefault="qualified">
+  <xs:import namespace="http://www.w3.org/XML/1998/namespace"></xs:import>
+  <xs:import namespace="http://www.springframework.org/schema/beans" schemaLocation="http://www.springframework.org/schema/beans/spring-beans.xsd"></xs:import>
+  <xs:import namespace="http://www.mulesoft.org/schema/mule/core" schemaLocation="http://www.mulesoft.org/schema/mule/core/current/mule.xsd"></xs:import>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstract-shared-extension" name="config">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractExtensionType">
+          <xs:annotation>
+            <xs:documentation>Default configuration</xs:documentation>
+          </xs:annotation>
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstractConnectionProvider"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:expiration-policy"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="queues">
+              <xs:annotation>
+                <xs:documentation>The queues that this config owns</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element xmlns:vm="http://www.mulesoft.org/schema/mule/vm" minOccurs="0" maxOccurs="unbounded" ref="vm:abstract-queue"></xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute type="mule:substitutableName" use="optional" name="queues">
+            <xs:annotation>
+              <xs:documentation>The queues that this config owns</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/vm" type="org.mule.runtime.extension.api.runtime.parameter.OutboundCorrelationStrategyEnumType" use="optional" default="AUTO" name="sendCorrelationId">
+            <xs:annotation>
+              <xs:documentation>Whether to specify a correlationId when publishing messages. This applies both for custom correlation ids specifies at the operation level and for default correlation Ids taken from the current event</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="xs:string" use="required" name="name">
+            <xs:annotation>
+              <xs:documentation>The identifier of this element used to reference it in other components</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="org.mule.extensions.vm.api.QueueDefinition">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:attribute type="xs:string" use="required" name="queueName"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/vm" type="org.mule.extensions.vm.api.QueueTypeEnumType" use="optional" default="TRANSIENT" name="queueType"></xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" default="0" name="maxOutstandingMessages"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:vm="http://www.mulesoft.org/schema/mule/vm" type="vm:org.mule.extensions.vm.api.QueueDefinition" abstract="true" name="abstract-queue"></xs:element>
+  <xs:element xmlns:vm="http://www.mulesoft.org/schema/mule/vm" substitutionGroup="vm:abstract-queue" name="queue">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="vm:org.mule.extensions.vm.api.QueueDefinition"></xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstractConnectionProvider" name="connection">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractConnectionProviderType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:reconnection"></xs:element>
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/vm" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ListenerType" substitutionGroup="mule:abstract-message-source" name="listener">
+    <xs:annotation>
+      <xs:documentation>A source which creates and listens on a VM queues. &lt;p&gt; VM queues are created by placing listeners on them, which is why this listener contains parameters on the queue's behaviour, such as it being persistent or not, the max capacity, etc.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ListenerType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageSourceType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-redelivery-policy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="response">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension base="mule:abstractExtensionType">
+                  <xs:sequence>
+                    <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+                      <xs:annotation>
+                        <xs:documentation>The content to send to the reply-To queue. Will only be used and evaluated if the message got into the queue through the vm:publish-consume operation</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:substitutableInt" use="optional" default="4" name="numberOfConsumers">
+          <xs:annotation>
+            <xs:documentation>The amount of concurrent consumers to be placed on the queue. As the number of consumers increases, so does the speed on which this source pushes messages into the owning flow.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/vm" type="org.mule.runtime.extension.api.tx.SourceTransactionalActionEnumType" use="optional" default="NONE" name="transactionalAction">
+          <xs:annotation>
+            <xs:documentation>The type of beginning action that sources can take regarding transactions.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:transactionType" use="optional" default="LOCAL" name="transactionType">
+          <xs:annotation>
+            <xs:documentation>The type of transaction to create. Availability will depend on the runtime version.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:substitutableBoolean" use="optional" name="primaryNodeOnly">
+          <xs:annotation>
+            <xs:documentation>Whether this source should only be executed on the primary node when runnning in Cluster</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="queueName">
+          <xs:annotation>
+            <xs:documentation>The name of the queue</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:substitutableInt" use="optional" default="5" name="timeout">
+          <xs:annotation>
+            <xs:documentation>How long to wait on the queue to complete and operation (either publishing or consuming) before failing with a timeout error</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/vm" type="java.util.concurrent.TimeUnitEnumType" use="optional" default="SECONDS" name="timeoutUnit">
+          <xs:annotation>
+            <xs:documentation>A TimeUnit which qualifies the #timeoutUnit</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/vm" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ConsumeType" substitutionGroup="mule:abstract-operator" name="consume">
+    <xs:annotation>
+      <xs:documentation>Pull one message from a queue. If a message is not immediately available, it will wait up to the configured queueTimeout, after which a VM:QUEUE_TIMEOUT error will be thrown. &lt;p&gt; The queue on which the content is published has to be one for which a &lt;vm:listener&gt; &lt;b&gt;doesn't &lt;/b&gt; exists. Consuming from queues on which a &lt;vm:listener&gt; exists is not allowed.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ConsumeType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:operationTransactionalActionType" use="optional" default="JOIN_IF_POSSIBLE" name="transactionalAction">
+          <xs:annotation>
+            <xs:documentation>The type of joining action that operations can take regarding transactions.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="queueName">
+          <xs:annotation>
+            <xs:documentation>The name of the queue</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" default="5" name="timeout">
+          <xs:annotation>
+            <xs:documentation>How long to wait on the queue to complete and operation (either publishing or consuming) before failing with a timeout error</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/vm" type="java.util.concurrent.TimeUnitEnumType" use="optional" default="SECONDS" name="timeoutUnit">
+          <xs:annotation>
+            <xs:documentation>A TimeUnit which qualifies the #timeoutUnit</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/vm" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="PublishType" substitutionGroup="mule:abstract-operator" name="publish">
+    <xs:annotation>
+      <xs:documentation>Publishes the given content into the queue of the given queueName.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="PublishType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>the content to be published</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/vm" type="org.mule.runtime.extension.api.runtime.parameter.OutboundCorrelationStrategyEnumType" use="optional" name="sendCorrelationId">
+          <xs:annotation>
+            <xs:documentation>options on whether to include an outbound correlation id or not</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="correlationId">
+          <xs:annotation>
+            <xs:documentation>allows to set a custom correlation id</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:operationTransactionalActionType" use="optional" default="JOIN_IF_POSSIBLE" name="transactionalAction">
+          <xs:annotation>
+            <xs:documentation>The type of joining action that operations can take regarding transactions.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="queueName">
+          <xs:annotation>
+            <xs:documentation>The name of the queue</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" default="5" name="timeout">
+          <xs:annotation>
+            <xs:documentation>How long to wait on the queue to complete and operation (either publishing or consuming) before failing with a timeout error</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/vm" type="java.util.concurrent.TimeUnitEnumType" use="optional" default="SECONDS" name="timeoutUnit">
+          <xs:annotation>
+            <xs:documentation>A TimeUnit which qualifies the #timeoutUnit</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/vm" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="PublishConsumeType" substitutionGroup="mule:abstract-operator" name="publish-consume">
+    <xs:annotation>
+      <xs:documentation>Publishes the given content into a queue, and then awaits up to the queueTimeout for a response to be supplied on a temporal reply-To queue that this operation automatically creates. &lt;p&gt; The temporal reply queue is automatically disposed after a response is received or the timeout expires. &lt;p&gt; The queue on which the content is published has to be one for which a &lt;vm:listener&gt; &lt;b&gt;doesn't &lt;/b&gt; exists. Consuming from queues on which a &lt;vm:listener&gt; exists is not allowed. &lt;p&gt; If the flow that receives and processed the message fails, then that error is propagated and re-thrown by this operation. Notice that such error type will not be predictable by this operation and could be anything. You need to be mindful of the listening flow when writing your error handlers.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="PublishConsumeType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>the content to be published</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/vm" type="org.mule.runtime.extension.api.runtime.parameter.OutboundCorrelationStrategyEnumType" use="optional" name="sendCorrelationId">
+          <xs:annotation>
+            <xs:documentation>options on whether to include an outbound correlation id or not</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="correlationId">
+          <xs:annotation>
+            <xs:documentation>allows to set a custom correlation id</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:operationTransactionalActionType" use="optional" default="JOIN_IF_POSSIBLE" name="transactionalAction">
+          <xs:annotation>
+            <xs:documentation>The type of joining action that operations can take regarding transactions.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="queueName">
+          <xs:annotation>
+            <xs:documentation>The name of the queue</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" default="5" name="timeout">
+          <xs:annotation>
+            <xs:documentation>How long to wait on the queue to complete and operation (either publishing or consuming) before failing with a timeout error</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/vm" type="java.util.concurrent.TimeUnitEnumType" use="optional" default="SECONDS" name="timeoutUnit">
+          <xs:annotation>
+            <xs:documentation>A TimeUnit which qualifies the #timeoutUnit</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstractConnectionProvider" name="connection">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractConnectionProviderType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:reconnection"></xs:element>
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:simpleType name="org.mule.extensions.vm.api.QueueTypeEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="TRANSIENT"></xs:enumeration>
+          <xs:enumeration value="PERSISTENT"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="org.mule.runtime.extension.api.runtime.parameter.OutboundCorrelationStrategyEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="AUTO"></xs:enumeration>
+          <xs:enumeration value="ALWAYS"></xs:enumeration>
+          <xs:enumeration value="NEVER"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="org.mule.runtime.extension.api.tx.SourceTransactionalActionEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="ALWAYS_BEGIN"></xs:enumeration>
+          <xs:enumeration value="NONE"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="java.util.concurrent.TimeUnitEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="NANOSECONDS"></xs:enumeration>
+          <xs:enumeration value="MICROSECONDS"></xs:enumeration>
+          <xs:enumeration value="MILLISECONDS"></xs:enumeration>
+          <xs:enumeration value="SECONDS"></xs:enumeration>
+          <xs:enumeration value="MINUTES"></xs:enumeration>
+          <xs:enumeration value="HOURS"></xs:enumeration>
+          <xs:enumeration value="DAYS"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+</xs:schema>

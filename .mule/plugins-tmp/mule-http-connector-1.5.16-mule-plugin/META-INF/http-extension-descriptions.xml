@@ -1,0 +1,601 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension-documentation>
+    <configs>
+        <config name="listenerConfig">
+            <description><![CDATA[Configuration element for a HttpListener.]]></description>
+            <parameters>
+                <parameter name="basePath">
+                    <description><![CDATA[Base path to use for all requests that reference this config.]]></description>
+                </parameter>
+                <parameter name="listenerInterceptors">
+                    <description><![CDATA[Listener interceptors that will apply on request and on response events.]]></description>
+                </parameter>
+            </parameters>
+        </config>
+        <config name="requestConfig">
+            <description><![CDATA[Configuration element for a HTTP requests.]]></description>
+            <parameters>
+                <parameter name="expirationPolicy">
+                    <description><![CDATA[Configures the minimum amount of time that a dynamic configuration instance can remain idle before the runtime considers it eligible for expiration. This does not mean that the platform will expire the instance at the exact moment that it becomes eligible. The runtime will actually purge the instances when it sees it fit.]]></description>
+                </parameter>
+                <parameter name="basePath">
+                    <description><![CDATA[Base path to use for all requests that reference this config.]]></description>
+                </parameter>
+                <parameter name="followRedirects">
+                    <description><![CDATA[Specifies whether to follow redirects or not. Default value is true.]]></description>
+                </parameter>
+                <parameter name="sendBodyMode">
+                    <description><![CDATA[Defines if the request should contain a body or not. If AUTO, it will depend on the method (GET, HEAD and OPTIONS will not send a body).]]></description>
+                </parameter>
+                <parameter name="requestStreamingMode">
+                    <description><![CDATA[Defines if the request should be sent using streaming or not. If this attribute is not present, the behavior will depend on the type of the payload (it will stream only for InputStream). If set to true, it will always stream. If set to false, it will never stream. As streaming is done the request will be sent user Transfer-Encoding: chunked.]]></description>
+                </parameter>
+                <parameter name="enableCookies">
+                    <description><![CDATA[If true, cookies received in HTTP responses will be stored, and sent in subsequent HTTP requests.]]></description>
+                </parameter>
+                <parameter name="defaultHeaders">
+                    <description><![CDATA[Default HTTP headers the message should include.]]></description>
+                </parameter>
+                <parameter name="defaultQueryParams">
+                    <description><![CDATA[Default Query parameters the request should include.]]></description>
+                </parameter>
+                <parameter name="sendCorrelationId">
+                    <description><![CDATA[Whether to specify a correlationId when publishing messages. This applies both for custom correlation ids specifies at the operation level and for default correlation Ids taken from the current event]]></description>
+                </parameter>
+                <parameter name="preserveHeadersCase">
+                    <description><![CDATA[By default, header keys are stored internally in lower-case. This is to improve performance of headers handling and is functionally correct as specified in the RFC. <p> In the case a server expects headers in a specific case, this flag may be set to true so the case of the header keys are preserved.]]></description>
+                </parameter>
+                <parameter name="responseTimeout">
+                    <description><![CDATA[Maximum time that the request element will block the execution of the flow waiting for the HTTP response. If this value is not present, the default response timeout from the Mule configuration will be used.]]></description>
+                </parameter>
+                <parameter name="responseValidator">
+                    <description><![CDATA[Configures a default error handling of the response.]]></description>
+                </parameter>
+            </parameters>
+        </config>
+    </configs>
+    <connections>
+        <connection name="listener">
+            <description><![CDATA[Connection provider for a HttpListener, handles the creation of HttpServer instances.]]></description>
+            <parameters>
+                <parameter name="tlsContext">
+                    <description><![CDATA[Reference to a TLS config element. This will enable HTTPS for this config.]]></description>
+                </parameter>
+                <parameter name="protocol">
+                    <description><![CDATA[Protocol to use for communication. Valid values are HTTP and HTTPS. Default value is HTTP. When using HTTPS the HTTP communication is going to be secured using TLS / SSL. If HTTPS was configured as protocol then the user needs to configure at least the keystore in the tls:context child element of this listener-config.]]></description>
+                </parameter>
+                <parameter name="host">
+                    <description><![CDATA[Host where the requests will be sent.]]></description>
+                </parameter>
+                <parameter name="port">
+                    <description><![CDATA[Port where the requests will be received.]]></description>
+                </parameter>
+                <parameter name="usePersistentConnections">
+                    <description><![CDATA[If false, each connection will be closed after the first request is completed.]]></description>
+                </parameter>
+                <parameter name="connectionIdleTimeout">
+                    <description><![CDATA[The number of milliseconds that a connection can remain idle before it is closed. The value of this attribute is only used when persistent connections are enabled.]]></description>
+                </parameter>
+                <parameter name="reconnection">
+                    <description><![CDATA[When the application is deployed, a connectivity test is performed on all connectors. If set to true, deployment will fail if the test doesn't pass after exhausting the associated reconnection strategy]]></description>
+                </parameter>
+            </parameters>
+        </connection>
+        <connection name="request">
+            <description><![CDATA[Connection provider for a HTTP request, handles the creation of HttpExtensionClient instances.]]></description>
+            <parameters>
+                <parameter name="tlsContext">
+                    <description><![CDATA[Reference to a TLS config element. This will enable HTTPS for this config.]]></description>
+                </parameter>
+                <parameter name="proxyConfig">
+                    <description><![CDATA[Reusable configuration element for outbound connections through a proxy. A proxy element must define a host name and a port attributes, and optionally can define a username and a password.]]></description>
+                </parameter>
+                <parameter name="authentication">
+                    <description><![CDATA[Authentication method to use for the HTTP request.]]></description>
+                </parameter>
+                <parameter name="protocol">
+                    <description><![CDATA[Protocol to use for communication. Valid values are HTTP and HTTPS. Default value is HTTP. When using HTTPS the HTTP communication is going to be secured using TLS / SSL. If HTTPS was configured as protocol then the user can customize the tls/ssl configuration by defining the tls:context child element of this listener-config. If not tls:context is defined then the default JVM certificates are going to be used to establish communication.]]></description>
+                </parameter>
+                <parameter name="host">
+                    <description><![CDATA[Host where the requests will be sent.]]></description>
+                </parameter>
+                <parameter name="port">
+                    <description><![CDATA[Port where the requests will be sent. If the protocol attribute is HTTP (default) then the default value is 80, if the protocol attribute is HTTPS then the default value is 443.]]></description>
+                </parameter>
+                <parameter name="usePersistentConnections">
+                    <description><![CDATA[If false, each connection will be closed after the first request is completed.]]></description>
+                </parameter>
+                <parameter name="maxConnections">
+                    <description><![CDATA[The maximum number of outbound connections that will be kept open at the same time. By default the number of connections is unlimited.]]></description>
+                </parameter>
+                <parameter name="connectionIdleTimeout">
+                    <description><![CDATA[The number of milliseconds that a connection can remain idle before it is closed. The value of this attribute is only used when persistent connections are enabled.]]></description>
+                </parameter>
+                <parameter name="streamResponse">
+                    <description><![CDATA[Whether or not received responses should be streamed, meaning processing will continue as soon as all headers are parsed and the body streamed as it arrives. When enabled, the response MUST be eventually read since depending on the configured buffer size it may not fit into memory and processing will stop until space is available.]]></description>
+                </parameter>
+                <parameter name="responseBufferSize">
+                    <description><![CDATA[The space in bytes for the buffer where the HTTP response will be stored.]]></description>
+                </parameter>
+                <parameter name="clientSocketProperties">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="reconnection">
+                    <description><![CDATA[When the application is deployed, a connectivity test is performed on all connectors. If set to true, deployment will fail if the test doesn't pass after exhausting the associated reconnection strategy]]></description>
+                </parameter>
+            </parameters>
+        </connection>
+    </connections>
+    <extension name="HTTP">
+        <description><![CDATA[HTTP connector used to handle and perform HTTP requests. <p> This class only serves as an extension definition. It's configurations are divided on server (<http:listener-config>) and client (<http:requester-config>) capabilities.]]></description>
+        <parameters/>
+    </extension>
+    <operations>
+        <operation name="request">
+            <description><![CDATA[Consumes an HTTP service.]]></description>
+            <parameters>
+                <parameter name="method">
+                    <description><![CDATA[The HTTP method for the request.]]></description>
+                </parameter>
+                <parameter name="outputMimeType">
+                    <description><![CDATA[The mime type of the payload that this operation outputs.]]></description>
+                </parameter>
+                <parameter name="outputEncoding">
+                    <description><![CDATA[The encoding of the payload that this operation outputs.]]></description>
+                </parameter>
+                <parameter name="streamingStrategy">
+                    <description><![CDATA[Configure if repeatable streams should be used and their behaviour]]></description>
+                </parameter>
+                <parameter name="path">
+                    <description><![CDATA[Path where the request will be sent.]]></description>
+                </parameter>
+                <parameter name="url">
+                    <description><![CDATA[URL where to send the request.]]></description>
+                </parameter>
+                <parameter name="followRedirects">
+                    <description><![CDATA[Specifies whether to follow redirects or not.]]></description>
+                </parameter>
+                <parameter name="sendBodyMode">
+                    <description><![CDATA[Defines if the request should contain a body or not.]]></description>
+                </parameter>
+                <parameter name="requestStreamingMode">
+                    <description><![CDATA[Defines if the request should be sent using streaming or not.]]></description>
+                </parameter>
+                <parameter name="responseTimeout">
+                    <description><![CDATA[Maximum time that the request element will block the execution of the flow waiting for the HTTP response.]]></description>
+                </parameter>
+                <parameter name="body">
+                    <description><![CDATA[The body of the response message]]></description>
+                </parameter>
+                <parameter name="headers">
+                    <description><![CDATA[HTTP headers the message should include.]]></description>
+                </parameter>
+                <parameter name="uriParams">
+                    <description><![CDATA[URI parameters that should be used to create the request.]]></description>
+                </parameter>
+                <parameter name="queryParams">
+                    <description><![CDATA[Query parameters the request should include.]]></description>
+                </parameter>
+                <parameter name="sendCorrelationId">
+                    <description><![CDATA[Options on whether to include an outbound correlation id or not]]></description>
+                </parameter>
+                <parameter name="correlationId">
+                    <description><![CDATA[Allows to set a custom correlation id]]></description>
+                </parameter>
+                <parameter name="responseValidator">
+                    <description><![CDATA[Configures error handling of the response.]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="basicSecurityFilter">
+            <description><![CDATA[Authenticates received HTTP requests. Must be used after a listener component.]]></description>
+            <parameters>
+                <parameter name="realm">
+                    <description><![CDATA[Authentication realm.]]></description>
+                </parameter>
+                <parameter name="securityProviders">
+                    <description><![CDATA[The delegate-security-provider to use for authenticating. Use this in case you have multiple security managers defined in your configuration.]]></description>
+                </parameter>
+                <parameter name="attributes">
+                    <description><![CDATA[The HttpRequestAttributes coming from an HTTP listener source to check the 'Authorization' header.]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="loadStaticResource">
+            <description><![CDATA[Serves up static content for use with HTTP, using the request path to lookup the resource.]]></description>
+            <parameters>
+                <parameter name="resourceBasePath">
+                    <description><![CDATA[The resource base from where documents are served up. For example: /Users/maxthemule/resources. Inputs should be validated when using expressions here to avoid overexposing files.]]></description>
+                </parameter>
+                <parameter name="defaultFile">
+                    <description><![CDATA[The default file to serve when a directory is specified. The default value is 'index.html'. Inputs should be validated when using expressions here to avoid overexposing files.]]></description>
+                </parameter>
+                <parameter name="attributes">
+                    <description><![CDATA[The HttpRequestAttributes coming from an HTTP listener source to check the required resources.]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+    </operations>
+    <sources>
+        <source name="listener">
+            <description><![CDATA[Represents a listener for HTTP requests.]]></description>
+            <parameters>
+                <parameter name="path">
+                    <description><![CDATA[Relative path from the path set in the HTTP Listener configuration]]></description>
+                </parameter>
+                <parameter name="allowedMethods">
+                    <description><![CDATA[Comma separated list of allowed HTTP methods by this listener. To allow all methods do not defined the attribute.]]></description>
+                </parameter>
+                <parameter name="responseStreamingMode">
+                    <description><![CDATA[Defines if the response should be sent using streaming or not. If this attribute is not present, the behavior will depend on the type of the payload (it will stream only for InputStream). If set to true, it will always stream. If set to false, it will never stream. As streaming is done the response will be sent user Transfer-Encoding: chunked.]]></description>
+                </parameter>
+                <parameter name="outputMimeType">
+                    <description><![CDATA[The mime type of the payload that this operation outputs.]]></description>
+                </parameter>
+                <parameter name="outputEncoding">
+                    <description><![CDATA[The encoding of the payload that this operation outputs.]]></description>
+                </parameter>
+                <parameter name="primaryNodeOnly">
+                    <description><![CDATA[Whether this source should only be executed on the primary node when runnning in Cluster]]></description>
+                </parameter>
+                <parameter name="streamingStrategy">
+                    <description><![CDATA[Configure if repeatable streams should be used and their behaviour]]></description>
+                </parameter>
+                <parameter name="redeliveryPolicy">
+                    <description><![CDATA[Defines a policy for processing the redelivery of the same message]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+                <parameter name="body">
+                    <description><![CDATA[The body of the response message.]]></description>
+                </parameter>
+                <parameter name="headers">
+                    <description><![CDATA[HTTP headers the message should include.]]></description>
+                </parameter>
+                <parameter name="statusCode">
+                    <description><![CDATA[HTTP status code the response should have.]]></description>
+                </parameter>
+                <parameter name="reasonPhrase">
+                    <description><![CDATA[HTTP reason phrase the response should have.]]></description>
+                </parameter>
+            </parameters>
+        </source>
+    </sources>
+    <types>
+        <type name="org.mule.extension.http.api.HttpRequestAttributes">
+            <description><![CDATA[Representation of an HTTP request message attributes.
+
+ @since 1.0]]></description>
+            <parameters>
+                <parameter name="headers">
+                    <description><![CDATA[Map of HTTP headers in the message. Former properties.]]></description>
+                </parameter>
+                <parameter name="queryParams">
+                    <description><![CDATA[Query parameters map built from the parsed string. Former 'http.query.params'.]]></description>
+                </parameter>
+                <parameter name="uriParams">
+                    <description><![CDATA[URI parameters extracted from the request path. Former 'http.uri.params'.]]></description>
+                </parameter>
+                <parameter name="requestPath">
+                    <description><![CDATA[Full path requested. Former 'http.request.path'.]]></description>
+                </parameter>
+                <parameter name="listenerPath">
+                    <description><![CDATA[Full path where the request was received. Former 'http.listener.path'.]]></description>
+                </parameter>
+                <parameter name="rawRequestPath">
+                    <description><![CDATA[Full path requested, encoded as received.
+
+ @since 1.5.0]]></description>
+                </parameter>
+                <parameter name="relativePath">
+                    <description><![CDATA[Path where the request was received, without considering the base path. Former 'http.relative.path'.]]></description>
+                </parameter>
+                <parameter name="maskedRequestPath">
+                    <description><![CDATA[Path computed from masking the listenerPath and taking the difference. Note that this
+ is only calculated when the null otherwise.
+
+ @since 1.4.0]]></description>
+                </parameter>
+                <parameter name="version">
+                    <description><![CDATA[HTTP version of the request. Former 'http.version'.]]></description>
+                </parameter>
+                <parameter name="scheme">
+                    <description><![CDATA[HTTP scheme of the request. Former 'http.scheme'.]]></description>
+                </parameter>
+                <parameter name="method">
+                    <description><![CDATA[HTTP method of the request. Former 'http.method'.]]></description>
+                </parameter>
+                <parameter name="requestUri">
+                    <description><![CDATA[Full URI of the request. Former 'http.request.uri'.]]></description>
+                </parameter>
+                <parameter name="rawRequestUri">
+                    <description><![CDATA[Full URI of the request, encoded as received.
+
+ @since 1.5.0]]></description>
+                </parameter>
+                <parameter name="queryString">
+                    <description><![CDATA[Query string of the request. Former 'http.query.string'.]]></description>
+                </parameter>
+                <parameter name="localAddress">
+                    <description><![CDATA[Local host address from the server.]]></description>
+                </parameter>
+                <parameter name="remoteAddress">
+                    <description><![CDATA[Remote host address from the sender. Former 'http.remote.address'.]]></description>
+                </parameter>
+                <parameter name="clientCertificate">
+                    <description><![CDATA[Client certificate (if 2 way TLS is enabled). Former 'http.client.cert'.]]></description>
+                </parameter>
+            </parameters>
+        </type>
+        <type name="org.mule.extension.http.api.HttpResponseAttributes">
+            <description><![CDATA[Representation of an HTTP response message attributes.
+
+ @since 1.0]]></description>
+            <parameters>
+                <parameter name="headers">
+                    <description><![CDATA[Map of HTTP headers in the message. Former properties.]]></description>
+                </parameter>
+                <parameter name="statusCode">
+                    <description><![CDATA[HTTP status code of the response. Former 'http.status'.]]></description>
+                </parameter>
+                <parameter name="reasonPhrase">
+                    <description><![CDATA[HTTP reason phrase of the response. Former 'http.reason'.]]></description>
+                </parameter>
+            </parameters>
+        </type>
+        <type name="org.mule.extension.http.api.listener.intercepting.cors.CorsInterceptorWrapper">
+            <description><![CDATA[The HTTP Connector MAY allow (in the future) a collection of interceptors in the listener. If this is implemented, we would
+ like to have the XML config structure backward compatible.
+ <p>
+ CorsInterceptorWrapper emulates the XML structure within the listener config for handling multiple interceptors but
+ restricted only to CORS.]]></description>
+            <parameters>
+                <parameter name="corsInterceptor">
+                    <description><![CDATA[Interceptor which validates that requests match CORS specification and acts on responses accordingly.]]></description>
+                </parameter>
+            </parameters>
+        </type>
+        <type name="org.mule.extension.http.api.notification.HttpNotificationData">
+            <description><![CDATA[Base class for HTTP notification related data.
+
+ @since 1.1]]></description>
+            <parameters>
+                <parameter name="headers">
+                    <description><![CDATA[]]></description>
+                </parameter>
+            </parameters>
+        </type>
+        <type name="org.mule.extension.http.api.policy.HttpPolicyRequestAttributes">
+            <description><![CDATA[BaseHttpRequestAttributes subclass that allows modification of request attributes and
+ creation through the expression language.
+
+ @since 1.0]]></description>
+            <parameters>
+                <parameter name="headers">
+                    <description><![CDATA[Map of HTTP headers in the message. Former properties.]]></description>
+                </parameter>
+                <parameter name="queryParams">
+                    <description><![CDATA[Query parameters map built from the parsed string. Former 'http.query.params'.]]></description>
+                </parameter>
+                <parameter name="uriParams">
+                    <description><![CDATA[URI parameters extracted from the request path. Former 'http.uri.params'.]]></description>
+                </parameter>
+                <parameter name="requestPath">
+                    <description><![CDATA[Full path requested. Former 'http.request.path'.]]></description>
+                </parameter>
+            </parameters>
+        </type>
+        <type name="org.mule.extension.http.api.request.authentication.BasicAuthentication">
+            <description><![CDATA[Configures basic authentication for the requests.
+
+ @since 1.0]]></description>
+            <parameters>
+                <parameter name="username">
+                    <description><![CDATA[The username to authenticate.]]></description>
+                </parameter>
+                <parameter name="password">
+                    <description><![CDATA[The password to authenticate.]]></description>
+                </parameter>
+                <parameter name="preemptive">
+                    <description><![CDATA[Configures if authentication should be preemptive or not. Preemptive authentication will send the authentication header in
+ the first request, instead of waiting for a 401 response code to send it.]]></description>
+                </parameter>
+            </parameters>
+        </type>
+        <type name="org.mule.extension.http.api.request.authentication.DigestAuthentication">
+            <description><![CDATA[Configures digest authentication for the requests.
+
+ @since 1.0]]></description>
+            <parameters>
+                <parameter name="username">
+                    <description><![CDATA[The username to authenticate.]]></description>
+                </parameter>
+                <parameter name="password">
+                    <description><![CDATA[The password to authenticate.]]></description>
+                </parameter>
+                <parameter name="preemptive">
+                    <description><![CDATA[Configures if authentication should be preemptive or not. Preemptive authentication will send the authentication header in
+ the first request, instead of waiting for a 401 response code to send it.]]></description>
+                </parameter>
+            </parameters>
+        </type>
+        <type name="org.mule.extension.http.api.request.authentication.HttpRequestAuthentication">
+            <description><![CDATA[An object that authenticates an HTTP request.
+
+ @since 1.0]]></description>
+            <parameters/>
+        </type>
+        <type name="org.mule.extension.http.api.request.authentication.NtlmAuthentication">
+            <description><![CDATA[Configures NTLM authentication for the requests.
+
+ @since 1.0]]></description>
+            <parameters>
+                <parameter name="username">
+                    <description><![CDATA[The username to authenticate.]]></description>
+                </parameter>
+                <parameter name="password">
+                    <description><![CDATA[The password to authenticate.]]></description>
+                </parameter>
+                <parameter name="preemptive">
+                    <description><![CDATA[Configures if authentication should be preemptive or not. Preemptive authentication will send the authentication header in
+ the first request, instead of waiting for a 401 response code to send it.]]></description>
+                </parameter>
+                <parameter name="domain">
+                    <description><![CDATA[The domain to authenticate.]]></description>
+                </parameter>
+                <parameter name="workstation">
+                    <description><![CDATA[The workstation to authenticate.]]></description>
+                </parameter>
+            </parameters>
+        </type>
+        <type name="org.mule.extension.http.api.request.builder.QueryParam">
+            <description><![CDATA[Represents an HTTP Query Parameter
+ 
+ @since 1.1]]></description>
+            <parameters>
+                <parameter name="key">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="value">
+                    <description><![CDATA[]]></description>
+                </parameter>
+            </parameters>
+        </type>
+        <type name="org.mule.extension.http.api.request.builder.RequestHeader">
+            <description><![CDATA[Represents an HTTP Header
+
+ @since 1.1]]></description>
+            <parameters>
+                <parameter name="key">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="value">
+                    <description><![CDATA[]]></description>
+                </parameter>
+            </parameters>
+        </type>
+        <type name="org.mule.extension.http.api.request.proxy.DefaultNtlmProxyConfig">
+            <description><![CDATA[A Proxy configuration for NTLM authentication proxies.
+
+ @since 1.0]]></description>
+            <parameters>
+                <parameter name="host">
+                    <description><![CDATA[Host where the proxy requests will be sent.]]></description>
+                </parameter>
+                <parameter name="port">
+                    <description><![CDATA[Port where the proxy requests will be sent.]]></description>
+                </parameter>
+                <parameter name="username">
+                    <description><![CDATA[The username to authenticate against the proxy.]]></description>
+                </parameter>
+                <parameter name="password">
+                    <description><![CDATA[The password to authenticate against the proxy.]]></description>
+                </parameter>
+                <parameter name="nonProxyHosts">
+                    <description><![CDATA[A list of comma separated hosts against which the proxy should not be used]]></description>
+                </parameter>
+                <parameter name="ntlmDomain">
+                    <description><![CDATA[The domain to authenticate against the proxy.]]></description>
+                </parameter>
+            </parameters>
+        </type>
+        <type name="org.mule.extension.http.api.request.proxy.DefaultProxyConfig">
+            <description><![CDATA[Basic HTTP Proxy configuration based on host and port, and optionally a username and password for proxy authentication.
+
+ @since 1.0]]></description>
+            <parameters>
+                <parameter name="host">
+                    <description><![CDATA[Host where the proxy requests will be sent.]]></description>
+                </parameter>
+                <parameter name="port">
+                    <description><![CDATA[Port where the proxy requests will be sent.]]></description>
+                </parameter>
+                <parameter name="username">
+                    <description><![CDATA[The username to authenticate against the proxy.]]></description>
+                </parameter>
+                <parameter name="password">
+                    <description><![CDATA[The password to authenticate against the proxy.]]></description>
+                </parameter>
+                <parameter name="nonProxyHosts">
+                    <description><![CDATA[A list of comma separated hosts against which the proxy should not be used]]></description>
+                </parameter>
+            </parameters>
+        </type>
+        <type name="org.mule.extension.http.api.request.proxy.HttpProxyConfig">
+            <description><![CDATA[Marker interface for exposing the proxy configuration as an imported type.]]></description>
+            <parameters/>
+        </type>
+        <type name="org.mule.extension.http.api.request.validator.FailureStatusCodeValidator">
+            <description><![CDATA[Response validator that allows specifying which status codes should be treated as failures. Responses with such status codes
+ will cause the component to throw an exception.
+
+ @since 1.0]]></description>
+            <parameters>
+                <parameter name="values">
+                    <description><![CDATA[Status codes that will be considered.]]></description>
+                </parameter>
+            </parameters>
+        </type>
+        <type name="org.mule.extension.http.api.request.validator.ResponseValidator">
+            <description><![CDATA[Configures error handling of the response.
+
+ @since 1.0]]></description>
+            <parameters/>
+        </type>
+        <type name="org.mule.extension.http.api.request.validator.SuccessStatusCodeValidator">
+            <description><![CDATA[Response validator that allows specifying which status codes will be considered as successful. Other status codes in the
+ response will cause the component to throw an exception.
+
+ @since 1.0]]></description>
+            <parameters>
+                <parameter name="values">
+                    <description><![CDATA[Status codes that will be considered.]]></description>
+                </parameter>
+            </parameters>
+        </type>
+        <type name="org.mule.modules.cors.api.configuration.origin.EveryOrigin">
+            <description><![CDATA[]]></description>
+            <parameters/>
+        </type>
+        <type name="org.mule.modules.cors.api.configuration.origin.Origin">
+            <description><![CDATA[]]></description>
+            <parameters/>
+        </type>
+        <type name="org.mule.modules.cors.api.configuration.origin.SingleOrigin">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="url">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="accessControlMaxAge">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="allowedMethods">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="allowedHeaders">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="exposeHeaders">
+                    <description><![CDATA[]]></description>
+                </parameter>
+            </parameters>
+        </type>
+    </types>
+</extension-documentation>

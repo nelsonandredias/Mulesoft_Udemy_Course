@@ -1,0 +1,1350 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:mule="http://www.mulesoft.org/schema/mule/core" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.mulesoft.org/schema/mule/jms" attributeFormDefault="unqualified" elementFormDefault="qualified">
+  <xs:import namespace="http://www.w3.org/XML/1998/namespace"></xs:import>
+  <xs:import namespace="http://www.springframework.org/schema/beans" schemaLocation="http://www.springframework.org/schema/beans/spring-beans.xsd"></xs:import>
+  <xs:import namespace="http://www.mulesoft.org/schema/mule/core" schemaLocation="http://www.mulesoft.org/schema/mule/core/current/mule.xsd"></xs:import>
+  <xs:import namespace="http://www.mulesoft.org/schema/mule/tls" schemaLocation="http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd"></xs:import>
+  <xs:complexType name="org.mule.extensions.jms.api.destination.ConsumerType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType"></xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:jms="http://www.mulesoft.org/schema/mule/jms" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="jms:org.mule.extensions.jms.api.destination.ConsumerType" substitutionGroup="mule:abstract-shared-extension" abstract="true" name="global-abstract-consumer-type"></xs:element>
+  <xs:element xmlns:jms="http://www.mulesoft.org/schema/mule/jms" type="jms:org.mule.extensions.jms.api.destination.ConsumerType" abstract="true" name="abstract-consumer-type"></xs:element>
+  <xs:complexType name="org.mule.extensions.jms.api.destination.QueueConsumer">
+    <xs:complexContent>
+      <xs:extension xmlns:jms="http://www.mulesoft.org/schema/mule/jms" base="jms:org.mule.extensions.jms.api.destination.ConsumerType"></xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:jms="http://www.mulesoft.org/schema/mule/jms" type="jms:org.mule.extensions.jms.api.destination.QueueConsumer" substitutionGroup="jms:abstract-consumer-type" abstract="true" name="abstract-queue-consumer"></xs:element>
+  <xs:element xmlns:jms="http://www.mulesoft.org/schema/mule/jms" substitutionGroup="jms:abstract-queue-consumer" name="queue-consumer">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="jms:org.mule.extensions.jms.api.destination.QueueConsumer"></xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="org.mule.extensions.jms.api.destination.TopicConsumer">
+    <xs:complexContent>
+      <xs:extension xmlns:jms="http://www.mulesoft.org/schema/mule/jms" base="jms:org.mule.extensions.jms.api.destination.ConsumerType">
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:substitutableBoolean" use="optional" default="false" name="durable"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:substitutableBoolean" use="optional" default="false" name="shared"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:substitutableBoolean" use="optional" default="false" name="noLocal"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="subscriptionName"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:jms="http://www.mulesoft.org/schema/mule/jms" type="jms:org.mule.extensions.jms.api.destination.TopicConsumer" substitutionGroup="jms:abstract-consumer-type" abstract="true" name="abstract-topic-consumer"></xs:element>
+  <xs:element xmlns:jms="http://www.mulesoft.org/schema/mule/jms" substitutionGroup="jms:abstract-topic-consumer" name="topic-consumer">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="jms:org.mule.extensions.jms.api.destination.TopicConsumer"></xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="org.mule.extensions.jms.api.connection.caching.CachingStrategy">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType"></xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:jms="http://www.mulesoft.org/schema/mule/jms" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="jms:org.mule.extensions.jms.api.connection.caching.CachingStrategy" substitutionGroup="mule:abstract-shared-extension" abstract="true" name="global-abstract-caching-strategy"></xs:element>
+  <xs:element xmlns:jms="http://www.mulesoft.org/schema/mule/jms" type="jms:org.mule.extensions.jms.api.connection.caching.CachingStrategy" abstract="true" name="abstract-caching-strategy"></xs:element>
+  <xs:complexType name="org.mule.extensions.jms.api.connection.caching.DefaultCachingStrategy">
+    <xs:complexContent>
+      <xs:extension xmlns:jms="http://www.mulesoft.org/schema/mule/jms" base="jms:org.mule.extensions.jms.api.connection.caching.CachingStrategy">
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:substitutableInt" use="optional" name="sessionCacheSize"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:substitutableBoolean" use="optional" default="true" name="cacheProducers"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:substitutableBoolean" use="optional" default="true" name="cacheConsumers"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:jms="http://www.mulesoft.org/schema/mule/jms" type="jms:org.mule.extensions.jms.api.connection.caching.DefaultCachingStrategy" substitutionGroup="jms:abstract-caching-strategy" abstract="true" name="abstract-default-caching"></xs:element>
+  <xs:element xmlns:jms="http://www.mulesoft.org/schema/mule/jms" substitutionGroup="jms:abstract-default-caching" name="default-caching">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="jms:org.mule.extensions.jms.api.connection.caching.DefaultCachingStrategy"></xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="org.mule.extensions.jms.api.connection.caching.NoCachingConfiguration">
+    <xs:complexContent>
+      <xs:extension xmlns:jms="http://www.mulesoft.org/schema/mule/jms" base="jms:org.mule.extensions.jms.api.connection.caching.CachingStrategy"></xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:jms="http://www.mulesoft.org/schema/mule/jms" type="jms:org.mule.extensions.jms.api.connection.caching.NoCachingConfiguration" substitutionGroup="jms:abstract-caching-strategy" abstract="true" name="abstract-no-caching"></xs:element>
+  <xs:element xmlns:jms="http://www.mulesoft.org/schema/mule/jms" substitutionGroup="jms:abstract-no-caching" name="no-caching">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="jms:org.mule.extensions.jms.api.connection.caching.NoCachingConfiguration"></xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="javax.jms.ConnectionFactory">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType"></xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:jms="http://www.mulesoft.org/schema/mule/jms" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="jms:javax.jms.ConnectionFactory" substitutionGroup="mule:abstract-shared-extension" abstract="true" name="global-abstract-connection-factory"></xs:element>
+  <xs:element xmlns:jms="http://www.mulesoft.org/schema/mule/jms" type="jms:javax.jms.ConnectionFactory" abstract="true" name="abstract-connection-factory"></xs:element>
+  <xs:complexType name="org.mule.extensions.jms.api.connection.factory.jndi.JndiNameResolver">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType"></xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:jms="http://www.mulesoft.org/schema/mule/jms" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="jms:org.mule.extensions.jms.api.connection.factory.jndi.JndiNameResolver" substitutionGroup="mule:abstract-shared-extension" abstract="true" name="global-abstract-jndi-name-resolver"></xs:element>
+  <xs:element xmlns:jms="http://www.mulesoft.org/schema/mule/jms" type="jms:org.mule.extensions.jms.api.connection.factory.jndi.JndiNameResolver" abstract="true" name="abstract-jndi-name-resolver"></xs:element>
+  <xs:complexType name="org.mule.extensions.jms.api.connection.factory.jndi.SimpleJndiNameResolver">
+    <xs:complexContent>
+      <xs:extension xmlns:jms="http://www.mulesoft.org/schema/mule/jms" base="jms:org.mule.extensions.jms.api.connection.factory.jndi.JndiNameResolver">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" name="jndi-provider-properties">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" name="jndi-provider-property">
+                  <xs:complexType>
+                    <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="required" name="key"></xs:attribute>
+                    <xs:attribute type="xs:string" use="required" name="value"></xs:attribute>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="optional" name="contextFactory"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="optional" name="jndiInitialFactory"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionMap" use="optional" name="jndiProviderProperties"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="optional" name="jndiProviderUrl"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:jms="http://www.mulesoft.org/schema/mule/jms" type="jms:org.mule.extensions.jms.api.connection.factory.jndi.SimpleJndiNameResolver" substitutionGroup="jms:abstract-jndi-name-resolver" abstract="true" name="abstract-simple-jndi-name-resolver"></xs:element>
+  <xs:element xmlns:jms="http://www.mulesoft.org/schema/mule/jms" substitutionGroup="jms:abstract-simple-jndi-name-resolver" name="simple-jndi-name-resolver">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="jms:org.mule.extensions.jms.api.connection.factory.jndi.SimpleJndiNameResolver"></xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="org.mule.extensions.jms.api.connection.factory.jndi.CachedJndiNameResolver">
+    <xs:complexContent>
+      <xs:extension xmlns:jms="http://www.mulesoft.org/schema/mule/jms" base="jms:org.mule.extensions.jms.api.connection.factory.jndi.JndiNameResolver">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" name="jndi-provider-properties">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" name="jndi-provider-property">
+                  <xs:complexType>
+                    <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="required" name="key"></xs:attribute>
+                    <xs:attribute type="xs:string" use="required" name="value"></xs:attribute>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="optional" name="contextFactory"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="optional" name="jndiInitialFactory"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionMap" use="optional" name="jndiProviderProperties"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="optional" name="jndiProviderUrl"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:jms="http://www.mulesoft.org/schema/mule/jms" type="jms:org.mule.extensions.jms.api.connection.factory.jndi.CachedJndiNameResolver" substitutionGroup="jms:abstract-jndi-name-resolver" abstract="true" name="abstract-cached-jndi-name-resolver"></xs:element>
+  <xs:element xmlns:jms="http://www.mulesoft.org/schema/mule/jms" substitutionGroup="jms:abstract-cached-jndi-name-resolver" name="cached-jndi-name-resolver">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="jms:org.mule.extensions.jms.api.connection.factory.jndi.CachedJndiNameResolver"></xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="org.mule.extensions.jms.api.connection.factory.jndi.JndiNameResolverProperties">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" name="provider-properties">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" name="provider-property">
+                  <xs:complexType>
+                    <xs:attribute type="mule:expressionString" use="required" name="key"></xs:attribute>
+                    <xs:attribute type="xs:string" use="required" name="value"></xs:attribute>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="jndiInitialContextFactory"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="jndiProviderUrl"></xs:attribute>
+        <xs:attribute type="mule:expressionMap" use="optional" name="providerProperties"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="org.mule.extensions.jms.api.connection.factory.jndi.JndiConnectionFactory">
+    <xs:complexContent>
+      <xs:extension xmlns:jms="http://www.mulesoft.org/schema/mule/jms" base="jms:javax.jms.ConnectionFactory">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" name="custom-jndi-name-resolver">
+            <xs:complexType>
+              <xs:choice minOccurs="1" maxOccurs="1">
+                <xs:element minOccurs="1" maxOccurs="1" ref="jms:abstract-jndi-name-resolver"></xs:element>
+                <xs:element minOccurs="1" maxOccurs="1" ref="jms:global-abstract-jndi-name-resolver"></xs:element>
+              </xs:choice>
+            </xs:complexType>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="name-resolver-builder">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension base="jms:org.mule.extensions.jms.api.connection.factory.jndi.JndiNameResolverProperties"></xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="required" name="connectionFactoryJndiName"></xs:attribute>
+        <xs:attribute type="jms:org.mule.extensions.jms.api.connection.LookupJndiDestinationEnumType" use="optional" default="NEVER" name="lookupDestination"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="customJndiNameResolver"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="nameResolverBuilder"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:jms="http://www.mulesoft.org/schema/mule/jms" type="jms:org.mule.extensions.jms.api.connection.factory.jndi.JndiConnectionFactory" substitutionGroup="jms:abstract-connection-factory" abstract="true" name="abstract-jndi-connection-factory"></xs:element>
+  <xs:element xmlns:jms="http://www.mulesoft.org/schema/mule/jms" substitutionGroup="jms:abstract-jndi-connection-factory" name="jndi-connection-factory">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="jms:org.mule.extensions.jms.api.connection.factory.jndi.JndiConnectionFactory"></xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstract-shared-extension" name="config">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractExtensionType">
+          <xs:annotation>
+            <xs:documentation>Base configuration for JmsConnector</xs:documentation>
+          </xs:annotation>
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstractConnectionProvider"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:expiration-policy"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="consumer-config">
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension base="mule:abstractExtensionType">
+                    <xs:sequence>
+                      <xs:element minOccurs="0" maxOccurs="1" name="consumer-type">
+                        <xs:annotation>
+                          <xs:documentation>The ConsumerType to be used by default when consuming a Message Can be overridden at the message source level.</xs:documentation>
+                        </xs:annotation>
+                        <xs:complexType>
+                          <xs:choice minOccurs="1" maxOccurs="1">
+                            <xs:element xmlns:jms="http://www.mulesoft.org/schema/mule/jms" minOccurs="1" maxOccurs="1" ref="jms:abstract-consumer-type"></xs:element>
+                            <xs:element xmlns:jms="http://www.mulesoft.org/schema/mule/jms" minOccurs="1" maxOccurs="1" ref="jms:global-abstract-consumer-type"></xs:element>
+                          </xs:choice>
+                        </xs:complexType>
+                      </xs:element>
+                    </xs:sequence>
+                    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/jms" type="org.mule.extensions.jms.api.ack.AckModeEnumType" use="optional" default="AUTO" name="ackMode">
+                      <xs:annotation>
+                        <xs:documentation>The ConsumerAckMode to use when consuming a Message Can be overridden at the message source level. This attribute has to be IMMEDIATE if transactionType is LOCAL or MULTI</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="xs:string" use="optional" name="selector">
+                      <xs:annotation>
+                        <xs:documentation>Default selector to be used for filtering when consuming a Message Can be overridden at the message source level.</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="mule:substitutableInt" use="optional" default="0" name="maxRedelivery">
+                      <xs:annotation>
+                        <xs:documentation>Used to configure the number of redelivers before discarding the message. No redelivery is represented with 0, while -1 means infinite re deliveries accepted.</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                  </xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="producer-config">
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension base="mule:abstractExtensionType">
+                    <xs:sequence></xs:sequence>
+                    <xs:attribute type="mule:substitutableBoolean" use="optional" default="false" name="persistentDelivery">
+                      <xs:annotation>
+                        <xs:documentation>Sets the default value for the Message#getJMSDeliveryMode. If true, the DeliveryMode#PERSISTENT mode will be used, which instructs the JMS provider to take extra care to insure the message is not lost in transit due to a JMS provider failure.</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="mule:substitutableInt" use="optional" default="4" name="priority">
+                      <xs:annotation>
+                        <xs:documentation>Defines the default Message#getJMSPriority to use when sending messages</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="mule:substitutableLong" use="optional" default="0" name="timeToLive">
+                      <xs:annotation>
+                        <xs:documentation>Defines the default time the message will be in the broker before it expires and is discarded</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/jms" type="java.util.concurrent.TimeUnitEnumType" use="optional" default="MILLISECONDS" name="timeToLiveUnit">
+                      <xs:annotation>
+                        <xs:documentation>A TimeUnit which qualifies the #timeToLive attribute. &lt;p&gt; Defaults to MILLISECONDS</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="mule:substitutableBoolean" use="optional" default="false" name="disableMessageId">
+                      <xs:annotation>
+                        <xs:documentation>Defines the default value to use when producing messages, for disabling the Message#getJMSMessageID generation in the broker. Depending on the provider it may or may not have effect</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="mule:substitutableBoolean" use="optional" default="false" name="disableMessageTimestamp">
+                      <xs:annotation>
+                        <xs:documentation>Defines the default value to use, when producing messages, for disable Message#getJMSTimestamp generation in the broker. Depending on the provider it may or may not have effect.</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="mule:substitutableLong" use="optional" name="deliveryDelay">
+                      <xs:annotation>
+                        <xs:documentation>This is used to determine the Message delivery delay time which is calculated by adding the deliveryDelay value specified on the send method to the time the message was sent. &lt;p&gt; Only used in JmsSpecification#JMS_2_0</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/jms" type="java.util.concurrent.TimeUnitEnumType" use="optional" default="MILLISECONDS" name="deliveryDelayUnit">
+                      <xs:annotation>
+                        <xs:documentation>A TimeUnit which qualifies the #deliveryDelay attribute. &lt;p&gt; Defaults to MILLISECONDS</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="xs:string" use="optional" name="jmsType">
+                      <xs:annotation>
+                        <xs:documentation>A message JMSType identifier supplied by a client when a message is sent.</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                  </xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute type="xs:string" use="optional" name="encoding">
+            <xs:annotation>
+              <xs:documentation>The default encoding of the Message body to be used if the message doesn't communicate it</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="xs:string" use="optional" default="*/*" name="contentType">
+            <xs:annotation>
+              <xs:documentation>The default contentType of the Message body to be used if the message doesn't communicate it</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/jms" type="org.mule.runtime.extension.api.runtime.parameter.OutboundCorrelationStrategyEnumType" use="optional" default="AUTO" name="sendCorrelationId">
+            <xs:annotation>
+              <xs:documentation>Whether to specify a correlationId when publishing messages. This applies both for custom correlation ids specifies at the operation level and for default correlation Ids taken from the current event</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="xs:string" use="required" name="name">
+            <xs:annotation>
+              <xs:documentation>The identifier of this element used to reference it in other components</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/jms" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ListenerType" substitutionGroup="mule:abstract-message-source" name="listener">
+    <xs:annotation>
+      <xs:documentation>JMS Subscriber for Destinations, allows to listen for incoming Messages</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ListenerType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageSourceType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-redelivery-policy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="consumer-type">
+            <xs:annotation>
+              <xs:documentation>The Type of the Consumer that should be used for the provided destination</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:choice minOccurs="1" maxOccurs="1">
+                <xs:element xmlns:jms="http://www.mulesoft.org/schema/mule/jms" minOccurs="1" maxOccurs="1" ref="jms:abstract-consumer-type"></xs:element>
+                <xs:element xmlns:jms="http://www.mulesoft.org/schema/mule/jms" minOccurs="1" maxOccurs="1" ref="jms:global-abstract-consumer-type"></xs:element>
+              </xs:choice>
+            </xs:complexType>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="response">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension base="mule:abstractExtensionType">
+                  <xs:sequence>
+                    <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="body">
+                      <xs:annotation>
+                        <xs:documentation>The body of the Message</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element minOccurs="0" maxOccurs="1" name="reply-to">
+                      <xs:annotation>
+                        <xs:documentation>The JMSReplyTo header information of the Destination where this Message should be replied to</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:complexContent>
+                          <xs:extension xmlns:jms="http://www.mulesoft.org/schema/mule/jms" base="jms:org.mule.extensions.jms.api.destination.JmsDestination"></xs:extension>
+                        </xs:complexContent>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="properties">
+                      <xs:annotation>
+                        <xs:documentation>The custom user properties that should be set to this Message</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element minOccurs="0" maxOccurs="1" name="jmsx-properties">
+                      <xs:annotation>
+                        <xs:documentation>The JMSX properties that should be set to this Message</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:complexContent>
+                          <xs:extension xmlns:jms="http://www.mulesoft.org/schema/mule/jms" base="jms:org.mule.extensions.jms.api.message.JmsxProperties"></xs:extension>
+                        </xs:complexContent>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute type="mule:expressionString" use="optional" name="jmsType">
+                    <xs:annotation>
+                      <xs:documentation>The JMSType header of the Message</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute type="mule:expressionString" use="optional" name="correlationId">
+                    <xs:annotation>
+                      <xs:documentation>The JMSCorrelationID header of the Message</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute type="mule:expressionBoolean" use="optional" default="true" name="sendContentType">
+                    <xs:annotation>
+                      <xs:documentation>true if the body type should be sent as a Message property</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute type="mule:expressionString" use="optional" name="outboundContentType">
+                    <xs:annotation>
+                      <xs:documentation>The content type of the body</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute type="mule:expressionBoolean" use="optional" default="true" name="sendEncoding">
+                    <xs:annotation>
+                      <xs:documentation>true if the body outboundEncoding should be sent as a Message property</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute type="mule:expressionString" use="optional" name="outboundEncoding">
+                    <xs:annotation>
+                      <xs:documentation>The outboundEncoding of the message's body</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute type="xs:string" use="optional" name="replyTo">
+                    <xs:annotation>
+                      <xs:documentation>The JMSReplyTo header information of the Destination where this Message should be replied to</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute type="xs:string" use="optional" name="jmsxProperties">
+                    <xs:annotation>
+                      <xs:documentation>The JMSX properties that should be set to this Message</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute type="mule:expressionBoolean" use="optional" name="persistentDelivery">
+                    <xs:annotation>
+                      <xs:documentation>Whether or not the delivery should be done with a persistent configuration</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute type="mule:expressionInt" use="optional" name="priority">
+                    <xs:annotation>
+                      <xs:documentation>The default JMSPriority value to be used when sending the message</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute type="mule:expressionLong" use="optional" name="timeToLive">
+                    <xs:annotation>
+                      <xs:documentation>Defines the default time the message will be in the broker before it expires and is discarded</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/jms" type="java.util.concurrent.TimeUnitEnumType" use="optional" name="timeToLiveUnit">
+                    <xs:annotation>
+                      <xs:documentation>Time unit to be used in the timeToLive configurations</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute type="mule:expressionBoolean" use="optional" name="disableMessageId">
+                    <xs:annotation>
+                      <xs:documentation>If true; the Message will be flagged to avoid generating its MessageID</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute type="mule:expressionBoolean" use="optional" name="disableMessageTimestamp">
+                    <xs:annotation>
+                      <xs:documentation>If true; the Message will be flagged to avoid generating its sent Timestamp</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute type="mule:expressionLong" use="optional" name="deliveryDelay">
+                    <xs:annotation>
+                      <xs:documentation>Only used by JMS 2.0. Sets the delivery delay to be applied in order to postpone the Message delivery</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/jms" type="java.util.concurrent.TimeUnitEnumType" use="optional" name="deliveryDelayUnit">
+                    <xs:annotation>
+                      <xs:documentation>Time unit to be used in the deliveryDelay configurations</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/jms" type="org.mule.runtime.extension.api.runtime.parameter.OutboundCorrelationStrategyEnumType" use="optional" name="sendCorrelationId">
+                    <xs:annotation>
+                      <xs:documentation>Options on whether to include an outbound correlation id or not</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/jms" type="org.mule.extensions.jms.api.RequestReplyPatternEnumType" use="optional" default="CORRELATION_ID" name="requestReplyPattern">
+                    <xs:annotation>
+                      <xs:documentation>Indicates which Request Reply Pattern to use. By default uses the Correlation ID of the incoming message to do the Reply-To. In case of configuring the Message ID pattern, the ReplyTo will be performed using the message ID of the incoming message. If NONE is selected, not correlation ID will be configured automatically.</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                </xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="required" name="destination">
+          <xs:annotation>
+            <xs:documentation>The name of the Destination from where the Message should be consumed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="consumerType">
+          <xs:annotation>
+            <xs:documentation>The Type of the Consumer that should be used for the provided destination</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/jms" type="org.mule.extensions.jms.api.ack.AckModeEnumType" use="optional" name="ackMode">
+          <xs:annotation>
+            <xs:documentation>The Session ACK mode to use when consuming a message</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="selector">
+          <xs:annotation>
+            <xs:documentation>JMS selector to be used for filtering incoming messages</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="inboundContentType">
+          <xs:annotation>
+            <xs:documentation>The content type of the message body</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="inboundEncoding">
+          <xs:annotation>
+            <xs:documentation>The inboundEncoding of the message body</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:substitutableInt" use="optional" default="4" name="numberOfConsumers">
+          <xs:annotation>
+            <xs:documentation>The number of concurrent consumers that will be used to receive JMS Messages</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/jms" type="org.mule.runtime.extension.api.tx.SourceTransactionalActionEnumType" use="optional" default="NONE" name="transactionalAction">
+          <xs:annotation>
+            <xs:documentation>The type of beginning action that sources can take regarding transactions.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:transactionType" use="optional" default="LOCAL" name="transactionType">
+          <xs:annotation>
+            <xs:documentation>The type of transaction to create. Availability will depend on the runtime version.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:substitutableBoolean" use="optional" name="primaryNodeOnly">
+          <xs:annotation>
+            <xs:documentation>Whether this source should only be executed on the primary node when runnning in Cluster</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="org.mule.extensions.jms.api.destination.JmsDestination">
+    <xs:annotation>
+      <xs:documentation>The JMSReplyTo header information of the Destination where this Message should be replied to</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:attribute type="mule:expressionString" use="required" name="destination"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/jms" type="org.mule.extensions.jms.api.destination.DestinationTypeEnumType" use="optional" default="QUEUE" name="destinationType"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="org.mule.extensions.jms.api.message.JmsxProperties">
+    <xs:annotation>
+      <xs:documentation>The JMSX properties that should be set to this Message</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:attribute type="mule:expressionString" use="optional" name="jmsxUserID"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="jmsxAppID"></xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="jmsxDeliveryCount"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="jmsxGroupID"></xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="jmsxGroupSeq"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="jmsxProducerTXID"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="jmsxConsumerTXID"></xs:attribute>
+        <xs:attribute type="mule:expressionLong" use="optional" name="jmsxRcvTimestamp"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/jms" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ConsumeType" substitutionGroup="mule:abstract-operator" name="consume">
+    <xs:annotation>
+      <xs:documentation>Operation that allows the user to consume a single Message from a given Destination.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ConsumeType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="consumer-type">
+            <xs:annotation>
+              <xs:documentation>the type of the MessageConsumer that is required for the given destination, along with any extra configurations that are required based on the destination type.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:choice minOccurs="1" maxOccurs="1">
+                <xs:element xmlns:jms="http://www.mulesoft.org/schema/mule/jms" minOccurs="1" maxOccurs="1" ref="jms:abstract-consumer-type"></xs:element>
+                <xs:element xmlns:jms="http://www.mulesoft.org/schema/mule/jms" minOccurs="1" maxOccurs="1" ref="jms:global-abstract-consumer-type"></xs:element>
+              </xs:choice>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="destination">
+          <xs:annotation>
+            <xs:documentation>the name of the Destination from where the Message should be consumed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="consumerType">
+          <xs:annotation>
+            <xs:documentation>the type of the MessageConsumer that is required for the given destination, along with any extra configurations that are required based on the destination type.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/jms" type="org.mule.extensions.jms.api.config.ConsumerAckModeEnumType" use="optional" name="ackMode">
+          <xs:annotation>
+            <xs:documentation>the ConsumerAckMode that will be configured over the Message and Session</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="selector">
+          <xs:annotation>
+            <xs:documentation>a custom JMS selector for filtering the messages</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="contentType">
+          <xs:annotation>
+            <xs:documentation>the Message's content content type</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="encoding">
+          <xs:annotation>
+            <xs:documentation>the Message's content encoding</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionLong" use="optional" default="10000" name="maximumWait">
+          <xs:annotation>
+            <xs:documentation>maximum time to wait for a message before timing out</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/jms" type="java.util.concurrent.TimeUnitEnumType" use="optional" default="MILLISECONDS" name="maximumWaitUnit">
+          <xs:annotation>
+            <xs:documentation>Time unit to be used in the maximumWaitTime configurations</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:operationTransactionalActionType" use="optional" default="JOIN_IF_POSSIBLE" name="transactionalAction">
+          <xs:annotation>
+            <xs:documentation>The type of joining action that operations can take regarding transactions.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/jms" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="PublishType" substitutionGroup="mule:abstract-operator" name="publish">
+    <xs:annotation>
+      <xs:documentation>Operation that allows the user to send a Message to a JMS Destination</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="PublishType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="message">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension base="mule:abstractExtensionType">
+                  <xs:sequence>
+                    <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="body">
+                      <xs:annotation>
+                        <xs:documentation>The body of the Message</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element minOccurs="0" maxOccurs="1" name="reply-to">
+                      <xs:annotation>
+                        <xs:documentation>The JMSReplyTo header information of the Destination where this Message should be replied to</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:complexContent>
+                          <xs:extension xmlns:jms="http://www.mulesoft.org/schema/mule/jms" base="jms:org.mule.extensions.jms.api.destination.JmsDestination"></xs:extension>
+                        </xs:complexContent>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="properties">
+                      <xs:annotation>
+                        <xs:documentation>The custom user properties that should be set to this Message</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element minOccurs="0" maxOccurs="1" name="jmsx-properties">
+                      <xs:annotation>
+                        <xs:documentation>The JMSX properties that should be set to this Message</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:complexContent>
+                          <xs:extension xmlns:jms="http://www.mulesoft.org/schema/mule/jms" base="jms:org.mule.extensions.jms.api.message.JmsxProperties"></xs:extension>
+                        </xs:complexContent>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute type="mule:expressionString" use="optional" name="jmsType">
+                    <xs:annotation>
+                      <xs:documentation>The JMSType header of the Message</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute type="mule:expressionString" use="optional" name="correlationId">
+                    <xs:annotation>
+                      <xs:documentation>The JMSCorrelationID header of the Message</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute type="mule:expressionBoolean" use="optional" default="true" name="sendContentType">
+                    <xs:annotation>
+                      <xs:documentation>true if the body type should be sent as a Message property</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute type="mule:expressionString" use="optional" name="outboundContentType">
+                    <xs:annotation>
+                      <xs:documentation>The content type of the body</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute type="mule:expressionBoolean" use="optional" default="true" name="sendEncoding">
+                    <xs:annotation>
+                      <xs:documentation>true if the body outboundEncoding should be sent as a Message property</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute type="mule:expressionString" use="optional" name="outboundEncoding">
+                    <xs:annotation>
+                      <xs:documentation>The outboundEncoding of the message's body</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute type="xs:string" use="optional" name="replyTo">
+                    <xs:annotation>
+                      <xs:documentation>The JMSReplyTo header information of the Destination where this Message should be replied to</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute type="xs:string" use="optional" name="jmsxProperties">
+                    <xs:annotation>
+                      <xs:documentation>The JMSX properties that should be set to this Message</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                </xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="destination">
+          <xs:annotation>
+            <xs:documentation>the name of the Destination where the Message should be sent</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/jms" type="org.mule.extensions.jms.api.destination.DestinationTypeEnumType" use="optional" default="QUEUE" name="destinationType">
+          <xs:annotation>
+            <xs:documentation>the DestinationType of the destination</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:operationTransactionalActionType" use="optional" default="JOIN_IF_POSSIBLE" name="transactionalAction">
+          <xs:annotation>
+            <xs:documentation>Transactional Action for the operation. Indicates if the publish must be executed or not in a transaction.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/jms" type="org.mule.runtime.extension.api.runtime.parameter.OutboundCorrelationStrategyEnumType" use="optional" name="sendCorrelationId">
+          <xs:annotation>
+            <xs:documentation>options on whether to include an outbound correlation id or not</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" name="persistentDelivery">
+          <xs:annotation>
+            <xs:documentation>If true; the Message will be sent using the PERSISTENT JMSDeliveryMode</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="priority">
+          <xs:annotation>
+            <xs:documentation>The default JMSPriority value to be used when sending the message</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionLong" use="optional" name="timeToLive">
+          <xs:annotation>
+            <xs:documentation>Defines the default time the message will be in the broker before it expires and is discarded</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/jms" type="java.util.concurrent.TimeUnitEnumType" use="optional" name="timeToLiveUnit">
+          <xs:annotation>
+            <xs:documentation>Time unit to be used in the timeToLive configurations</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" name="disableMessageId">
+          <xs:annotation>
+            <xs:documentation>If true; the Message will be flagged to avoid generating its MessageID</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" name="disableMessageTimestamp">
+          <xs:annotation>
+            <xs:documentation>If true; the Message will be flagged to avoid generating its sent Timestamp</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionLong" use="optional" name="deliveryDelay">
+          <xs:annotation>
+            <xs:documentation>Only used by JMS 2.0. Sets the delivery delay to be applied in order to postpone the Message delivery</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/jms" type="java.util.concurrent.TimeUnitEnumType" use="optional" name="deliveryDelayUnit">
+          <xs:annotation>
+            <xs:documentation>Time unit to be used in the deliveryDelay configurations</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/jms" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="PublishConsumeType" substitutionGroup="mule:abstract-operator" name="publish-consume">
+    <xs:annotation>
+      <xs:documentation>Operation that allows the user to send a message to a JMS Destination and waits for a response either to the provided ReplyTo destination or to a temporary Destination created dynamically</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="PublishConsumeType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="message">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension base="mule:abstractExtensionType">
+                  <xs:sequence>
+                    <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="body">
+                      <xs:annotation>
+                        <xs:documentation>The body of the Message</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element minOccurs="0" maxOccurs="1" name="reply-to">
+                      <xs:annotation>
+                        <xs:documentation>The JMSReplyTo header information of the Destination where this Message should be replied to</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:complexContent>
+                          <xs:extension xmlns:jms="http://www.mulesoft.org/schema/mule/jms" base="jms:org.mule.extensions.jms.api.destination.JmsDestination"></xs:extension>
+                        </xs:complexContent>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="properties">
+                      <xs:annotation>
+                        <xs:documentation>The custom user properties that should be set to this Message</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element minOccurs="0" maxOccurs="1" name="jmsx-properties">
+                      <xs:annotation>
+                        <xs:documentation>The JMSX properties that should be set to this Message</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:complexContent>
+                          <xs:extension xmlns:jms="http://www.mulesoft.org/schema/mule/jms" base="jms:org.mule.extensions.jms.api.message.JmsxProperties"></xs:extension>
+                        </xs:complexContent>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute type="mule:expressionString" use="optional" name="jmsType">
+                    <xs:annotation>
+                      <xs:documentation>The JMSType header of the Message</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute type="mule:expressionString" use="optional" name="correlationId">
+                    <xs:annotation>
+                      <xs:documentation>The JMSCorrelationID header of the Message</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute type="mule:expressionBoolean" use="optional" default="true" name="sendContentType">
+                    <xs:annotation>
+                      <xs:documentation>true if the body type should be sent as a Message property</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute type="mule:expressionString" use="optional" name="outboundContentType">
+                    <xs:annotation>
+                      <xs:documentation>The content type of the body</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute type="mule:expressionBoolean" use="optional" default="true" name="sendEncoding">
+                    <xs:annotation>
+                      <xs:documentation>true if the body outboundEncoding should be sent as a Message property</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute type="mule:expressionString" use="optional" name="outboundEncoding">
+                    <xs:annotation>
+                      <xs:documentation>The outboundEncoding of the message's body</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute type="xs:string" use="optional" name="replyTo">
+                    <xs:annotation>
+                      <xs:documentation>The JMSReplyTo header information of the Destination where this Message should be replied to</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute type="xs:string" use="optional" name="jmsxProperties">
+                    <xs:annotation>
+                      <xs:documentation>The JMSX properties that should be set to this Message</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                </xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="publish-configuration">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension base="mule:abstractExtensionType">
+                  <xs:sequence></xs:sequence>
+                  <xs:attribute type="mule:expressionBoolean" use="optional" name="persistentDelivery"></xs:attribute>
+                  <xs:attribute type="mule:expressionInt" use="optional" name="priority"></xs:attribute>
+                  <xs:attribute type="mule:expressionLong" use="optional" name="timeToLive"></xs:attribute>
+                  <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/jms" type="java.util.concurrent.TimeUnitEnumType" use="optional" name="timeToLiveUnit"></xs:attribute>
+                  <xs:attribute type="mule:expressionBoolean" use="optional" name="disableMessageId"></xs:attribute>
+                  <xs:attribute type="mule:expressionBoolean" use="optional" name="disableMessageTimestamp"></xs:attribute>
+                  <xs:attribute type="mule:expressionLong" use="optional" name="deliveryDelay"></xs:attribute>
+                  <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/jms" type="java.util.concurrent.TimeUnitEnumType" use="optional" name="deliveryDelayUnit"></xs:attribute>
+                </xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="consume-configuration">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension base="mule:abstractExtensionType">
+                  <xs:sequence></xs:sequence>
+                  <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/jms" type="org.mule.extensions.jms.api.config.ConsumerAckModeEnumType" use="optional" name="ackMode"></xs:attribute>
+                  <xs:attribute type="mule:expressionLong" use="optional" default="10000" name="maximumWait"></xs:attribute>
+                  <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/jms" type="java.util.concurrent.TimeUnitEnumType" use="optional" default="MILLISECONDS" name="maximumWaitUnit"></xs:attribute>
+                  <xs:attribute type="mule:expressionString" use="optional" name="inboundContentType"></xs:attribute>
+                  <xs:attribute type="mule:expressionString" use="optional" name="inboundEncoding"></xs:attribute>
+                </xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="destination">
+          <xs:annotation>
+            <xs:documentation>the name of the Destination where the Message should be sent</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/jms" type="org.mule.extensions.jms.api.RequestReplyPatternEnumType" use="optional" default="CORRELATION_ID" name="requestReplyPattern"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/jms" type="org.mule.runtime.extension.api.runtime.parameter.OutboundCorrelationStrategyEnumType" use="optional" name="sendCorrelationId">
+          <xs:annotation>
+            <xs:documentation>options on whether to include an outbound correlation id or not</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstractConnectionProvider" name="active-mq-connection">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractConnectionProviderType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:reconnection"></xs:element>
+            <xs:element xmlns:tls="http://www.mulesoft.org/schema/mule/tls" minOccurs="0" maxOccurs="1" ref="tls:context"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="caching-strategy">
+              <xs:annotation>
+                <xs:documentation>the strategy to be used for caching of Sessions and Connections</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:choice minOccurs="1" maxOccurs="1">
+                  <xs:element xmlns:jms="http://www.mulesoft.org/schema/mule/jms" minOccurs="1" maxOccurs="1" ref="jms:abstract-caching-strategy"></xs:element>
+                  <xs:element xmlns:jms="http://www.mulesoft.org/schema/mule/jms" minOccurs="1" maxOccurs="1" ref="jms:global-abstract-caching-strategy"></xs:element>
+                </xs:choice>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="xa-connection-pool">
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension base="mule:abstractExtensionType">
+                    <xs:sequence></xs:sequence>
+                    <xs:attribute type="mule:expressionInt" use="optional" default="4" name="minPoolSize">
+                      <xs:annotation>
+                        <xs:documentation>The minimum size of the XA connection pool. This value is only considered when XA connections are used.</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="mule:expressionInt" use="optional" default="32" name="maxPoolSize">
+                      <xs:annotation>
+                        <xs:documentation>The maximum size of the XA connection pool. This value is only considered when XA connections are used.</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="mule:expressionInt" use="optional" default="60" name="maxIdleSeconds">
+                      <xs:annotation>
+                        <xs:documentation>How many seconds can an XA transaction remain idle before its eligible for eviction. This value is only considered when XA connections are used.</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                  </xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="factory-configuration">
+              <xs:annotation>
+                <xs:documentation>Parameters required to configure a default ActiveMQConnectionFactory</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension xmlns:jms="http://www.mulesoft.org/schema/mule/jms" base="jms:org.mule.extensions.jms.api.connection.factory.activemq.ActiveMQConnectionFactoryConfiguration"></xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="connection-factory">
+              <xs:annotation>
+                <xs:documentation>A custom ConnectionFactory that relates to an ActiveMQConnectionFactory</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:choice minOccurs="1" maxOccurs="1">
+                  <xs:element xmlns:jms="http://www.mulesoft.org/schema/mule/jms" minOccurs="1" maxOccurs="1" ref="jms:abstract-connection-factory"></xs:element>
+                  <xs:element xmlns:jms="http://www.mulesoft.org/schema/mule/jms" minOccurs="1" maxOccurs="1" ref="jms:global-abstract-connection-factory"></xs:element>
+                </xs:choice>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute type="xs:string" use="optional" name="tlsContext"></xs:attribute>
+          <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/jms" type="org.mule.extensions.jms.api.connection.JmsSpecificationEnumType" use="optional" default="JMS_1_1" name="specification">
+            <xs:annotation>
+              <xs:documentation>Versions of the JmsSpecification to be used by the extension. This version should be compatible with the implementation of the ConnectionFactory configured. Functionality available only for certain versions of the spec will throw an error if the version requirement is not met.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="username">
+            <xs:annotation>
+              <xs:documentation>Username to be used when providing credentials for authentication.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="password">
+            <xs:annotation>
+              <xs:documentation>Password to be used when providing credentials for authentication.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="clientId">
+            <xs:annotation>
+              <xs:documentation>Client identifier to be assigned to the Connection upon creation. The purpose of client identifier is to associate a connection and its objects with a state maintained on behalf of the client by a provider. By definition, the client state identified by a client identifier can be "in use" by only one client at a time. &lt;p&gt; The only use of a client identifier defined by JMS is its mandatory use in identifying an unshared durable subscription or its optional use in identifying a shared durable or non-durable subscription.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="xs:string" use="optional" name="factoryConfiguration">
+            <xs:annotation>
+              <xs:documentation>Parameters required to configure a default ActiveMQConnectionFactory</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="xs:string" use="optional" name="connectionFactory">
+            <xs:annotation>
+              <xs:documentation>A custom ConnectionFactory that relates to an ActiveMQConnectionFactory</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="org.mule.extensions.jms.api.connection.factory.activemq.ActiveMQConnectionFactoryConfiguration">
+    <xs:annotation>
+      <xs:documentation>Parameters required to configure a default ActiveMQConnectionFactory</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" name="trusted-packages">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" name="trusted-package">
+                  <xs:complexType>
+                    <xs:attribute type="mule:expressionString" use="required" name="value"></xs:attribute>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="optional" default="vm://localhost?broker.persistent=false&amp;broker.useJmx=false" name="brokerUrl"></xs:attribute>
+        <xs:attribute type="mule:substitutableBoolean" use="optional" default="false" name="enable-xa"></xs:attribute>
+        <xs:attribute type="mule:substitutableLong" use="optional" default="1000" name="initialRedeliveryDelay"></xs:attribute>
+        <xs:attribute type="mule:substitutableLong" use="optional" default="1000" name="redeliveryDelay"></xs:attribute>
+        <xs:attribute type="mule:substitutableInt" use="optional" default="0" name="maxRedelivery"></xs:attribute>
+        <xs:attribute type="mule:substitutableName" use="optional" name="trustedPackages"></xs:attribute>
+        <xs:attribute type="mule:substitutableBoolean" use="optional" default="false" name="trustAllPackages"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstractConnectionProvider" name="generic-connection">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractConnectionProviderType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:reconnection"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="caching-strategy">
+              <xs:annotation>
+                <xs:documentation>the strategy to be used for caching of Sessions and Connections</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:choice minOccurs="1" maxOccurs="1">
+                  <xs:element xmlns:jms="http://www.mulesoft.org/schema/mule/jms" minOccurs="1" maxOccurs="1" ref="jms:abstract-caching-strategy"></xs:element>
+                  <xs:element xmlns:jms="http://www.mulesoft.org/schema/mule/jms" minOccurs="1" maxOccurs="1" ref="jms:global-abstract-caching-strategy"></xs:element>
+                </xs:choice>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="connection-factory">
+              <xs:annotation>
+                <xs:documentation>a JMS ConnectionFactory implementation</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:choice minOccurs="1" maxOccurs="1">
+                  <xs:element xmlns:jms="http://www.mulesoft.org/schema/mule/jms" minOccurs="1" maxOccurs="1" ref="jms:abstract-connection-factory"></xs:element>
+                  <xs:element xmlns:jms="http://www.mulesoft.org/schema/mule/jms" minOccurs="1" maxOccurs="1" ref="jms:global-abstract-connection-factory"></xs:element>
+                </xs:choice>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="xa-connection-pool">
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension base="mule:abstractExtensionType">
+                    <xs:sequence></xs:sequence>
+                    <xs:attribute type="mule:expressionInt" use="optional" default="4" name="minPoolSize">
+                      <xs:annotation>
+                        <xs:documentation>The minimum size of the XA connection pool. This value is only considered when XA connections are used.</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="mule:expressionInt" use="optional" default="32" name="maxPoolSize">
+                      <xs:annotation>
+                        <xs:documentation>The maximum size of the XA connection pool. This value is only considered when XA connections are used.</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="mule:expressionInt" use="optional" default="60" name="maxIdleSeconds">
+                      <xs:annotation>
+                        <xs:documentation>How many seconds can an XA transaction remain idle before its eligible for eviction. This value is only considered when XA connections are used.</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                  </xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/jms" type="org.mule.extensions.jms.api.connection.JmsSpecificationEnumType" use="optional" default="JMS_1_1" name="specification">
+            <xs:annotation>
+              <xs:documentation>Versions of the JmsSpecification to be used by the extension. This version should be compatible with the implementation of the ConnectionFactory configured. Functionality available only for certain versions of the spec will throw an error if the version requirement is not met.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="xs:string" use="optional" name="connectionFactory">
+            <xs:annotation>
+              <xs:documentation>a JMS ConnectionFactory implementation</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="username">
+            <xs:annotation>
+              <xs:documentation>Username to be used when providing credentials for authentication.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="password">
+            <xs:annotation>
+              <xs:documentation>Password to be used when providing credentials for authentication.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="clientId">
+            <xs:annotation>
+              <xs:documentation>Client identifier to be assigned to the Connection upon creation. The purpose of client identifier is to associate a connection and its objects with a state maintained on behalf of the client by a provider. By definition, the client state identified by a client identifier can be "in use" by only one client at a time. &lt;p&gt; The only use of a client identifier defined by JMS is its mandatory use in identifying an unshared durable subscription or its optional use in identifying a shared durable or non-durable subscription.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/jms" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="AckType" substitutionGroup="mule:abstract-operator" name="ack">
+    <xs:annotation>
+      <xs:documentation>Allows the user to perform an ACK when the AckMode#MANUAL mode is elected while consuming the Message. As per JMS Spec, performing an ACK over a single Message automatically works as an ACK for all the Messages produced in the same JmsSession.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="AckType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1"></xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="ackId">
+          <xs:annotation>
+            <xs:documentation>The AckId of the Message to ACK</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/jms" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="RecoverSessionType" substitutionGroup="mule:abstract-operator" name="recover-session">
+    <xs:annotation>
+      <xs:documentation>Allows the user to perform a session recover when the AckMode#MANUAL mode is elected while consuming the Message. As per JMS Spec, performing a session recover automatically will redeliver all the consumed messages that had not being acknowledged before this recover.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="RecoverSessionType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1"></xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="ackId">
+          <xs:annotation>
+            <xs:documentation>The AckId of the Message Session to recover</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="org.mule.extensions.jms.api.connection.LookupJndiDestinationEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="NEVER"></xs:enumeration>
+          <xs:enumeration value="ALWAYS"></xs:enumeration>
+          <xs:enumeration value="TRY_ALWAYS"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="org.mule.runtime.extension.api.runtime.parameter.OutboundCorrelationStrategyEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="AUTO"></xs:enumeration>
+          <xs:enumeration value="ALWAYS"></xs:enumeration>
+          <xs:enumeration value="NEVER"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="org.mule.extensions.jms.api.ack.AckModeEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="IMMEDIATE"></xs:enumeration>
+          <xs:enumeration value="AUTO"></xs:enumeration>
+          <xs:enumeration value="MANUAL"></xs:enumeration>
+          <xs:enumeration value="DUPS_OK"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="java.util.concurrent.TimeUnitEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="NANOSECONDS"></xs:enumeration>
+          <xs:enumeration value="MICROSECONDS"></xs:enumeration>
+          <xs:enumeration value="MILLISECONDS"></xs:enumeration>
+          <xs:enumeration value="SECONDS"></xs:enumeration>
+          <xs:enumeration value="MINUTES"></xs:enumeration>
+          <xs:enumeration value="HOURS"></xs:enumeration>
+          <xs:enumeration value="DAYS"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="org.mule.runtime.extension.api.tx.SourceTransactionalActionEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="ALWAYS_BEGIN"></xs:enumeration>
+          <xs:enumeration value="NONE"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="org.mule.extensions.jms.api.destination.DestinationTypeEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="QUEUE"></xs:enumeration>
+          <xs:enumeration value="TOPIC"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="org.mule.extensions.jms.api.RequestReplyPatternEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="CORRELATION_ID"></xs:enumeration>
+          <xs:enumeration value="MESSAGE_ID"></xs:enumeration>
+          <xs:enumeration value="NONE"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="org.mule.extensions.jms.api.config.ConsumerAckModeEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="IMMEDIATE"></xs:enumeration>
+          <xs:enumeration value="MANUAL"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="org.mule.extensions.jms.api.connection.JmsSpecificationEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="JMS_1_0_2b"></xs:enumeration>
+          <xs:enumeration value="JMS_1_1"></xs:enumeration>
+          <xs:enumeration value="JMS_2_0"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+</xs:schema>

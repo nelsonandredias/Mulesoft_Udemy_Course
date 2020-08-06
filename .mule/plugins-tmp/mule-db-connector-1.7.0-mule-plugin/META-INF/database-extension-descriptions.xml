@@ -1,0 +1,1088 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension-documentation>
+    <configs>
+        <config name="config">
+            <description><![CDATA[Default configuration]]></description>
+            <parameters>
+                <parameter name="expirationPolicy">
+                    <description><![CDATA[Configures the minimum amount of time that a dynamic configuration instance can remain idle before the runtime considers it eligible for expiration. This does not mean that the platform will expire the instance at the exact moment that it becomes eligible. The runtime will actually purge the instances when it sees it fit.]]></description>
+                </parameter>
+            </parameters>
+        </config>
+    </configs>
+    <connections>
+        <connection name="data-source">
+            <description><![CDATA[ConnectionProvider implementation which creates DB connections from a referenced DataSource]]></description>
+            <parameters>
+                <parameter name="poolingProfile">
+                    <description><![CDATA[Provides a way to configure database connection pooling.]]></description>
+                </parameter>
+                <parameter name="columnTypes">
+                    <description><![CDATA[Specifies non-standard column types]]></description>
+                </parameter>
+                <parameter name="dataSourceRef">
+                    <description><![CDATA[Reference to a JDBC DataSource object. This object is typically created using Spring. When using XA transactions, an XADataSource object must be provided.]]></description>
+                </parameter>
+                <parameter name="reconnection">
+                    <description><![CDATA[When the application is deployed, a connectivity test is performed on all connectors. If set to true, deployment will fail if the test doesn't pass after exhausting the associated reconnection strategy]]></description>
+                </parameter>
+            </parameters>
+        </connection>
+        <connection name="derby">
+            <description><![CDATA[Creates connections to a Derby database]]></description>
+            <parameters>
+                <parameter name="poolingProfile">
+                    <description><![CDATA[Provides a way to configure database connection pooling.]]></description>
+                </parameter>
+                <parameter name="columnTypes">
+                    <description><![CDATA[Specifies non-standard column types]]></description>
+                </parameter>
+                <parameter name="transactionIsolation">
+                    <description><![CDATA[The transaction isolation level to set on the driver when connecting the database.]]></description>
+                </parameter>
+                <parameter name="useXaTransactions">
+                    <description><![CDATA[Indicates whether or not the created datasource has to support XA transactions. Default is false.]]></description>
+                </parameter>
+                <parameter name="database">
+                    <description><![CDATA[Name of the database]]></description>
+                </parameter>
+                <parameter name="subsubProtocol">
+                    <description><![CDATA[Specifies where Derby should look for the database. The available options are: 'directory', 'memory', 'classpath' and 'jar'.]]></description>
+                </parameter>
+                <parameter name="create">
+                    <description><![CDATA[Indicates if the database should be created if it does not exist.]]></description>
+                </parameter>
+                <parameter name="connectionProperties">
+                    <description><![CDATA[Specifies a list of custom key-value connectionProperties for the config.]]></description>
+                </parameter>
+                <parameter name="reconnection">
+                    <description><![CDATA[When the application is deployed, a connectivity test is performed on all connectors. If set to true, deployment will fail if the test doesn't pass after exhausting the associated reconnection strategy]]></description>
+                </parameter>
+            </parameters>
+        </connection>
+        <connection name="generic">
+            <description><![CDATA[ConnectionProvider that creates connections for any kind of database using a JDBC URL and the required JDBC Driver Class]]></description>
+            <parameters>
+                <parameter name="poolingProfile">
+                    <description><![CDATA[Provides a way to configure database connection pooling.]]></description>
+                </parameter>
+                <parameter name="columnTypes">
+                    <description><![CDATA[Specifies non-standard column types]]></description>
+                </parameter>
+                <parameter name="transactionIsolation">
+                    <description><![CDATA[The transaction isolation level to set on the driver when connecting the database.]]></description>
+                </parameter>
+                <parameter name="useXaTransactions">
+                    <description><![CDATA[Indicates whether or not the created datasource has to support XA transactions. Default is false.]]></description>
+                </parameter>
+                <parameter name="url">
+                    <description><![CDATA[JDBC URL to use to connect to the database.]]></description>
+                </parameter>
+                <parameter name="driverClassName">
+                    <description><![CDATA[Fully-qualified name of the database driver class.]]></description>
+                </parameter>
+                <parameter name="user">
+                    <description><![CDATA[Database username]]></description>
+                </parameter>
+                <parameter name="password">
+                    <description><![CDATA[Database password]]></description>
+                </parameter>
+                <parameter name="reconnection">
+                    <description><![CDATA[When the application is deployed, a connectivity test is performed on all connectors. If set to true, deployment will fail if the test doesn't pass after exhausting the associated reconnection strategy]]></description>
+                </parameter>
+            </parameters>
+        </connection>
+        <connection name="mssql">
+            <description><![CDATA[DbConnectionProvider implementation for Microsoft SQL Server Databases]]></description>
+            <parameters>
+                <parameter name="poolingProfile">
+                    <description><![CDATA[Provides a way to configure database connection pooling.]]></description>
+                </parameter>
+                <parameter name="columnTypes">
+                    <description><![CDATA[Specifies non-standard column types]]></description>
+                </parameter>
+                <parameter name="transactionIsolation">
+                    <description><![CDATA[The transaction isolation level to set on the driver when connecting the database.]]></description>
+                </parameter>
+                <parameter name="useXaTransactions">
+                    <description><![CDATA[Indicates whether or not the created datasource has to support XA transactions. Default is false.]]></description>
+                </parameter>
+                <parameter name="host">
+                    <description><![CDATA[Configures the host of the database.]]></description>
+                </parameter>
+                <parameter name="instanceName">
+                    <description><![CDATA[Configures the name of the SQL server instance where the database is.]]></description>
+                </parameter>
+                <parameter name="port">
+                    <description><![CDATA[Configures the port of the database.]]></description>
+                </parameter>
+                <parameter name="user">
+                    <description><![CDATA[The user to use for authentication against the database.]]></description>
+                </parameter>
+                <parameter name="password">
+                    <description><![CDATA[The password to use for authentication against the database.]]></description>
+                </parameter>
+                <parameter name="databaseName">
+                    <description><![CDATA[Name of the default database to work with.]]></description>
+                </parameter>
+                <parameter name="connectionProperties">
+                    <description><![CDATA[Specifies a list of custom key-value connectionProperties for the config.]]></description>
+                </parameter>
+                <parameter name="reconnection">
+                    <description><![CDATA[When the application is deployed, a connectivity test is performed on all connectors. If set to true, deployment will fail if the test doesn't pass after exhausting the associated reconnection strategy]]></description>
+                </parameter>
+            </parameters>
+        </connection>
+        <connection name="my-sql">
+            <description><![CDATA[Creates connections to a MySQL database.]]></description>
+            <parameters>
+                <parameter name="poolingProfile">
+                    <description><![CDATA[Provides a way to configure database connection pooling.]]></description>
+                </parameter>
+                <parameter name="columnTypes">
+                    <description><![CDATA[Specifies non-standard column types]]></description>
+                </parameter>
+                <parameter name="transactionIsolation">
+                    <description><![CDATA[The transaction isolation level to set on the driver when connecting the database.]]></description>
+                </parameter>
+                <parameter name="useXaTransactions">
+                    <description><![CDATA[Indicates whether or not the created datasource has to support XA transactions. Default is false.]]></description>
+                </parameter>
+                <parameter name="host">
+                    <description><![CDATA[Configures the host of the database.]]></description>
+                </parameter>
+                <parameter name="port">
+                    <description><![CDATA[Configures the port of the database.]]></description>
+                </parameter>
+                <parameter name="user">
+                    <description><![CDATA[The user to use for authentication against the database.]]></description>
+                </parameter>
+                <parameter name="password">
+                    <description><![CDATA[The password to use for authentication against the database.]]></description>
+                </parameter>
+                <parameter name="database">
+                    <description><![CDATA[The name of the database.]]></description>
+                </parameter>
+                <parameter name="connectionProperties">
+                    <description><![CDATA[Specifies a list of custom key-value connectionProperties for the config.]]></description>
+                </parameter>
+                <parameter name="reconnection">
+                    <description><![CDATA[When the application is deployed, a connectivity test is performed on all connectors. If set to true, deployment will fail if the test doesn't pass after exhausting the associated reconnection strategy]]></description>
+                </parameter>
+            </parameters>
+        </connection>
+        <connection name="oracle">
+            <description><![CDATA[Creates connections to a Oracle database]]></description>
+            <parameters>
+                <parameter name="poolingProfile">
+                    <description><![CDATA[Provides a way to configure database connection pooling.]]></description>
+                </parameter>
+                <parameter name="columnTypes">
+                    <description><![CDATA[Specifies non-standard column types]]></description>
+                </parameter>
+                <parameter name="transactionIsolation">
+                    <description><![CDATA[The transaction isolation level to set on the driver when connecting the database.]]></description>
+                </parameter>
+                <parameter name="useXaTransactions">
+                    <description><![CDATA[Indicates whether or not the created datasource has to support XA transactions. Default is false.]]></description>
+                </parameter>
+                <parameter name="host">
+                    <description><![CDATA[Configures the host of the database.]]></description>
+                </parameter>
+                <parameter name="port">
+                    <description><![CDATA[Configures the port of the database.]]></description>
+                </parameter>
+                <parameter name="user">
+                    <description><![CDATA[The user to use for authentication against the database.]]></description>
+                </parameter>
+                <parameter name="password">
+                    <description><![CDATA[The password to use for authentication against the database.]]></description>
+                </parameter>
+                <parameter name="instance">
+                    <description><![CDATA[The name of the database instance.]]></description>
+                </parameter>
+                <parameter name="serviceName">
+                    <description><![CDATA[The name of the database service name.]]></description>
+                </parameter>
+                <parameter name="reconnection">
+                    <description><![CDATA[When the application is deployed, a connectivity test is performed on all connectors. If set to true, deployment will fail if the test doesn't pass after exhausting the associated reconnection strategy]]></description>
+                </parameter>
+            </parameters>
+        </connection>
+        <connection name="data-source">
+            <description><![CDATA[ConnectionProvider implementation which creates DB connections from a referenced DataSource]]></description>
+            <parameters>
+                <parameter name="poolingProfile">
+                    <description><![CDATA[Provides a way to configure database connection pooling.]]></description>
+                </parameter>
+                <parameter name="columnTypes">
+                    <description><![CDATA[Specifies non-standard column types]]></description>
+                </parameter>
+                <parameter name="dataSourceRef">
+                    <description><![CDATA[Reference to a JDBC DataSource object. This object is typically created using Spring. When using XA transactions, an XADataSource object must be provided.]]></description>
+                </parameter>
+                <parameter name="reconnection">
+                    <description><![CDATA[When the application is deployed, a connectivity test is performed on all connectors. If set to true, deployment will fail if the test doesn't pass after exhausting the associated reconnection strategy]]></description>
+                </parameter>
+            </parameters>
+        </connection>
+        <connection name="derby">
+            <description><![CDATA[Creates connections to a Derby database]]></description>
+            <parameters>
+                <parameter name="poolingProfile">
+                    <description><![CDATA[Provides a way to configure database connection pooling.]]></description>
+                </parameter>
+                <parameter name="columnTypes">
+                    <description><![CDATA[Specifies non-standard column types]]></description>
+                </parameter>
+                <parameter name="transactionIsolation">
+                    <description><![CDATA[The transaction isolation level to set on the driver when connecting the database.]]></description>
+                </parameter>
+                <parameter name="useXaTransactions">
+                    <description><![CDATA[Indicates whether or not the created datasource has to support XA transactions. Default is false.]]></description>
+                </parameter>
+                <parameter name="database">
+                    <description><![CDATA[Name of the database]]></description>
+                </parameter>
+                <parameter name="subsubProtocol">
+                    <description><![CDATA[Specifies where Derby should look for the database. The available options are: 'directory', 'memory', 'classpath' and 'jar'.]]></description>
+                </parameter>
+                <parameter name="create">
+                    <description><![CDATA[Indicates if the database should be created if it does not exist.]]></description>
+                </parameter>
+                <parameter name="connectionProperties">
+                    <description><![CDATA[Specifies a list of custom key-value connectionProperties for the config.]]></description>
+                </parameter>
+                <parameter name="reconnection">
+                    <description><![CDATA[When the application is deployed, a connectivity test is performed on all connectors. If set to true, deployment will fail if the test doesn't pass after exhausting the associated reconnection strategy]]></description>
+                </parameter>
+            </parameters>
+        </connection>
+        <connection name="generic">
+            <description><![CDATA[ConnectionProvider that creates connections for any kind of database using a JDBC URL and the required JDBC Driver Class]]></description>
+            <parameters>
+                <parameter name="poolingProfile">
+                    <description><![CDATA[Provides a way to configure database connection pooling.]]></description>
+                </parameter>
+                <parameter name="columnTypes">
+                    <description><![CDATA[Specifies non-standard column types]]></description>
+                </parameter>
+                <parameter name="transactionIsolation">
+                    <description><![CDATA[The transaction isolation level to set on the driver when connecting the database.]]></description>
+                </parameter>
+                <parameter name="useXaTransactions">
+                    <description><![CDATA[Indicates whether or not the created datasource has to support XA transactions. Default is false.]]></description>
+                </parameter>
+                <parameter name="url">
+                    <description><![CDATA[JDBC URL to use to connect to the database.]]></description>
+                </parameter>
+                <parameter name="driverClassName">
+                    <description><![CDATA[Fully-qualified name of the database driver class.]]></description>
+                </parameter>
+                <parameter name="user">
+                    <description><![CDATA[Database username]]></description>
+                </parameter>
+                <parameter name="password">
+                    <description><![CDATA[Database password]]></description>
+                </parameter>
+                <parameter name="reconnection">
+                    <description><![CDATA[When the application is deployed, a connectivity test is performed on all connectors. If set to true, deployment will fail if the test doesn't pass after exhausting the associated reconnection strategy]]></description>
+                </parameter>
+            </parameters>
+        </connection>
+        <connection name="mssql">
+            <description><![CDATA[DbConnectionProvider implementation for Microsoft SQL Server Databases]]></description>
+            <parameters>
+                <parameter name="poolingProfile">
+                    <description><![CDATA[Provides a way to configure database connection pooling.]]></description>
+                </parameter>
+                <parameter name="columnTypes">
+                    <description><![CDATA[Specifies non-standard column types]]></description>
+                </parameter>
+                <parameter name="transactionIsolation">
+                    <description><![CDATA[The transaction isolation level to set on the driver when connecting the database.]]></description>
+                </parameter>
+                <parameter name="useXaTransactions">
+                    <description><![CDATA[Indicates whether or not the created datasource has to support XA transactions. Default is false.]]></description>
+                </parameter>
+                <parameter name="host">
+                    <description><![CDATA[Configures the host of the database.]]></description>
+                </parameter>
+                <parameter name="instanceName">
+                    <description><![CDATA[Configures the name of the SQL server instance where the database is.]]></description>
+                </parameter>
+                <parameter name="port">
+                    <description><![CDATA[Configures the port of the database.]]></description>
+                </parameter>
+                <parameter name="user">
+                    <description><![CDATA[The user to use for authentication against the database.]]></description>
+                </parameter>
+                <parameter name="password">
+                    <description><![CDATA[The password to use for authentication against the database.]]></description>
+                </parameter>
+                <parameter name="databaseName">
+                    <description><![CDATA[Name of the default database to work with.]]></description>
+                </parameter>
+                <parameter name="connectionProperties">
+                    <description><![CDATA[Specifies a list of custom key-value connectionProperties for the config.]]></description>
+                </parameter>
+                <parameter name="reconnection">
+                    <description><![CDATA[When the application is deployed, a connectivity test is performed on all connectors. If set to true, deployment will fail if the test doesn't pass after exhausting the associated reconnection strategy]]></description>
+                </parameter>
+            </parameters>
+        </connection>
+        <connection name="my-sql">
+            <description><![CDATA[Creates connections to a MySQL database.]]></description>
+            <parameters>
+                <parameter name="poolingProfile">
+                    <description><![CDATA[Provides a way to configure database connection pooling.]]></description>
+                </parameter>
+                <parameter name="columnTypes">
+                    <description><![CDATA[Specifies non-standard column types]]></description>
+                </parameter>
+                <parameter name="transactionIsolation">
+                    <description><![CDATA[The transaction isolation level to set on the driver when connecting the database.]]></description>
+                </parameter>
+                <parameter name="useXaTransactions">
+                    <description><![CDATA[Indicates whether or not the created datasource has to support XA transactions. Default is false.]]></description>
+                </parameter>
+                <parameter name="host">
+                    <description><![CDATA[Configures the host of the database.]]></description>
+                </parameter>
+                <parameter name="port">
+                    <description><![CDATA[Configures the port of the database.]]></description>
+                </parameter>
+                <parameter name="user">
+                    <description><![CDATA[The user to use for authentication against the database.]]></description>
+                </parameter>
+                <parameter name="password">
+                    <description><![CDATA[The password to use for authentication against the database.]]></description>
+                </parameter>
+                <parameter name="database">
+                    <description><![CDATA[The name of the database.]]></description>
+                </parameter>
+                <parameter name="connectionProperties">
+                    <description><![CDATA[Specifies a list of custom key-value connectionProperties for the config.]]></description>
+                </parameter>
+                <parameter name="reconnection">
+                    <description><![CDATA[When the application is deployed, a connectivity test is performed on all connectors. If set to true, deployment will fail if the test doesn't pass after exhausting the associated reconnection strategy]]></description>
+                </parameter>
+            </parameters>
+        </connection>
+        <connection name="oracle">
+            <description><![CDATA[Creates connections to a Oracle database]]></description>
+            <parameters>
+                <parameter name="poolingProfile">
+                    <description><![CDATA[Provides a way to configure database connection pooling.]]></description>
+                </parameter>
+                <parameter name="columnTypes">
+                    <description><![CDATA[Specifies non-standard column types]]></description>
+                </parameter>
+                <parameter name="transactionIsolation">
+                    <description><![CDATA[The transaction isolation level to set on the driver when connecting the database.]]></description>
+                </parameter>
+                <parameter name="useXaTransactions">
+                    <description><![CDATA[Indicates whether or not the created datasource has to support XA transactions. Default is false.]]></description>
+                </parameter>
+                <parameter name="host">
+                    <description><![CDATA[Configures the host of the database.]]></description>
+                </parameter>
+                <parameter name="port">
+                    <description><![CDATA[Configures the port of the database.]]></description>
+                </parameter>
+                <parameter name="user">
+                    <description><![CDATA[The user to use for authentication against the database.]]></description>
+                </parameter>
+                <parameter name="password">
+                    <description><![CDATA[The password to use for authentication against the database.]]></description>
+                </parameter>
+                <parameter name="instance">
+                    <description><![CDATA[The name of the database instance.]]></description>
+                </parameter>
+                <parameter name="serviceName">
+                    <description><![CDATA[The name of the database service name.]]></description>
+                </parameter>
+                <parameter name="reconnection">
+                    <description><![CDATA[When the application is deployed, a connectivity test is performed on all connectors. If set to true, deployment will fail if the test doesn't pass after exhausting the associated reconnection strategy]]></description>
+                </parameter>
+            </parameters>
+        </connection>
+    </connections>
+    <extension name="Database">
+        <description><![CDATA[The Anypoint Database Connector allows you to connect to relational databases through the JDBC API.]]></description>
+        <parameters/>
+    </extension>
+    <operations>
+        <operation name="bulkDelete">
+            <description><![CDATA[Allows executing one delete statement various times using different parameter bindings. This happens using one single Database statement, which has performance advantages compared to executing one single delete operation various times.]]></description>
+            <parameters>
+                <parameter name="bulkInputParameters">
+                    <description><![CDATA[A List of Maps in which every list item represents a row to be inserted, and the map contains the parameter names as keys and the value the parameter is bound to.]]></description>
+                </parameter>
+                <parameter name="transactionalAction">
+                    <description><![CDATA[The type of joining action that operations can take regarding transactions.]]></description>
+                </parameter>
+                <parameter name="queryTimeout">
+                    <description><![CDATA[Indicates the minimum amount of time before the JDBC driver attempts to cancel a running statement. No timeout is used by default.]]></description>
+                </parameter>
+                <parameter name="queryTimeoutUnit">
+                    <description><![CDATA[A TimeUnit which qualifies the #queryTimeout]]></description>
+                </parameter>
+                <parameter name="fetchSize">
+                    <description><![CDATA[Indicates how many rows to fetch from the database when rows are read from a resultSet. This property is required when streaming is true; in that case a default value (10) is used.]]></description>
+                </parameter>
+                <parameter name="maxRows">
+                    <description><![CDATA[Sets the limit for the maximum number of rows that any ResultSet object generated by this message processor can contain for the given number. If the limit is exceeded, the excess rows are silently dropped.]]></description>
+                </parameter>
+                <parameter name="sql">
+                    <description><![CDATA[The text of the SQL query to be executed]]></description>
+                </parameter>
+                <parameter name="parameterTypes">
+                    <description><![CDATA[Allows to optionally specify the type of one or more of the parameters in the query. If provided, you're not even required to reference all of the parameters, but you cannot reference a parameter not present in the input values]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="bulkInsert">
+            <description><![CDATA[Allows executing one insert statement various times using different parameter bindings. This happens using one single Database statement, which has performance advantages compared to executing one single update operation various times.]]></description>
+            <parameters>
+                <parameter name="bulkInputParameters">
+                    <description><![CDATA[A List of Maps in which every list item represents a row to be inserted, and the map contains the parameter names as keys and the value the parameter is bound to.]]></description>
+                </parameter>
+                <parameter name="transactionalAction">
+                    <description><![CDATA[The type of joining action that operations can take regarding transactions.]]></description>
+                </parameter>
+                <parameter name="queryTimeout">
+                    <description><![CDATA[Indicates the minimum amount of time before the JDBC driver attempts to cancel a running statement. No timeout is used by default.]]></description>
+                </parameter>
+                <parameter name="queryTimeoutUnit">
+                    <description><![CDATA[A TimeUnit which qualifies the #queryTimeout]]></description>
+                </parameter>
+                <parameter name="fetchSize">
+                    <description><![CDATA[Indicates how many rows to fetch from the database when rows are read from a resultSet. This property is required when streaming is true; in that case a default value (10) is used.]]></description>
+                </parameter>
+                <parameter name="maxRows">
+                    <description><![CDATA[Sets the limit for the maximum number of rows that any ResultSet object generated by this message processor can contain for the given number. If the limit is exceeded, the excess rows are silently dropped.]]></description>
+                </parameter>
+                <parameter name="sql">
+                    <description><![CDATA[The text of the SQL query to be executed]]></description>
+                </parameter>
+                <parameter name="parameterTypes">
+                    <description><![CDATA[Allows to optionally specify the type of one or more of the parameters in the query. If provided, you're not even required to reference all of the parameters, but you cannot reference a parameter not present in the input values]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="bulkUpdate">
+            <description><![CDATA[Allows executing one update statement various times using different parameter bindings. This happens using one single Database statement, which has performance advantages compared to executing one single update operation various times.]]></description>
+            <parameters>
+                <parameter name="bulkInputParameters">
+                    <description><![CDATA[A List of Maps in which every list item represents a row to be inserted, and the map contains the parameter names as keys and the value the parameter is bound to.]]></description>
+                </parameter>
+                <parameter name="transactionalAction">
+                    <description><![CDATA[The type of joining action that operations can take regarding transactions.]]></description>
+                </parameter>
+                <parameter name="queryTimeout">
+                    <description><![CDATA[Indicates the minimum amount of time before the JDBC driver attempts to cancel a running statement. No timeout is used by default.]]></description>
+                </parameter>
+                <parameter name="queryTimeoutUnit">
+                    <description><![CDATA[A TimeUnit which qualifies the #queryTimeout]]></description>
+                </parameter>
+                <parameter name="fetchSize">
+                    <description><![CDATA[Indicates how many rows to fetch from the database when rows are read from a resultSet. This property is required when streaming is true; in that case a default value (10) is used.]]></description>
+                </parameter>
+                <parameter name="maxRows">
+                    <description><![CDATA[Sets the limit for the maximum number of rows that any ResultSet object generated by this message processor can contain for the given number. If the limit is exceeded, the excess rows are silently dropped.]]></description>
+                </parameter>
+                <parameter name="sql">
+                    <description><![CDATA[The text of the SQL query to be executed]]></description>
+                </parameter>
+                <parameter name="parameterTypes">
+                    <description><![CDATA[Allows to optionally specify the type of one or more of the parameters in the query. If provided, you're not even required to reference all of the parameters, but you cannot reference a parameter not present in the input values]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="delete">
+            <description><![CDATA[Deletes data in a database.]]></description>
+            <parameters>
+                <parameter name="transactionalAction">
+                    <description><![CDATA[The type of joining action that operations can take regarding transactions.]]></description>
+                </parameter>
+                <parameter name="queryTimeout">
+                    <description><![CDATA[Indicates the minimum amount of time before the JDBC driver attempts to cancel a running statement. No timeout is used by default.]]></description>
+                </parameter>
+                <parameter name="queryTimeoutUnit">
+                    <description><![CDATA[A TimeUnit which qualifies the #queryTimeout]]></description>
+                </parameter>
+                <parameter name="fetchSize">
+                    <description><![CDATA[Indicates how many rows to fetch from the database when rows are read from a resultSet. This property is required when streaming is true; in that case a default value (10) is used.]]></description>
+                </parameter>
+                <parameter name="maxRows">
+                    <description><![CDATA[Sets the limit for the maximum number of rows that any ResultSet object generated by this message processor can contain for the given number. If the limit is exceeded, the excess rows are silently dropped.]]></description>
+                </parameter>
+                <parameter name="sql">
+                    <description><![CDATA[The text of the SQL query to be executed]]></description>
+                </parameter>
+                <parameter name="parameterTypes">
+                    <description><![CDATA[Allows to optionally specify the type of one or more of the parameters in the query. If provided, you're not even required to reference all of the parameters, but you cannot reference a parameter not present in the input values]]></description>
+                </parameter>
+                <parameter name="inputParameters">
+                    <description><![CDATA[A Map which keys are the name of an input parameter to be set on the JDBC prepared statement. Each parameter should be referenced in the sql text using a semicolon prefix (E.g: where id = :myParamName)). <p> The map's values will contain the actual assignation for each parameter.]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="executeDdl">
+            <description><![CDATA[Enables execution of DDL queries against a database.]]></description>
+            <parameters>
+                <parameter name="sql">
+                    <description><![CDATA[The text of the SQL query to be executed]]></description>
+                </parameter>
+                <parameter name="transactionalAction">
+                    <description><![CDATA[The type of joining action that operations can take regarding transactions.]]></description>
+                </parameter>
+                <parameter name="queryTimeout">
+                    <description><![CDATA[Indicates the minimum amount of time before the JDBC driver attempts to cancel a running statement. No timeout is used by default.]]></description>
+                </parameter>
+                <parameter name="queryTimeoutUnit">
+                    <description><![CDATA[A TimeUnit which qualifies the #queryTimeout]]></description>
+                </parameter>
+                <parameter name="fetchSize">
+                    <description><![CDATA[Indicates how many rows to fetch from the database when rows are read from a resultSet. This property is required when streaming is true; in that case a default value (10) is used.]]></description>
+                </parameter>
+                <parameter name="maxRows">
+                    <description><![CDATA[Sets the limit for the maximum number of rows that any ResultSet object generated by this message processor can contain for the given number. If the limit is exceeded, the excess rows are silently dropped.]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="executeScript">
+            <description><![CDATA[Executes a SQL script in one single Database statement. The script is executed as provided by the user, without any parameter binding.]]></description>
+            <parameters>
+                <parameter name="transactionalAction">
+                    <description><![CDATA[The type of joining action that operations can take regarding transactions.]]></description>
+                </parameter>
+                <parameter name="sql">
+                    <description><![CDATA[The text of the SQL query to be executed]]></description>
+                </parameter>
+                <parameter name="file">
+                    <description><![CDATA[The location of a file to load. The file can point to a resource on the classpath or on a disk.]]></description>
+                </parameter>
+                <parameter name="queryTimeout">
+                    <description><![CDATA[Indicates the minimum amount of time before the JDBC driver attempts to cancel a running statement. No timeout is used by default.]]></description>
+                </parameter>
+                <parameter name="queryTimeoutUnit">
+                    <description><![CDATA[A TimeUnit which qualifies the #queryTimeout]]></description>
+                </parameter>
+                <parameter name="fetchSize">
+                    <description><![CDATA[Indicates how many rows to fetch from the database when rows are read from a resultSet. This property is required when streaming is true; in that case a default value (10) is used.]]></description>
+                </parameter>
+                <parameter name="maxRows">
+                    <description><![CDATA[Sets the limit for the maximum number of rows that any ResultSet object generated by this message processor can contain for the given number. If the limit is exceeded, the excess rows are silently dropped.]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="insert">
+            <description><![CDATA[Inserts data into a Database]]></description>
+            <parameters>
+                <parameter name="transactionalAction">
+                    <description><![CDATA[The type of joining action that operations can take regarding transactions.]]></description>
+                </parameter>
+                <parameter name="queryTimeout">
+                    <description><![CDATA[Indicates the minimum amount of time before the JDBC driver attempts to cancel a running statement. No timeout is used by default.]]></description>
+                </parameter>
+                <parameter name="queryTimeoutUnit">
+                    <description><![CDATA[A TimeUnit which qualifies the #queryTimeout]]></description>
+                </parameter>
+                <parameter name="fetchSize">
+                    <description><![CDATA[Indicates how many rows to fetch from the database when rows are read from a resultSet. This property is required when streaming is true; in that case a default value (10) is used.]]></description>
+                </parameter>
+                <parameter name="maxRows">
+                    <description><![CDATA[Sets the limit for the maximum number of rows that any ResultSet object generated by this message processor can contain for the given number. If the limit is exceeded, the excess rows are silently dropped.]]></description>
+                </parameter>
+                <parameter name="sql">
+                    <description><![CDATA[The text of the SQL query to be executed]]></description>
+                </parameter>
+                <parameter name="parameterTypes">
+                    <description><![CDATA[Allows to optionally specify the type of one or more of the parameters in the query. If provided, you're not even required to reference all of the parameters, but you cannot reference a parameter not present in the input values]]></description>
+                </parameter>
+                <parameter name="inputParameters">
+                    <description><![CDATA[A Map which keys are the name of an input parameter to be set on the JDBC prepared statement. Each parameter should be referenced in the sql text using a semicolon prefix (E.g: where id = :myParamName)). <p> The map's values will contain the actual assignation for each parameter.]]></description>
+                </parameter>
+                <parameter name="autoGenerateKeys">
+                    <description><![CDATA[Indicates when to make auto-generated keys available for retrieval.]]></description>
+                </parameter>
+                <parameter name="autoGeneratedKeysColumnIndexes">
+                    <description><![CDATA[List of column indexes that indicates which auto-generated keys to make available for retrieval.]]></description>
+                </parameter>
+                <parameter name="autoGeneratedKeysColumnNames">
+                    <description><![CDATA[List of column names that indicates which auto-generated keys should be made available for retrieval.]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="select">
+            <description><![CDATA[Selects data from a database. Streaming is automatically applied to avoid preemptive consumption of such results, which may lead to performance and memory issues.]]></description>
+            <parameters>
+                <parameter name="transactionalAction">
+                    <description><![CDATA[The type of joining action that operations can take regarding transactions.]]></description>
+                </parameter>
+                <parameter name="streamingStrategy">
+                    <description><![CDATA[Configure if repeatable streams should be used and their behaviour]]></description>
+                </parameter>
+                <parameter name="queryTimeout">
+                    <description><![CDATA[Indicates the minimum amount of time before the JDBC driver attempts to cancel a running statement. No timeout is used by default.]]></description>
+                </parameter>
+                <parameter name="queryTimeoutUnit">
+                    <description><![CDATA[A TimeUnit which qualifies the #queryTimeout]]></description>
+                </parameter>
+                <parameter name="fetchSize">
+                    <description><![CDATA[Indicates how many rows to fetch from the database when rows are read from a resultSet. This property is required when streaming is true; in that case a default value (10) is used.]]></description>
+                </parameter>
+                <parameter name="maxRows">
+                    <description><![CDATA[Sets the limit for the maximum number of rows that any ResultSet object generated by this message processor can contain for the given number. If the limit is exceeded, the excess rows are silently dropped.]]></description>
+                </parameter>
+                <parameter name="sql">
+                    <description><![CDATA[The text of the SQL query to be executed]]></description>
+                </parameter>
+                <parameter name="parameterTypes">
+                    <description><![CDATA[Allows to optionally specify the type of one or more of the parameters in the query. If provided, you're not even required to reference all of the parameters, but you cannot reference a parameter not present in the input values]]></description>
+                </parameter>
+                <parameter name="inputParameters">
+                    <description><![CDATA[A Map which keys are the name of an input parameter to be set on the JDBC prepared statement. Each parameter should be referenced in the sql text using a semicolon prefix (E.g: where id = :myParamName)). <p> The map's values will contain the actual assignation for each parameter.]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="storedProcedure">
+            <description><![CDATA[Invokes a Stored Procedure on the database. <p> When the stored procedure returns one or more ResultSet instances, streaming is automatically applied to avoid preemptive consumption of such results, which may lead to performance and memory issues.]]></description>
+            <parameters>
+                <parameter name="transactionalAction">
+                    <description><![CDATA[The type of joining action that operations can take regarding transactions.]]></description>
+                </parameter>
+                <parameter name="streamingStrategy">
+                    <description><![CDATA[Configure if repeatable streams should be used and their behaviour]]></description>
+                </parameter>
+                <parameter name="queryTimeout">
+                    <description><![CDATA[Indicates the minimum amount of time before the JDBC driver attempts to cancel a running statement. No timeout is used by default.]]></description>
+                </parameter>
+                <parameter name="queryTimeoutUnit">
+                    <description><![CDATA[A TimeUnit which qualifies the #queryTimeout]]></description>
+                </parameter>
+                <parameter name="fetchSize">
+                    <description><![CDATA[Indicates how many rows to fetch from the database when rows are read from a resultSet. This property is required when streaming is true; in that case a default value (10) is used.]]></description>
+                </parameter>
+                <parameter name="maxRows">
+                    <description><![CDATA[Sets the limit for the maximum number of rows that any ResultSet object generated by this message processor can contain for the given number. If the limit is exceeded, the excess rows are silently dropped.]]></description>
+                </parameter>
+                <parameter name="sql">
+                    <description><![CDATA[The text of the SQL query to be executed]]></description>
+                </parameter>
+                <parameter name="parameterTypes">
+                    <description><![CDATA[Allows to optionally specify the type of one or more of the parameters in the query. If provided, you're not even required to reference all of the parameters, but you cannot reference a parameter not present in the input values]]></description>
+                </parameter>
+                <parameter name="inputParameters">
+                    <description><![CDATA[A Map which keys are the name of an input parameter to be set on the JDBC prepared statement. Each parameter should be referenced in the sql text using a semicolon prefix (E.g: where id = :myParamName)). <p> The map's values will contain the actual assignation for each parameter.]]></description>
+                </parameter>
+                <parameter name="inOutParameters">
+                    <description><![CDATA[A Map which keys are the name of a parameter to be set on the JDBC prepared statement which is both input and output. <p> Each parameter should be referenced in the sql text using a semicolon prefix (E.g: where id = :myParamName)). <p> The map's values will contain the actual assignation for each parameter.]]></description>
+                </parameter>
+                <parameter name="outputParameters">
+                    <description><![CDATA[A list of output parameters to be set on the JDBC prepared statement. Each parameter should be referenced in the sql text using a semicolon prefix (E.g: call multiply(:value, :result))]]></description>
+                </parameter>
+                <parameter name="autoGenerateKeys">
+                    <description><![CDATA[Indicates when to make auto-generated keys available for retrieval.]]></description>
+                </parameter>
+                <parameter name="autoGeneratedKeysColumnIndexes">
+                    <description><![CDATA[List of column indexes that indicates which auto-generated keys to make available for retrieval.]]></description>
+                </parameter>
+                <parameter name="autoGeneratedKeysColumnNames">
+                    <description><![CDATA[List of column names that indicates which auto-generated keys should be made available for retrieval.]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="update">
+            <description><![CDATA[Updates data in a database.]]></description>
+            <parameters>
+                <parameter name="transactionalAction">
+                    <description><![CDATA[The type of joining action that operations can take regarding transactions.]]></description>
+                </parameter>
+                <parameter name="queryTimeout">
+                    <description><![CDATA[Indicates the minimum amount of time before the JDBC driver attempts to cancel a running statement. No timeout is used by default.]]></description>
+                </parameter>
+                <parameter name="queryTimeoutUnit">
+                    <description><![CDATA[A TimeUnit which qualifies the #queryTimeout]]></description>
+                </parameter>
+                <parameter name="fetchSize">
+                    <description><![CDATA[Indicates how many rows to fetch from the database when rows are read from a resultSet. This property is required when streaming is true; in that case a default value (10) is used.]]></description>
+                </parameter>
+                <parameter name="maxRows">
+                    <description><![CDATA[Sets the limit for the maximum number of rows that any ResultSet object generated by this message processor can contain for the given number. If the limit is exceeded, the excess rows are silently dropped.]]></description>
+                </parameter>
+                <parameter name="sql">
+                    <description><![CDATA[The text of the SQL query to be executed]]></description>
+                </parameter>
+                <parameter name="parameterTypes">
+                    <description><![CDATA[Allows to optionally specify the type of one or more of the parameters in the query. If provided, you're not even required to reference all of the parameters, but you cannot reference a parameter not present in the input values]]></description>
+                </parameter>
+                <parameter name="inputParameters">
+                    <description><![CDATA[A Map which keys are the name of an input parameter to be set on the JDBC prepared statement. Each parameter should be referenced in the sql text using a semicolon prefix (E.g: where id = :myParamName)). <p> The map's values will contain the actual assignation for each parameter.]]></description>
+                </parameter>
+                <parameter name="autoGenerateKeys">
+                    <description><![CDATA[Indicates when to make auto-generated keys available for retrieval.]]></description>
+                </parameter>
+                <parameter name="autoGeneratedKeysColumnIndexes">
+                    <description><![CDATA[List of column indexes that indicates which auto-generated keys to make available for retrieval.]]></description>
+                </parameter>
+                <parameter name="autoGeneratedKeysColumnNames">
+                    <description><![CDATA[List of column names that indicates which auto-generated keys should be made available for retrieval.]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+    </operations>
+    <sources>
+        <source name="listener">
+            <description><![CDATA[Selects from a table at a regular interval and generates one message per each obtained row. <p> Optionally, watermark and id columns can be provided. If a watermark column is provided, the values taken from that column will be used to filter the contents of the next poll, so that only rows with a greater watermark value are returned. If an id column is provided, this component will automatically make sure that the same row is not picked twice by concurrent polls]]></description>
+            <parameters>
+                <parameter name="table">
+                    <description><![CDATA[The name of the table to select from]]></description>
+                </parameter>
+                <parameter name="watermarkColumn">
+                    <description><![CDATA[The name of the column to use for watermark. Values taken from this column will be used to filter the contents of the next poll, so that only rows with a greater watermark value are processed.]]></description>
+                </parameter>
+                <parameter name="idColumn">
+                    <description><![CDATA[The name of the column to consider as row ID. If provided, this component will make sure that the same row is not processed twice by concurrent polls.]]></description>
+                </parameter>
+                <parameter name="transactionalAction">
+                    <description><![CDATA[The type of beginning action that sources can take regarding transactions.]]></description>
+                </parameter>
+                <parameter name="transactionType">
+                    <description><![CDATA[The type of transaction to create. Availability will depend on the runtime version.]]></description>
+                </parameter>
+                <parameter name="primaryNodeOnly">
+                    <description><![CDATA[Whether this source should only be executed on the primary node when runnning in Cluster]]></description>
+                </parameter>
+                <parameter name="schedulingStrategy">
+                    <description><![CDATA[Configures the scheduler that triggers the polling]]></description>
+                </parameter>
+                <parameter name="redeliveryPolicy">
+                    <description><![CDATA[Defines a policy for processing the redelivery of the same message]]></description>
+                </parameter>
+                <parameter name="queryTimeout">
+                    <description><![CDATA[Indicates the minimum amount of time before the JDBC driver attempts to cancel a running statement. No timeout is used by default.]]></description>
+                </parameter>
+                <parameter name="queryTimeoutUnit">
+                    <description><![CDATA[A TimeUnit which qualifies the #queryTimeout]]></description>
+                </parameter>
+                <parameter name="fetchSize">
+                    <description><![CDATA[Indicates how many rows to fetch from the database when rows are read from a resultSet. This property is required when streaming is true; in that case a default value (10) is used.]]></description>
+                </parameter>
+                <parameter name="maxRows">
+                    <description><![CDATA[Sets the limit for the maximum number of rows that any ResultSet object generated by this message processor can contain for the given number. If the limit is exceeded, the excess rows are silently dropped.]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </source>
+    </sources>
+    <types>
+        <type name="org.mule.extension.db.api.StatementResult">
+            <description><![CDATA[Information about the execution of a DML statement]]></description>
+            <parameters>
+                <parameter name="affectedRows">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="generatedKeys">
+                    <description><![CDATA[]]></description>
+                </parameter>
+            </parameters>
+        </type>
+        <type name="org.mule.extension.db.api.config.DbPoolingProfile">
+            <description><![CDATA[Pooling configuration for JDBC Data Sources capable of pooling connections
+
+ @since 1.0]]></description>
+            <parameters>
+                <parameter name="maxPoolSize">
+                    <description><![CDATA[Maximum number of connections a pool maintains at any given time]]></description>
+                </parameter>
+                <parameter name="minPoolSize">
+                    <description><![CDATA[Minimum number of connections a pool maintains at any given time]]></description>
+                </parameter>
+                <parameter name="acquireIncrement">
+                    <description><![CDATA[Determines how many connections at a time to try to acquire when the pool is exhausted]]></description>
+                </parameter>
+                <parameter name="preparedStatementCacheSize">
+                    <description><![CDATA[Determines how many statements are cached per pooled connection. Setting this to zero will disable statement caching]]></description>
+                </parameter>
+                <parameter name="maxWait">
+                    <description><![CDATA[The amount of time a client trying to obtain a connection waits for it to be acquired when the pool is
+ exhausted. Zero (default) means wait indefinitely]]></description>
+                </parameter>
+                <parameter name="maxWaitUnit">
+                    <description><![CDATA[A #maxWait.]]></description>
+                </parameter>
+                <parameter name="maxIdleTime">
+                    <description><![CDATA[Determines how many seconds a Connection can remain pooled but unused before being discarded.
+ Zero means idle connections never expire.]]></description>
+                </parameter>
+                <parameter name="additionalProperties">
+                    <description><![CDATA[]]></description>
+                </parameter>
+            </parameters>
+        </type>
+        <type name="org.mule.extension.db.api.exception.connection.ConnectionCreationException">
+            <description><![CDATA[Thrown to indicate an error creating a connection]]></description>
+            <parameters/>
+        </type>
+        <type name="org.mule.extension.db.api.logger.LoggerApiPackage">
+            <description><![CDATA[This is a class used just to export the package.
+ <p>
+ The Export annotation
+ due that MuleMySqlLogger depends on MySql classes, so to prevent the connector fail when loading it when is
+ used with other vendors like: Derby, Oracle, etc. this class is exported instead to export the entire package.
+
+ @since 1.0]]></description>
+            <parameters/>
+        </type>
+        <type name="org.mule.extension.db.api.param.BulkQueryDefinition">
+            <description><![CDATA[The definition of a bulk operations defined around one single SQL command
+
+ @since 1.0]]></description>
+            <parameters>
+                <parameter name="queryTimeout">
+                    <description><![CDATA[Indicates the minimum amount of time before the JDBC driver attempts to cancel a running statement. No timeout is used by
+ default.]]></description>
+                </parameter>
+                <parameter name="queryTimeoutUnit">
+                    <description><![CDATA[A #queryTimeout]]></description>
+                </parameter>
+                <parameter name="fetchSize">
+                    <description><![CDATA[Indicates how many rows to fetch from the database when rows are read from a resultSet. This property is required when
+ streaming is true; in that case a default value (10) is used.]]></description>
+                </parameter>
+                <parameter name="maxRows">
+                    <description><![CDATA[Sets the limit for the maximum number of rows that any ResultSet object generated by this message processor can contain for
+ the given number. If the limit is exceeded, the excess rows are silently dropped.]]></description>
+                </parameter>
+                <parameter name="sql">
+                    <description><![CDATA[The text of the SQL query to be executed]]></description>
+                </parameter>
+                <parameter name="parameterTypes">
+                    <description><![CDATA[Allows to optionally specify the type of one or more of the parameters in the query. If provided, you're not even required to
+ reference all of the parameters, but you cannot reference a parameter not present in the input values]]></description>
+                </parameter>
+            </parameters>
+        </type>
+        <type name="org.mule.extension.db.api.param.ColumnType">
+            <description><![CDATA[A user defined JDBC type
+
+ @since 1.0]]></description>
+            <parameters>
+                <parameter name="id">
+                    <description><![CDATA[Type identifier used by the JDBC driver.]]></description>
+                </parameter>
+                <parameter name="typeName">
+                    <description><![CDATA[Name of the data type used by the JDBC driver.]]></description>
+                </parameter>
+                <parameter name="className">
+                    <description><![CDATA[Indicates which Java class must be used to map the DB type.]]></description>
+                </parameter>
+            </parameters>
+        </type>
+        <type name="org.mule.extension.db.api.param.OutputParameter">
+            <description><![CDATA[An output parameter to be used in the context of a stored procedure call
+
+ @since 1.0]]></description>
+            <parameters>
+                <parameter name="key">
+                    <description><![CDATA[The name of the input parameter.]]></description>
+                </parameter>
+                <parameter name="typeClassifier">
+                    <description><![CDATA[]]></description>
+                </parameter>
+            </parameters>
+        </type>
+        <type name="org.mule.extension.db.api.param.ParameterType">
+            <description><![CDATA[Allows specifying the type of a given parameter
+
+ @since 1.0]]></description>
+            <parameters>
+                <parameter name="key">
+                    <description><![CDATA[The name of the input parameter.]]></description>
+                </parameter>
+                <parameter name="typeClassifier">
+                    <description><![CDATA[]]></description>
+                </parameter>
+            </parameters>
+        </type>
+        <type name="org.mule.extension.db.api.param.QueryDefinition">
+            <description><![CDATA[The definition for a DML query
+
+ @since 1.0]]></description>
+            <parameters>
+                <parameter name="queryTimeout">
+                    <description><![CDATA[Indicates the minimum amount of time before the JDBC driver attempts to cancel a running statement. No timeout is used by
+ default.]]></description>
+                </parameter>
+                <parameter name="queryTimeoutUnit">
+                    <description><![CDATA[A #queryTimeout]]></description>
+                </parameter>
+                <parameter name="fetchSize">
+                    <description><![CDATA[Indicates how many rows to fetch from the database when rows are read from a resultSet. This property is required when
+ streaming is true; in that case a default value (10) is used.]]></description>
+                </parameter>
+                <parameter name="maxRows">
+                    <description><![CDATA[Sets the limit for the maximum number of rows that any ResultSet object generated by this message processor can contain for
+ the given number. If the limit is exceeded, the excess rows are silently dropped.]]></description>
+                </parameter>
+                <parameter name="sql">
+                    <description><![CDATA[The text of the SQL query to be executed]]></description>
+                </parameter>
+                <parameter name="parameterTypes">
+                    <description><![CDATA[Allows to optionally specify the type of one or more of the parameters in the query. If provided, you're not even required to
+ reference all of the parameters, but you cannot reference a parameter not present in the input values]]></description>
+                </parameter>
+                <parameter name="inputParameters">
+                    <description><![CDATA[A Map which keys are the name of an input parameter to be set on the JDBC prepared statement.
+ Each parameter should
+ be referenced in the sql text using a semicolon prefix (E.g: :myParamName)).
+ <p>
+ The map's values will contain the actual assignation for each parameter.]]></description>
+                </parameter>
+            </parameters>
+        </type>
+        <type name="org.mule.extension.db.api.param.StoredProcedureCall">
+            <description><![CDATA[The definition of the invocation to a stored procedure
+
+ @since 1.0]]></description>
+            <parameters>
+                <parameter name="queryTimeout">
+                    <description><![CDATA[Indicates the minimum amount of time before the JDBC driver attempts to cancel a running statement. No timeout is used by
+ default.]]></description>
+                </parameter>
+                <parameter name="queryTimeoutUnit">
+                    <description><![CDATA[A #queryTimeout]]></description>
+                </parameter>
+                <parameter name="fetchSize">
+                    <description><![CDATA[Indicates how many rows to fetch from the database when rows are read from a resultSet. This property is required when
+ streaming is true; in that case a default value (10) is used.]]></description>
+                </parameter>
+                <parameter name="maxRows">
+                    <description><![CDATA[Sets the limit for the maximum number of rows that any ResultSet object generated by this message processor can contain for
+ the given number. If the limit is exceeded, the excess rows are silently dropped.]]></description>
+                </parameter>
+                <parameter name="sql">
+                    <description><![CDATA[The text of the SQL query to be executed]]></description>
+                </parameter>
+                <parameter name="parameterTypes">
+                    <description><![CDATA[Allows to optionally specify the type of one or more of the parameters in the query. If provided, you're not even required to
+ reference all of the parameters, but you cannot reference a parameter not present in the input values]]></description>
+                </parameter>
+                <parameter name="inputParameters">
+                    <description><![CDATA[A Map which keys are the name of an input parameter to be set on the JDBC prepared statement.
+ Each parameter should
+ be referenced in the sql text using a semicolon prefix (E.g: :myParamName)).
+ <p>
+ The map's values will contain the actual assignation for each parameter.]]></description>
+                </parameter>
+                <parameter name="inOutParameters">
+                    <description><![CDATA[A Map which keys are the name of a parameter to be set on the JDBC prepared statement which is both input and output.
+ <p>
+ Each parameter should be referenced in the sql text using a semicolon prefix (E.g: :myParamName)).
+ <p>
+ The map's values will contain the actual assignation for each parameter.]]></description>
+                </parameter>
+                <parameter name="outputParameters">
+                    <description><![CDATA[A list of output parameters to be set on the JDBC prepared
+ statement. Each parameter should be referenced in the sql
+ text using a semicolon prefix (E.g: :result))]]></description>
+                </parameter>
+            </parameters>
+        </type>
+    </types>
+</extension-documentation>

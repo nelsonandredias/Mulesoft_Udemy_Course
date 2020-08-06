@@ -1,0 +1,27 @@
+{
+  "extensionModelLoaderDescriptor": {
+    "id": "java",
+    "attributes": {
+      "type": "org.mule.extensions.vm.internal.VMConnector",
+      "version": "2.0.0"
+    }
+  },
+  "name": "VM",
+  "requiredProduct": "MULE",
+  "classLoaderModelLoaderDescriptor": {
+    "id": "mule",
+    "attributes": {
+      "privilegedExportedPackages": [],
+      "privilegedArtifactIds": [],
+      "exportedPackages": [
+        "org.mule.extensions.vm.api"
+      ],
+      "exportedResources": []
+    }
+  },
+  "bundleDescriptorLoader": {
+    "id": "mule",
+    "attributes": {}
+  },
+  "minMuleVersion": "4.1.0"
+}

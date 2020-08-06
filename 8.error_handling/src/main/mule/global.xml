@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:cluster="http://www.mulesoft.org/schema/mule/ee/cluster" xmlns:http="http://www.mulesoft.org/schema/mule/http"
-	xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:cluster="http://www.mulesoft.org/schema/mule/ee/cluster"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd">
 	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="280c6af2-1151-4e1c-bc78-c792349c9954" >
 		<http:listener-connection host="0.0.0.0" port="8081" />
 	</http:listener-config>
@@ -11,6 +12,15 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 		<http:request-connection host="localhost" port="8881" />
 	</http:request-config>
 	<configuration doc:name="Configuration" doc:id="1ff02425-1f90-4714-8ba9-29fcb86f58a7" doc:description="set global error handler for mule application" defaultErrorHandler-ref="mule_global_error_handler" />
+	<http:request-config name="HTTP_Request_configuration1" doc:name="HTTP Request configuration" doc:id="567cabe9-a080-4c41-a2ba-918ff87a8e13" doc:description="HTTP Request for exercise" >
+		<http:request-connection host="localhost" port="8892" />
+	</http:request-config>
+	<http:listener-config name="HTTP_Listener_config1" doc:name="HTTP Listener config" doc:id="a96d91a6-1e95-425c-994d-a86665ce8d2f" doc:description="HTTP Listener for exercise">
+		<http:listener-connection host="0.0.0.0" port="8892" />
+	</http:listener-config>
+	<db:config name="Database_Config" doc:name="Database Config" doc:id="8f4f6b8d-31c0-4bae-92bf-61c08a3480d3" doc:description="database config for exercise">
+		<db:my-sql-connection host="localhost" port="3306" user="root" password="admin" database="mulesoft_course"/>
+	</db:config>
 	<error-handler name="mule_global_error_handler" doc:id="962427a4-066f-479a-acbe-65d3e6a69fc5" >
 		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="e1d415f3-0b4a-4c09-bad2-aa0b6f6bd98f" type="ANY">
 			<logger level="ERROR" doc:name="Log on error propagate" doc:id="9bf03f4a-eabe-448b-8827-6621037bfabe" message='#["on error propagate global element"]' />

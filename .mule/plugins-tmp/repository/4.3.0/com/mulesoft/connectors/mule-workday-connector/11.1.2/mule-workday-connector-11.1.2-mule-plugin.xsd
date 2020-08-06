@@ -1,0 +1,1830 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:mule="http://www.mulesoft.org/schema/mule/core" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.mulesoft.org/schema/mule/workday" attributeFormDefault="unqualified" elementFormDefault="qualified">
+  <xs:import namespace="http://www.w3.org/XML/1998/namespace"></xs:import>
+  <xs:import namespace="http://www.springframework.org/schema/beans" schemaLocation="http://www.springframework.org/schema/beans/spring-beans.xsd"></xs:import>
+  <xs:import namespace="http://www.mulesoft.org/schema/mule/core" schemaLocation="http://www.mulesoft.org/schema/mule/core/current/mule.xsd"></xs:import>
+  <xs:import namespace="http://www.mulesoft.org/schema/mule/tls" schemaLocation="http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd"></xs:import>
+  <xs:complexType name="com.mulesoft.connectors.workday.extension.api.proxy.HttpProxyConfig">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType"></xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" xmlns:workday="http://www.mulesoft.org/schema/mule/workday" type="workday:com.mulesoft.connectors.workday.extension.api.proxy.HttpProxyConfig" substitutionGroup="mule:abstract-shared-extension" abstract="true" name="global-abstract-http-proxy-config"></xs:element>
+  <xs:element xmlns:workday="http://www.mulesoft.org/schema/mule/workday" type="workday:com.mulesoft.connectors.workday.extension.api.proxy.HttpProxyConfig" abstract="true" name="abstract-http-proxy-config"></xs:element>
+  <xs:complexType name="com.mulesoft.connectors.workday.extension.api.proxy.DefaultHttpProxyConfig">
+    <xs:complexContent>
+      <xs:extension xmlns:workday="http://www.mulesoft.org/schema/mule/workday" base="workday:com.mulesoft.connectors.workday.extension.api.proxy.HttpProxyConfig">
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="required" name="host"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionInt" use="required" name="port"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="optional" name="username"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="optional" name="password"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="optional" name="nonProxyHosts"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:workday="http://www.mulesoft.org/schema/mule/workday" substitutionGroup="workday:global-abstract-http-proxy-config" abstract="true" name="abstract-default"></xs:element>
+  <xs:element xmlns:workday="http://www.mulesoft.org/schema/mule/workday" substitutionGroup="workday:abstract-default" name="default">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="workday:com.mulesoft.connectors.workday.extension.api.proxy.DefaultHttpProxyConfig">
+          <xs:attribute type="xs:string" use="optional" name="name"></xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="com.mulesoft.connectors.workday.extension.api.proxy.NtlmProxyConfig">
+    <xs:complexContent>
+      <xs:extension xmlns:workday="http://www.mulesoft.org/schema/mule/workday" base="workday:com.mulesoft.connectors.workday.extension.api.proxy.HttpProxyConfig">
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="required" name="ntlmDomain"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="required" name="host"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionInt" use="required" name="port"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="optional" name="username"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="optional" name="password"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="optional" name="nonProxyHosts"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:workday="http://www.mulesoft.org/schema/mule/workday" substitutionGroup="workday:global-abstract-http-proxy-config" abstract="true" name="abstract-ntlm"></xs:element>
+  <xs:element xmlns:workday="http://www.mulesoft.org/schema/mule/workday" substitutionGroup="workday:abstract-ntlm" name="ntlm">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="workday:com.mulesoft.connectors.workday.extension.api.proxy.NtlmProxyConfig">
+          <xs:attribute type="xs:string" use="optional" name="name"></xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstract-shared-extension" name="config-version-32-config">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractExtensionType">
+          <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element minOccurs="1" maxOccurs="1" ref="mule:abstractConnectionProvider"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:expiration-policy"></xs:element>
+          </xs:sequence>
+          <xs:attribute type="xs:string" use="required" name="name">
+            <xs:annotation>
+              <xs:documentation>The identifier of this element used to reference it in other components</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstractConnectionProvider" name="basic-authentication-api-v32-connection">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractConnectionProviderType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:reconnection"></xs:element>
+            <xs:element xmlns:tls="http://www.mulesoft.org/schema/mule/tls" minOccurs="0" maxOccurs="1" ref="tls:context"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="proxy-config">
+              <xs:complexType>
+                <xs:choice minOccurs="1" maxOccurs="1">
+                  <xs:element xmlns:workday="http://www.mulesoft.org/schema/mule/workday" minOccurs="1" maxOccurs="1" ref="workday:abstract-http-proxy-config"></xs:element>
+                  <xs:element xmlns:workday="http://www.mulesoft.org/schema/mule/workday" minOccurs="1" maxOccurs="1" ref="workday:global-abstract-http-proxy-config"></xs:element>
+                </xs:choice>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute type="xs:string" use="optional" name="tlsContext"></xs:attribute>
+          <xs:attribute type="xs:string" use="optional" name="proxyConfig"></xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="userName">
+            <xs:annotation>
+              <xs:documentation>The user name</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="password">
+            <xs:annotation>
+              <xs:documentation>The password</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="tenantName"></xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" default="impl-cc.workday.com" name="hostName"></xs:attribute>
+          <xs:attribute type="mule:substitutableBoolean" use="optional" default="true" name="usePersistentConnections">
+            <xs:annotation>
+              <xs:documentation>If false, each connection will be closed after the first request is completed.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:substitutableInt" use="optional" default="-1" name="maxConnections">
+            <xs:annotation>
+              <xs:documentation>The maximum number of outbound connections that will be kept open at the same time. By default the number of connections is unlimited.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:substitutableInt" use="optional" default="30000" name="connectionIdleTimeout">
+            <xs:annotation>
+              <xs:documentation>The number of milliseconds that a connection can remain idle before it is closed. The value of this attribute is only used when persistent connections are enabled.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:substitutableBoolean" use="optional" default="false" name="streamResponse">
+            <xs:annotation>
+              <xs:documentation>Whether or not received responses should be streamed, meaning processing will continue as soon as all headers are parsed and the body streamed as it arrives. When enabled, the response MUST be eventually read since depending on the configured buffer size it may not fit into memory and processing will stop until space is available.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:substitutableInt" use="optional" default="-1" name="responseBufferSize">
+            <xs:annotation>
+              <xs:documentation>The space in bytes for the buffer where the HTTP response will be stored.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:substitutableInt" use="optional" default="30000" name="connectionTimeout"></xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/workday" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="New-objects-triggerType" substitutionGroup="mule:abstract-message-source" name="new-objects-trigger"></xs:element>
+  <xs:complexType name="New-objects-triggerType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageSourceType">
+        <xs:sequence minOccurs="1" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-redelivery-policy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element minOccurs="1" maxOccurs="1" ref="mule:scheduling-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/workday" type="com.mulesoft.connectors.workday.extension.api.ObjectTypeEnumType" use="required" name="objectType"></xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:substitutableBoolean" use="optional" name="primaryNodeOnly">
+          <xs:annotation>
+            <xs:documentation>Whether this source should only be executed on the primary node when runnning in Cluster</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/workday" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="AbsenceManagementType" substitutionGroup="mule:abstract-operator" name="absence-management">
+    <xs:annotation>
+      <xs:documentation>Operation to invoke Absence Management Web Service. The Absence Management Web Service contains operations that expose absence-related data, including Employee Time Off and Absence Inputs for time off and accrual adjustments and overrides, and Leave Requests, in Workday Human Capital Management Business Services.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="AbsenceManagementType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>payload for the operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="operation">
+          <xs:annotation>
+            <xs:documentation>type of operation to execute</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/workday" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="AcademicAdvisingType" substitutionGroup="mule:abstract-operator" name="academic-advising">
+    <xs:annotation>
+      <xs:documentation>Operation to invoke academic Advising Web Service. Retrieve objects related to Academic Advising, such as Student Academic Requirement Assignments.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="AcademicAdvisingType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>payload for the operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="operation">
+          <xs:annotation>
+            <xs:documentation>type of operation to execute</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/workday" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="AcademicFoundationType" substitutionGroup="mule:abstract-operator" name="academic-foundation">
+    <xs:annotation>
+      <xs:documentation>Operation to invoke Academic Foundation Web Service. Public Web Service for creating, editing and retrieving the foundational objects for the Student System, such as Programs of Study, Educational Institutions, and other other objects with cross-module uses.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="AcademicFoundationType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>payload for the operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="operation">
+          <xs:annotation>
+            <xs:documentation>type of operation to execute</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/workday" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="AdmissionsType" substitutionGroup="mule:abstract-operator" name="admissions">
+    <xs:annotation>
+      <xs:documentation>Operation to invoke Admissions Web Service. Web Service for creating, editing and retrieving objects related to Admissions, such as Applicants</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="AdmissionsType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>payload for the operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="operation">
+          <xs:annotation>
+            <xs:documentation>type of operation to execute</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/workday" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="AdoptionType" substitutionGroup="mule:abstract-operator" name="adoption">
+    <xs:annotation>
+      <xs:documentation>Operation to invoke Adoption Web Service.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="AdoptionType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>payload for the operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="operation">
+          <xs:annotation>
+            <xs:documentation>type of operation to execute</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/workday" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="BenefitsAdministrationType" substitutionGroup="mule:abstract-operator" name="benefits-administration">
+    <xs:annotation>
+      <xs:documentation>Operation to invoke Benefits Administration Web Service. The Benefits Administration Web Service contains operations that expose Workday Human Capital Management Business Services benefits-related data.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="BenefitsAdministrationType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>payload for the operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="operation">
+          <xs:annotation>
+            <xs:documentation>type of operation to execute</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/workday" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="CampusEngagementType" substitutionGroup="mule:abstract-operator" name="campus-engagement">
+    <xs:annotation>
+      <xs:documentation>Operation to invoke Campus Engagement Web Service. Public Web Service for creating, editing and retrieving objects related to planning and organizing communication between Student Prospects and Recruiters.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="CampusEngagementType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>payload for the operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="operation">
+          <xs:annotation>
+            <xs:documentation>type of operation to execute</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/workday" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="CashManagementType" substitutionGroup="mule:abstract-operator" name="cash-management">
+    <xs:annotation>
+      <xs:documentation>Operation to invoke Cash Management Web Service. The Cash Management Web Service contains operations that expose Workday Financials Cash Management data. It includes data relative to Banking.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="CashManagementType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>payload for the operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="operation">
+          <xs:annotation>
+            <xs:documentation>type of operation to execute</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/workday" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="CompensationType" substitutionGroup="mule:abstract-operator" name="compensation">
+    <xs:annotation>
+      <xs:documentation>Operation to invoke Compensation Web Service. The Compensation Web Service contains operations that expose Workday Human Capital Management Business Services compensation-related data.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="CompensationType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>payload for the operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="operation">
+          <xs:annotation>
+            <xs:documentation>type of operation to execute</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/workday" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="CompensationReviewType" substitutionGroup="mule:abstract-operator" name="compensation-review">
+    <xs:annotation>
+      <xs:documentation>Operation to invoke Compensation Review Web Service. The Compensation Review Web Service contains operations that expose Workday Human Capital Management Business Services compensation review related data.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="CompensationReviewType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>payload for the operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="operation">
+          <xs:annotation>
+            <xs:documentation>type of operation to execute</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/workday" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="DynamicDocumentGenerationType" substitutionGroup="mule:abstract-operator" name="dynamic-document-generation">
+    <xs:annotation>
+      <xs:documentation>Operation to invoke Dynamic Document Generation Web Service. Web service for creating, editing and retrieving objects related to Document Templates, such as Text Blocks and Text Block Categories.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="DynamicDocumentGenerationType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>payload for the operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="operation">
+          <xs:annotation>
+            <xs:documentation>type of operation to execute</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/workday" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ExternalIntegrationsType" substitutionGroup="mule:abstract-operator" name="external-integrations">
+    <xs:annotation>
+      <xs:documentation>Operation to invoke External Integrations Web Service. The External Integrations Web Service provides an operation that informs external systems of Integration Events that have been triggered from within Workday. The WSDL for this service provides the structure that needs to be implemented by an external system to receive event "Launch" information.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ExternalIntegrationsType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>payload for the operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="operation">
+          <xs:annotation>
+            <xs:documentation>type of operation to execute</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/workday" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="FinancialAidType" substitutionGroup="mule:abstract-operator" name="financial-aid">
+    <xs:annotation>
+      <xs:documentation>Operation to invoke Financial Aid Web Service. Web service is for the Financial Aid module</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="FinancialAidType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>payload for the operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="operation">
+          <xs:annotation>
+            <xs:documentation>type of operation to execute</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/workday" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="FinancialManagementType" substitutionGroup="mule:abstract-operator" name="financial-management">
+    <xs:annotation>
+      <xs:documentation>Operation to invoke Financial Management Web Service. The Financial Management Web Service contains operations that expose Workday Financials data. It includes data relative to Accounts, Accounting, Business Plans, Financial Reporting, Tax, Financial Organizations, Basic Worktags, Related Worktags and more.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="FinancialManagementType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>payload for the operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="operation">
+          <xs:annotation>
+            <xs:documentation>type of operation to execute</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/workday" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="HumanResourcesType" substitutionGroup="mule:abstract-operator" name="human-resources">
+    <xs:annotation>
+      <xs:documentation>Operation to invoke Human Resources Web Service. The Human Resources Web Service contains operations that expose Workday Human Capital Management Business Services data, including Employee, Contingent Worker and Organization information. This Web Service can be used for integration with enterprise systems including corporate directories, data analysis tools, email or other provisioning sub-systems, or any other systems needing Worker and/or Organization data.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="HumanResourcesType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>payload for the operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="operation">
+          <xs:annotation>
+            <xs:documentation>type of operation to execute</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/workday" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="IdentityManagementType" substitutionGroup="mule:abstract-operator" name="identity-management">
+    <xs:annotation>
+      <xs:documentation>Operation to invoke Identity Management Web Service. The Identity Management Web Service contains operations that relate to Workday Identity and Access Management.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="IdentityManagementType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>payload for the operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="operation">
+          <xs:annotation>
+            <xs:documentation>type of operation to execute</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/workday" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="IntegrationsType" substitutionGroup="mule:abstract-operator" name="integrations">
+    <xs:annotation>
+      <xs:documentation>Operation to invoke Integrations Web Service. This Web Service contains operations related to all Integrations within the Workday system.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="IntegrationsType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>payload for the operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="operation">
+          <xs:annotation>
+            <xs:documentation>type of operation to execute</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/workday" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="InventoryType" substitutionGroup="mule:abstract-operator" name="inventory">
+    <xs:annotation>
+      <xs:documentation>Operation to invoke Inventory Web Service. The Inventory Web Service contains operations that expose Workday Financials Inventory data.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="InventoryType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>payload for the operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="operation">
+          <xs:annotation>
+            <xs:documentation>type of operation to execute</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/workday" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="LearningType" substitutionGroup="mule:abstract-operator" name="learning">
+    <xs:annotation>
+      <xs:documentation>Operation to invoke Learning Web Service. The Learning Web Service contains operations for creating, editing and retrieving Workday Learning related data such Courses, Course Offerings and Enrollments.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="LearningType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>payload for the operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="operation">
+          <xs:annotation>
+            <xs:documentation>type of operation to execute</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/workday" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="NotificationType" substitutionGroup="mule:abstract-operator" name="notification">
+    <xs:annotation>
+      <xs:documentation>Operation to invoke Notification Web Service. The Notification Web Service provides an operation that informs external systems of business events that occur within Workday. The WSDL for this service provides the structure that needs to be implemented by an external system to receive notifications for their subscribed Workday business events. Subscriptions and Notification details (i.e. Endpoint and security information) are defined within the Workday application.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="NotificationType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>payload for the operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="operation">
+          <xs:annotation>
+            <xs:documentation>type of operation to execute</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/workday" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="PayrollType" substitutionGroup="mule:abstract-operator" name="payroll">
+    <xs:annotation>
+      <xs:documentation>Operation to invoke Payroll Web Service. The Workday Payroll Web Service contains operations that expose Workday Payroll data for integration with third parties (such as time and attendance).</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="PayrollType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>payload for the operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="operation">
+          <xs:annotation>
+            <xs:documentation>type of operation to execute</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/workday" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="PayrollCANType" substitutionGroup="mule:abstract-operator" name="payroll-can">
+    <xs:annotation>
+      <xs:documentation>Operation to invoke Payroll CAN Web Service. The Workday Payroll CAN Web Service contains operations that expose Workday Payroll CAN data for integration with third parties (such as time and attendance).</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="PayrollCANType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>payload for the operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="operation">
+          <xs:annotation>
+            <xs:documentation>type of operation to execute</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/workday" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="PayrollFRAType" substitutionGroup="mule:abstract-operator" name="payroll-fra">
+    <xs:annotation>
+      <xs:documentation>Operation to invoke Payroll FRA Web Service. The Workday Payroll FRA Web Service contains operations that expose Workday Payroll FRA data for integration with third parties</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="PayrollFRAType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>payload for the operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="operation">
+          <xs:annotation>
+            <xs:documentation>type of operation to execute</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/workday" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="PayrollGBRType" substitutionGroup="mule:abstract-operator" name="payroll-gbr">
+    <xs:annotation>
+      <xs:documentation>Operation to invoke Payroll GBR Web Service. The Workday Payroll GBR Web Service contains operations that expose Workday UK Payroll data for integration with third parties.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="PayrollGBRType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>payload for the operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="operation">
+          <xs:annotation>
+            <xs:documentation>type of operation to execute</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/workday" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="PayrollInterfaceType" substitutionGroup="mule:abstract-operator" name="payroll-interface">
+    <xs:annotation>
+      <xs:documentation>Operation to invoke Payroll Interface Web Service. The Payroll Interface Web Service contains operations that expose Workday Human Capital Management Business Services data for integration with external payroll systems.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="PayrollInterfaceType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>payload for the operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="operation">
+          <xs:annotation>
+            <xs:documentation>type of operation to execute</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/workday" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="PerformanceManagementType" substitutionGroup="mule:abstract-operator" name="performance-management">
+    <xs:annotation>
+      <xs:documentation>Operation to invoke Performance Management Web Service. The Performance Management Web Service contains operations that expose Workday Employee Performance Management Business Services data. This Web Service can be used for integration with other employee performance management systems.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="PerformanceManagementType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>payload for the operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="operation">
+          <xs:annotation>
+            <xs:documentation>type of operation to execute</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/workday" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ProfessionalServicesAutomationType" substitutionGroup="mule:abstract-operator" name="professional-services-automation">
+    <xs:annotation>
+      <xs:documentation>Operation to invoke Professional Services Web Service. The Professional Services Automation Web Service contains operations that expose Workday Financials Business Services data for integration with Professional Services Automation (PSA) systems.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ProfessionalServicesAutomationType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>payload for the operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="operation">
+          <xs:annotation>
+            <xs:documentation>type of operation to execute</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/workday" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="RecruitingType" substitutionGroup="mule:abstract-operator" name="recruiting">
+    <xs:annotation>
+      <xs:documentation>Operation to invoke Recruiting Web Service. The Recruiting Web Service contains operations that expose Workday Human Capital Management Business Services data for integration with Talent Management and Applicant Tracking systems.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="RecruitingType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>payload for the operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="operation">
+          <xs:annotation>
+            <xs:documentation>type of operation to execute</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/workday" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ResourceManagementType" substitutionGroup="mule:abstract-operator" name="resource-management">
+    <xs:annotation>
+      <xs:documentation>Operation to invoke Resource Management Web Service. The Resource Management Web Service contains operations that expose Workday Financials Resource Management data. It includes data relative to Suppliers, Supplier Accounts, Expenses, Business Assets and Projects.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ResourceManagementType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>payload for the operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="operation">
+          <xs:annotation>
+            <xs:documentation>type of operation to execute</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/workday" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="RevenueManagementType" substitutionGroup="mule:abstract-operator" name="revenue-management">
+    <xs:annotation>
+      <xs:documentation>Operation to invoke Revenue Management Web Service. The Revenue Management Web Service contains operations that expose Workday Financials Revenue Management data. It includes data relative to Customers, Customer Accounts, Prospect and Opportunities.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="RevenueManagementType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>payload for the operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="operation">
+          <xs:annotation>
+            <xs:documentation>type of operation to execute</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/workday" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="SettlementServicesType" substitutionGroup="mule:abstract-operator" name="settlement-services">
+    <xs:annotation>
+      <xs:documentation>Operation to invoke Settlement Services Web Service. Web Service used for settlement management and services.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="SettlementServicesType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>payload for the operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="operation">
+          <xs:annotation>
+            <xs:documentation>type of operation to execute</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/workday" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="StaffingType" substitutionGroup="mule:abstract-operator" name="staffing">
+    <xs:annotation>
+      <xs:documentation>Operation to invoke Staffing Web Service. The Staffing Web Service operations expose Workday Human Capital Management Business Services and data. These services pertain to staffing transactions for both employees and contingent workers, such as bringing employees and contingent workers on board.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="StaffingType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>payload for the operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="operation">
+          <xs:annotation>
+            <xs:documentation>type of operation to execute</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/workday" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="StudentFinanceType" substitutionGroup="mule:abstract-operator" name="student-finance">
+    <xs:annotation>
+      <xs:documentation>Operation to invoke Student Finance Web Service. Web service for creating, editing and retrieving objects related to Student Finance, such as charges and payments for Students.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="StudentFinanceType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>payload for the operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="operation">
+          <xs:annotation>
+            <xs:documentation>type of operation to execute</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/workday" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="StudentRecordsType" substitutionGroup="mule:abstract-operator" name="student-records">
+    <xs:annotation>
+      <xs:documentation>Operation to invoke Student Records Web Service. Web Service for creating, editing and retrieving objects related to Student Records, such as Student Courses, Sections etc.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="StudentRecordsType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>payload for the operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="operation">
+          <xs:annotation>
+            <xs:documentation>type of operation to execute</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/workday" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="StudentRecruitingType" substitutionGroup="mule:abstract-operator" name="student-recruiting">
+    <xs:annotation>
+      <xs:documentation>Operation to invoke Student Recruiting Web Service. Web Service for creating, editing and retrieving objects related to Student Recruiting, such as Student Recruiting Events, Campaigns, Cycles, Recruiters, and Prospects.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="StudentRecruitingType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>payload for the operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="operation">
+          <xs:annotation>
+            <xs:documentation>type of operation to execute</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/workday" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="TalentType" substitutionGroup="mule:abstract-operator" name="talent">
+    <xs:annotation>
+      <xs:documentation>Operation to invoke Talent Web Service. This web service consists of operations for interfacing with the Workday Talent Management web service operations.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="TalentType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>payload for the operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="operation">
+          <xs:annotation>
+            <xs:documentation>type of operation to execute</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/workday" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="TenantDataTranslationType" substitutionGroup="mule:abstract-operator" name="tenant-data-translation">
+    <xs:annotation>
+      <xs:documentation>Operation to invoke Tenant Data Translation Web Service. Public Web Service to export and import translatable tenant data.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="TenantDataTranslationType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>payload for the operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="operation">
+          <xs:annotation>
+            <xs:documentation>type of operation to execute</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/workday" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="TimeTrackingType" substitutionGroup="mule:abstract-operator" name="time-tracking">
+    <xs:annotation>
+      <xs:documentation>Operation to invoke Time Tracking Web Service. Operations for importing and exporting time and work schedule information.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="TimeTrackingType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>payload for the operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="operation">
+          <xs:annotation>
+            <xs:documentation>type of operation to execute</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/workday" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="WorkdayConnectType" substitutionGroup="mule:abstract-operator" name="workday-connect">
+    <xs:annotation>
+      <xs:documentation>Operation to invoke Workday Connect Web Service. Get and put web services used for communication capabilities across applications.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="WorkdayConnectType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>payload for the operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="operation">
+          <xs:annotation>
+            <xs:documentation>type of operation to execute</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/workday" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="WorkdayExtensibilityType" substitutionGroup="mule:abstract-operator" name="workday-extensibility">
+    <xs:annotation>
+      <xs:documentation>Operation to invoke Workday Extensibility Web Service. Public Web Service for extensibility features across applications.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="WorkdayExtensibilityType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>payload for the operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="operation">
+          <xs:annotation>
+            <xs:documentation>type of operation to execute</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/workday" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="WorkforcePlanningType" substitutionGroup="mule:abstract-operator" name="workforce-planning">
+    <xs:annotation>
+      <xs:documentation>Operation to invoke Workforce Planning Web Service. The Workforce Planning Web Service operations expose Workforce Planning Business Services and data.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="WorkforcePlanningType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>payload for the operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="operation">
+          <xs:annotation>
+            <xs:documentation>type of operation to execute</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="com.mulesoft.connectors.workday.extension.api.ObjectTypeEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="ABSENCE_INPUTS"></xs:enumeration>
+          <xs:enumeration value="ACADEMIC_CONTACTS"></xs:enumeration>
+          <xs:enumeration value="EDUCATION_TEST_RESULTS"></xs:enumeration>
+          <xs:enumeration value="EDUCATIONAL_INSTITUTION_COURSE"></xs:enumeration>
+          <xs:enumeration value="STUDENTS"></xs:enumeration>
+          <xs:enumeration value="PROGRAMS_OF_STUDY"></xs:enumeration>
+          <xs:enumeration value="STUDENTS_APPLICATIONS"></xs:enumeration>
+          <xs:enumeration value="HEALTH_CARE_RATES"></xs:enumeration>
+          <xs:enumeration value="DONORS"></xs:enumeration>
+          <xs:enumeration value="PAYMENTS"></xs:enumeration>
+          <xs:enumeration value="ALL_CURRENCIES"></xs:enumeration>
+          <xs:enumeration value="BASIC_CUSTOMERS"></xs:enumeration>
+          <xs:enumeration value="INVESTORS"></xs:enumeration>
+          <xs:enumeration value="ORGANIZATIONS"></xs:enumeration>
+          <xs:enumeration value="WORKERS"></xs:enumeration>
+          <xs:enumeration value="CERTIFICATIONS"></xs:enumeration>
+          <xs:enumeration value="CERTIFICATION_ISSUERS"></xs:enumeration>
+          <xs:enumeration value="COMPETENCIES"></xs:enumeration>
+          <xs:enumeration value="DEGREES"></xs:enumeration>
+          <xs:enumeration value="APPLICANTS"></xs:enumeration>
+          <xs:enumeration value="CANDIDATES"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+</xs:schema>

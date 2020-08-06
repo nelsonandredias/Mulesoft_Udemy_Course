@@ -1,0 +1,914 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:mule="http://www.mulesoft.org/schema/mule/core" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.mulesoft.org/schema/mule/wsc" attributeFormDefault="unqualified" elementFormDefault="qualified">
+  <xs:import namespace="http://www.w3.org/XML/1998/namespace"></xs:import>
+  <xs:import namespace="http://www.springframework.org/schema/beans" schemaLocation="http://www.springframework.org/schema/beans/spring-beans.xsd"></xs:import>
+  <xs:import namespace="http://www.mulesoft.org/schema/mule/core" schemaLocation="http://www.mulesoft.org/schema/mule/core/current/mule.xsd"></xs:import>
+  <xs:complexType name="org.mule.extension.ws.api.transport.CustomTransportConfiguration">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType"></xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" xmlns:wsc="http://www.mulesoft.org/schema/mule/wsc" type="wsc:org.mule.extension.ws.api.transport.CustomTransportConfiguration" substitutionGroup="mule:abstract-shared-extension" abstract="true" name="global-abstract-custom-transport-configuration"></xs:element>
+  <xs:element xmlns:wsc="http://www.mulesoft.org/schema/mule/wsc" type="wsc:org.mule.extension.ws.api.transport.CustomTransportConfiguration" abstract="true" name="abstract-custom-transport-configuration"></xs:element>
+  <xs:complexType name="org.mule.extension.ws.api.transport.CustomHttpTransportConfiguration">
+    <xs:complexContent>
+      <xs:extension xmlns:wsc="http://www.mulesoft.org/schema/mule/wsc" base="wsc:org.mule.extension.ws.api.transport.CustomTransportConfiguration">
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="required" name="requesterConfig"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:wsc="http://www.mulesoft.org/schema/mule/wsc" type="wsc:org.mule.extension.ws.api.transport.CustomHttpTransportConfiguration" substitutionGroup="wsc:abstract-custom-transport-configuration" abstract="true" name="abstract-http-transport-configuration"></xs:element>
+  <xs:element xmlns:wsc="http://www.mulesoft.org/schema/mule/wsc" substitutionGroup="wsc:abstract-http-transport-configuration" name="http-transport-configuration">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="wsc:org.mule.extension.ws.api.transport.CustomHttpTransportConfiguration"></xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="org.mule.extension.ws.api.transport.DefaultHttpTransportConfiguration">
+    <xs:complexContent>
+      <xs:extension xmlns:wsc="http://www.mulesoft.org/schema/mule/wsc" base="wsc:org.mule.extension.ws.api.transport.CustomTransportConfiguration">
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionInt" use="optional" default="5000" name="timeout"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:wsc="http://www.mulesoft.org/schema/mule/wsc" type="wsc:org.mule.extension.ws.api.transport.DefaultHttpTransportConfiguration" substitutionGroup="wsc:abstract-custom-transport-configuration" abstract="true" name="abstract-default-http-transport-configuration"></xs:element>
+  <xs:element xmlns:wsc="http://www.mulesoft.org/schema/mule/wsc" substitutionGroup="wsc:abstract-default-http-transport-configuration" name="default-http-transport-configuration">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="wsc:org.mule.extension.ws.api.transport.DefaultHttpTransportConfiguration"></xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstract-shared-extension" name="config">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractExtensionType">
+          <xs:annotation>
+            <xs:documentation>Default configuration</xs:documentation>
+          </xs:annotation>
+          <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element minOccurs="1" maxOccurs="1" ref="mule:abstractConnectionProvider"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:expiration-policy"></xs:element>
+          </xs:sequence>
+          <xs:attribute type="xs:string" use="required" name="name">
+            <xs:annotation>
+              <xs:documentation>The identifier of this element used to reference it in other components</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstractConnectionProvider" name="connection">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractConnectionProviderType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:reconnection"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="custom-transport-configuration">
+              <xs:annotation>
+                <xs:documentation>The transport configuration used to dispatch the SOAP messages.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:choice minOccurs="1" maxOccurs="1">
+                  <xs:element xmlns:wsc="http://www.mulesoft.org/schema/mule/wsc" minOccurs="1" maxOccurs="1" ref="wsc:abstract-custom-transport-configuration"></xs:element>
+                  <xs:element xmlns:wsc="http://www.mulesoft.org/schema/mule/wsc" minOccurs="1" maxOccurs="1" ref="wsc:global-abstract-custom-transport-configuration"></xs:element>
+                </xs:choice>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="web-service-security">
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension base="mule:abstractExtensionType">
+                    <xs:sequence>
+                      <xs:element minOccurs="0" maxOccurs="1" name="sign-security-strategy">
+                        <xs:annotation>
+                          <xs:documentation>a sign WSS configuration</xs:documentation>
+                        </xs:annotation>
+                        <xs:complexType>
+                          <xs:complexContent>
+                            <xs:extension xmlns:wsc="http://www.mulesoft.org/schema/mule/wsc" base="wsc:org.mule.extension.ws.api.security.WssSignSecurityStrategyAdapter"></xs:extension>
+                          </xs:complexContent>
+                        </xs:complexType>
+                      </xs:element>
+                      <xs:element minOccurs="0" maxOccurs="1" name="verify-signature-security-strategy">
+                        <xs:annotation>
+                          <xs:documentation>a verify signature WSS configuration</xs:documentation>
+                        </xs:annotation>
+                        <xs:complexType>
+                          <xs:complexContent>
+                            <xs:extension xmlns:wsc="http://www.mulesoft.org/schema/mule/wsc" base="wsc:org.mule.extension.ws.api.security.WssVerifySignatureSecurityStrategyAdapter"></xs:extension>
+                          </xs:complexContent>
+                        </xs:complexType>
+                      </xs:element>
+                      <xs:element minOccurs="0" maxOccurs="1" name="username-token-security-strategy">
+                        <xs:annotation>
+                          <xs:documentation>a usernameToken WSS configuration</xs:documentation>
+                        </xs:annotation>
+                        <xs:complexType>
+                          <xs:complexContent>
+                            <xs:extension xmlns:wsc="http://www.mulesoft.org/schema/mule/wsc" base="wsc:org.mule.extension.ws.api.security.WssUsernameTokenSecurityStrategyAdapter"></xs:extension>
+                          </xs:complexContent>
+                        </xs:complexType>
+                      </xs:element>
+                      <xs:element minOccurs="0" maxOccurs="1" name="timestamp-security-strategy">
+                        <xs:annotation>
+                          <xs:documentation>a timestamp WSS configuration</xs:documentation>
+                        </xs:annotation>
+                        <xs:complexType>
+                          <xs:complexContent>
+                            <xs:extension xmlns:wsc="http://www.mulesoft.org/schema/mule/wsc" base="wsc:org.mule.extension.ws.api.security.WssTimestampSecurityStrategyAdapter"></xs:extension>
+                          </xs:complexContent>
+                        </xs:complexType>
+                      </xs:element>
+                      <xs:element minOccurs="0" maxOccurs="1" name="decrypt-security-strategy">
+                        <xs:annotation>
+                          <xs:documentation>a decrypt WSS configuration</xs:documentation>
+                        </xs:annotation>
+                        <xs:complexType>
+                          <xs:complexContent>
+                            <xs:extension xmlns:wsc="http://www.mulesoft.org/schema/mule/wsc" base="wsc:org.mule.extension.ws.api.security.WssDecryptSecurityStrategyAdapter"></xs:extension>
+                          </xs:complexContent>
+                        </xs:complexType>
+                      </xs:element>
+                      <xs:element minOccurs="0" maxOccurs="1" name="encrypt-security-strategy">
+                        <xs:annotation>
+                          <xs:documentation>an encrypt WSS configuration</xs:documentation>
+                        </xs:annotation>
+                        <xs:complexType>
+                          <xs:complexContent>
+                            <xs:extension xmlns:wsc="http://www.mulesoft.org/schema/mule/wsc" base="wsc:org.mule.extension.ws.api.security.WssEncryptSecurityStrategyAdapter"></xs:extension>
+                          </xs:complexContent>
+                        </xs:complexType>
+                      </xs:element>
+                      <xs:element minOccurs="0" maxOccurs="1" name="incoming-timestamp-security-strategy">
+                        <xs:annotation>
+                          <xs:documentation>a timestamp verification WSS configuration</xs:documentation>
+                        </xs:annotation>
+                        <xs:complexType>
+                          <xs:complexContent>
+                            <xs:extension xmlns:wsc="http://www.mulesoft.org/schema/mule/wsc" base="wsc:org.mule.extension.ws.api.security.WssIncomingTimestampSecurityStrategyAdapter"></xs:extension>
+                          </xs:complexContent>
+                        </xs:complexType>
+                      </xs:element>
+                    </xs:sequence>
+                    <xs:attribute type="xs:string" use="optional" name="signSecurityStrategy">
+                      <xs:annotation>
+                        <xs:documentation>a sign WSS configuration</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="xs:string" use="optional" name="verifySignatureSecurityStrategy">
+                      <xs:annotation>
+                        <xs:documentation>a verify signature WSS configuration</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="xs:string" use="optional" name="usernameTokenSecurityStrategy">
+                      <xs:annotation>
+                        <xs:documentation>a usernameToken WSS configuration</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="xs:string" use="optional" name="timestampSecurityStrategy">
+                      <xs:annotation>
+                        <xs:documentation>a timestamp WSS configuration</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="xs:string" use="optional" name="decryptSecurityStrategy">
+                      <xs:annotation>
+                        <xs:documentation>a decrypt WSS configuration</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="xs:string" use="optional" name="encryptSecurityStrategy">
+                      <xs:annotation>
+                        <xs:documentation>an encrypt WSS configuration</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="xs:string" use="optional" name="incomingTimestampSecurityStrategy">
+                      <xs:annotation>
+                        <xs:documentation>a timestamp verification WSS configuration</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="mule:expressionBoolean" use="optional" default="true" name="mustUnderstand">
+                      <xs:annotation>
+                        <xs:documentation>Whether mustUnderstand attribute in wsse:Security header is true or false. &lt;p&gt; Defaults to true</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="mule:expressionString" use="optional" name="actor">
+                      <xs:annotation>
+                        <xs:documentation>A SOAP message may travel from a sender to a receiver by passing different endpoints along the message path. The SOAP actor attribute is used to address the wsse:Security header to a specific endpoint. &lt;p&gt; This parameter values must be a URI.</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                  </xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/wsc" type="org.mule.extension.ws.api.SoapVersionAdapterEnumType" use="optional" default="SOAP11" name="soapVersion">
+            <xs:annotation>
+              <xs:documentation>The soap version of the WSDL.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="mtomEnabled">
+            <xs:annotation>
+              <xs:documentation>If should use the MTOM protocol to manage the attachments or not.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="xs:string" use="optional" name="encoding">
+            <xs:annotation>
+              <xs:documentation>Default character encoding to be used in all the messages. If not specified, the default charset in the mule configuration will be used</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="xs:string" use="optional" name="customTransportConfiguration">
+            <xs:annotation>
+              <xs:documentation>The transport configuration used to dispatch the SOAP messages.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="wsdlLocation">
+            <xs:annotation>
+              <xs:documentation>The WSDL file URL remote or local.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="service">
+            <xs:annotation>
+              <xs:documentation>The service name.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="port">
+            <xs:annotation>
+              <xs:documentation>The port name.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="address">
+            <xs:annotation>
+              <xs:documentation>The address of the web service.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="org.mule.extension.ws.api.security.config.WssKeyStoreConfigurationAdapter">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:attribute type="mule:expressionString" use="required" name="keyStorePath"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="alias"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="password"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="keyPassword"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="jks" name="type"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="org.mule.extension.ws.api.security.config.WssPartAdapter">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/wsc" type="org.mule.extension.ws.api.security.Constants.SignEncodeConstantsEnumType" use="optional" default="CONTENT" name="encode"></xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="namespace"></xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="localname"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:wsc="http://www.mulesoft.org/schema/mule/wsc" type="wsc:org.mule.extension.ws.api.security.config.WssPartAdapter" abstract="true" name="abstract-wss-part"></xs:element>
+  <xs:element xmlns:wsc="http://www.mulesoft.org/schema/mule/wsc" substitutionGroup="wsc:abstract-wss-part" name="wss-part">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="wsc:org.mule.extension.ws.api.security.config.WssPartAdapter"></xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="org.mule.extension.ws.api.security.config.WssSignConfigurationAdapter">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" name="wss-parts">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element xmlns:wsc="http://www.mulesoft.org/schema/mule/wsc" minOccurs="0" maxOccurs="unbounded" ref="wsc:abstract-wss-part"></xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/wsc" type="org.mule.extension.ws.api.security.Constants.SignatureKeyIdentifierConstantsEnumType" use="optional" default="ISSUER_SERIAL" name="signatureKeyIdentifier"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/wsc" type="org.mule.extension.ws.api.security.Constants.SignatureAlgorithmConstantsEnumType" use="optional" name="signatureAlgorithm"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/wsc" type="org.mule.extension.ws.api.security.Constants.SignatureDigestAlgorithmConstantsEnumType" use="optional" default="SHA1" name="signatureDigestAlgorithm"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/wsc" type="org.mule.extension.ws.api.security.Constants.SignatureC14nAlgorithmConstantsEnumType" use="optional" default="ExclusiveXMLCanonicalization_1_0" name="signatureC14nAlgorithm"></xs:attribute>
+        <xs:attribute type="mule:substitutableName" use="optional" name="wss-parts"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="org.mule.extension.ws.api.security.WssSignSecurityStrategyAdapter">
+    <xs:annotation>
+      <xs:documentation>a sign WSS configuration</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" name="key-store-configuration">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension xmlns:wsc="http://www.mulesoft.org/schema/mule/wsc" base="wsc:org.mule.extension.ws.api.security.config.WssKeyStoreConfigurationAdapter"></xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="sign-algorithm-configuration">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension xmlns:wsc="http://www.mulesoft.org/schema/mule/wsc" base="wsc:org.mule.extension.ws.api.security.config.WssSignConfigurationAdapter"></xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="optional" name="keyStoreConfiguration"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="signAlgorithmConfiguration"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="org.mule.extension.ws.api.security.config.WssTrustStoreConfigurationAdapter">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:attribute type="mule:expressionString" use="required" name="trustStorePath"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="password"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="jks" name="type"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="org.mule.extension.ws.api.security.WssVerifySignatureSecurityStrategyAdapter">
+    <xs:annotation>
+      <xs:documentation>a verify signature WSS configuration</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" name="trust-store-configuration">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension xmlns:wsc="http://www.mulesoft.org/schema/mule/wsc" base="wsc:org.mule.extension.ws.api.security.config.WssTrustStoreConfigurationAdapter"></xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="optional" name="trustStoreConfiguration"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="org.mule.extension.ws.api.security.WssUsernameTokenSecurityStrategyAdapter">
+    <xs:annotation>
+      <xs:documentation>a usernameToken WSS configuration</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:attribute type="mule:expressionString" use="required" name="username"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="password"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/wsc" type="org.mule.extension.ws.api.security.PasswordTypeAdapterEnumType" use="optional" default="TEXT" name="passwordType"></xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="addNonce"></xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="addCreated"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="org.mule.extension.ws.api.security.WssTimestampSecurityStrategyAdapter">
+    <xs:annotation>
+      <xs:documentation>a timestamp WSS configuration</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:attribute type="mule:expressionLong" use="optional" default="60" name="timeToLive"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/wsc" type="java.util.concurrent.TimeUnitEnumType" use="optional" default="SECONDS" name="timeToLiveUnit"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="org.mule.extension.ws.api.security.WssDecryptSecurityStrategyAdapter">
+    <xs:annotation>
+      <xs:documentation>a decrypt WSS configuration</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" name="key-store-configuration">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension xmlns:wsc="http://www.mulesoft.org/schema/mule/wsc" base="wsc:org.mule.extension.ws.api.security.config.WssKeyStoreConfigurationAdapter"></xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="optional" name="keyStoreConfiguration"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="org.mule.extension.ws.api.security.config.WssEncryptionConfigurationAdapter">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" name="wss-part-adapters">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element xmlns:wsc="http://www.mulesoft.org/schema/mule/wsc" minOccurs="0" maxOccurs="unbounded" ref="wsc:abstract-wss-part"></xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/wsc" type="org.mule.extension.ws.api.security.Constants.EncryptionKeyIdentifierConstantsEnumType" use="optional" default="ISSUER_SERIAL" name="encryptionKeyIdentifier"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/wsc" type="org.mule.extension.ws.api.security.Constants.EncryptionSymAlgorithmConstantsEnumType" use="optional" default="AES_128" name="encryptionSymAlgorithm"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/wsc" type="org.mule.extension.ws.api.security.Constants.EncryptionKeyTransportAlgorithmConstantsEnumType" use="optional" default="KEYTRANSPORT_RSAOAEP" name="encryptionKeyTransportAlgorithm"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/wsc" type="org.mule.extension.ws.api.security.Constants.EncryptionDigestAlgorithmConstantsEnumType" use="optional" default="SHA1" name="encryptionDigestAlgorithm"></xs:attribute>
+        <xs:attribute type="mule:substitutableName" use="optional" name="wssPartAdapters"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="org.mule.extension.ws.api.security.WssEncryptSecurityStrategyAdapter">
+    <xs:annotation>
+      <xs:documentation>an encrypt WSS configuration</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" name="key-store-configuration">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension xmlns:wsc="http://www.mulesoft.org/schema/mule/wsc" base="wsc:org.mule.extension.ws.api.security.config.WssKeyStoreConfigurationAdapter"></xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="encryption-algorithms-configuration">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension xmlns:wsc="http://www.mulesoft.org/schema/mule/wsc" base="wsc:org.mule.extension.ws.api.security.config.WssEncryptionConfigurationAdapter"></xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="optional" name="keyStoreConfiguration"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="EncryptionAlgorithmsConfiguration"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="org.mule.extension.ws.api.security.WssIncomingTimestampSecurityStrategyAdapter">
+    <xs:annotation>
+      <xs:documentation>a timestamp verification WSS configuration</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:attribute type="mule:expressionLong" use="optional" default="60" name="futureTimeToLive"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/wsc" type="java.util.concurrent.TimeUnitEnumType" use="optional" default="SECONDS" name="futureTimeToLiveUnit"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/wsc" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ConsumeType" substitutionGroup="mule:abstract-operator" name="consume">
+    <xs:annotation>
+      <xs:documentation>Consumes an operation from a SOAP Web Service.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ConsumeType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="message">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension base="mule:abstractExtensionType">
+                  <xs:sequence>
+                    <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="body">
+                      <xs:annotation>
+                        <xs:documentation>The XML body to include in the SOAP message, with all the required parameters, or null if no params are required.</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="headers">
+                      <xs:annotation>
+                        <xs:documentation>The XML headers to include in the SOAP message.</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="attachments">
+                      <xs:annotation>
+                        <xs:documentation>The attachments to include in the SOAP request.</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="transport-headers">
+            <xs:annotation>
+              <xs:documentation>A group of transport headers that will be bounded with the transport request.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" name="transport-header">
+                  <xs:complexType>
+                    <xs:attribute type="mule:expressionString" use="required" name="key"></xs:attribute>
+                    <xs:attribute type="mule:expressionString" use="required" name="value"></xs:attribute>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="operation">
+          <xs:annotation>
+            <xs:documentation>the name of the web service operation that aims to invoke.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionMap" use="optional" name="transportHeaders">
+          <xs:annotation>
+            <xs:documentation>A group of transport headers that will be bounded with the transport request.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstractConnectionProvider" name="connection">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractConnectionProviderType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:reconnection"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="custom-transport-configuration">
+              <xs:annotation>
+                <xs:documentation>The transport configuration used to dispatch the SOAP messages.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:choice minOccurs="1" maxOccurs="1">
+                  <xs:element xmlns:wsc="http://www.mulesoft.org/schema/mule/wsc" minOccurs="1" maxOccurs="1" ref="wsc:abstract-custom-transport-configuration"></xs:element>
+                  <xs:element xmlns:wsc="http://www.mulesoft.org/schema/mule/wsc" minOccurs="1" maxOccurs="1" ref="wsc:global-abstract-custom-transport-configuration"></xs:element>
+                </xs:choice>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="web-service-security">
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension base="mule:abstractExtensionType">
+                    <xs:sequence>
+                      <xs:element minOccurs="0" maxOccurs="1" name="sign-security-strategy">
+                        <xs:annotation>
+                          <xs:documentation>a sign WSS configuration</xs:documentation>
+                        </xs:annotation>
+                        <xs:complexType>
+                          <xs:complexContent>
+                            <xs:extension xmlns:wsc="http://www.mulesoft.org/schema/mule/wsc" base="wsc:org.mule.extension.ws.api.security.WssSignSecurityStrategyAdapter"></xs:extension>
+                          </xs:complexContent>
+                        </xs:complexType>
+                      </xs:element>
+                      <xs:element minOccurs="0" maxOccurs="1" name="verify-signature-security-strategy">
+                        <xs:annotation>
+                          <xs:documentation>a verify signature WSS configuration</xs:documentation>
+                        </xs:annotation>
+                        <xs:complexType>
+                          <xs:complexContent>
+                            <xs:extension xmlns:wsc="http://www.mulesoft.org/schema/mule/wsc" base="wsc:org.mule.extension.ws.api.security.WssVerifySignatureSecurityStrategyAdapter"></xs:extension>
+                          </xs:complexContent>
+                        </xs:complexType>
+                      </xs:element>
+                      <xs:element minOccurs="0" maxOccurs="1" name="username-token-security-strategy">
+                        <xs:annotation>
+                          <xs:documentation>a usernameToken WSS configuration</xs:documentation>
+                        </xs:annotation>
+                        <xs:complexType>
+                          <xs:complexContent>
+                            <xs:extension xmlns:wsc="http://www.mulesoft.org/schema/mule/wsc" base="wsc:org.mule.extension.ws.api.security.WssUsernameTokenSecurityStrategyAdapter"></xs:extension>
+                          </xs:complexContent>
+                        </xs:complexType>
+                      </xs:element>
+                      <xs:element minOccurs="0" maxOccurs="1" name="timestamp-security-strategy">
+                        <xs:annotation>
+                          <xs:documentation>a timestamp WSS configuration</xs:documentation>
+                        </xs:annotation>
+                        <xs:complexType>
+                          <xs:complexContent>
+                            <xs:extension xmlns:wsc="http://www.mulesoft.org/schema/mule/wsc" base="wsc:org.mule.extension.ws.api.security.WssTimestampSecurityStrategyAdapter"></xs:extension>
+                          </xs:complexContent>
+                        </xs:complexType>
+                      </xs:element>
+                      <xs:element minOccurs="0" maxOccurs="1" name="decrypt-security-strategy">
+                        <xs:annotation>
+                          <xs:documentation>a decrypt WSS configuration</xs:documentation>
+                        </xs:annotation>
+                        <xs:complexType>
+                          <xs:complexContent>
+                            <xs:extension xmlns:wsc="http://www.mulesoft.org/schema/mule/wsc" base="wsc:org.mule.extension.ws.api.security.WssDecryptSecurityStrategyAdapter"></xs:extension>
+                          </xs:complexContent>
+                        </xs:complexType>
+                      </xs:element>
+                      <xs:element minOccurs="0" maxOccurs="1" name="encrypt-security-strategy">
+                        <xs:annotation>
+                          <xs:documentation>an encrypt WSS configuration</xs:documentation>
+                        </xs:annotation>
+                        <xs:complexType>
+                          <xs:complexContent>
+                            <xs:extension xmlns:wsc="http://www.mulesoft.org/schema/mule/wsc" base="wsc:org.mule.extension.ws.api.security.WssEncryptSecurityStrategyAdapter"></xs:extension>
+                          </xs:complexContent>
+                        </xs:complexType>
+                      </xs:element>
+                      <xs:element minOccurs="0" maxOccurs="1" name="incoming-timestamp-security-strategy">
+                        <xs:annotation>
+                          <xs:documentation>a timestamp verification WSS configuration</xs:documentation>
+                        </xs:annotation>
+                        <xs:complexType>
+                          <xs:complexContent>
+                            <xs:extension xmlns:wsc="http://www.mulesoft.org/schema/mule/wsc" base="wsc:org.mule.extension.ws.api.security.WssIncomingTimestampSecurityStrategyAdapter"></xs:extension>
+                          </xs:complexContent>
+                        </xs:complexType>
+                      </xs:element>
+                    </xs:sequence>
+                    <xs:attribute type="xs:string" use="optional" name="signSecurityStrategy">
+                      <xs:annotation>
+                        <xs:documentation>a sign WSS configuration</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="xs:string" use="optional" name="verifySignatureSecurityStrategy">
+                      <xs:annotation>
+                        <xs:documentation>a verify signature WSS configuration</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="xs:string" use="optional" name="usernameTokenSecurityStrategy">
+                      <xs:annotation>
+                        <xs:documentation>a usernameToken WSS configuration</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="xs:string" use="optional" name="timestampSecurityStrategy">
+                      <xs:annotation>
+                        <xs:documentation>a timestamp WSS configuration</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="xs:string" use="optional" name="decryptSecurityStrategy">
+                      <xs:annotation>
+                        <xs:documentation>a decrypt WSS configuration</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="xs:string" use="optional" name="encryptSecurityStrategy">
+                      <xs:annotation>
+                        <xs:documentation>an encrypt WSS configuration</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="xs:string" use="optional" name="incomingTimestampSecurityStrategy">
+                      <xs:annotation>
+                        <xs:documentation>a timestamp verification WSS configuration</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="mule:expressionBoolean" use="optional" default="true" name="mustUnderstand">
+                      <xs:annotation>
+                        <xs:documentation>Whether mustUnderstand attribute in wsse:Security header is true or false. &lt;p&gt; Defaults to true</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="mule:expressionString" use="optional" name="actor">
+                      <xs:annotation>
+                        <xs:documentation>A SOAP message may travel from a sender to a receiver by passing different endpoints along the message path. The SOAP actor attribute is used to address the wsse:Security header to a specific endpoint. &lt;p&gt; This parameter values must be a URI.</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                  </xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/wsc" type="org.mule.extension.ws.api.SoapVersionAdapterEnumType" use="optional" default="SOAP11" name="soapVersion">
+            <xs:annotation>
+              <xs:documentation>The soap version of the WSDL.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="mtomEnabled">
+            <xs:annotation>
+              <xs:documentation>If should use the MTOM protocol to manage the attachments or not.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="xs:string" use="optional" name="encoding">
+            <xs:annotation>
+              <xs:documentation>Default character encoding to be used in all the messages. If not specified, the default charset in the mule configuration will be used</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="xs:string" use="optional" name="customTransportConfiguration">
+            <xs:annotation>
+              <xs:documentation>The transport configuration used to dispatch the SOAP messages.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="wsdlLocation">
+            <xs:annotation>
+              <xs:documentation>The WSDL file URL remote or local.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="service">
+            <xs:annotation>
+              <xs:documentation>The service name.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="port">
+            <xs:annotation>
+              <xs:documentation>The port name.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="address">
+            <xs:annotation>
+              <xs:documentation>The address of the web service.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:simpleType name="org.mule.extension.ws.api.SoapVersionAdapterEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="SOAP11"></xs:enumeration>
+          <xs:enumeration value="SOAP12"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="org.mule.extension.ws.api.security.Constants.SignatureKeyIdentifierConstantsEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="ISSUER_SERIAL"></xs:enumeration>
+          <xs:enumeration value="DIRECT_REFERENCE"></xs:enumeration>
+          <xs:enumeration value="X509_KEY_IDENTIFIER"></xs:enumeration>
+          <xs:enumeration value="THUMBPRINT"></xs:enumeration>
+          <xs:enumeration value="SKI_KEY_IDENTIFIER"></xs:enumeration>
+          <xs:enumeration value="KEY_VALUE"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="org.mule.extension.ws.api.security.Constants.SignatureAlgorithmConstantsEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="RSAwithSHA256"></xs:enumeration>
+          <xs:enumeration value="ECDSAwithSHA256"></xs:enumeration>
+          <xs:enumeration value="DSAwithSHA1"></xs:enumeration>
+          <xs:enumeration value="RSAwithSHA1"></xs:enumeration>
+          <xs:enumeration value="RSAwithSHA224"></xs:enumeration>
+          <xs:enumeration value="RSAwithSHA384"></xs:enumeration>
+          <xs:enumeration value="RSAwithSHA512"></xs:enumeration>
+          <xs:enumeration value="ECDSAwithSHA1"></xs:enumeration>
+          <xs:enumeration value="ECDSAwithSHA224"></xs:enumeration>
+          <xs:enumeration value="ECDSAwithSHA384"></xs:enumeration>
+          <xs:enumeration value="ECDSAwithSHA512"></xs:enumeration>
+          <xs:enumeration value="DSAwithSHA256"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="org.mule.extension.ws.api.security.Constants.SignatureDigestAlgorithmConstantsEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="SHA1"></xs:enumeration>
+          <xs:enumeration value="SHA256"></xs:enumeration>
+          <xs:enumeration value="SHA224"></xs:enumeration>
+          <xs:enumeration value="SHA384"></xs:enumeration>
+          <xs:enumeration value="SHA512"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="org.mule.extension.ws.api.security.Constants.SignatureC14nAlgorithmConstantsEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="CanonicalXML_1_0"></xs:enumeration>
+          <xs:enumeration value="CanonicalXML_1_1"></xs:enumeration>
+          <xs:enumeration value="ExclusiveXMLCanonicalization_1_0"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="org.mule.extension.ws.api.security.Constants.SignEncodeConstantsEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="ELEMENT"></xs:enumeration>
+          <xs:enumeration value="CONTENT"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="org.mule.extension.ws.api.security.PasswordTypeAdapterEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="DIGEST"></xs:enumeration>
+          <xs:enumeration value="TEXT"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="java.util.concurrent.TimeUnitEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="NANOSECONDS"></xs:enumeration>
+          <xs:enumeration value="MICROSECONDS"></xs:enumeration>
+          <xs:enumeration value="MILLISECONDS"></xs:enumeration>
+          <xs:enumeration value="SECONDS"></xs:enumeration>
+          <xs:enumeration value="MINUTES"></xs:enumeration>
+          <xs:enumeration value="HOURS"></xs:enumeration>
+          <xs:enumeration value="DAYS"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="org.mule.extension.ws.api.security.Constants.EncryptionKeyIdentifierConstantsEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="ISSUER_SERIAL"></xs:enumeration>
+          <xs:enumeration value="DIRECT_REFERENCE"></xs:enumeration>
+          <xs:enumeration value="X509_KEY_IDENTIFIER"></xs:enumeration>
+          <xs:enumeration value="THUMBPRINT"></xs:enumeration>
+          <xs:enumeration value="SKI_KEY_IDENTIFIER"></xs:enumeration>
+          <xs:enumeration value="ENCRYPTED_KEY_SHA1"></xs:enumeration>
+          <xs:enumeration value="EMBEDDED_KEY_NAME"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="org.mule.extension.ws.api.security.Constants.EncryptionSymAlgorithmConstantsEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="TRIPLE_DES"></xs:enumeration>
+          <xs:enumeration value="AES_128"></xs:enumeration>
+          <xs:enumeration value="AES_256"></xs:enumeration>
+          <xs:enumeration value="AES_192"></xs:enumeration>
+          <xs:enumeration value="AES_128_GCM"></xs:enumeration>
+          <xs:enumeration value="AES_192_GCM"></xs:enumeration>
+          <xs:enumeration value="AES_256_GCM"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="org.mule.extension.ws.api.security.Constants.EncryptionKeyTransportAlgorithmConstantsEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="KEYTRANSPORT_RSA15"></xs:enumeration>
+          <xs:enumeration value="KEYTRANSPORT_RSAOAEP"></xs:enumeration>
+          <xs:enumeration value="KEYTRANSPORT_RSAOAEP_XENC11"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="org.mule.extension.ws.api.security.Constants.EncryptionDigestAlgorithmConstantsEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="SHA1"></xs:enumeration>
+          <xs:enumeration value="SHA256"></xs:enumeration>
+          <xs:enumeration value="SHA384"></xs:enumeration>
+          <xs:enumeration value="SHA512"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+</xs:schema>

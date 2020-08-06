@@ -1,0 +1,972 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:mule="http://www.mulesoft.org/schema/mule/core" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.mulesoft.org/schema/mule/http" attributeFormDefault="unqualified" elementFormDefault="qualified">
+  <xs:import namespace="http://www.w3.org/XML/1998/namespace"></xs:import>
+  <xs:import namespace="http://www.springframework.org/schema/beans" schemaLocation="http://www.springframework.org/schema/beans/spring-beans.xsd"></xs:import>
+  <xs:import namespace="http://www.mulesoft.org/schema/mule/core" schemaLocation="http://www.mulesoft.org/schema/mule/core/current/mule.xsd"></xs:import>
+  <xs:import namespace="http://www.mulesoft.org/schema/mule/sockets" schemaLocation="http://www.mulesoft.org/schema/mule/sockets/current/mule-sockets.xsd"></xs:import>
+  <xs:import namespace="http://www.mulesoft.org/schema/mule/tls" schemaLocation="http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd"></xs:import>
+  <xs:complexType name="org.mule.extension.http.api.request.authentication.HttpRequestAuthentication">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType"></xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" type="http:org.mule.extension.http.api.request.authentication.HttpRequestAuthentication" substitutionGroup="mule:abstract-shared-extension" abstract="true" name="global-abstract-http-request-authentication"></xs:element>
+  <xs:element xmlns:http="http://www.mulesoft.org/schema/mule/http" type="http:org.mule.extension.http.api.request.authentication.HttpRequestAuthentication" abstract="true" name="abstract-http-request-authentication"></xs:element>
+  <xs:complexType name="org.mule.extension.http.api.request.authentication.BasicAuthentication">
+    <xs:complexContent>
+      <xs:extension xmlns:http="http://www.mulesoft.org/schema/mule/http" base="http:org.mule.extension.http.api.request.authentication.HttpRequestAuthentication">
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="required" name="username"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="required" name="password"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionBoolean" use="optional" default="true" name="preemptive"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:http="http://www.mulesoft.org/schema/mule/http" type="http:org.mule.extension.http.api.request.authentication.BasicAuthentication" substitutionGroup="http:abstract-http-request-authentication" abstract="true" name="abstract-basic-authentication"></xs:element>
+  <xs:element xmlns:http="http://www.mulesoft.org/schema/mule/http" substitutionGroup="http:abstract-basic-authentication" name="basic-authentication">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="http:org.mule.extension.http.api.request.authentication.BasicAuthentication"></xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="org.mule.extension.http.api.request.authentication.DigestAuthentication">
+    <xs:complexContent>
+      <xs:extension xmlns:http="http://www.mulesoft.org/schema/mule/http" base="http:org.mule.extension.http.api.request.authentication.HttpRequestAuthentication">
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="required" name="username"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="required" name="password"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionBoolean" use="optional" default="true" name="preemptive"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:http="http://www.mulesoft.org/schema/mule/http" type="http:org.mule.extension.http.api.request.authentication.DigestAuthentication" substitutionGroup="http:abstract-http-request-authentication" abstract="true" name="abstract-digest-authentication"></xs:element>
+  <xs:element xmlns:http="http://www.mulesoft.org/schema/mule/http" substitutionGroup="http:abstract-digest-authentication" name="digest-authentication">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="http:org.mule.extension.http.api.request.authentication.DigestAuthentication"></xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="org.mule.extension.http.api.request.authentication.NtlmAuthentication">
+    <xs:complexContent>
+      <xs:extension xmlns:http="http://www.mulesoft.org/schema/mule/http" base="http:org.mule.extension.http.api.request.authentication.HttpRequestAuthentication">
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="optional" name="domain"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="optional" name="workstation"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="required" name="username"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="required" name="password"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionBoolean" use="optional" default="true" name="preemptive"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:http="http://www.mulesoft.org/schema/mule/http" type="http:org.mule.extension.http.api.request.authentication.NtlmAuthentication" substitutionGroup="http:abstract-http-request-authentication" abstract="true" name="abstract-ntlm-authentication"></xs:element>
+  <xs:element xmlns:http="http://www.mulesoft.org/schema/mule/http" substitutionGroup="http:abstract-ntlm-authentication" name="ntlm-authentication">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="http:org.mule.extension.http.api.request.authentication.NtlmAuthentication"></xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="org.mule.extension.http.api.request.proxy.HttpProxyConfig">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType"></xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" type="http:org.mule.extension.http.api.request.proxy.HttpProxyConfig" substitutionGroup="mule:abstract-shared-extension" abstract="true" name="global-abstract-http-proxy-config"></xs:element>
+  <xs:element xmlns:http="http://www.mulesoft.org/schema/mule/http" type="http:org.mule.extension.http.api.request.proxy.HttpProxyConfig" abstract="true" name="abstract-http-proxy-config"></xs:element>
+  <xs:complexType name="org.mule.extension.http.api.request.proxy.DefaultProxyConfig">
+    <xs:complexContent>
+      <xs:extension xmlns:http="http://www.mulesoft.org/schema/mule/http" base="http:org.mule.extension.http.api.request.proxy.HttpProxyConfig">
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="required" name="host"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionInt" use="required" name="port"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="optional" name="username"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="optional" name="password"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="optional" name="nonProxyHosts"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:http="http://www.mulesoft.org/schema/mule/http" substitutionGroup="http:global-abstract-http-proxy-config" abstract="true" name="abstract-proxy"></xs:element>
+  <xs:element xmlns:http="http://www.mulesoft.org/schema/mule/http" substitutionGroup="http:abstract-proxy" name="proxy">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="http:org.mule.extension.http.api.request.proxy.DefaultProxyConfig">
+          <xs:attribute type="xs:string" use="optional" name="name"></xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="org.mule.extension.http.api.request.proxy.DefaultNtlmProxyConfig">
+    <xs:complexContent>
+      <xs:extension xmlns:http="http://www.mulesoft.org/schema/mule/http" base="http:org.mule.extension.http.api.request.proxy.HttpProxyConfig">
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="required" name="ntlmDomain"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="required" name="host"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionInt" use="required" name="port"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="optional" name="username"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="optional" name="password"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="optional" name="nonProxyHosts"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:http="http://www.mulesoft.org/schema/mule/http" substitutionGroup="http:global-abstract-http-proxy-config" abstract="true" name="abstract-ntlm-proxy"></xs:element>
+  <xs:element xmlns:http="http://www.mulesoft.org/schema/mule/http" substitutionGroup="http:abstract-ntlm-proxy" name="ntlm-proxy">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="http:org.mule.extension.http.api.request.proxy.DefaultNtlmProxyConfig">
+          <xs:attribute type="xs:string" use="optional" name="name"></xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="org.mule.extension.http.api.request.validator.ResponseValidator">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType"></xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" type="http:org.mule.extension.http.api.request.validator.ResponseValidator" substitutionGroup="mule:abstract-shared-extension" abstract="true" name="global-abstract-response-validator"></xs:element>
+  <xs:element xmlns:http="http://www.mulesoft.org/schema/mule/http" type="http:org.mule.extension.http.api.request.validator.ResponseValidator" abstract="true" name="abstract-response-validator"></xs:element>
+  <xs:complexType name="org.mule.extension.http.api.request.validator.SuccessStatusCodeValidator">
+    <xs:complexContent>
+      <xs:extension xmlns:http="http://www.mulesoft.org/schema/mule/http" base="http:org.mule.extension.http.api.request.validator.ResponseValidator">
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="required" name="values"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:http="http://www.mulesoft.org/schema/mule/http" type="http:org.mule.extension.http.api.request.validator.SuccessStatusCodeValidator" substitutionGroup="http:abstract-response-validator" abstract="true" name="abstract-success-status-code-validator"></xs:element>
+  <xs:element xmlns:http="http://www.mulesoft.org/schema/mule/http" substitutionGroup="http:abstract-success-status-code-validator" name="success-status-code-validator">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="http:org.mule.extension.http.api.request.validator.SuccessStatusCodeValidator"></xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="org.mule.extension.http.api.request.validator.FailureStatusCodeValidator">
+    <xs:complexContent>
+      <xs:extension xmlns:http="http://www.mulesoft.org/schema/mule/http" base="http:org.mule.extension.http.api.request.validator.ResponseValidator">
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="required" name="values"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:http="http://www.mulesoft.org/schema/mule/http" type="http:org.mule.extension.http.api.request.validator.FailureStatusCodeValidator" substitutionGroup="http:abstract-response-validator" abstract="true" name="abstract-failure-status-code-validator"></xs:element>
+  <xs:element xmlns:http="http://www.mulesoft.org/schema/mule/http" substitutionGroup="http:abstract-failure-status-code-validator" name="failure-status-code-validator">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="http:org.mule.extension.http.api.request.validator.FailureStatusCodeValidator"></xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="org.mule.modules.cors.api.configuration.origin.Origin">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType"></xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" type="http:org.mule.modules.cors.api.configuration.origin.Origin" substitutionGroup="mule:abstract-shared-extension" abstract="true" name="global-abstract-abstract-origin"></xs:element>
+  <xs:element xmlns:http="http://www.mulesoft.org/schema/mule/http" type="http:org.mule.modules.cors.api.configuration.origin.Origin" abstract="true" name="abstract-abstract-origin"></xs:element>
+  <xs:complexType name="org.mule.modules.cors.api.configuration.origin.EveryOrigin">
+    <xs:complexContent>
+      <xs:extension xmlns:http="http://www.mulesoft.org/schema/mule/http" base="http:org.mule.modules.cors.api.configuration.origin.Origin"></xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:http="http://www.mulesoft.org/schema/mule/http" type="http:org.mule.modules.cors.api.configuration.origin.EveryOrigin" substitutionGroup="http:abstract-abstract-origin" abstract="true" name="abstract-public-resource"></xs:element>
+  <xs:element xmlns:http="http://www.mulesoft.org/schema/mule/http" substitutionGroup="http:abstract-public-resource" name="public-resource">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="http:org.mule.modules.cors.api.configuration.origin.EveryOrigin"></xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="org.mule.modules.cors.configuration.Method">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:attribute type="mule:expressionString" use="required" name="methodName"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:http="http://www.mulesoft.org/schema/mule/http" type="http:org.mule.modules.cors.configuration.Method" abstract="true" name="abstract-method"></xs:element>
+  <xs:element xmlns:http="http://www.mulesoft.org/schema/mule/http" substitutionGroup="http:abstract-method" name="method">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="http:org.mule.modules.cors.configuration.Method"></xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="org.mule.modules.cors.configuration.Header">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:attribute type="mule:expressionString" use="required" name="headerName"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:http="http://www.mulesoft.org/schema/mule/http" type="http:org.mule.modules.cors.configuration.Header" abstract="true" name="abstract-header"></xs:element>
+  <xs:element xmlns:http="http://www.mulesoft.org/schema/mule/http" substitutionGroup="http:abstract-header" name="header">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="http:org.mule.modules.cors.configuration.Header"></xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="org.mule.modules.cors.api.configuration.origin.SingleOrigin">
+    <xs:complexContent>
+      <xs:extension xmlns:http="http://www.mulesoft.org/schema/mule/http" base="http:org.mule.modules.cors.api.configuration.origin.Origin">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" name="allowed-methods">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="http:abstract-method"></xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="allowed-headers">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="http:abstract-header"></xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="expose-headers">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="http:abstract-header"></xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="required" name="url"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionLong" use="required" name="accessControlMaxAge"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionList" use="optional" name="allowedMethods"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionList" use="optional" name="allowedHeaders"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionList" use="optional" name="exposeHeaders"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:http="http://www.mulesoft.org/schema/mule/http" type="http:org.mule.modules.cors.api.configuration.origin.SingleOrigin" substitutionGroup="http:abstract-abstract-origin" abstract="true" name="abstract-origin"></xs:element>
+  <xs:element xmlns:http="http://www.mulesoft.org/schema/mule/http" substitutionGroup="http:abstract-origin" name="origin">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="http:org.mule.modules.cors.api.configuration.origin.SingleOrigin"></xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstract-shared-extension" name="listener-config">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractExtensionType">
+          <xs:annotation>
+            <xs:documentation>Configuration element for a HttpListener.</xs:documentation>
+          </xs:annotation>
+          <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element minOccurs="1" maxOccurs="1" ref="mule:abstractConnectionProvider"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="listener-interceptors">
+              <xs:annotation>
+                <xs:documentation>Listener interceptors that will apply on request and on response events.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension xmlns:http="http://www.mulesoft.org/schema/mule/http" base="http:org.mule.extension.http.api.listener.intercepting.cors.CorsInterceptorWrapper"></xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute type="xs:string" use="optional" name="basePath">
+            <xs:annotation>
+              <xs:documentation>Base path to use for all requests that reference this config.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="xs:string" use="optional" name="listenerInterceptors">
+            <xs:annotation>
+              <xs:documentation>Listener interceptors that will apply on request and on response events.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="xs:string" use="required" name="name">
+            <xs:annotation>
+              <xs:documentation>The identifier of this element used to reference it in other components</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="org.mule.extension.http.api.listener.intercepting.cors.CorsListenerInterceptor">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" name="origins">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                  <xs:element xmlns:http="http://www.mulesoft.org/schema/mule/http" minOccurs="1" maxOccurs="1" ref="http:abstract-abstract-origin"></xs:element>
+                  <xs:element xmlns:http="http://www.mulesoft.org/schema/mule/http" minOccurs="1" maxOccurs="1" ref="http:global-abstract-abstract-origin"></xs:element>
+                </xs:choice>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="allowCredentials"></xs:attribute>
+        <xs:attribute type="mule:expressionList" use="optional" name="origins"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="org.mule.extension.http.api.listener.intercepting.cors.CorsInterceptorWrapper">
+    <xs:annotation>
+      <xs:documentation>Listener interceptors that will apply on request and on response events.</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" name="cors-interceptor">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension xmlns:http="http://www.mulesoft.org/schema/mule/http" base="http:org.mule.extension.http.api.listener.intercepting.cors.CorsListenerInterceptor"></xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="optional" name="corsInterceptor"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstractConnectionProvider" name="listener-connection">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractConnectionProviderType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:reconnection"></xs:element>
+            <xs:element xmlns:tls="http://www.mulesoft.org/schema/mule/tls" minOccurs="0" maxOccurs="1" ref="tls:context"></xs:element>
+          </xs:sequence>
+          <xs:attribute type="xs:string" use="optional" name="tlsContext"></xs:attribute>
+          <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/http" type="org.mule.runtime.http.api.HttpConstants.ProtocolEnumType" use="optional" default="HTTP" name="protocol">
+            <xs:annotation>
+              <xs:documentation>Protocol to use for communication. Valid values are HTTP and HTTPS. Default value is HTTP. When using HTTPS the HTTP communication is going to be secured using TLS / SSL. If HTTPS was configured as protocol then the user needs to configure at least the keystore in the tls:context child element of this listener-config.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="xs:string" use="required" name="host">
+            <xs:annotation>
+              <xs:documentation>Host where the requests will be sent.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:substitutableInt" use="required" name="port">
+            <xs:annotation>
+              <xs:documentation>Port where the requests will be received.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:substitutableBoolean" use="optional" default="true" name="usePersistentConnections">
+            <xs:annotation>
+              <xs:documentation>If false, each connection will be closed after the first request is completed.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:substitutableInt" use="optional" default="30000" name="connectionIdleTimeout">
+            <xs:annotation>
+              <xs:documentation>The number of milliseconds that a connection can remain idle before it is closed. The value of this attribute is only used when persistent connections are enabled.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/http" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ListenerType" substitutionGroup="mule:abstract-message-source" name="listener">
+    <xs:annotation>
+      <xs:documentation>Represents a listener for HTTP requests.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ListenerType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageSourceType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-redelivery-policy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="response">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension base="mule:abstractExtensionType">
+                  <xs:sequence>
+                    <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="body">
+                      <xs:annotation>
+                        <xs:documentation>The body of the response message.</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="headers">
+                      <xs:annotation>
+                        <xs:documentation>HTTP headers the message should include.</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute type="mule:expressionInt" use="optional" name="statusCode">
+                    <xs:annotation>
+                      <xs:documentation>HTTP status code the response should have.</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute type="mule:expressionString" use="optional" name="reasonPhrase">
+                    <xs:annotation>
+                      <xs:documentation>HTTP reason phrase the response should have.</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                </xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="error-response">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension base="mule:abstractExtensionType">
+                  <xs:sequence>
+                    <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="body">
+                      <xs:annotation>
+                        <xs:documentation>The body of the response message.</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="headers">
+                      <xs:annotation>
+                        <xs:documentation>HTTP headers the message should include.</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute type="mule:expressionInt" use="optional" name="statusCode">
+                    <xs:annotation>
+                      <xs:documentation>HTTP status code the response should have.</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute type="mule:expressionString" use="optional" name="reasonPhrase">
+                    <xs:annotation>
+                      <xs:documentation>HTTP reason phrase the response should have.</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                </xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="required" name="path">
+          <xs:annotation>
+            <xs:documentation>Relative path from the path set in the HTTP Listener configuration</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="allowedMethods">
+          <xs:annotation>
+            <xs:documentation>Comma separated list of allowed HTTP methods by this listener. To allow all methods do not defined the attribute.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/http" type="org.mule.extension.http.api.streaming.HttpStreamingTypeEnumType" use="optional" default="AUTO" name="responseStreamingMode">
+          <xs:annotation>
+            <xs:documentation>Defines if the response should be sent using streaming or not. If this attribute is not present, the behavior will depend on the type of the payload (it will stream only for InputStream). If set to true, it will always stream. If set to false, it will never stream. As streaming is done the response will be sent user Transfer-Encoding: chunked.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="outputMimeType">
+          <xs:annotation>
+            <xs:documentation>The mime type of the payload that this operation outputs.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="outputEncoding">
+          <xs:annotation>
+            <xs:documentation>The encoding of the payload that this operation outputs.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:substitutableBoolean" use="optional" name="primaryNodeOnly">
+          <xs:annotation>
+            <xs:documentation>Whether this source should only be executed on the primary node when runnning in Cluster</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstract-shared-extension" name="request-config">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractExtensionType">
+          <xs:annotation>
+            <xs:documentation>Configuration element for a HTTP requests.</xs:documentation>
+          </xs:annotation>
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstractConnectionProvider"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:expiration-policy"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="default-headers">
+              <xs:annotation>
+                <xs:documentation>Default HTTP headers the message should include.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element xmlns:http="http://www.mulesoft.org/schema/mule/http" minOccurs="0" maxOccurs="unbounded" ref="http:abstract-default-header"></xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="default-query-params">
+              <xs:annotation>
+                <xs:documentation>Default Query parameters the request should include.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element xmlns:http="http://www.mulesoft.org/schema/mule/http" minOccurs="0" maxOccurs="unbounded" ref="http:abstract-query-param"></xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="response-validator">
+              <xs:annotation>
+                <xs:documentation>Configures a default error handling of the response.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:choice minOccurs="1" maxOccurs="1">
+                  <xs:element xmlns:http="http://www.mulesoft.org/schema/mule/http" minOccurs="1" maxOccurs="1" ref="http:abstract-response-validator"></xs:element>
+                  <xs:element xmlns:http="http://www.mulesoft.org/schema/mule/http" minOccurs="1" maxOccurs="1" ref="http:global-abstract-response-validator"></xs:element>
+                </xs:choice>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute type="xs:string" use="required" name="name">
+            <xs:annotation>
+              <xs:documentation>The identifier of this element used to reference it in other components</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" default="/" name="basePath">
+            <xs:annotation>
+              <xs:documentation>Base path to use for all requests that reference this config.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionBoolean" use="optional" default="true" name="followRedirects">
+            <xs:annotation>
+              <xs:documentation>Specifies whether to follow redirects or not. Default value is true.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/http" type="org.mule.extension.http.api.request.HttpSendBodyModeEnumType" use="optional" default="AUTO" name="sendBodyMode">
+            <xs:annotation>
+              <xs:documentation>Defines if the request should contain a body or not. If AUTO, it will depend on the method (GET, HEAD and OPTIONS will not send a body).</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/http" type="org.mule.extension.http.api.streaming.HttpStreamingTypeEnumType" use="optional" default="AUTO" name="requestStreamingMode">
+            <xs:annotation>
+              <xs:documentation>Defines if the request should be sent using streaming or not. If this attribute is not present, the behavior will depend on the type of the payload (it will stream only for InputStream). If set to true, it will always stream. If set to false, it will never stream. As streaming is done the request will be sent user Transfer-Encoding: chunked.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:substitutableBoolean" use="optional" default="true" name="enableCookies">
+            <xs:annotation>
+              <xs:documentation>If true, cookies received in HTTP responses will be stored, and sent in subsequent HTTP requests.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionList" use="optional" name="defaultHeaders">
+            <xs:annotation>
+              <xs:documentation>Default HTTP headers the message should include.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionList" use="optional" name="defaultQueryParams">
+            <xs:annotation>
+              <xs:documentation>Default Query parameters the request should include.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/http" type="org.mule.runtime.extension.api.runtime.parameter.OutboundCorrelationStrategyEnumType" use="optional" default="AUTO" name="sendCorrelationId">
+            <xs:annotation>
+              <xs:documentation>Whether to specify a correlationId when publishing messages. This applies both for custom correlation ids specifies at the operation level and for default correlation Ids taken from the current event</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="preserveHeadersCase">
+            <xs:annotation>
+              <xs:documentation>By default, header keys are stored internally in lower-case. This is to improve performance of headers handling and is functionally correct as specified in the RFC. &lt;p&gt; In the case a server expects headers in a specific case, this flag may be set to true so the case of the header keys are preserved.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="optional" name="responseTimeout">
+            <xs:annotation>
+              <xs:documentation>Maximum time that the request element will block the execution of the flow waiting for the HTTP response. If this value is not present, the default response timeout from the Mule configuration will be used.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="xs:string" use="optional" name="responseValidator">
+            <xs:annotation>
+              <xs:documentation>Configures a default error handling of the response.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="org.mule.extension.http.api.request.builder.RequestHeader">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:attribute type="mule:expressionString" use="required" name="key"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="value"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:http="http://www.mulesoft.org/schema/mule/http" type="http:org.mule.extension.http.api.request.builder.RequestHeader" abstract="true" name="abstract-default-header"></xs:element>
+  <xs:element xmlns:http="http://www.mulesoft.org/schema/mule/http" substitutionGroup="http:abstract-default-header" name="default-header">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="http:org.mule.extension.http.api.request.builder.RequestHeader"></xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="org.mule.extension.http.api.request.builder.QueryParam">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:attribute type="mule:expressionString" use="required" name="key"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="value"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:http="http://www.mulesoft.org/schema/mule/http" type="http:org.mule.extension.http.api.request.builder.QueryParam" abstract="true" name="abstract-query-param"></xs:element>
+  <xs:element xmlns:http="http://www.mulesoft.org/schema/mule/http" substitutionGroup="http:abstract-query-param" name="query-param">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="http:org.mule.extension.http.api.request.builder.QueryParam"></xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstractConnectionProvider" name="request-connection">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractConnectionProviderType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:reconnection"></xs:element>
+            <xs:element xmlns:tls="http://www.mulesoft.org/schema/mule/tls" minOccurs="0" maxOccurs="1" ref="tls:context"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="proxy-config">
+              <xs:annotation>
+                <xs:documentation>Reusable configuration element for outbound connections through a proxy. A proxy element must define a host name and a port attributes, and optionally can define a username and a password.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:choice minOccurs="1" maxOccurs="1">
+                  <xs:element xmlns:http="http://www.mulesoft.org/schema/mule/http" minOccurs="1" maxOccurs="1" ref="http:abstract-http-proxy-config"></xs:element>
+                  <xs:element xmlns:http="http://www.mulesoft.org/schema/mule/http" minOccurs="1" maxOccurs="1" ref="http:global-abstract-http-proxy-config"></xs:element>
+                </xs:choice>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="authentication">
+              <xs:annotation>
+                <xs:documentation>Authentication method to use for the HTTP request.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:choice minOccurs="1" maxOccurs="1">
+                  <xs:element xmlns:http="http://www.mulesoft.org/schema/mule/http" minOccurs="1" maxOccurs="1" ref="http:abstract-http-request-authentication"></xs:element>
+                  <xs:element xmlns:http="http://www.mulesoft.org/schema/mule/http" minOccurs="1" maxOccurs="1" ref="http:global-abstract-http-request-authentication"></xs:element>
+                </xs:choice>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="client-socket-properties">
+              <xs:complexType>
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                  <xs:element xmlns:sockets="http://www.mulesoft.org/schema/mule/sockets" minOccurs="1" maxOccurs="1" ref="sockets:abstract-tcp-client-socket-properties"></xs:element>
+                  <xs:element xmlns:sockets="http://www.mulesoft.org/schema/mule/sockets" minOccurs="1" maxOccurs="1" ref="sockets:global-abstract-tcp-client-socket-properties"></xs:element>
+                </xs:choice>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute type="xs:string" use="optional" name="tlsContext"></xs:attribute>
+          <xs:attribute type="xs:string" use="optional" name="proxyConfig">
+            <xs:annotation>
+              <xs:documentation>Reusable configuration element for outbound connections through a proxy. A proxy element must define a host name and a port attributes, and optionally can define a username and a password.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="xs:string" use="optional" name="authentication">
+            <xs:annotation>
+              <xs:documentation>Authentication method to use for the HTTP request.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/http" type="org.mule.runtime.http.api.HttpConstants.ProtocolEnumType" use="optional" default="HTTP" name="protocol">
+            <xs:annotation>
+              <xs:documentation>Protocol to use for communication. Valid values are HTTP and HTTPS. Default value is HTTP. When using HTTPS the HTTP communication is going to be secured using TLS / SSL. If HTTPS was configured as protocol then the user can customize the tls/ssl configuration by defining the tls:context child element of this listener-config. If not tls:context is defined then the default JVM certificates are going to be used to establish communication.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="host">
+            <xs:annotation>
+              <xs:documentation>Host where the requests will be sent.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="optional" name="port">
+            <xs:annotation>
+              <xs:documentation>Port where the requests will be sent. If the protocol attribute is HTTP (default) then the default value is 80, if the protocol attribute is HTTPS then the default value is 443.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:substitutableBoolean" use="optional" default="true" name="usePersistentConnections">
+            <xs:annotation>
+              <xs:documentation>If false, each connection will be closed after the first request is completed.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:substitutableInt" use="optional" default="-1" name="maxConnections">
+            <xs:annotation>
+              <xs:documentation>The maximum number of outbound connections that will be kept open at the same time. By default the number of connections is unlimited.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:substitutableInt" use="optional" default="30000" name="connectionIdleTimeout">
+            <xs:annotation>
+              <xs:documentation>The number of milliseconds that a connection can remain idle before it is closed. The value of this attribute is only used when persistent connections are enabled.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:substitutableBoolean" use="optional" default="false" name="streamResponse">
+            <xs:annotation>
+              <xs:documentation>Whether or not received responses should be streamed, meaning processing will continue as soon as all headers are parsed and the body streamed as it arrives. When enabled, the response MUST be eventually read since depending on the configured buffer size it may not fit into memory and processing will stop until space is available.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:substitutableInt" use="optional" default="-1" name="responseBufferSize">
+            <xs:annotation>
+              <xs:documentation>The space in bytes for the buffer where the HTTP response will be stored.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="xs:string" use="optional" name="clientSocketProperties"></xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/http" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="RequestType" substitutionGroup="mule:abstract-operator" name="request">
+    <xs:annotation>
+      <xs:documentation>Consumes an HTTP service.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="RequestType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="body">
+            <xs:annotation>
+              <xs:documentation>The body of the response message</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="headers">
+            <xs:annotation>
+              <xs:documentation>HTTP headers the message should include.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="uri-params">
+            <xs:annotation>
+              <xs:documentation>URI parameters that should be used to create the request.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="query-params">
+            <xs:annotation>
+              <xs:documentation>Query parameters the request should include.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="response-validator">
+            <xs:annotation>
+              <xs:documentation>Configures error handling of the response.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:choice minOccurs="1" maxOccurs="1">
+                <xs:element xmlns:http="http://www.mulesoft.org/schema/mule/http" minOccurs="1" maxOccurs="1" ref="http:abstract-response-validator"></xs:element>
+                <xs:element xmlns:http="http://www.mulesoft.org/schema/mule/http" minOccurs="1" maxOccurs="1" ref="http:global-abstract-response-validator"></xs:element>
+              </xs:choice>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="optional" default="GET" name="method">
+          <xs:annotation>
+            <xs:documentation>The HTTP method for the request.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="outputMimeType">
+          <xs:annotation>
+            <xs:documentation>The mime type of the payload that this operation outputs.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="outputEncoding">
+          <xs:annotation>
+            <xs:documentation>The encoding of the payload that this operation outputs.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="path">
+          <xs:annotation>
+            <xs:documentation>Path where the request will be sent.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="url">
+          <xs:annotation>
+            <xs:documentation>URL where to send the request.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" name="followRedirects">
+          <xs:annotation>
+            <xs:documentation>Specifies whether to follow redirects or not.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/http" type="org.mule.extension.http.api.request.HttpSendBodyModeEnumType" use="optional" name="sendBodyMode">
+          <xs:annotation>
+            <xs:documentation>Defines if the request should contain a body or not.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/http" type="org.mule.extension.http.api.streaming.HttpStreamingTypeEnumType" use="optional" name="requestStreamingMode">
+          <xs:annotation>
+            <xs:documentation>Defines if the request should be sent using streaming or not.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="responseTimeout">
+          <xs:annotation>
+            <xs:documentation>Maximum time that the request element will block the execution of the flow waiting for the HTTP response.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/http" type="org.mule.runtime.extension.api.runtime.parameter.OutboundCorrelationStrategyEnumType" use="optional" name="sendCorrelationId">
+          <xs:annotation>
+            <xs:documentation>Options on whether to include an outbound correlation id or not</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="correlationId">
+          <xs:annotation>
+            <xs:documentation>Allows to set a custom correlation id</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="responseValidator">
+          <xs:annotation>
+            <xs:documentation>Configures error handling of the response.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/http" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="BasicSecurityFilterType" substitutionGroup="mule:abstract-operator" name="basic-security-filter">
+    <xs:annotation>
+      <xs:documentation>Authenticates received HTTP requests. Must be used after a listener component.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="BasicSecurityFilterType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" name="security-providers">
+            <xs:annotation>
+              <xs:documentation>The delegate-security-provider to use for authenticating. Use this in case you have multiple security managers defined in your configuration.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" name="security-provider">
+                  <xs:complexType>
+                    <xs:attribute type="mule:expressionString" use="required" name="value"></xs:attribute>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="realm">
+          <xs:annotation>
+            <xs:documentation>Authentication realm.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionList" use="optional" name="securityProviders">
+          <xs:annotation>
+            <xs:documentation>The delegate-security-provider to use for authenticating. Use this in case you have multiple security managers defined in your configuration.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" default="#[attributes]" name="attributes">
+          <xs:annotation>
+            <xs:documentation>The HttpRequestAttributes coming from an HTTP listener source to check the 'Authorization' header.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/http" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="LoadStaticResourceType" substitutionGroup="mule:abstract-operator" name="load-static-resource">
+    <xs:annotation>
+      <xs:documentation>Serves up static content for use with HTTP, using the request path to lookup the resource.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="LoadStaticResourceType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1"></xs:sequence>
+        <xs:attribute type="mule:expressionString" use="optional" name="outputMimeType">
+          <xs:annotation>
+            <xs:documentation>The mime type of the payload that this operation outputs.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="outputEncoding">
+          <xs:annotation>
+            <xs:documentation>The encoding of the payload that this operation outputs.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="resourceBasePath">
+          <xs:annotation>
+            <xs:documentation>The resource base from where documents are served up. For example: /Users/maxthemule/resources</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="index.html" name="defaultFile">
+          <xs:annotation>
+            <xs:documentation>The default file to serve when a directory is specified. The default value is 'index.html'.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" default="#[attributes]" name="attributes">
+          <xs:annotation>
+            <xs:documentation>The HttpRequestAttributes coming from an HTTP listener source to check the required resources.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="org.mule.runtime.http.api.HttpConstants.ProtocolEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="HTTP"></xs:enumeration>
+          <xs:enumeration value="HTTPS"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="org.mule.extension.http.api.streaming.HttpStreamingTypeEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="AUTO"></xs:enumeration>
+          <xs:enumeration value="ALWAYS"></xs:enumeration>
+          <xs:enumeration value="NEVER"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="org.mule.extension.http.api.request.HttpSendBodyModeEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="ALWAYS"></xs:enumeration>
+          <xs:enumeration value="AUTO"></xs:enumeration>
+          <xs:enumeration value="NEVER"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="org.mule.runtime.extension.api.runtime.parameter.OutboundCorrelationStrategyEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="AUTO"></xs:enumeration>
+          <xs:enumeration value="ALWAYS"></xs:enumeration>
+          <xs:enumeration value="NEVER"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+</xs:schema>

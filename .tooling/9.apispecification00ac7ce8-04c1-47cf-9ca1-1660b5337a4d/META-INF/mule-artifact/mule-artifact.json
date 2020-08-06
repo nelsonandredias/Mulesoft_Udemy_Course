@@ -1,0 +1,33 @@
+{
+  "configs": [
+    "APIinterface.xml",
+    "global.xml",
+    "APIimplementation.xml"
+  ],
+  "secureProperties": [],
+  "redeploymentEnabled": true,
+  "name": "com.mycompany:9.apispecification:1.0.0-SNAPSHOT",
+  "minMuleVersion": "4.3.0",
+  "requiredProduct": "MULE",
+  "classLoaderModelLoaderDescriptor": {
+    "id": "mule",
+    "attributes": {
+      "exportedPackages": [],
+      "exportedResources": [
+        "api/examples/Requests/SingleArtistNOIdRequest.raml",
+        "api/examples/Responses/ArtistsResponse.raml",
+        "api/examples/Responses/SingleArtistResponse.raml",
+        "api/exchange_modules/a34a387a-5a10-42e9-a7b6-ee9ebf240382/artist/1.0.0/artist.raml",
+        "api/spotify.raml",
+        "APIimplementation.xml",
+        "APIinterface.xml",
+        "global.xml",
+        "log4j2.xml"
+      ]
+    }
+  },
+  "bundleDescriptorLoader": {
+    "id": "mule",
+    "attributes": {}
+  }
+}

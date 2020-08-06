@@ -1,0 +1,31 @@
+{
+  "name": "DataWeave service",
+  "minMuleVersion": "4.2.0",
+  "requiredProduct": "MULE",
+  "contracts": [
+    {
+      "contractClassName": "org.mule.runtime.api.el.DefaultExpressionLanguageFactoryService",
+      "serviceProviderClassName": "org.mule.weave.v2.el.WeaveServiceProvider"
+    },
+    {
+      "contractClassName": "org.mule.runtime.api.metadata.ExpressionLanguageMetadataService",
+      "serviceProviderClassName": "org.mule.weave.v2.el.metadata.WeaveMetadataServiceProvider"
+    },
+    {
+      "contractClassName": "org.mule.runtime.api.el.ExpressionLanguageCapabilitiesService",
+      "serviceProviderClassName": "org.mule.weave.v2.el.capabilities.WeaveExpressionLanguageCapabilitiesServiceProvider"
+    },
+    {
+      "contractClassName": "org.mule.runtime.weave.dwb.api.WeaveStreamFactoryService",
+      "serviceProviderClassName": "org.mule.weave.v2.el.dwb.WeaveStreamFactoryServiceDefinitionProvider"
+    }
+  ],
+  "classLoaderModelLoaderDescriptor": {
+    "id": "mule",
+    "attributes": {}
+  },
+  "bundleDescriptorLoader": {
+    "id": "mule",
+    "attributes": {}
+  }
+}

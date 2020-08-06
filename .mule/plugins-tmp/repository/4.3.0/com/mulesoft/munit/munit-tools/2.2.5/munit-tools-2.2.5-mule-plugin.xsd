@@ -1,0 +1,721 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:mule="http://www.mulesoft.org/schema/mule/core" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.mulesoft.org/schema/mule/munit-tools" attributeFormDefault="unqualified" elementFormDefault="qualified">
+  <xs:import namespace="http://www.w3.org/XML/1998/namespace"></xs:import>
+  <xs:import namespace="http://www.springframework.org/schema/beans" schemaLocation="http://www.springframework.org/schema/beans/spring-beans.xsd"></xs:import>
+  <xs:import namespace="http://www.mulesoft.org/schema/mule/core" schemaLocation="http://www.mulesoft.org/schema/mule/core/current/mule.xsd"></xs:import>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstract-shared-extension" name="config">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractExtensionType">
+          <xs:annotation>
+            <xs:documentation>Default configuration</xs:documentation>
+          </xs:annotation>
+          <xs:sequence minOccurs="0" maxOccurs="1"></xs:sequence>
+          <xs:attribute type="xs:string" use="required" name="name">
+            <xs:annotation>
+              <xs:documentation>The identifier of this element used to reference it in other components</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/munit-tools" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="AssertType" substitutionGroup="mule:abstract-operator" name="assert">
+    <xs:annotation>
+      <xs:documentation>Evaluates if the given that assertion expression is successful. If the assertion fails, it throws an AssertionError</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="AssertType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="that">
+            <xs:annotation>
+              <xs:documentation>result of the assertion expression</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="optional" default="Assertion failed" name="message">
+          <xs:annotation>
+            <xs:documentation>message in case the assertion fails</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/munit-tools" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="AssertEqualsType" substitutionGroup="mule:abstract-operator" name="assert-equals">
+    <xs:annotation>
+      <xs:documentation>Checks if the given actual value is equal to the expected value. If they differ, an AssertionError is thrown.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="AssertEqualsType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1"></xs:sequence>
+        <xs:attribute type="xs:string" use="required" name="actual">
+          <xs:annotation>
+            <xs:documentation>actual value to be asserted</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="expected">
+          <xs:annotation>
+            <xs:documentation>expected value of the assertion</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="message">
+          <xs:annotation>
+            <xs:documentation>message in case the assertion fails</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/munit-tools" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="AssertThatType" substitutionGroup="mule:abstract-operator" name="assert-that">
+    <xs:annotation>
+      <xs:documentation>Checks if the expression matches the given is Matcher. If the assertion fails, it throws an AssertionError</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="AssertThatType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1"></xs:sequence>
+        <xs:attribute type="xs:string" use="required" name="expression">
+          <xs:annotation>
+            <xs:documentation>value to be asserted</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="is">
+          <xs:annotation>
+            <xs:documentation>matcher to validate against the expression</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="message">
+          <xs:annotation>
+            <xs:documentation>message in case the assertion fails</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/munit-tools" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ClearStoredDataType" substitutionGroup="mule:abstract-operator" name="clear-stored-data">
+    <xs:annotation>
+      <xs:documentation>Removes all stored data</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ClearStoredDataType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1"></xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/munit-tools" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="DequeueType" substitutionGroup="mule:abstract-operator" name="dequeue">
+    <xs:annotation>
+      <xs:documentation>Pops the given data from a temporary queue.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="DequeueType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1"></xs:sequence>
+        <xs:attribute type="mule:expressionString" use="optional" name="queueName">
+          <xs:annotation>
+            <xs:documentation>The name of the queue where dequeue a value</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionLong" use="optional" default="10000" name="timeout">
+          <xs:annotation>
+            <xs:documentation>Time to wait for a value until the connector throws a QUEUE_TIMEOUT error</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/munit-tools" type="java.util.concurrent.TimeUnitEnumType" use="optional" default="MILLISECONDS" name="timeoutUnit">
+          <xs:annotation>
+            <xs:documentation>Time Unit to use to wait for a value to arrive</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/munit-tools" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="FailType" substitutionGroup="mule:abstract-operator" name="fail">
+    <xs:annotation>
+      <xs:documentation>Fails with a AssertionError with the given message</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="FailType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1"></xs:sequence>
+        <xs:attribute type="mule:expressionString" use="optional" name="message">
+          <xs:annotation>
+            <xs:documentation>message for the assertion failure</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/munit-tools" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="MockWhenType" substitutionGroup="mule:abstract-operator" name="mock-when">
+    <xs:annotation>
+      <xs:documentation>Mocks the processor that has the given withAttributes, replacing it with the given answer. &lt;p&gt; During the test execution, if any processor tries to be executed, and it matches the processor name and the withAttributes, its execution its not performed, and instead the answer is used. If Answer#getThenReturn() thenReturn is specified, then that event is returned, or if Answer#getThenCall() thenCall is specified, the given flow is invoked, and the resulting event is returned. If no Answer is specified, the incoming event is returned.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="MockWhenType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" name="with-attributes">
+            <xs:annotation>
+              <xs:documentation>additional attributes to identify the processor</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" minOccurs="0" maxOccurs="unbounded" ref="munit-tools:abstract-with-attribute"></xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="then-return">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" base="munit-tools:org.mule.munit.common.model.Event"></xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="then-call">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" base="munit-tools:org.mule.munit.common.model.FlowName"></xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="processor">
+          <xs:annotation>
+            <xs:documentation>identifier of the processor to mock</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:substitutableName" use="optional" name="withAttributes">
+          <xs:annotation>
+            <xs:documentation>additional attributes to identify the processor</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="thenReturn"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="thenCall"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="org.mule.munit.common.model.Attribute">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:attribute type="mule:expressionString" use="required" name="attributeName"></xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="whereValue"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" type="munit-tools:org.mule.munit.common.model.Attribute" abstract="true" name="abstract-with-attribute"></xs:element>
+  <xs:element xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" substitutionGroup="munit-tools:abstract-with-attribute" name="with-attribute">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="munit-tools:org.mule.munit.common.model.Attribute"></xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="org.mule.munit.common.model.Payload">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:attribute type="xs:string" use="required" name="value"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="mediaType"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="encoding"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="org.mule.munit.common.model.EventAttributes">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:attribute type="xs:string" use="required" name="value"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="mediaType"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="encoding"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="org.mule.munit.common.model.EventError">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:attribute type="mule:expressionString" use="optional" name="typeId"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="cause"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="org.mule.munit.common.model.Variable">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:attribute type="mule:expressionString" use="required" name="key"></xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="value"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="mediaType"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="encoding"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" type="munit-tools:org.mule.munit.common.model.Variable" abstract="true" name="abstract-variable"></xs:element>
+  <xs:element xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" substitutionGroup="munit-tools:abstract-variable" name="variable">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="munit-tools:org.mule.munit.common.model.Variable"></xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="org.mule.munit.common.model.Property">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:attribute type="mule:expressionString" use="required" name="key"></xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="value"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="mediaType"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="encoding"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" type="munit-tools:org.mule.munit.common.model.Property" abstract="true" name="abstract-property"></xs:element>
+  <xs:element xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" substitutionGroup="munit-tools:abstract-property" name="property">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="munit-tools:org.mule.munit.common.model.Property"></xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="org.mule.munit.common.model.Attachment">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:attribute type="mule:expressionString" use="required" name="key"></xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="value"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="mediaType"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="encoding"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" type="munit-tools:org.mule.munit.common.model.Attachment" abstract="true" name="abstract-attachment"></xs:element>
+  <xs:element xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" substitutionGroup="munit-tools:abstract-attachment" name="attachment">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="munit-tools:org.mule.munit.common.model.Attachment"></xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="org.mule.munit.common.model.Event">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" name="payload">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" base="munit-tools:org.mule.munit.common.model.Payload"></xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="attributes">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" base="munit-tools:org.mule.munit.common.model.EventAttributes"></xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="error">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" base="munit-tools:org.mule.munit.common.model.EventError"></xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="variables">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" minOccurs="0" maxOccurs="unbounded" ref="munit-tools:abstract-variable"></xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="session-properties">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" minOccurs="0" maxOccurs="unbounded" ref="munit-tools:abstract-property"></xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="inbound-properties">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" minOccurs="0" maxOccurs="unbounded" ref="munit-tools:abstract-property"></xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="outbound-properties">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" minOccurs="0" maxOccurs="unbounded" ref="munit-tools:abstract-property"></xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="inbound-attachments">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" minOccurs="0" maxOccurs="unbounded" ref="munit-tools:abstract-attachment"></xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="outbound-attachments">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" minOccurs="0" maxOccurs="unbounded" ref="munit-tools:abstract-attachment"></xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="optional" name="payload"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="attributes"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="error"></xs:attribute>
+        <xs:attribute type="mule:substitutableName" use="optional" name="variables"></xs:attribute>
+        <xs:attribute type="mule:substitutableName" use="optional" name="sessionProperties"></xs:attribute>
+        <xs:attribute type="mule:substitutableName" use="optional" name="inboundProperties"></xs:attribute>
+        <xs:attribute type="mule:substitutableName" use="optional" name="outboundProperties"></xs:attribute>
+        <xs:attribute type="mule:substitutableName" use="optional" name="inboundAttachments"></xs:attribute>
+        <xs:attribute type="mule:substitutableName" use="optional" name="outboundAttachments"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="org.mule.munit.common.model.FlowName">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:attribute type="mule:expressionString" use="required" name="flow"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/munit-tools" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="QueueType" substitutionGroup="mule:abstract-operator" name="queue">
+    <xs:annotation>
+      <xs:documentation>Pushes the given value to a temporary queue so this can be consumed later on demand</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="QueueType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="value">
+            <xs:annotation>
+              <xs:documentation>Value to queue</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="optional" name="queueName">
+          <xs:annotation>
+            <xs:documentation>The name of the queue where dequeue a value</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/munit-tools" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="RemoveType" substitutionGroup="mule:abstract-operator" name="remove">
+    <xs:annotation>
+      <xs:documentation>Removes the value associated to the given key. &lt;p&gt; If no value exist for the key, then a MUNIT-TOOLS:MISSING_KEY error will be thrown.This operation is synchronized on the key level. No other operation will be able to access the same key while this operation is running.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="RemoveType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1"></xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="key">
+          <xs:annotation>
+            <xs:documentation>the key of the object to be removed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/munit-tools" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="RetrieveType" substitutionGroup="mule:abstract-operator" name="retrieve">
+    <xs:annotation>
+      <xs:documentation>Retrieves the value stored for the given key. &lt;p&gt; If no value exists for the key, then a MUNIT-TOOLS:MISSING_KEY error will be thrown. This operations is synchronized on the key level. No other operation will be able to access the same key while this operation is running</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="RetrieveType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1"></xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="key">
+          <xs:annotation>
+            <xs:documentation>the key of the value to be retrieved</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/munit-tools" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="RunCustomType" substitutionGroup="mule:abstract-operator" name="run-custom">
+    <xs:annotation>
+      <xs:documentation>Runs a custom assertion over the given expression with the parameters params &lt;p&gt; The assertion must implement MunitAssertion</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="RunCustomType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1"></xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="assertion">
+          <xs:annotation>
+            <xs:documentation>full qualified name of the custom assertion class</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="expression">
+          <xs:annotation>
+            <xs:documentation>value to be asserted</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="params">
+          <xs:annotation>
+            <xs:documentation>parameters of the custom assertion</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/munit-tools" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="SleepType" substitutionGroup="mule:abstract-operator" name="sleep">
+    <xs:annotation>
+      <xs:documentation>Causes the currently executing thread to sleep</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="SleepType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1"></xs:sequence>
+        <xs:attribute type="mule:expressionLong" use="required" name="time">
+          <xs:annotation>
+            <xs:documentation>The length of time to sleep</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/munit-tools" type="java.util.concurrent.TimeUnitEnumType" use="optional" default="MILLISECONDS" name="timeUnit">
+          <xs:annotation>
+            <xs:documentation>Time Unit to use to sleep</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/munit-tools" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="StoreType" substitutionGroup="mule:abstract-operator" name="store">
+    <xs:annotation>
+      <xs:documentation>Stores the given value using the given key. &lt;p&gt; This operation can be used either for storing new values or updating existing ones. This operation is synchronized on the key level. No other operation will be able to access the same key.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="StoreType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="value">
+            <xs:annotation>
+              <xs:documentation>the value to be stored</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="key">
+          <xs:annotation>
+            <xs:documentation>the key of the value to be stored</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="failIfPresent">
+          <xs:annotation>
+            <xs:documentation>whether to fail or update the pre existing value if the key already exists on the store</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/munit-tools" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="Store-oauth-tokenType" substitutionGroup="mule:abstract-operator" name="store-oauth-token">
+    <xs:annotation>
+      <xs:documentation>Stores a test OAuth token in the supplied ObjectStore</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="Store-oauth-tokenType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="additional-parameters">
+            <xs:annotation>
+              <xs:documentation>additional parameters returned by the service provider</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="accessToken">
+          <xs:annotation>
+            <xs:documentation>the access token</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="objectStore">
+          <xs:annotation>
+            <xs:documentation>the object store to store the token in</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="ownerConfigName">
+          <xs:annotation>
+            <xs:documentation>the config name of the connector that's going to consume the token</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="resourceOwnerId">
+          <xs:annotation>
+            <xs:documentation>the id of the resource owner</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="refreshToken">
+          <xs:annotation>
+            <xs:documentation>the refresh token</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="expiresIn">
+          <xs:annotation>
+            <xs:documentation>the expiration string</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="state">
+          <xs:annotation>
+            <xs:documentation>the state parameter used in the OAuth dance</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="true" name="overwrite">
+          <xs:annotation>
+            <xs:documentation>whether to overwrite the token if already exists or fail instead.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/munit-tools" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="VerifyCallType" substitutionGroup="mule:abstract-operator" name="verify-call">
+    <xs:annotation>
+      <xs:documentation>Verifies that the processor that has the given withAttributes has been executed. &lt;p&gt; During the test execution, if any processor is executed, and it matches the processor name and the withAttributes it will be counted as called. &lt;p&gt; If the processor was not called the specified number of times, it will throw an AssertionError</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="VerifyCallType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" name="with-attributes">
+            <xs:annotation>
+              <xs:documentation>additional attributes to identify the processor</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" minOccurs="0" maxOccurs="unbounded" ref="munit-tools:abstract-with-attribute"></xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="processor">
+          <xs:annotation>
+            <xs:documentation>identifier of the processor to mock</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:substitutableName" use="optional" name="withAttributes">
+          <xs:annotation>
+            <xs:documentation>additional attributes to identify the processor</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="times">
+          <xs:annotation>
+            <xs:documentation>exact number of times the processor should have been executed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="atLeast">
+          <xs:annotation>
+            <xs:documentation>minimum number of times the processor should have been executed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="atMost">
+          <xs:annotation>
+            <xs:documentation>maximum number of times the processor should have been executed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/munit-tools" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="SpyType" substitutionGroup="mule:abstract-operator" name="spy"></xs:element>
+  <xs:complexType name="SpyType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" name="with-attributes">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" minOccurs="0" maxOccurs="unbounded" ref="munit-tools:abstract-with-attribute"></xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="before-call">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension base="mule:abstractExtensionType">
+                  <xs:sequence minOccurs="1">
+                    <xs:choice minOccurs="1" maxOccurs="unbounded">
+                      <xs:group minOccurs="1" ref="mule:messageProcessorOrMixedContentMessageProcessor"></xs:group>
+                    </xs:choice>
+                  </xs:sequence>
+                </xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="after-call">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension base="mule:abstractExtensionType">
+                  <xs:sequence minOccurs="1">
+                    <xs:choice minOccurs="1" maxOccurs="unbounded">
+                      <xs:group minOccurs="1" ref="mule:messageProcessorOrMixedContentMessageProcessor"></xs:group>
+                    </xs:choice>
+                  </xs:sequence>
+                </xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="processor"></xs:attribute>
+        <xs:attribute type="mule:substitutableName" use="optional" name="withAttributes"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="java.util.concurrent.TimeUnitEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="NANOSECONDS"></xs:enumeration>
+          <xs:enumeration value="MICROSECONDS"></xs:enumeration>
+          <xs:enumeration value="MILLISECONDS"></xs:enumeration>
+          <xs:enumeration value="SECONDS"></xs:enumeration>
+          <xs:enumeration value="MINUTES"></xs:enumeration>
+          <xs:enumeration value="HOURS"></xs:enumeration>
+          <xs:enumeration value="DAYS"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+</xs:schema>

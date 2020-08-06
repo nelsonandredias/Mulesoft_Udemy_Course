@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+       <groupId>org.mule.services</groupId>
+        <artifactId>mule-core-services-parent</artifactId>
+        <version>1.3.0</version>
+    </parent>
+
+    <artifactId>mule-service-apikit-metadata</artifactId>
+    <version>2.0.0</version>
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>mule-service</packaging>
+
+    <name>APIKit Metadata Service</name>
+    <description>Mule service that allows get APIKit Metadata</description>
+    
+    <properties>
+        <licensePath>LICENSE_HEADER.txt</licensePath>
+
+        <apikit.metadata.api.version>2.0.0</apikit.metadata.api.version>
+        <mule.app.plugins.maven.plugin.version>1.2.0</mule.app.plugins.maven.plugin.version>
+        <parser.service.version>2.0.5</parser.service.version>
+
+        <!-- Test -->
+        <mule.http.connector.version>1.5.3</mule.http.connector.version>
+        <mule.apikit.module.version>1.3.10</mule.apikit.module.version>
+        <mule.dwb.api.version>2.3.0</mule.dwb.api.version>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.mule.runtime.plugins</groupId>
+                <artifactId>mule-service-maven-plugin</artifactId>
+                <version>${mule.app.plugins.maven.plugin.version}</version>
+                <extensions>true</extensions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.mule.runtime</groupId>
+            <artifactId>mule-core</artifactId>
+            <version>${mule.version}</version>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.yaml</groupId>
+                    <artifactId>snakeyaml</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- Force to use 1.23 -->
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>1.26</version>
+        </dependency>
+
+        <!-- APIKit Metadata API -->
+        <dependency>
+            <groupId>org.mule.runtime</groupId>
+            <artifactId>mule-apikit-metadata-api</artifactId>
+            <version>${apikit.metadata.api.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Metadata API -->
+        <dependency>
+            <groupId>org.mule.runtime</groupId>
+            <artifactId>mule-message-metadata-model</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mule.runtime</groupId>
+            <artifactId>mule-metadata-model-json</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mule.runtime</groupId>
+            <artifactId>mule-metadata-model-xml</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.apikit</groupId>
+            <artifactId>parser-service</artifactId>
+            <version>${parser.service.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-simple</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.runtime</groupId>
+            <artifactId>mule-module-dsl-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.runtime</groupId>
+            <artifactId>mule-module-spring-config</artifactId>
+            <version>${mule.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.runtime</groupId>
+            <artifactId>mule-service-http-api</artifactId>
+            <version>${mule.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- test-runner discover also services declared as test scope therefore weave comes from http service, so we need to include its API in Runtime classpath -->
+        <dependency>
+            <groupId>org.mule.runtime</groupId>
+            <artifactId>mule-dwb-api</artifactId>
+            <version>${mule.dwb.api.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- org/mule/runtime/dsl/internal/xml/parser/XmlApplicationParser cannot be loaded from test classes -->
+        <dependency>
+            <groupId>org.mule</groupId>
+            <artifactId>mule-datasense-test-fmwk</artifactId>
+            <version>4.3.0-rc3</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Test Dependencies -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-library</artifactId>
+            <version>${hamcrestVersion}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mule.tests</groupId>
+            <artifactId>mule-tests-runner</artifactId>
+            <version>${mule.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mule.tests</groupId>
+            <artifactId>mule-tests-functional</artifactId>
+            <version>${mule.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mule.tests</groupId>
+            <artifactId>mule-tests-unit</artifactId>
+            <version>${mule.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mule.tests.plugin</groupId>
+            <artifactId>mule-tests-component-plugin</artifactId>
+            <version>${mule.version}</version>
+            <classifier>mule-plugin</classifier>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mule.modules</groupId>
+            <artifactId>mule-apikit-module</artifactId>
+            <version>${mule.apikit.module.version}</version>
+            <classifier>mule-plugin</classifier>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mule.connectors</groupId>
+            <artifactId>mule-http-connector</artifactId>
+            <version>${mule.http.connector.version}</version>
+            <classifier>mule-plugin</classifier>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mule.services</groupId>
+            <artifactId>mule-service-http</artifactId>
+            <classifier>mule-service</classifier>
+            <version>1.5.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- mule-test-runner dependencies to mimic container classpath -->
+        <dependency>
+            <groupId>org.mule.runtime</groupId>
+            <artifactId>mule-module-container</artifactId>
+            <version>${mule.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.runtime</groupId>
+            <artifactId>mule-module-service</artifactId>
+            <version>${mule.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.runtime</groupId>
+            <artifactId>mule-module-extensions-support</artifactId>
+            <version>${mule.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- TODO remove once AST doesn't need parsers to resolve parameters -->
+        <dependency>
+            <groupId>org.mule.runtime</groupId>
+            <artifactId>mule-module-extensions-spring-support</artifactId>
+            <version>${mule.version}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <distributionManagement>
+        <repository>
+            <id>mulesoft-releases</id>
+            <name>MuleSoft Releases Repository</name>
+            <url>https://repository-master.mulesoft.org/releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>mulesoft-snapshots</id>
+            <name>MuleSoft Snapshots Repository</name>
+            <url>https://repository-master.mulesoft.org/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>mulesoft-snapshots</id>
+            <name>MuleSoft Snapshots Repository</name>
+            <url>http://repository.mulesoft.org/snapshots/</url>
+            <layout>default</layout>
+        </pluginRepository>
+        <pluginRepository>
+            <id>mulesoft-releases</id>
+            <name>MuleSoft Releases Repository</name>
+            <url>http://repository.mulesoft.org/releases/</url>
+            <layout>default</layout>
+        </pluginRepository>
+    </pluginRepositories>
+    
+</project>

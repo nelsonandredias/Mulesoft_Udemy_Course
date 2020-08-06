@@ -1,0 +1,1144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:mule="http://www.mulesoft.org/schema/mule/core" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.mulesoft.org/schema/mule/email" attributeFormDefault="unqualified" elementFormDefault="qualified">
+  <xs:import namespace="http://www.w3.org/XML/1998/namespace"></xs:import>
+  <xs:import namespace="http://www.springframework.org/schema/beans" schemaLocation="http://www.springframework.org/schema/beans/spring-beans.xsd"></xs:import>
+  <xs:import namespace="http://www.mulesoft.org/schema/mule/core" schemaLocation="http://www.mulesoft.org/schema/mule/core/current/mule.xsd"></xs:import>
+  <xs:import namespace="http://www.mulesoft.org/schema/mule/tls" schemaLocation="http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd"></xs:import>
+  <xs:complexType name="org.mule.extension.email.api.predicate.IMAPEmailPredicateBuilder">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/email" type="org.mule.extension.email.api.predicate.EmailFilterPolicyEnumType" use="optional" default="INCLUDE" name="seen"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/email" type="org.mule.extension.email.api.predicate.EmailFilterPolicyEnumType" use="optional" default="INCLUDE" name="answered"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/email" type="org.mule.extension.email.api.predicate.EmailFilterPolicyEnumType" use="optional" default="INCLUDE" name="deleted"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/email" type="org.mule.extension.email.api.predicate.EmailFilterPolicyEnumType" use="optional" default="INCLUDE" name="recent"></xs:attribute>
+        <xs:attribute type="mule:expressionDateTime" use="optional" name="receivedSince"></xs:attribute>
+        <xs:attribute type="mule:expressionDateTime" use="optional" name="receivedUntil"></xs:attribute>
+        <xs:attribute type="mule:expressionDateTime" use="optional" name="sentSince"></xs:attribute>
+        <xs:attribute type="mule:expressionDateTime" use="optional" name="sentUntil"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="subjectRegex"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="fromRegex"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstract-shared-extension" abstract="true" name="abstract-imap-matcher"></xs:element>
+  <xs:element xmlns:email="http://www.mulesoft.org/schema/mule/email" substitutionGroup="email:abstract-imap-matcher" name="imap-matcher">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="email:org.mule.extension.email.api.predicate.IMAPEmailPredicateBuilder">
+          <xs:attribute type="xs:string" use="optional" name="name"></xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="org.mule.extension.email.api.predicate.POP3EmailPredicateBuilder">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:attribute type="mule:expressionDateTime" use="optional" name="receivedSince"></xs:attribute>
+        <xs:attribute type="mule:expressionDateTime" use="optional" name="receivedUntil"></xs:attribute>
+        <xs:attribute type="mule:expressionDateTime" use="optional" name="sentSince"></xs:attribute>
+        <xs:attribute type="mule:expressionDateTime" use="optional" name="sentUntil"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="subjectRegex"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="fromRegex"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstract-shared-extension" abstract="true" name="abstract-pop3-matcher"></xs:element>
+  <xs:element xmlns:email="http://www.mulesoft.org/schema/mule/email" substitutionGroup="email:abstract-pop3-matcher" name="pop3-matcher">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="email:org.mule.extension.email.api.predicate.POP3EmailPredicateBuilder">
+          <xs:attribute type="xs:string" use="optional" name="name"></xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstract-shared-extension" name="imap-config">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractExtensionType">
+          <xs:annotation>
+            <xs:documentation>Configuration for operations that are performed through the IMAP (Internet Message Access Protocol) protocol.</xs:documentation>
+          </xs:annotation>
+          <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element minOccurs="1" maxOccurs="1" ref="mule:abstractConnectionProvider"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:expiration-policy"></xs:element>
+          </xs:sequence>
+          <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/email" type="org.mule.extension.email.api.attachment.AttachmentNamingStrategyEnumType" use="optional" default="NAME" name="attachmentNamingStrategy">
+            <xs:annotation>
+              <xs:documentation>Indicates how attachment names should be retrieved.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionBoolean" use="optional" default="true" name="eagerlyFetchContent">
+            <xs:annotation>
+              <xs:documentation>Indicates whether the retrieved emails should be opened and read. The default value is "true".</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="xs:string" use="required" name="name">
+            <xs:annotation>
+              <xs:documentation>The identifier of this element used to reference it in other components</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstractConnectionProvider" name="imap-connection">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractConnectionProviderType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:reconnection"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:pooling-profile"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="properties">
+              <xs:annotation>
+                <xs:documentation>An additional custom set of properties to configure the connection session.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element minOccurs="0" maxOccurs="unbounded" name="property">
+                    <xs:complexType>
+                      <xs:attribute type="mule:expressionString" use="required" name="key"></xs:attribute>
+                      <xs:attribute type="mule:expressionString" use="required" name="value"></xs:attribute>
+                    </xs:complexType>
+                  </xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute type="mule:expressionMap" use="optional" name="properties">
+            <xs:annotation>
+              <xs:documentation>An additional custom set of properties to configure the connection session.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/email" type="java.util.concurrent.TimeUnitEnumType" use="optional" default="SECONDS" name="timeoutUnit">
+            <xs:annotation>
+              <xs:documentation>A TimeUnit which qualifies the #connectionTimeout, #writeTimeout and #readTimeout attributes. &lt;p&gt; Defaults to SECONDS</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="optional" default="5" name="connectionTimeout">
+            <xs:annotation>
+              <xs:documentation>The socket connection timeout value. This attribute works in tandem with #timeoutUnit. &lt;p&gt; Defaults to 5</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="optional" default="5" name="readTimeout">
+            <xs:annotation>
+              <xs:documentation>The socket read timeout value. This attribute works in tandem with #timeoutUnit. &lt;p&gt; Defaults to 5</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="optional" default="5" name="writeTimeout">
+            <xs:annotation>
+              <xs:documentation>The socket write timeout value. This attribute works in tandem with #timeoutUnit. &lt;p&gt; Defaults to 5</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="host">
+            <xs:annotation>
+              <xs:documentation>Host name of the mail server.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="user">
+            <xs:annotation>
+              <xs:documentation>Username used to connect with the mail server.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="password">
+            <xs:annotation>
+              <xs:documentation>Username password to connect with the mail server.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" default="993" name="port">
+            <xs:annotation>
+              <xs:documentation>The port number of the mail server. '993' by default.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstractConnectionProvider" name="imaps-connection">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractConnectionProviderType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:reconnection"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:pooling-profile"></xs:element>
+            <xs:element xmlns:tls="http://www.mulesoft.org/schema/mule/tls" minOccurs="0" maxOccurs="1" ref="tls:context"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="properties">
+              <xs:annotation>
+                <xs:documentation>An additional custom set of properties to configure the connection session.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element minOccurs="0" maxOccurs="unbounded" name="property">
+                    <xs:complexType>
+                      <xs:attribute type="mule:expressionString" use="required" name="key"></xs:attribute>
+                      <xs:attribute type="mule:expressionString" use="required" name="value"></xs:attribute>
+                    </xs:complexType>
+                  </xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute type="xs:string" use="optional" name="tlsContext"></xs:attribute>
+          <xs:attribute type="mule:expressionMap" use="optional" name="properties">
+            <xs:annotation>
+              <xs:documentation>An additional custom set of properties to configure the connection session.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/email" type="java.util.concurrent.TimeUnitEnumType" use="optional" default="SECONDS" name="timeoutUnit">
+            <xs:annotation>
+              <xs:documentation>A TimeUnit which qualifies the #connectionTimeout, #writeTimeout and #readTimeout attributes. &lt;p&gt; Defaults to SECONDS</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="optional" default="5" name="connectionTimeout">
+            <xs:annotation>
+              <xs:documentation>The socket connection timeout value. This attribute works in tandem with #timeoutUnit. &lt;p&gt; Defaults to 5</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="optional" default="5" name="readTimeout">
+            <xs:annotation>
+              <xs:documentation>The socket read timeout value. This attribute works in tandem with #timeoutUnit. &lt;p&gt; Defaults to 5</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="optional" default="5" name="writeTimeout">
+            <xs:annotation>
+              <xs:documentation>The socket write timeout value. This attribute works in tandem with #timeoutUnit. &lt;p&gt; Defaults to 5</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="host">
+            <xs:annotation>
+              <xs:documentation>Host name of the mail server.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="user">
+            <xs:annotation>
+              <xs:documentation>Username used to connect with the mail server.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="password">
+            <xs:annotation>
+              <xs:documentation>Username password to connect with the mail server.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" default="993" name="port">
+            <xs:annotation>
+              <xs:documentation>The port number of the mail server. '993' by default.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/email" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="Listener-imapType" substitutionGroup="mule:abstract-message-source" name="listener-imap">
+    <xs:annotation>
+      <xs:documentation>Retrieves all the emails from an IMAP mailbox folder, watermark can be enabled for polled items.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="Listener-imapType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageSourceType">
+        <xs:sequence minOccurs="1" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-redelivery-policy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element minOccurs="1" maxOccurs="1" ref="mule:scheduling-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="imap-matcher">
+            <xs:annotation>
+              <xs:documentation>A matcher to filter emails retrieved by this polling source. For default already read emails will be filtered.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension xmlns:email="http://www.mulesoft.org/schema/mule/email" base="email:org.mule.extension.email.api.predicate.IMAPEmailPredicateBuilder"></xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="optional" default="INBOX" name="folder">
+          <xs:annotation>
+            <xs:documentation>The name of the folder to poll emails from. Defaults to "INBOX".</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:substitutableBoolean" use="optional" default="false" name="deleteAfterRetrieve">
+          <xs:annotation>
+            <xs:documentation>Enables the deletion of the polled emails after being retrieved. This is disabled by default.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:substitutableBoolean" use="optional" default="true" name="watermarkEnabled">
+          <xs:annotation>
+            <xs:documentation>If watermark should be applied to the polled emails or not. Default to true.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="imapMatcher">
+          <xs:annotation>
+            <xs:documentation>A matcher to filter emails retrieved by this polling source. For default already read emails will be filtered.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:substitutableBoolean" use="optional" name="primaryNodeOnly">
+          <xs:annotation>
+            <xs:documentation>Whether this source should only be executed on the primary node when runnning in Cluster</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/email" type="org.mule.extension.email.api.attachment.AttachmentNamingStrategyEnumType" use="optional" name="attachmentNamingStrategy">
+          <xs:annotation>
+            <xs:documentation>Indicates how attachment names should be retrieved.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/email" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="DeleteType" substitutionGroup="mule:abstract-operator" name="delete">
+    <xs:annotation>
+      <xs:documentation>Eliminates from the mailbox the email with id emailId. &lt;p&gt; For IMAP mailboxes all the messages scheduled for deletion (marked as DELETED) will also be erased from the folder.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="DeleteType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="optional" default="INBOX" name="mailboxFolder">
+          <xs:annotation>
+            <xs:documentation>Mailbox folder where the emails are going to be deleted</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionLong" use="required" name="emailId">
+          <xs:annotation>
+            <xs:documentation>Email ID Number of the email to delete.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/email" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ExpungeFolderType" substitutionGroup="mule:abstract-operator" name="expunge-folder">
+    <xs:annotation>
+      <xs:documentation>Eliminates from the mailbox all the messages scheduled for deletion with the DELETED flag set.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ExpungeFolderType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="optional" default="INBOX" name="mailboxFolder">
+          <xs:annotation>
+            <xs:documentation>Mailbox folder where the emails with the 'DELETED' flag are going to be scheduled to be definitely deleted</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/email" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ListImapType" substitutionGroup="mule:abstract-operator" name="list-imap">
+    <xs:annotation>
+      <xs:documentation>List all the emails (with pagination) in the configured imap mailBoxFolder that match with the specified imapMatcher criteria.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ListImapType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-object-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="imap-matcher">
+            <xs:annotation>
+              <xs:documentation>Email Matcher which gives the capability of filter the retrieved emails</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension xmlns:email="http://www.mulesoft.org/schema/mule/email" base="email:org.mule.extension.email.api.predicate.IMAPEmailPredicateBuilder"></xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="optional" default="INBOX" name="mailboxFolder">
+          <xs:annotation>
+            <xs:documentation>Mailbox folder where the emails are going to be fetched</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="imapMatcher">
+          <xs:annotation>
+            <xs:documentation>Email Matcher which gives the capability of filter the retrieved emails</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="deleteAfterRetrieve">
+          <xs:annotation>
+            <xs:documentation>Specifies if the returned emails must be deleted after being retrieved or not.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" default="10" name="pageSize">
+          <xs:annotation>
+            <xs:documentation>Size of the page used by the PagingProvider implementation for fetching the emails from the IMAP server</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" default="-1" name="limit">
+          <xs:annotation>
+            <xs:documentation>Maximum amount of emails retrieved by the operation. Take into account that this limit only applies to the emails effectively retrieved by the operation (the ones which matched the IMAPEmailPredicateBuilder criteria) and doesn't imply any restriction over the amount of emails being retrieved from the mailbox server.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/email" type="org.mule.extension.email.api.attachment.AttachmentNamingStrategyEnumType" use="optional" name="attachmentNamingStrategy">
+          <xs:annotation>
+            <xs:documentation>Indicates how attachment names should be retrieved.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/email" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="MarkAsDeletedType" substitutionGroup="mule:abstract-operator" name="mark-as-deleted">
+    <xs:annotation>
+      <xs:documentation>Marks an incoming email as DELETED, this way the marked email(s) are scheduled for deletion when the folder closes, this means that the email is not physically eliminated from the mailbox folder, but it's state changes. &lt;p&gt; All DELETED marked emails are going to be eliminated from the mailbox when one of IMAPOperations#expungeFolder(MailboxConnection, String) or IMAPOperations#delete(MailboxConnection, String, long) is executed. &lt;p&gt; This operation targets a single email.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="MarkAsDeletedType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="optional" default="INBOX" name="mailboxFolder">
+          <xs:annotation>
+            <xs:documentation>Mailbox folder where the emails are going to be marked as deleted</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionLong" use="required" name="emailId">
+          <xs:annotation>
+            <xs:documentation>Email ID Number of the email to mark as deleted.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/email" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="MarkAsReadType" substitutionGroup="mule:abstract-operator" name="mark-as-read">
+    <xs:annotation>
+      <xs:documentation>Marks a single email as READ changing it's state in the specified mailbox folder. &lt;p&gt; This operation can targets a single email.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="MarkAsReadType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="optional" default="INBOX" name="mailboxFolder">
+          <xs:annotation>
+            <xs:documentation>Folder where the emails are going to be marked as read</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionLong" use="required" name="emailId">
+          <xs:annotation>
+            <xs:documentation>Email ID Number of the email to mark as read.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstract-shared-extension" name="pop3-config">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractExtensionType">
+          <xs:annotation>
+            <xs:documentation>Configuration for operations that are performed through the POP3 (Post Office Protocol 3) protocol.</xs:documentation>
+          </xs:annotation>
+          <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element minOccurs="1" maxOccurs="1" ref="mule:abstractConnectionProvider"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:expiration-policy"></xs:element>
+          </xs:sequence>
+          <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/email" type="org.mule.extension.email.api.attachment.AttachmentNamingStrategyEnumType" use="optional" default="NAME" name="attachmentNamingStrategy">
+            <xs:annotation>
+              <xs:documentation>Indicates how attachment names should be retrieved.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="xs:string" use="required" name="name">
+            <xs:annotation>
+              <xs:documentation>The identifier of this element used to reference it in other components</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstractConnectionProvider" name="pop3-connection">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractConnectionProviderType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:reconnection"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:pooling-profile"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="properties">
+              <xs:annotation>
+                <xs:documentation>An additional custom set of properties to configure the connection session.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element minOccurs="0" maxOccurs="unbounded" name="property">
+                    <xs:complexType>
+                      <xs:attribute type="mule:expressionString" use="required" name="key"></xs:attribute>
+                      <xs:attribute type="mule:expressionString" use="required" name="value"></xs:attribute>
+                    </xs:complexType>
+                  </xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute type="mule:expressionMap" use="optional" name="properties">
+            <xs:annotation>
+              <xs:documentation>An additional custom set of properties to configure the connection session.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/email" type="java.util.concurrent.TimeUnitEnumType" use="optional" default="SECONDS" name="timeoutUnit">
+            <xs:annotation>
+              <xs:documentation>A TimeUnit which qualifies the #connectionTimeout, #writeTimeout and #readTimeout attributes. &lt;p&gt; Defaults to SECONDS</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="optional" default="5" name="connectionTimeout">
+            <xs:annotation>
+              <xs:documentation>The socket connection timeout value. This attribute works in tandem with #timeoutUnit. &lt;p&gt; Defaults to 5</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="optional" default="5" name="readTimeout">
+            <xs:annotation>
+              <xs:documentation>The socket read timeout value. This attribute works in tandem with #timeoutUnit. &lt;p&gt; Defaults to 5</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="optional" default="5" name="writeTimeout">
+            <xs:annotation>
+              <xs:documentation>The socket write timeout value. This attribute works in tandem with #timeoutUnit. &lt;p&gt; Defaults to 5</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="host">
+            <xs:annotation>
+              <xs:documentation>Host name of the mail server.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="user">
+            <xs:annotation>
+              <xs:documentation>Username used to connect with the mail server.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="password">
+            <xs:annotation>
+              <xs:documentation>Username password to connect with the mail server.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" default="110" name="port">
+            <xs:annotation>
+              <xs:documentation>The port number of the mail server. '110' by default.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstractConnectionProvider" name="pop3s-connection">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractConnectionProviderType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:reconnection"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:pooling-profile"></xs:element>
+            <xs:element xmlns:tls="http://www.mulesoft.org/schema/mule/tls" minOccurs="0" maxOccurs="1" ref="tls:context"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="properties">
+              <xs:annotation>
+                <xs:documentation>An additional custom set of properties to configure the connection session.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element minOccurs="0" maxOccurs="unbounded" name="property">
+                    <xs:complexType>
+                      <xs:attribute type="mule:expressionString" use="required" name="key"></xs:attribute>
+                      <xs:attribute type="mule:expressionString" use="required" name="value"></xs:attribute>
+                    </xs:complexType>
+                  </xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute type="xs:string" use="optional" name="tlsContext"></xs:attribute>
+          <xs:attribute type="mule:expressionMap" use="optional" name="properties">
+            <xs:annotation>
+              <xs:documentation>An additional custom set of properties to configure the connection session.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/email" type="java.util.concurrent.TimeUnitEnumType" use="optional" default="SECONDS" name="timeoutUnit">
+            <xs:annotation>
+              <xs:documentation>A TimeUnit which qualifies the #connectionTimeout, #writeTimeout and #readTimeout attributes. &lt;p&gt; Defaults to SECONDS</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="optional" default="5" name="connectionTimeout">
+            <xs:annotation>
+              <xs:documentation>The socket connection timeout value. This attribute works in tandem with #timeoutUnit. &lt;p&gt; Defaults to 5</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="optional" default="5" name="readTimeout">
+            <xs:annotation>
+              <xs:documentation>The socket read timeout value. This attribute works in tandem with #timeoutUnit. &lt;p&gt; Defaults to 5</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="optional" default="5" name="writeTimeout">
+            <xs:annotation>
+              <xs:documentation>The socket write timeout value. This attribute works in tandem with #timeoutUnit. &lt;p&gt; Defaults to 5</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="host">
+            <xs:annotation>
+              <xs:documentation>Host name of the mail server.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="user">
+            <xs:annotation>
+              <xs:documentation>Username used to connect with the mail server.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="password">
+            <xs:annotation>
+              <xs:documentation>Username password to connect with the mail server.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" default="995" name="port">
+            <xs:annotation>
+              <xs:documentation>The port number of the mail server. '995' by default.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/email" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="Listener-pop3Type" substitutionGroup="mule:abstract-message-source" name="listener-pop3">
+    <xs:annotation>
+      <xs:documentation>Retrieves all the emails from an POP3 mailbox folder.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="Listener-pop3Type">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageSourceType">
+        <xs:sequence minOccurs="1" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-redelivery-policy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element minOccurs="1" maxOccurs="1" ref="mule:scheduling-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="pop3-matcher">
+            <xs:annotation>
+              <xs:documentation>A matcher to filter emails retrieved by this polling source.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension xmlns:email="http://www.mulesoft.org/schema/mule/email" base="email:org.mule.extension.email.api.predicate.POP3EmailPredicateBuilder"></xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="optional" default="INBOX" name="folder">
+          <xs:annotation>
+            <xs:documentation>The name of the folder to poll emails from. Defaults to "INBOX".</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:substitutableBoolean" use="optional" default="false" name="deleteAfterRetrieve">
+          <xs:annotation>
+            <xs:documentation>Enables the deletion of the polled emails after being retrieved. This is disabled by default.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="pop3Matcher">
+          <xs:annotation>
+            <xs:documentation>A matcher to filter emails retrieved by this polling source.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:substitutableBoolean" use="optional" name="primaryNodeOnly">
+          <xs:annotation>
+            <xs:documentation>Whether this source should only be executed on the primary node when runnning in Cluster</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/email" type="org.mule.extension.email.api.attachment.AttachmentNamingStrategyEnumType" use="optional" name="attachmentNamingStrategy">
+          <xs:annotation>
+            <xs:documentation>Indicates how attachment names should be retrieved.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/email" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ListPop3Type" substitutionGroup="mule:abstract-operator" name="list-pop3">
+    <xs:annotation>
+      <xs:documentation>List all the emails (with pagination) in the configured pop3 mailBoxFolder that match with the specified pop3Matcher criteria. &lt;p&gt; As the POP3 protocol does not support the capability to find specific emails from its UID in a folder to move/delete it. a parameter deleteAfterRetrieve is available for deleting the emails from the server right after being retrieved.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ListPop3Type">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-object-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="pop3-matcher">
+            <xs:annotation>
+              <xs:documentation>Email Matcher which gives the capability of filter the retrieved emails</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension xmlns:email="http://www.mulesoft.org/schema/mule/email" base="email:org.mule.extension.email.api.predicate.POP3EmailPredicateBuilder"></xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="optional" default="INBOX" name="mailboxFolder">
+          <xs:annotation>
+            <xs:documentation>Mailbox folder where the emails are going to be fetched</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="pop3Matcher">
+          <xs:annotation>
+            <xs:documentation>Email Matcher which gives the capability of filter the retrieved emails</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="deleteAfterRetrieve">
+          <xs:annotation>
+            <xs:documentation>Specifies if the returned emails must be deleted after being retrieved or not.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" default="10" name="pageSize">
+          <xs:annotation>
+            <xs:documentation>Size of the page used by the PagingProvider implementation for fetching the emails from the POP3 server</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" default="-1" name="limit">
+          <xs:annotation>
+            <xs:documentation>Maximum amount of emails retrieved by the operation. Take into account that this limit only applies to the emails effectively retrieved by the operation (the ones which matched the IMAPEmailPredicateBuilder criteria) and doesn't imply any restriction over the amount of emails being retrieved from the mailbox server.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/email" type="org.mule.extension.email.api.attachment.AttachmentNamingStrategyEnumType" use="optional" name="attachmentNamingStrategy">
+          <xs:annotation>
+            <xs:documentation>Indicates how attachment names should be retrieved.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstract-shared-extension" name="smtp-config">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractExtensionType">
+          <xs:annotation>
+            <xs:documentation>Configuration for operations that are performed through the SMTP (Simple Mail Transfer Protocol) protocol.</xs:documentation>
+          </xs:annotation>
+          <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element minOccurs="1" maxOccurs="1" ref="mule:abstractConnectionProvider"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:expiration-policy"></xs:element>
+          </xs:sequence>
+          <xs:attribute type="mule:expressionString" use="optional" name="from">
+            <xs:annotation>
+              <xs:documentation>The "From" sender address. The person that is going to send the messages.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="defaultEncoding">
+            <xs:annotation>
+              <xs:documentation>Default character encoding to be used in all the messages. If not specified, the default charset in the mule configuration will be used</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="defaultContentTransferEncoding"></xs:attribute>
+          <xs:attribute type="xs:string" use="required" name="name">
+            <xs:annotation>
+              <xs:documentation>The identifier of this element used to reference it in other components</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstractConnectionProvider" name="smtp-connection">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractConnectionProviderType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:reconnection"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:pooling-profile"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="properties">
+              <xs:annotation>
+                <xs:documentation>An additional custom set of properties to configure the connection session.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element minOccurs="0" maxOccurs="unbounded" name="property">
+                    <xs:complexType>
+                      <xs:attribute type="mule:expressionString" use="required" name="key"></xs:attribute>
+                      <xs:attribute type="mule:expressionString" use="required" name="value"></xs:attribute>
+                    </xs:complexType>
+                  </xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute type="mule:expressionMap" use="optional" name="properties">
+            <xs:annotation>
+              <xs:documentation>An additional custom set of properties to configure the connection session.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/email" type="java.util.concurrent.TimeUnitEnumType" use="optional" default="SECONDS" name="timeoutUnit">
+            <xs:annotation>
+              <xs:documentation>A TimeUnit which qualifies the #connectionTimeout, #writeTimeout and #readTimeout attributes. &lt;p&gt; Defaults to SECONDS</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="optional" default="5" name="connectionTimeout">
+            <xs:annotation>
+              <xs:documentation>The socket connection timeout value. This attribute works in tandem with #timeoutUnit. &lt;p&gt; Defaults to 5</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="optional" default="5" name="readTimeout">
+            <xs:annotation>
+              <xs:documentation>The socket read timeout value. This attribute works in tandem with #timeoutUnit. &lt;p&gt; Defaults to 5</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="optional" default="5" name="writeTimeout">
+            <xs:annotation>
+              <xs:documentation>The socket write timeout value. This attribute works in tandem with #timeoutUnit. &lt;p&gt; Defaults to 5</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="host">
+            <xs:annotation>
+              <xs:documentation>Host name of the mail server.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="user">
+            <xs:annotation>
+              <xs:documentation>Username used to connect with the mail server.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="password">
+            <xs:annotation>
+              <xs:documentation>Username password to connect with the mail server.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" default="25" name="port">
+            <xs:annotation>
+              <xs:documentation>The port number of the mail server. '25' by default.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstractConnectionProvider" name="smtps-connection">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractConnectionProviderType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:reconnection"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:pooling-profile"></xs:element>
+            <xs:element xmlns:tls="http://www.mulesoft.org/schema/mule/tls" minOccurs="0" maxOccurs="1" ref="tls:context"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="properties">
+              <xs:annotation>
+                <xs:documentation>An additional custom set of properties to configure the connection session.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element minOccurs="0" maxOccurs="unbounded" name="property">
+                    <xs:complexType>
+                      <xs:attribute type="mule:expressionString" use="required" name="key"></xs:attribute>
+                      <xs:attribute type="mule:expressionString" use="required" name="value"></xs:attribute>
+                    </xs:complexType>
+                  </xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute type="xs:string" use="optional" name="tlsContext"></xs:attribute>
+          <xs:attribute type="mule:expressionMap" use="optional" name="properties">
+            <xs:annotation>
+              <xs:documentation>An additional custom set of properties to configure the connection session.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/email" type="java.util.concurrent.TimeUnitEnumType" use="optional" default="SECONDS" name="timeoutUnit">
+            <xs:annotation>
+              <xs:documentation>A TimeUnit which qualifies the #connectionTimeout, #writeTimeout and #readTimeout attributes. &lt;p&gt; Defaults to SECONDS</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="optional" default="5" name="connectionTimeout">
+            <xs:annotation>
+              <xs:documentation>The socket connection timeout value. This attribute works in tandem with #timeoutUnit. &lt;p&gt; Defaults to 5</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="optional" default="5" name="readTimeout">
+            <xs:annotation>
+              <xs:documentation>The socket read timeout value. This attribute works in tandem with #timeoutUnit. &lt;p&gt; Defaults to 5</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="optional" default="5" name="writeTimeout">
+            <xs:annotation>
+              <xs:documentation>The socket write timeout value. This attribute works in tandem with #timeoutUnit. &lt;p&gt; Defaults to 5</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="host">
+            <xs:annotation>
+              <xs:documentation>Host name of the mail server.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="user">
+            <xs:annotation>
+              <xs:documentation>Username used to connect with the mail server.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="password">
+            <xs:annotation>
+              <xs:documentation>Username password to connect with the mail server.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" default="465" name="port">
+            <xs:annotation>
+              <xs:documentation>The port number of the mail server. '465' by default.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/email" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="SendType" substitutionGroup="mule:abstract-operator" name="send">
+    <xs:annotation>
+      <xs:documentation>Sends an email message. The message will be sent to all recipient toAddresses, ccAddresses, bccAddresses specified in the message. &lt;p&gt; The content of the message aims to be some type of text (text/plan, text/html) and its composed by the body and it's content type. If no content is specified then the incoming payload it's going to be converted into plain text if possible.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="SendType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="to-addresses">
+            <xs:annotation>
+              <xs:documentation>The recipient addresses of "To" (primary) type.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" name="to-address">
+                  <xs:complexType>
+                    <xs:attribute type="mule:expressionString" use="required" name="value"></xs:attribute>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="cc-addresses">
+            <xs:annotation>
+              <xs:documentation>The recipient addresses of "Cc" (carbon copy) type</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" name="cc-address">
+                  <xs:complexType>
+                    <xs:attribute type="mule:expressionString" use="required" name="value"></xs:attribute>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="bcc-addresses">
+            <xs:annotation>
+              <xs:documentation>The recipient addresses of "Bcc" (blind carbon copy) type</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" name="bcc-address">
+                  <xs:complexType>
+                    <xs:attribute type="mule:expressionString" use="required" name="value"></xs:attribute>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="reply-to-addresses">
+            <xs:annotation>
+              <xs:documentation>The email addresses to which this email should be replied.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" name="reply-to-address">
+                  <xs:complexType>
+                    <xs:attribute type="mule:expressionString" use="required" name="value"></xs:attribute>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="headers">
+            <xs:annotation>
+              <xs:documentation>The headers that this email carry.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="body">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension base="mule:abstractExtensionType">
+                  <xs:sequence>
+                    <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+                      <xs:annotation>
+                        <xs:documentation>Text body of the message. Aims to be text in any format</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute type="mule:expressionString" use="optional" name="contentType">
+                    <xs:annotation>
+                      <xs:documentation>ContentType of the body text. Example: "text/plain".</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute type="mule:expressionString" use="optional" name="encoding">
+                    <xs:annotation>
+                      <xs:documentation>The character encoding of the body. If it is configured, it overrides the one inferred from the body.</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute type="mule:expressionString" use="optional" default="Base64" name="contentTransferEncoding">
+                    <xs:annotation>
+                      <xs:documentation>Encoding used to indicate the type of transformation that has been used in order to represent the body in an acceptable manner for transport. The value is case insensitive. &lt;p&gt; Known encodings: &lt;ul&gt; &lt;li&gt;BASE64&lt;/li&gt; &lt;li&gt;QUOTED-PRINTABLE&lt;/li&gt; &lt;li&gt;8BIT&lt;/li&gt; &lt;li&gt;7BIT&lt;/li&gt; &lt;li&gt;BINARY&lt;/li&gt; &lt;/ul&gt;</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                </xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="attachments">
+            <xs:annotation>
+              <xs:documentation>The attachments for an Email, that will be sent along the email body.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="fromAddress">
+          <xs:annotation>
+            <xs:documentation>The "From" sender address. The person that is going to send the messages, if not set, it defaults to the from address specified in the config.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionList" use="optional" name="toAddresses">
+          <xs:annotation>
+            <xs:documentation>The recipient addresses of "To" (primary) type.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionList" use="optional" name="ccAddresses">
+          <xs:annotation>
+            <xs:documentation>The recipient addresses of "Cc" (carbon copy) type</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionList" use="optional" name="bccAddresses">
+          <xs:annotation>
+            <xs:documentation>The recipient addresses of "Bcc" (blind carbon copy) type</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionList" use="optional" name="replyToAddresses">
+          <xs:annotation>
+            <xs:documentation>The email addresses to which this email should be replied.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="[No Subject]" name="subject">
+          <xs:annotation>
+            <xs:documentation>The subject of the email.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="Base64" name="attachmentsContentTransferEncoding">
+          <xs:annotation>
+            <xs:documentation>Encoding used to indicate the type of transformation that has been used in order to represent the body in an acceptable manner for transport. The value is case insensitive. &lt;p&gt; Known encodings: &lt;ul&gt; &lt;li&gt;BASE64&lt;/li&gt; &lt;li&gt;QUOTED-PRINTABLE&lt;/li&gt; &lt;li&gt;8BIT&lt;/li&gt; &lt;li&gt;7BIT&lt;/li&gt; &lt;li&gt;BINARY&lt;/li&gt; &lt;/ul&gt;</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="org.mule.extension.email.api.predicate.EmailFilterPolicyEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="REQUIRE"></xs:enumeration>
+          <xs:enumeration value="INCLUDE"></xs:enumeration>
+          <xs:enumeration value="EXCLUDE"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="org.mule.extension.email.api.attachment.AttachmentNamingStrategyEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="NAME"></xs:enumeration>
+          <xs:enumeration value="NAME_HEADERS"></xs:enumeration>
+          <xs:enumeration value="NAME_HEADERS_SUBJECT"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="java.util.concurrent.TimeUnitEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="NANOSECONDS"></xs:enumeration>
+          <xs:enumeration value="MICROSECONDS"></xs:enumeration>
+          <xs:enumeration value="MILLISECONDS"></xs:enumeration>
+          <xs:enumeration value="SECONDS"></xs:enumeration>
+          <xs:enumeration value="MINUTES"></xs:enumeration>
+          <xs:enumeration value="HOURS"></xs:enumeration>
+          <xs:enumeration value="DAYS"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+</xs:schema>

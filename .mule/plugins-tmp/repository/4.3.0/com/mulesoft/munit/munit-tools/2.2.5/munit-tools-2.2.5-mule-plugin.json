@@ -1,0 +1,4525 @@
+{
+  "minMuleVersion": "4.1.1",
+  "extensionModel": {
+    "types": [
+      {
+        "format": "java",
+        "annotations": {
+          "classInformation": {
+            "implementedInterfaces": [],
+            "parent": "",
+            "classname": "org.mule.munit.assertion.api.MunitAssertion",
+            "hasDefaultConstructor": false,
+            "isInstantiable": false,
+            "isFinal": false,
+            "genericTypes": [],
+            "isInterface": true,
+            "isAbstract": true,
+            "isMap": false
+          },
+          "typeId": "org.mule.munit.assertion.api.MunitAssertion",
+          "stereotype": {"allowedStereotypes": [{
+            "namespace": "MUNIT-TOOLS",
+            "type": "MUNIT_ASSERTION"
+          }]},
+          "typeAlias": {"value": "MunitAssertion"}
+        },
+        "type": "Object",
+        "fields": []
+      },
+      {
+        "format": "java",
+        "annotations": {
+          "classInformation": {
+            "implementedInterfaces": [],
+            "parent": "",
+            "classname": "org.mule.munit.assertion.api.expression.MatcherResult",
+            "hasDefaultConstructor": true,
+            "isInstantiable": true,
+            "isFinal": false,
+            "genericTypes": [],
+            "isInterface": false,
+            "isAbstract": false,
+            "isMap": false
+          },
+          "typeId": "org.mule.munit.assertion.api.expression.MatcherResult",
+          "typeAlias": {"value": "MatcherResult"}
+        },
+        "type": "Object",
+        "fields": [
+          {
+            "model": {
+              "annotations": {
+                "classInformation": {
+                  "implementedInterfaces": [],
+                  "parent": "",
+                  "classname": "org.mule.munit.assertion.api.expression.MatcherResult.Description",
+                  "hasDefaultConstructor": true,
+                  "isInstantiable": true,
+                  "isFinal": false,
+                  "genericTypes": [],
+                  "isInterface": false,
+                  "isAbstract": false,
+                  "isMap": false
+                },
+                "typeId": "org.mule.munit.assertion.api.expression.MatcherResult.Description",
+                "typeAlias": {"value": "Description"}
+              },
+              "type": "Object",
+              "fields": [
+                {
+                  "model": {"type": "String"},
+                  "key": {"name": "actual"}
+                },
+                {
+                  "model": {"type": "String"},
+                  "key": {"name": "expected"}
+                }
+              ]
+            },
+            "key": {"name": "description"}
+          },
+          {
+            "model": {
+              "annotations": {"typeId": "boolean"},
+              "type": "Boolean"
+            },
+            "key": {"name": "matches"}
+          },
+          {
+            "model": {
+              "item": {"type": "String"},
+              "annotations": {"classInformation": {
+                "implementedInterfaces": ["java.util.Collection"],
+                "parent": "",
+                "classname": "java.util.List",
+                "hasDefaultConstructor": false,
+                "isInstantiable": false,
+                "isFinal": false,
+                "genericTypes": ["java.lang.String"],
+                "isInterface": true,
+                "isAbstract": true,
+                "isMap": false
+              }},
+              "type": "Array"
+            },
+            "key": {"name": "reasons"}
+          }
+        ]
+      },
+      {
+        "format": "java",
+        "annotations": {
+          "classInformation": {
+            "implementedInterfaces": [],
+            "parent": "",
+            "classname": "org.mule.munit.assertion.api.matchers.Diff",
+            "hasDefaultConstructor": true,
+            "isInstantiable": true,
+            "isFinal": false,
+            "genericTypes": [],
+            "isInterface": false,
+            "isAbstract": false,
+            "isMap": false
+          },
+          "typeId": "org.mule.munit.assertion.api.matchers.Diff",
+          "typeAlias": {"value": "Diff"}
+        },
+        "type": "Object",
+        "fields": [
+          {
+            "model": {
+              "item": {
+                "annotations": {
+                  "classInformation": {
+                    "implementedInterfaces": [],
+                    "parent": "",
+                    "classname": "org.mule.munit.assertion.api.matchers.Diff.Difference",
+                    "hasDefaultConstructor": true,
+                    "isInstantiable": true,
+                    "isFinal": false,
+                    "genericTypes": [],
+                    "isInterface": false,
+                    "isAbstract": false,
+                    "isMap": false
+                  },
+                  "typeId": "org.mule.munit.assertion.api.matchers.Diff.Difference",
+                  "typeAlias": {"value": "Difference"}
+                },
+                "type": "Object",
+                "fields": [
+                  {
+                    "model": {"type": "String"},
+                    "key": {"name": "actual"}
+                  },
+                  {
+                    "annotations": {"visibility": "READ_ONLY"},
+                    "model": {"type": "String"},
+                    "key": {"name": "actualWithLocation"}
+                  },
+                  {
+                    "model": {"type": "String"},
+                    "key": {"name": "expected"}
+                  },
+                  {
+                    "model": {"type": "String"},
+                    "key": {"name": "path"}
+                  }
+                ]
+              },
+              "annotations": {"classInformation": {
+                "implementedInterfaces": ["java.util.Collection"],
+                "parent": "",
+                "classname": "java.util.List",
+                "hasDefaultConstructor": false,
+                "isInstantiable": false,
+                "isFinal": false,
+                "genericTypes": ["org.mule.munit.assertion.api.matchers.Diff$Difference"],
+                "isInterface": true,
+                "isAbstract": true,
+                "isMap": false
+              }},
+              "type": "Array"
+            },
+            "key": {"name": "diffs"}
+          },
+          {
+            "model": {
+              "annotations": {"typeId": "java.lang.Boolean"},
+              "type": "Boolean"
+            },
+            "key": {"name": "matches"}
+          }
+        ]
+      },
+      {
+        "format": "java",
+        "annotations": {
+          "classInformation": {
+            "implementedInterfaces": [],
+            "parent": "",
+            "classname": "org.mule.munit.assertion.api.matchers.Matcher",
+            "hasDefaultConstructor": true,
+            "isInstantiable": true,
+            "isFinal": false,
+            "genericTypes": [],
+            "isInterface": false,
+            "isAbstract": false,
+            "isMap": false
+          },
+          "typeId": "org.mule.munit.assertion.api.matchers.Matcher",
+          "typeAlias": {"value": "Matcher"}
+        },
+        "type": "Object",
+        "fields": [
+          {
+            "model": {
+              "item": {
+                "annotations": {
+                  "classInformation": {
+                    "implementedInterfaces": [],
+                    "parent": "",
+                    "classname": "java.lang.Object",
+                    "hasDefaultConstructor": true,
+                    "isInstantiable": true,
+                    "isFinal": false,
+                    "genericTypes": [],
+                    "isInterface": false,
+                    "isAbstract": false,
+                    "isMap": false
+                  },
+                  "typeId": "java.lang.Object",
+                  "typeAlias": {"value": "Object"}
+                },
+                "type": "Object",
+                "fields": []
+              },
+              "annotations": {"classInformation": {
+                "implementedInterfaces": [
+                  "java.lang.Cloneable",
+                  "java.io.Serializable"
+                ],
+                "parent": "",
+                "classname": "java.lang.Object[]",
+                "hasDefaultConstructor": false,
+                "isInstantiable": false,
+                "isFinal": true,
+                "genericTypes": [],
+                "isInterface": false,
+                "isAbstract": true,
+                "isMap": false
+              }},
+              "type": "Array"
+            },
+            "key": {"name": "expected"}
+          },
+          {
+            "model": {"type": "String"},
+            "key": {"name": "type"}
+          }
+        ]
+      },
+      {
+        "format": "java",
+        "annotations": {
+          "classInformation": {
+            "implementedInterfaces": [],
+            "parent": "",
+            "classname": "org.mule.munit.common.behavior.BehaviorManager",
+            "hasDefaultConstructor": false,
+            "isInstantiable": false,
+            "isFinal": false,
+            "genericTypes": [],
+            "isInterface": true,
+            "isAbstract": true,
+            "isMap": false
+          },
+          "typeId": "org.mule.munit.common.behavior.BehaviorManager",
+          "stereotype": {"allowedStereotypes": [{
+            "namespace": "MUNIT-TOOLS",
+            "type": "BEHAVIOR_MANAGER"
+          }]},
+          "typeAlias": {"value": "BehaviorManager"}
+        },
+        "type": "Object",
+        "fields": []
+      },
+      {
+        "format": "java",
+        "annotations": {
+          "classInformation": {
+            "implementedInterfaces": [],
+            "parent": "",
+            "classname": "org.mule.munit.common.model.Attribute",
+            "hasDefaultConstructor": true,
+            "isInstantiable": true,
+            "isFinal": false,
+            "genericTypes": [],
+            "isInterface": false,
+            "isAbstract": false,
+            "isMap": false
+          },
+          "typeId": "org.mule.munit.common.model.Attribute",
+          "typeAlias": {"value": "with-attribute"}
+        },
+        "type": "Object",
+        "fields": [
+          {
+            "annotations": {
+              "layout": {"layoutModel": {
+                "password": false,
+                "tabName": "General",
+                "query": false,
+                "text": false,
+                "order": 0
+              }},
+              "expressionSupport": {"value": "SUPPORTED"}
+            },
+            "model": {"type": "String"},
+            "key": {
+              "name": "attributeName",
+              "required": "true"
+            }
+          },
+          {
+            "annotations": {
+              "layout": {"layoutModel": {
+                "password": false,
+                "tabName": "General",
+                "query": false,
+                "text": false,
+                "order": 1
+              }},
+              "parameterDsl": {
+                "allowInlineDefinition": true,
+                "allowReferences": false
+              },
+              "expressionSupport": {"value": "SUPPORTED"}
+            },
+            "model": {
+              "annotations": {
+                "classInformation": {
+                  "implementedInterfaces": [],
+                  "parent": "",
+                  "classname": "java.lang.Object",
+                  "hasDefaultConstructor": true,
+                  "isInstantiable": true,
+                  "isFinal": false,
+                  "genericTypes": [],
+                  "isInterface": false,
+                  "isAbstract": false,
+                  "isMap": false
+                },
+                "typeId": "java.lang.Object",
+                "typeAlias": {"value": "Object"}
+              },
+              "type": "Object",
+              "fields": []
+            },
+            "key": {
+              "name": "whereValue",
+              "required": "true"
+            }
+          }
+        ]
+      },
+      {
+        "format": "java",
+        "annotations": {
+          "classInformation": {
+            "implementedInterfaces": [],
+            "parent": "",
+            "classname": "org.mule.munit.common.model.Event",
+            "hasDefaultConstructor": true,
+            "isInstantiable": true,
+            "isFinal": false,
+            "genericTypes": [],
+            "isInterface": false,
+            "isAbstract": false,
+            "isMap": false
+          },
+          "typeId": "org.mule.munit.common.model.Event",
+          "typeAlias": {"value": "Event"}
+        },
+        "type": "Object",
+        "fields": [
+          {
+            "annotations": {"expressionSupport": {"value": "NOT_SUPPORTED"}},
+            "model": {
+              "annotations": {
+                "classInformation": {
+                  "implementedInterfaces": [],
+                  "parent": "",
+                  "classname": "org.mule.munit.common.model.Payload",
+                  "hasDefaultConstructor": true,
+                  "isInstantiable": true,
+                  "isFinal": false,
+                  "genericTypes": [],
+                  "isInterface": false,
+                  "isAbstract": false,
+                  "isMap": false
+                },
+                "typeId": "org.mule.munit.common.model.Payload",
+                "typeAlias": {"value": "Payload"}
+              },
+              "type": "Object",
+              "fields": [
+                {
+                  "annotations": {
+                    "layout": {"layoutModel": {
+                      "password": false,
+                      "tabName": "General",
+                      "query": false,
+                      "text": false,
+                      "order": 0
+                    }},
+                    "expressionSupport": {"value": "SUPPORTED"}
+                  },
+                  "model": {
+                    "annotations": {
+                      "classInformation": {
+                        "implementedInterfaces": [],
+                        "parent": "",
+                        "classname": "java.lang.Object",
+                        "hasDefaultConstructor": true,
+                        "isInstantiable": true,
+                        "isFinal": false,
+                        "genericTypes": [],
+                        "isInterface": false,
+                        "isAbstract": false,
+                        "isMap": false
+                      },
+                      "typeId": "java.lang.Object",
+                      "typeAlias": {"value": "Object"}
+                    },
+                    "type": "Object",
+                    "fields": []
+                  },
+                  "key": {
+                    "name": "value",
+                    "required": "true"
+                  }
+                },
+                {
+                  "annotations": {
+                    "layout": {"layoutModel": {
+                      "password": false,
+                      "tabName": "General",
+                      "query": false,
+                      "text": false,
+                      "order": 1
+                    }},
+                    "display": {"displayModel": {"example": "application/java"}},
+                    "expressionSupport": {"value": "SUPPORTED"}
+                  },
+                  "model": {"type": "String"},
+                  "key": {"name": "mediaType"}
+                },
+                {
+                  "annotations": {
+                    "layout": {"layoutModel": {
+                      "password": false,
+                      "tabName": "General",
+                      "query": false,
+                      "text": false,
+                      "order": 2
+                    }},
+                    "display": {"displayModel": {"example": "UTF-8"}},
+                    "expressionSupport": {"value": "SUPPORTED"}
+                  },
+                  "model": {"type": "String"},
+                  "key": {"name": "encoding"}
+                }
+              ]
+            },
+            "key": {"name": "payload"}
+          },
+          {
+            "annotations": {"expressionSupport": {"value": "NOT_SUPPORTED"}},
+            "model": {
+              "annotations": {
+                "classInformation": {
+                  "implementedInterfaces": [],
+                  "parent": "",
+                  "classname": "org.mule.munit.common.model.EventAttributes",
+                  "hasDefaultConstructor": true,
+                  "isInstantiable": true,
+                  "isFinal": false,
+                  "genericTypes": [],
+                  "isInterface": false,
+                  "isAbstract": false,
+                  "isMap": false
+                },
+                "typeId": "org.mule.munit.common.model.EventAttributes",
+                "typeAlias": {"value": "EventAttributes"}
+              },
+              "type": "Object",
+              "fields": [
+                {
+                  "annotations": {
+                    "layout": {"layoutModel": {
+                      "password": false,
+                      "tabName": "General",
+                      "query": false,
+                      "text": false,
+                      "order": 1
+                    }},
+                    "expressionSupport": {"value": "SUPPORTED"}
+                  },
+                  "model": {
+                    "annotations": {
+                      "classInformation": {
+                        "implementedInterfaces": [],
+                        "parent": "",
+                        "classname": "java.lang.Object",
+                        "hasDefaultConstructor": true,
+                        "isInstantiable": true,
+                        "isFinal": false,
+                        "genericTypes": [],
+                        "isInterface": false,
+                        "isAbstract": false,
+                        "isMap": false
+                      },
+                      "typeId": "java.lang.Object",
+                      "typeAlias": {"value": "Object"}
+                    },
+                    "type": "Object",
+                    "fields": []
+                  },
+                  "key": {
+                    "name": "value",
+                    "required": "true"
+                  }
+                },
+                {
+                  "annotations": {
+                    "layout": {"layoutModel": {
+                      "password": false,
+                      "tabName": "General",
+                      "query": false,
+                      "text": false,
+                      "order": 2
+                    }},
+                    "display": {"displayModel": {"example": "application/java"}},
+                    "expressionSupport": {"value": "SUPPORTED"}
+                  },
+                  "model": {"type": "String"},
+                  "key": {"name": "mediaType"}
+                },
+                {
+                  "annotations": {
+                    "layout": {"layoutModel": {
+                      "password": false,
+                      "tabName": "General",
+                      "query": false,
+                      "text": false,
+                      "order": 3
+                    }},
+                    "display": {"displayModel": {"example": "UTF-8"}},
+                    "expressionSupport": {"value": "SUPPORTED"}
+                  },
+                  "model": {"type": "String"},
+                  "key": {"name": "encoding"}
+                }
+              ]
+            },
+            "key": {"name": "attributes"}
+          },
+          {
+            "annotations": {"expressionSupport": {"value": "NOT_SUPPORTED"}},
+            "model": {
+              "annotations": {
+                "classInformation": {
+                  "implementedInterfaces": [],
+                  "parent": "",
+                  "classname": "org.mule.munit.common.model.EventError",
+                  "hasDefaultConstructor": true,
+                  "isInstantiable": true,
+                  "isFinal": false,
+                  "genericTypes": [],
+                  "isInterface": false,
+                  "isAbstract": false,
+                  "isMap": false
+                },
+                "typeId": "org.mule.munit.common.model.EventError",
+                "typeAlias": {"value": "EventError"}
+              },
+              "type": "Object",
+              "fields": [
+                {
+                  "annotations": {
+                    "layout": {"layoutModel": {
+                      "password": false,
+                      "tabName": "General",
+                      "query": false,
+                      "text": false,
+                      "order": 0
+                    }},
+                    "display": {"displayModel": {"example": "ANY"}},
+                    "expressionSupport": {"value": "SUPPORTED"}
+                  },
+                  "model": {"type": "String"},
+                  "key": {"name": "typeId"}
+                },
+                {
+                  "annotations": {
+                    "layout": {"layoutModel": {
+                      "password": false,
+                      "tabName": "General",
+                      "query": false,
+                      "text": false,
+                      "order": 1
+                    }},
+                    "expressionSupport": {"value": "REQUIRED"}
+                  },
+                  "model": {
+                    "annotations": {
+                      "classInformation": {
+                        "implementedInterfaces": ["java.io.Serializable"],
+                        "parent": "",
+                        "classname": "java.lang.Throwable",
+                        "hasDefaultConstructor": true,
+                        "isInstantiable": true,
+                        "isFinal": false,
+                        "genericTypes": [],
+                        "isInterface": false,
+                        "isAbstract": false,
+                        "isMap": false
+                      },
+                      "typeId": "java.lang.Throwable",
+                      "typeAlias": {"value": "Throwable"}
+                    },
+                    "type": "Object",
+                    "fields": [
+                      {
+                        "annotations": {"visibility": "READ_ONLY"},
+                        "model": "#..",
+                        "key": {"name": "cause"}
+                      },
+                      {
+                        "annotations": {"visibility": "READ_ONLY"},
+                        "model": {"type": "String"},
+                        "key": {"name": "localizedMessage"}
+                      },
+                      {
+                        "annotations": {"visibility": "READ_ONLY"},
+                        "model": {"type": "String"},
+                        "key": {"name": "message"}
+                      },
+                      {
+                        "model": {
+                          "item": {
+                            "annotations": {
+                              "classInformation": {
+                                "implementedInterfaces": ["java.io.Serializable"],
+                                "parent": "",
+                                "classname": "java.lang.StackTraceElement",
+                                "hasDefaultConstructor": false,
+                                "isInstantiable": false,
+                                "isFinal": true,
+                                "genericTypes": [],
+                                "isInterface": false,
+                                "isAbstract": false,
+                                "isMap": false
+                              },
+                              "typeId": "java.lang.StackTraceElement",
+                              "typeAlias": {"value": "StackTraceElement"}
+                            },
+                            "type": "Object",
+                            "fields": [
+                              {
+                                "annotations": {"visibility": "READ_ONLY"},
+                                "model": {"type": "String"},
+                                "key": {"name": "className"}
+                              },
+                              {
+                                "annotations": {"visibility": "READ_ONLY"},
+                                "model": {"type": "String"},
+                                "key": {"name": "fileName"}
+                              },
+                              {
+                                "annotations": {"visibility": "READ_ONLY"},
+                                "model": {
+                                  "annotations": {
+                                    "classInformation": {
+                                      "implementedInterfaces": [],
+                                      "parent": "",
+                                      "classname": "int",
+                                      "hasDefaultConstructor": false,
+                                      "isInstantiable": false,
+                                      "isFinal": true,
+                                      "genericTypes": [],
+                                      "isInterface": false,
+                                      "isAbstract": true,
+                                      "isMap": false
+                                    },
+                                    "int": {}
+                                  },
+                                  "type": "Number"
+                                },
+                                "key": {"name": "lineNumber"}
+                              },
+                              {
+                                "annotations": {"visibility": "READ_ONLY"},
+                                "model": {"type": "String"},
+                                "key": {"name": "methodName"}
+                              },
+                              {
+                                "annotations": {"visibility": "READ_ONLY"},
+                                "model": {
+                                  "annotations": {"typeId": "boolean"},
+                                  "type": "Boolean"
+                                },
+                                "key": {"name": "nativeMethod"}
+                              }
+                            ]
+                          },
+                          "annotations": {"classInformation": {
+                            "implementedInterfaces": [
+                              "java.lang.Cloneable",
+                              "java.io.Serializable"
+                            ],
+                            "parent": "",
+                            "classname": "java.lang.StackTraceElement[]",
+                            "hasDefaultConstructor": false,
+                            "isInstantiable": false,
+                            "isFinal": true,
+                            "genericTypes": [],
+                            "isInterface": false,
+                            "isAbstract": true,
+                            "isMap": false
+                          }},
+                          "type": "Array"
+                        },
+                        "key": {"name": "stackTrace"}
+                      },
+                      {
+                        "annotations": {"visibility": "READ_ONLY"},
+                        "model": {
+                          "item": "#../..",
+                          "annotations": {"classInformation": {
+                            "implementedInterfaces": [
+                              "java.lang.Cloneable",
+                              "java.io.Serializable"
+                            ],
+                            "parent": "",
+                            "classname": "java.lang.Throwable[]",
+                            "hasDefaultConstructor": false,
+                            "isInstantiable": false,
+                            "isFinal": true,
+                            "genericTypes": [],
+                            "isInterface": false,
+                            "isAbstract": true,
+                            "isMap": false
+                          }},
+                          "type": "Array"
+                        },
+                        "key": {"name": "suppressed"}
+                      }
+                    ]
+                  },
+                  "key": {"name": "cause"}
+                }
+              ]
+            },
+            "key": {"name": "error"}
+          },
+          {
+            "annotations": {"expressionSupport": {"value": "NOT_SUPPORTED"}},
+            "model": {
+              "item": {
+                "annotations": {
+                  "classInformation": {
+                    "implementedInterfaces": [],
+                    "parent": "org.mule.munit.common.model.DefaultTypedKeyValue",
+                    "classname": "org.mule.munit.common.model.Variable",
+                    "hasDefaultConstructor": true,
+                    "isInstantiable": true,
+                    "isFinal": false,
+                    "genericTypes": [],
+                    "isInterface": false,
+                    "isAbstract": false,
+                    "isMap": false
+                  },
+                  "typeId": "org.mule.munit.common.model.Variable",
+                  "typeAlias": {"value": "Variable"}
+                },
+                "type": "Object",
+                "fields": [
+                  {
+                    "annotations": {
+                      "layout": {"layoutModel": {
+                        "password": false,
+                        "tabName": "General",
+                        "query": false,
+                        "text": false,
+                        "order": 0
+                      }},
+                      "expressionSupport": {"value": "SUPPORTED"}
+                    },
+                    "model": {"type": "String"},
+                    "key": {
+                      "name": "key",
+                      "required": "true"
+                    }
+                  },
+                  {
+                    "annotations": {
+                      "layout": {"layoutModel": {
+                        "password": false,
+                        "tabName": "General",
+                        "query": false,
+                        "text": false,
+                        "order": 1
+                      }},
+                      "expressionSupport": {"value": "SUPPORTED"}
+                    },
+                    "model": {
+                      "annotations": {
+                        "classInformation": {
+                          "implementedInterfaces": [],
+                          "parent": "",
+                          "classname": "java.lang.Object",
+                          "hasDefaultConstructor": true,
+                          "isInstantiable": true,
+                          "isFinal": false,
+                          "genericTypes": [],
+                          "isInterface": false,
+                          "isAbstract": false,
+                          "isMap": false
+                        },
+                        "typeId": "java.lang.Object",
+                        "typeAlias": {"value": "Object"}
+                      },
+                      "type": "Object",
+                      "fields": []
+                    },
+                    "key": {
+                      "name": "value",
+                      "required": "true"
+                    }
+                  },
+                  {
+                    "annotations": {
+                      "layout": {"layoutModel": {
+                        "password": false,
+                        "tabName": "General",
+                        "query": false,
+                        "text": false,
+                        "order": 2
+                      }},
+                      "display": {"displayModel": {"example": "application/java"}},
+                      "expressionSupport": {"value": "SUPPORTED"}
+                    },
+                    "model": {"type": "String"},
+                    "key": {"name": "mediaType"}
+                  },
+                  {
+                    "annotations": {
+                      "layout": {"layoutModel": {
+                        "password": false,
+                        "tabName": "General",
+                        "query": false,
+                        "text": false,
+                        "order": 3
+                      }},
+                      "display": {"displayModel": {"example": "UTF-8"}},
+                      "expressionSupport": {"value": "SUPPORTED"}
+                    },
+                    "model": {"type": "String"},
+                    "key": {"name": "encoding"}
+                  }
+                ]
+              },
+              "annotations": {"classInformation": {
+                "implementedInterfaces": ["java.util.Collection"],
+                "parent": "",
+                "classname": "java.util.List",
+                "hasDefaultConstructor": false,
+                "isInstantiable": false,
+                "isFinal": false,
+                "genericTypes": ["org.mule.munit.common.model.Variable"],
+                "isInterface": true,
+                "isAbstract": true,
+                "isMap": false
+              }},
+              "type": "Array"
+            },
+            "key": {"name": "variables"}
+          },
+          {
+            "annotations": {"expressionSupport": {"value": "NOT_SUPPORTED"}},
+            "model": {
+              "item": {
+                "annotations": {
+                  "classInformation": {
+                    "implementedInterfaces": [],
+                    "parent": "org.mule.munit.common.model.DefaultTypedKeyValue",
+                    "classname": "org.mule.munit.common.model.Property",
+                    "hasDefaultConstructor": true,
+                    "isInstantiable": true,
+                    "isFinal": false,
+                    "genericTypes": [],
+                    "isInterface": false,
+                    "isAbstract": false,
+                    "isMap": false
+                  },
+                  "typeId": "org.mule.munit.common.model.Property",
+                  "typeAlias": {"value": "Property"}
+                },
+                "type": "Object",
+                "fields": [
+                  {
+                    "annotations": {
+                      "layout": {"layoutModel": {
+                        "password": false,
+                        "tabName": "General",
+                        "query": false,
+                        "text": false,
+                        "order": 0
+                      }},
+                      "expressionSupport": {"value": "SUPPORTED"}
+                    },
+                    "model": {"type": "String"},
+                    "key": {
+                      "name": "key",
+                      "required": "true"
+                    }
+                  },
+                  {
+                    "annotations": {
+                      "layout": {"layoutModel": {
+                        "password": false,
+                        "tabName": "General",
+                        "query": false,
+                        "text": false,
+                        "order": 1
+                      }},
+                      "expressionSupport": {"value": "SUPPORTED"}
+                    },
+                    "model": {
+                      "annotations": {
+                        "classInformation": {
+                          "implementedInterfaces": [],
+                          "parent": "",
+                          "classname": "java.lang.Object",
+                          "hasDefaultConstructor": true,
+                          "isInstantiable": true,
+                          "isFinal": false,
+                          "genericTypes": [],
+                          "isInterface": false,
+                          "isAbstract": false,
+                          "isMap": false
+                        },
+                        "typeId": "java.lang.Object",
+                        "typeAlias": {"value": "Object"}
+                      },
+                      "type": "Object",
+                      "fields": []
+                    },
+                    "key": {
+                      "name": "value",
+                      "required": "true"
+                    }
+                  },
+                  {
+                    "annotations": {
+                      "layout": {"layoutModel": {
+                        "password": false,
+                        "tabName": "General",
+                        "query": false,
+                        "text": false,
+                        "order": 2
+                      }},
+                      "display": {"displayModel": {"example": "application/java"}},
+                      "expressionSupport": {"value": "SUPPORTED"}
+                    },
+                    "model": {"type": "String"},
+                    "key": {"name": "mediaType"}
+                  },
+                  {
+                    "annotations": {
+                      "layout": {"layoutModel": {
+                        "password": false,
+                        "tabName": "General",
+                        "query": false,
+                        "text": false,
+                        "order": 3
+                      }},
+                      "display": {"displayModel": {"example": "UTF-8"}},
+                      "expressionSupport": {"value": "SUPPORTED"}
+                    },
+                    "model": {"type": "String"},
+                    "key": {"name": "encoding"}
+                  }
+                ]
+              },
+              "annotations": {"classInformation": {
+                "implementedInterfaces": ["java.util.Collection"],
+                "parent": "",
+                "classname": "java.util.List",
+                "hasDefaultConstructor": false,
+                "isInstantiable": false,
+                "isFinal": false,
+                "genericTypes": ["org.mule.munit.common.model.Property"],
+                "isInterface": true,
+                "isAbstract": true,
+                "isMap": false
+              }},
+              "type": "Array"
+            },
+            "key": {"name": "sessionProperties"}
+          },
+          {
+            "annotations": {"expressionSupport": {"value": "NOT_SUPPORTED"}},
+            "model": {
+              "item": {
+                "annotations": {
+                  "classInformation": {
+                    "implementedInterfaces": [],
+                    "parent": "org.mule.munit.common.model.DefaultTypedKeyValue",
+                    "classname": "org.mule.munit.common.model.Property",
+                    "hasDefaultConstructor": true,
+                    "isInstantiable": true,
+                    "isFinal": false,
+                    "genericTypes": [],
+                    "isInterface": false,
+                    "isAbstract": false,
+                    "isMap": false
+                  },
+                  "typeId": "org.mule.munit.common.model.Property",
+                  "typeAlias": {"value": "Property"}
+                },
+                "type": "Object",
+                "fields": [
+                  {
+                    "annotations": {
+                      "layout": {"layoutModel": {
+                        "password": false,
+                        "tabName": "General",
+                        "query": false,
+                        "text": false,
+                        "order": 0
+                      }},
+                      "expressionSupport": {"value": "SUPPORTED"}
+                    },
+                    "model": {"type": "String"},
+                    "key": {
+                      "name": "key",
+                      "required": "true"
+                    }
+                  },
+                  {
+                    "annotations": {
+                      "layout": {"layoutModel": {
+                        "password": false,
+                        "tabName": "General",
+                        "query": false,
+                        "text": false,
+                        "order": 1
+                      }},
+                      "expressionSupport": {"value": "SUPPORTED"}
+                    },
+                    "model": {
+                      "annotations": {
+                        "classInformation": {
+                          "implementedInterfaces": [],
+                          "parent": "",
+                          "classname": "java.lang.Object",
+                          "hasDefaultConstructor": true,
+                          "isInstantiable": true,
+                          "isFinal": false,
+                          "genericTypes": [],
+                          "isInterface": false,
+                          "isAbstract": false,
+                          "isMap": false
+                        },
+                        "typeId": "java.lang.Object",
+                        "typeAlias": {"value": "Object"}
+                      },
+                      "type": "Object",
+                      "fields": []
+                    },
+                    "key": {
+                      "name": "value",
+                      "required": "true"
+                    }
+                  },
+                  {
+                    "annotations": {
+                      "layout": {"layoutModel": {
+                        "password": false,
+                        "tabName": "General",
+                        "query": false,
+                        "text": false,
+                        "order": 2
+                      }},
+                      "display": {"displayModel": {"example": "application/java"}},
+                      "expressionSupport": {"value": "SUPPORTED"}
+                    },
+                    "model": {"type": "String"},
+                    "key": {"name": "mediaType"}
+                  },
+                  {
+                    "annotations": {
+                      "layout": {"layoutModel": {
+                        "password": false,
+                        "tabName": "General",
+                        "query": false,
+                        "text": false,
+                        "order": 3
+                      }},
+                      "display": {"displayModel": {"example": "UTF-8"}},
+                      "expressionSupport": {"value": "SUPPORTED"}
+                    },
+                    "model": {"type": "String"},
+                    "key": {"name": "encoding"}
+                  }
+                ]
+              },
+              "annotations": {"classInformation": {
+                "implementedInterfaces": ["java.util.Collection"],
+                "parent": "",
+                "classname": "java.util.List",
+                "hasDefaultConstructor": false,
+                "isInstantiable": false,
+                "isFinal": false,
+                "genericTypes": ["org.mule.munit.common.model.Property"],
+                "isInterface": true,
+                "isAbstract": true,
+                "isMap": false
+              }},
+              "type": "Array"
+            },
+            "key": {"name": "inboundProperties"}
+          },
+          {
+            "annotations": {"expressionSupport": {"value": "NOT_SUPPORTED"}},
+            "model": {
+              "item": {
+                "annotations": {
+                  "classInformation": {
+                    "implementedInterfaces": [],
+                    "parent": "org.mule.munit.common.model.DefaultTypedKeyValue",
+                    "classname": "org.mule.munit.common.model.Property",
+                    "hasDefaultConstructor": true,
+                    "isInstantiable": true,
+                    "isFinal": false,
+                    "genericTypes": [],
+                    "isInterface": false,
+                    "isAbstract": false,
+                    "isMap": false
+                  },
+                  "typeId": "org.mule.munit.common.model.Property",
+                  "typeAlias": {"value": "Property"}
+                },
+                "type": "Object",
+                "fields": [
+                  {
+                    "annotations": {
+                      "layout": {"layoutModel": {
+                        "password": false,
+                        "tabName": "General",
+                        "query": false,
+                        "text": false,
+                        "order": 0
+                      }},
+                      "expressionSupport": {"value": "SUPPORTED"}
+                    },
+                    "model": {"type": "String"},
+                    "key": {
+                      "name": "key",
+                      "required": "true"
+                    }
+                  },
+                  {
+                    "annotations": {
+                      "layout": {"layoutModel": {
+                        "password": false,
+                        "tabName": "General",
+                        "query": false,
+                        "text": false,
+                        "order": 1
+                      }},
+                      "expressionSupport": {"value": "SUPPORTED"}
+                    },
+                    "model": {
+                      "annotations": {
+                        "classInformation": {
+                          "implementedInterfaces": [],
+                          "parent": "",
+                          "classname": "java.lang.Object",
+                          "hasDefaultConstructor": true,
+                          "isInstantiable": true,
+                          "isFinal": false,
+                          "genericTypes": [],
+                          "isInterface": false,
+                          "isAbstract": false,
+                          "isMap": false
+                        },
+                        "typeId": "java.lang.Object",
+                        "typeAlias": {"value": "Object"}
+                      },
+                      "type": "Object",
+                      "fields": []
+                    },
+                    "key": {
+                      "name": "value",
+                      "required": "true"
+                    }
+                  },
+                  {
+                    "annotations": {
+                      "layout": {"layoutModel": {
+                        "password": false,
+                        "tabName": "General",
+                        "query": false,
+                        "text": false,
+                        "order": 2
+                      }},
+                      "display": {"displayModel": {"example": "application/java"}},
+                      "expressionSupport": {"value": "SUPPORTED"}
+                    },
+                    "model": {"type": "String"},
+                    "key": {"name": "mediaType"}
+                  },
+                  {
+                    "annotations": {
+                      "layout": {"layoutModel": {
+                        "password": false,
+                        "tabName": "General",
+                        "query": false,
+                        "text": false,
+                        "order": 3
+                      }},
+                      "display": {"displayModel": {"example": "UTF-8"}},
+                      "expressionSupport": {"value": "SUPPORTED"}
+                    },
+                    "model": {"type": "String"},
+                    "key": {"name": "encoding"}
+                  }
+                ]
+              },
+              "annotations": {"classInformation": {
+                "implementedInterfaces": ["java.util.Collection"],
+                "parent": "",
+                "classname": "java.util.List",
+                "hasDefaultConstructor": false,
+                "isInstantiable": false,
+                "isFinal": false,
+                "genericTypes": ["org.mule.munit.common.model.Property"],
+                "isInterface": true,
+                "isAbstract": true,
+                "isMap": false
+              }},
+              "type": "Array"
+            },
+            "key": {"name": "outboundProperties"}
+          },
+          {
+            "annotations": {"expressionSupport": {"value": "NOT_SUPPORTED"}},
+            "model": {
+              "item": {
+                "annotations": {
+                  "classInformation": {
+                    "implementedInterfaces": [],
+                    "parent": "org.mule.munit.common.model.DefaultTypedKeyValue",
+                    "classname": "org.mule.munit.common.model.Attachment",
+                    "hasDefaultConstructor": true,
+                    "isInstantiable": true,
+                    "isFinal": false,
+                    "genericTypes": [],
+                    "isInterface": false,
+                    "isAbstract": false,
+                    "isMap": false
+                  },
+                  "typeId": "org.mule.munit.common.model.Attachment",
+                  "typeAlias": {"value": "Attachment"}
+                },
+                "type": "Object",
+                "fields": [
+                  {
+                    "annotations": {
+                      "layout": {"layoutModel": {
+                        "password": false,
+                        "tabName": "General",
+                        "query": false,
+                        "text": false,
+                        "order": 0
+                      }},
+                      "expressionSupport": {"value": "SUPPORTED"}
+                    },
+                    "model": {"type": "String"},
+                    "key": {
+                      "name": "key",
+                      "required": "true"
+                    }
+                  },
+                  {
+                    "annotations": {
+                      "layout": {"layoutModel": {
+                        "password": false,
+                        "tabName": "General",
+                        "query": false,
+                        "text": false,
+                        "order": 1
+                      }},
+                      "expressionSupport": {"value": "SUPPORTED"}
+                    },
+                    "model": {
+                      "annotations": {
+                        "classInformation": {
+                          "implementedInterfaces": [],
+                          "parent": "",
+                          "classname": "java.lang.Object",
+                          "hasDefaultConstructor": true,
+                          "isInstantiable": true,
+                          "isFinal": false,
+                          "genericTypes": [],
+                          "isInterface": false,
+                          "isAbstract": false,
+                          "isMap": false
+                        },
+                        "typeId": "java.lang.Object",
+                        "typeAlias": {"value": "Object"}
+                      },
+                      "type": "Object",
+                      "fields": []
+                    },
+                    "key": {
+                      "name": "value",
+                      "required": "true"
+                    }
+                  },
+                  {
+                    "annotations": {
+                      "layout": {"layoutModel": {
+                        "password": false,
+                        "tabName": "General",
+                        "query": false,
+                        "text": false,
+                        "order": 2
+                      }},
+                      "display": {"displayModel": {"example": "application/java"}},
+                      "expressionSupport": {"value": "SUPPORTED"}
+                    },
+                    "model": {"type": "String"},
+                    "key": {"name": "mediaType"}
+                  },
+                  {
+                    "annotations": {
+                      "layout": {"layoutModel": {
+                        "password": false,
+                        "tabName": "General",
+                        "query": false,
+                        "text": false,
+                        "order": 3
+                      }},
+                      "display": {"displayModel": {"example": "UTF-8"}},
+                      "expressionSupport": {"value": "SUPPORTED"}
+                    },
+                    "model": {"type": "String"},
+                    "key": {"name": "encoding"}
+                  }
+                ]
+              },
+              "annotations": {"classInformation": {
+                "implementedInterfaces": ["java.util.Collection"],
+                "parent": "",
+                "classname": "java.util.List",
+                "hasDefaultConstructor": false,
+                "isInstantiable": false,
+                "isFinal": false,
+                "genericTypes": ["org.mule.munit.common.model.Attachment"],
+                "isInterface": true,
+                "isAbstract": true,
+                "isMap": false
+              }},
+              "type": "Array"
+            },
+            "key": {"name": "inboundAttachments"}
+          },
+          {
+            "annotations": {"expressionSupport": {"value": "NOT_SUPPORTED"}},
+            "model": {
+              "item": {
+                "annotations": {
+                  "classInformation": {
+                    "implementedInterfaces": [],
+                    "parent": "org.mule.munit.common.model.DefaultTypedKeyValue",
+                    "classname": "org.mule.munit.common.model.Attachment",
+                    "hasDefaultConstructor": true,
+                    "isInstantiable": true,
+                    "isFinal": false,
+                    "genericTypes": [],
+                    "isInterface": false,
+                    "isAbstract": false,
+                    "isMap": false
+                  },
+                  "typeId": "org.mule.munit.common.model.Attachment",
+                  "typeAlias": {"value": "Attachment"}
+                },
+                "type": "Object",
+                "fields": [
+                  {
+                    "annotations": {
+                      "layout": {"layoutModel": {
+                        "password": false,
+                        "tabName": "General",
+                        "query": false,
+                        "text": false,
+                        "order": 0
+                      }},
+                      "expressionSupport": {"value": "SUPPORTED"}
+                    },
+                    "model": {"type": "String"},
+                    "key": {
+                      "name": "key",
+                      "required": "true"
+                    }
+                  },
+                  {
+                    "annotations": {
+                      "layout": {"layoutModel": {
+                        "password": false,
+                        "tabName": "General",
+                        "query": false,
+                        "text": false,
+                        "order": 1
+                      }},
+                      "expressionSupport": {"value": "SUPPORTED"}
+                    },
+                    "model": {
+                      "annotations": {
+                        "classInformation": {
+                          "implementedInterfaces": [],
+                          "parent": "",
+                          "classname": "java.lang.Object",
+                          "hasDefaultConstructor": true,
+                          "isInstantiable": true,
+                          "isFinal": false,
+                          "genericTypes": [],
+                          "isInterface": false,
+                          "isAbstract": false,
+                          "isMap": false
+                        },
+                        "typeId": "java.lang.Object",
+                        "typeAlias": {"value": "Object"}
+                      },
+                      "type": "Object",
+                      "fields": []
+                    },
+                    "key": {
+                      "name": "value",
+                      "required": "true"
+                    }
+                  },
+                  {
+                    "annotations": {
+                      "layout": {"layoutModel": {
+                        "password": false,
+                        "tabName": "General",
+                        "query": false,
+                        "text": false,
+                        "order": 2
+                      }},
+                      "display": {"displayModel": {"example": "application/java"}},
+                      "expressionSupport": {"value": "SUPPORTED"}
+                    },
+                    "model": {"type": "String"},
+                    "key": {"name": "mediaType"}
+                  },
+                  {
+                    "annotations": {
+                      "layout": {"layoutModel": {
+                        "password": false,
+                        "tabName": "General",
+                        "query": false,
+                        "text": false,
+                        "order": 3
+                      }},
+                      "display": {"displayModel": {"example": "UTF-8"}},
+                      "expressionSupport": {"value": "SUPPORTED"}
+                    },
+                    "model": {"type": "String"},
+                    "key": {"name": "encoding"}
+                  }
+                ]
+              },
+              "annotations": {"classInformation": {
+                "implementedInterfaces": ["java.util.Collection"],
+                "parent": "",
+                "classname": "java.util.List",
+                "hasDefaultConstructor": false,
+                "isInstantiable": false,
+                "isFinal": false,
+                "genericTypes": ["org.mule.munit.common.model.Attachment"],
+                "isInterface": true,
+                "isAbstract": true,
+                "isMap": false
+              }},
+              "type": "Array"
+            },
+            "key": {"name": "outboundAttachments"}
+          }
+        ]
+      },
+      {
+        "format": "java",
+        "annotations": {
+          "classInformation": {
+            "implementedInterfaces": [],
+            "parent": "",
+            "classname": "org.mule.munit.common.model.FlowName",
+            "hasDefaultConstructor": true,
+            "isInstantiable": true,
+            "isFinal": false,
+            "genericTypes": [],
+            "isInterface": false,
+            "isAbstract": false,
+            "isMap": false
+          },
+          "typeId": "org.mule.munit.common.model.FlowName",
+          "typeAlias": {"value": "FlowName"}
+        },
+        "type": "Object",
+        "fields": [{
+          "annotations": {
+            "stereotype": {"allowedStereotypes": [{
+              "namespace": "MULE",
+              "type": "FLOW"
+            }]},
+            "expressionSupport": {"value": "SUPPORTED"}
+          },
+          "model": {"type": "String"},
+          "key": {
+            "name": "flow",
+            "required": "true"
+          }
+        }]
+      },
+      {
+        "format": "java",
+        "annotations": {
+          "classInformation": {
+            "implementedInterfaces": [],
+            "parent": "",
+            "classname": "org.mule.munit.tools.util.GetResourceFunctions",
+            "hasDefaultConstructor": true,
+            "isInstantiable": true,
+            "isFinal": false,
+            "genericTypes": [],
+            "isInterface": false,
+            "isAbstract": false,
+            "isMap": false
+          },
+          "typeId": "org.mule.munit.tools.util.GetResourceFunctions",
+          "typeAlias": {"value": "GetResourceFunctions"}
+        },
+        "type": "Object",
+        "fields": []
+      },
+      {
+        "format": "java",
+        "annotations": {
+          "classInformation": {
+            "implementedInterfaces": [
+              "org.mule.munit.runner.component.rules.TestRule",
+              "org.mule.runtime.api.lifecycle.Initialisable"
+            ],
+            "parent": "",
+            "classname": "org.mule.munit.tools.util.queue.api.TemporaryQueueRule",
+            "hasDefaultConstructor": true,
+            "isInstantiable": true,
+            "isFinal": false,
+            "genericTypes": [],
+            "isInterface": false,
+            "isAbstract": false,
+            "isMap": false
+          },
+          "typeId": "org.mule.munit.tools.util.queue.api.TemporaryQueueRule",
+          "typeAlias": {"value": "TemporaryQueueRule"}
+        },
+        "type": "Object",
+        "fields": []
+      }
+    ],
+    "messageSources": [],
+    "functions": [],
+    "configurations": [{
+      "externalLibraryModels": [],
+      "operations": [],
+      "messageSources": [],
+      "name": "config",
+      "description": "Default configuration",
+      "modelProperties": {"requiredForMetadata": {"requiredParameters": ["name"]}},
+      "stereotype": {
+        "parent": {
+          "namespace": "MULE",
+          "type": "MODULE_CONFIG"
+        },
+        "namespace": "MUNIT-TOOLS",
+        "type": "CONFIG"
+      },
+      "parameterGroupModels": [{
+        "name": "General",
+        "layoutModel": {
+          "password": false,
+          "query": false,
+          "text": false,
+          "order": 1
+        },
+        "description": "",
+        "modelProperties": {},
+        "parameters": [{
+          "role": "BEHAVIOUR",
+          "description": "The identifier of this element used to reference it in other components",
+          "modelProperties": {},
+          "type": {
+            "format": "java",
+            "type": "String"
+          },
+          "required": true,
+          "expressionSupport": "NOT_SUPPORTED",
+          "hasDynamicType": false,
+          "isConfigOverride": false,
+          "dslConfiguration": {
+            "allowTopLevelDefinition": false,
+            "allowsInlineDefinition": false,
+            "allowsReferences": false
+          },
+          "name": "name",
+          "layoutModel": {
+            "password": false,
+            "query": false,
+            "text": false,
+            "order": 1
+          },
+          "allowedStereotypeModels": [],
+          "isComponentId": true
+        }],
+        "exclusiveParametersModels": [],
+        "showInDsl": false
+      }],
+      "connectionProviders": []
+    }],
+    "externalLibraries": [],
+    "description": "<p> MUnit Tools to perform testing on mule <\/p>",
+    "resources": [
+      "MunitTools.dwl",
+      "dw/test/Asserts.dwl",
+      "dw/test/internal/Utils.dwl"
+    ],
+    "subTypes": [],
+    "modelProperties": {},
+    "constructs": [{
+      "kind": "construct",
+      "name": "spy",
+      "description": "",
+      "modelProperties": {},
+      "stereotype": {
+        "parent": {
+          "parent": {
+            "namespace": "MULE",
+            "type": "PROCESSOR"
+          },
+          "namespace": "MUNIT-TOOLS",
+          "type": "PROCESSOR"
+        },
+        "namespace": "MUNIT-TOOLS",
+        "type": "SPY"
+      },
+      "parameterGroupModels": [{
+        "name": "General",
+        "description": "",
+        "modelProperties": {},
+        "parameters": [
+          {
+            "role": "BEHAVIOUR",
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "String"
+            },
+            "required": true,
+            "expressionSupport": "SUPPORTED",
+            "hasDynamicType": false,
+            "isConfigOverride": false,
+            "dslConfiguration": {
+              "allowTopLevelDefinition": false,
+              "allowsInlineDefinition": false,
+              "allowsReferences": false
+            },
+            "name": "processor",
+            "layoutModel": {
+              "password": false,
+              "query": false,
+              "text": false
+            },
+            "allowedStereotypeModels": [],
+            "isComponentId": false
+          },
+          {
+            "role": "BEHAVIOUR",
+            "description": "",
+            "modelProperties": {},
+            "type": {
+              "item": {"type": "@ref:org.mule.munit.common.model.Attribute"},
+              "format": "java",
+              "annotations": {"classInformation": {
+                "implementedInterfaces": ["java.util.Collection"],
+                "parent": "",
+                "classname": "java.util.List",
+                "hasDefaultConstructor": false,
+                "isInstantiable": false,
+                "isFinal": false,
+                "genericTypes": ["org.mule.munit.common.model.Attribute"],
+                "isInterface": true,
+                "isAbstract": true,
+                "isMap": false
+              }},
+              "type": "Array"
+            },
+            "required": false,
+            "expressionSupport": "NOT_SUPPORTED",
+            "hasDynamicType": false,
+            "isConfigOverride": false,
+            "dslConfiguration": {
+              "allowTopLevelDefinition": false,
+              "allowsInlineDefinition": true,
+              "allowsReferences": true
+            },
+            "name": "withAttributes",
+            "layoutModel": {
+              "password": false,
+              "query": false,
+              "text": false
+            },
+            "allowedStereotypeModels": [],
+            "isComponentId": false
+          }
+        ],
+        "exclusiveParametersModels": [],
+        "showInDsl": false
+      }],
+      "nestedComponents": [
+        {
+          "minOccurs": 0,
+          "kind": "route",
+          "name": "beforeCall",
+          "description": "",
+          "modelProperties": {},
+          "parameterGroupModels": [],
+          "childComponents": [{
+            "allowedStereotypes": [{
+              "namespace": "MULE",
+              "type": "PROCESSOR"
+            }],
+            "isRequired": true,
+            "kind": "chain",
+            "name": "processors",
+            "description": "",
+            "modelProperties": {}
+          }]
+        },
+        {
+          "minOccurs": 0,
+          "kind": "route",
+          "name": "afterCall",
+          "description": "",
+          "modelProperties": {},
+          "parameterGroupModels": [],
+          "childComponents": [{
+            "allowedStereotypes": [{
+              "namespace": "MULE",
+              "type": "PROCESSOR"
+            }],
+            "isRequired": true,
+            "kind": "chain",
+            "name": "processors",
+            "description": "",
+            "modelProperties": {}
+          }]
+        }
+      ],
+      "allowsTopLevelDefinition": false,
+      "errors": []
+    }],
+    "connectionProviders": [],
+    "version": "2.2.5",
+    "privilegedArtifacts": [],
+    "importedTypes": [{
+      "format": "java",
+      "annotations": {
+        "extensibleType": {},
+        "classInformation": {
+          "implementedInterfaces": [],
+          "parent": "",
+          "classname": "org.mule.runtime.api.store.ObjectStore",
+          "hasDefaultConstructor": false,
+          "isInstantiable": false,
+          "isFinal": false,
+          "genericTypes": [],
+          "isInterface": true,
+          "isAbstract": true,
+          "isMap": false
+        },
+        "typeId": "org.mule.runtime.api.store.ObjectStore",
+        "typeAlias": {"value": "ObjectStore"}
+      },
+      "type": "Object",
+      "fields": []
+    }],
+    "xmlDsl": {
+      "schemaVersion": "2.2.5",
+      "prefix": "munit-tools",
+      "schemaLocation": "http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd",
+      "namespace": "http://www.mulesoft.org/schema/mule/munit-tools",
+      "xsdFileName": "mule-munit-tools.xsd"
+    },
+    "operations": [
+      {
+        "displayModel": {
+          "summary": "Asserts that an expression is successful",
+          "displayName": "Assert expression"
+        },
+        "kind": "operation",
+        "executionType": "CPU_LITE",
+        "description": "Evaluates if the given that assertion expression is successful. If the assertion fails, it throws an AssertionError",
+        "modelProperties": {},
+        "parameterGroupModels": [{
+          "name": "General",
+          "layoutModel": {
+            "password": false,
+            "query": false,
+            "text": false,
+            "order": 1
+          },
+          "description": "",
+          "modelProperties": {},
+          "parameters": [
+            {
+              "displayModel": {"displayName": "Expression"},
+              "role": "PRIMARY_CONTENT",
+              "defaultValue": "#[import * from dw::test::Asserts \n ---\npayload must notBeNull()]",
+              "description": "result of the assertion expression",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "type": "@ref:org.mule.munit.assertion.api.expression.MatcherResult"
+              },
+              "required": false,
+              "expressionSupport": "SUPPORTED",
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": true,
+                "allowsReferences": false
+              },
+              "name": "that",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 1
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            },
+            {
+              "role": "BEHAVIOUR",
+              "defaultValue": "Assertion failed",
+              "description": "message in case the assertion fails",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "required": false,
+              "expressionSupport": "SUPPORTED",
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": false
+              },
+              "name": "message",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 2
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            }
+          ],
+          "exclusiveParametersModels": [],
+          "showInDsl": false
+        }],
+        "output": {
+          "hasDynamicType": false,
+          "description": "",
+          "modelProperties": {},
+          "type": {
+            "format": "java",
+            "type": "Void"
+          }
+        },
+        "outputAttributes": {
+          "hasDynamicType": false,
+          "description": "",
+          "modelProperties": {},
+          "type": {
+            "format": "java",
+            "type": "Void"
+          }
+        },
+        "supportsStreaming": false,
+        "requiresConnection": false,
+        "blocking": true,
+        "name": "assert",
+        "stereotype": {
+          "parent": {
+            "parent": {
+              "namespace": "MULE",
+              "type": "PROCESSOR"
+            },
+            "namespace": "MUNIT-TOOLS",
+            "type": "PROCESSOR"
+          },
+          "namespace": "MUNIT-TOOLS",
+          "type": "ASSERT"
+        },
+        "nestedComponents": [],
+        "transactional": false,
+        "notifications": [],
+        "errors": ["MUNIT-TOOLS:INVALID_ASSERTION"]
+      },
+      {
+        "displayModel": {"summary": "Check if an expression is equal to a value"},
+        "kind": "operation",
+        "executionType": "CPU_LITE",
+        "description": "Checks if the given actual value is equal to the expected value. If they differ, an AssertionError is thrown.",
+        "modelProperties": {},
+        "parameterGroupModels": [{
+          "name": "General",
+          "layoutModel": {
+            "password": false,
+            "query": false,
+            "text": false,
+            "order": 1
+          },
+          "description": "",
+          "modelProperties": {},
+          "parameters": [
+            {
+              "displayModel": {"example": "#[payload]"},
+              "role": "BEHAVIOUR",
+              "description": "actual value to be asserted",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "annotations": {
+                  "classInformation": {
+                    "implementedInterfaces": [],
+                    "parent": "",
+                    "classname": "java.lang.Object",
+                    "hasDefaultConstructor": true,
+                    "isInstantiable": true,
+                    "isFinal": false,
+                    "genericTypes": [],
+                    "isInterface": false,
+                    "isAbstract": false,
+                    "isMap": false
+                  },
+                  "typeId": "java.lang.Object",
+                  "typeAlias": {"value": "Object"}
+                },
+                "type": "Object",
+                "fields": []
+              },
+              "required": true,
+              "expressionSupport": "SUPPORTED",
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": true
+              },
+              "name": "actual",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 1
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            },
+            {
+              "displayModel": {"example": "#['EXAMPLE']"},
+              "role": "BEHAVIOUR",
+              "description": "expected value of the assertion",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "annotations": {
+                  "classInformation": {
+                    "implementedInterfaces": [],
+                    "parent": "",
+                    "classname": "java.lang.Object",
+                    "hasDefaultConstructor": true,
+                    "isInstantiable": true,
+                    "isFinal": false,
+                    "genericTypes": [],
+                    "isInterface": false,
+                    "isAbstract": false,
+                    "isMap": false
+                  },
+                  "typeId": "java.lang.Object",
+                  "typeAlias": {"value": "Object"}
+                },
+                "type": "Object",
+                "fields": []
+              },
+              "required": true,
+              "expressionSupport": "SUPPORTED",
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": false
+              },
+              "name": "expected",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 2
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            },
+            {
+              "role": "BEHAVIOUR",
+              "defaultValue": "",
+              "description": "message in case the assertion fails",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "required": false,
+              "expressionSupport": "SUPPORTED",
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": false
+              },
+              "name": "message",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 3
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            }
+          ],
+          "exclusiveParametersModels": [],
+          "showInDsl": false
+        }],
+        "output": {
+          "hasDynamicType": false,
+          "description": "",
+          "modelProperties": {},
+          "type": {
+            "format": "java",
+            "type": "Void"
+          }
+        },
+        "outputAttributes": {
+          "hasDynamicType": false,
+          "description": "",
+          "modelProperties": {},
+          "type": {
+            "format": "java",
+            "type": "Void"
+          }
+        },
+        "supportsStreaming": false,
+        "requiresConnection": false,
+        "blocking": true,
+        "name": "assertEquals",
+        "stereotype": {
+          "parent": {
+            "parent": {
+              "namespace": "MULE",
+              "type": "PROCESSOR"
+            },
+            "namespace": "MUNIT-TOOLS",
+            "type": "PROCESSOR"
+          },
+          "namespace": "MUNIT-TOOLS",
+          "type": "ASSERT_EQUALS"
+        },
+        "nestedComponents": [],
+        "transactional": false,
+        "notifications": [],
+        "errors": []
+      },
+      {
+        "displayModel": {"summary": "Perform an assertion over an expression"},
+        "kind": "operation",
+        "executionType": "CPU_LITE",
+        "description": "Checks if the expression matches the given is Matcher. If the assertion fails, it throws an AssertionError",
+        "modelProperties": {},
+        "parameterGroupModels": [{
+          "name": "General",
+          "layoutModel": {
+            "password": false,
+            "query": false,
+            "text": false,
+            "order": 1
+          },
+          "description": "",
+          "modelProperties": {},
+          "parameters": [
+            {
+              "displayModel": {"example": "#[payload]"},
+              "role": "BEHAVIOUR",
+              "description": "value to be asserted",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "annotations": {
+                  "classInformation": {
+                    "implementedInterfaces": [],
+                    "parent": "",
+                    "classname": "java.lang.Object",
+                    "hasDefaultConstructor": true,
+                    "isInstantiable": true,
+                    "isFinal": false,
+                    "genericTypes": [],
+                    "isInterface": false,
+                    "isAbstract": false,
+                    "isMap": false
+                  },
+                  "typeId": "java.lang.Object",
+                  "typeAlias": {"value": "Object"}
+                },
+                "type": "Object",
+                "fields": []
+              },
+              "required": true,
+              "expressionSupport": "SUPPORTED",
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": true
+              },
+              "name": "expression",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 1
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            },
+            {
+              "displayModel": {"example": "#[MunitTools::notNullValue()]"},
+              "role": "BEHAVIOUR",
+              "description": "matcher to validate against the expression",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "type": "@ref:org.mule.munit.assertion.api.matchers.Matcher"
+              },
+              "required": true,
+              "expressionSupport": "REQUIRED",
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": true
+              },
+              "name": "is",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 2
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            },
+            {
+              "role": "BEHAVIOUR",
+              "defaultValue": "",
+              "description": "message in case the assertion fails",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "required": false,
+              "expressionSupport": "SUPPORTED",
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": false
+              },
+              "name": "message",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 3
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            }
+          ],
+          "exclusiveParametersModels": [],
+          "showInDsl": false
+        }],
+        "output": {
+          "hasDynamicType": false,
+          "description": "",
+          "modelProperties": {},
+          "type": {
+            "format": "java",
+            "type": "Void"
+          }
+        },
+        "outputAttributes": {
+          "hasDynamicType": false,
+          "description": "",
+          "modelProperties": {},
+          "type": {
+            "format": "java",
+            "type": "Void"
+          }
+        },
+        "supportsStreaming": false,
+        "requiresConnection": false,
+        "blocking": true,
+        "name": "assertThat",
+        "stereotype": {
+          "parent": {
+            "parent": {
+              "namespace": "MULE",
+              "type": "PROCESSOR"
+            },
+            "namespace": "MUNIT-TOOLS",
+            "type": "PROCESSOR"
+          },
+          "namespace": "MUNIT-TOOLS",
+          "type": "ASSERT_THAT"
+        },
+        "nestedComponents": [],
+        "transactional": false,
+        "notifications": [],
+        "errors": []
+      },
+      {
+        "displayModel": {"summary": "Clears all stored data"},
+        "kind": "operation",
+        "executionType": "CPU_LITE",
+        "description": "Removes all stored data",
+        "modelProperties": {},
+        "parameterGroupModels": [],
+        "output": {
+          "hasDynamicType": false,
+          "description": "",
+          "modelProperties": {},
+          "type": {
+            "format": "java",
+            "type": "Void"
+          }
+        },
+        "outputAttributes": {
+          "hasDynamicType": false,
+          "description": "",
+          "modelProperties": {},
+          "type": {
+            "format": "java",
+            "type": "Void"
+          }
+        },
+        "supportsStreaming": false,
+        "requiresConnection": false,
+        "blocking": true,
+        "name": "clearStoredData",
+        "stereotype": {
+          "parent": {
+            "parent": {
+              "namespace": "MULE",
+              "type": "PROCESSOR"
+            },
+            "namespace": "MUNIT-TOOLS",
+            "type": "PROCESSOR"
+          },
+          "namespace": "MUNIT-TOOLS",
+          "type": "CLEAR_STORED_DATA"
+        },
+        "nestedComponents": [],
+        "transactional": false,
+        "notifications": [],
+        "errors": []
+      },
+      {
+        "kind": "operation",
+        "executionType": "CPU_LITE",
+        "description": "Pops the given data from a temporary queue.",
+        "modelProperties": {},
+        "parameterGroupModels": [
+          {
+            "name": "General",
+            "layoutModel": {
+              "password": false,
+              "query": false,
+              "text": false,
+              "order": 1
+            },
+            "description": "",
+            "modelProperties": {},
+            "parameters": [
+              {
+                "role": "BEHAVIOUR",
+                "description": "The name of the queue where dequeue a value",
+                "modelProperties": {},
+                "type": {
+                  "format": "java",
+                  "type": "String"
+                },
+                "required": false,
+                "expressionSupport": "SUPPORTED",
+                "hasDynamicType": false,
+                "isConfigOverride": false,
+                "dslConfiguration": {
+                  "allowTopLevelDefinition": false,
+                  "allowsInlineDefinition": false,
+                  "allowsReferences": false
+                },
+                "name": "queueName",
+                "layoutModel": {
+                  "password": false,
+                  "query": false,
+                  "text": false,
+                  "order": 1
+                },
+                "allowedStereotypeModels": [],
+                "isComponentId": false
+              },
+              {
+                "role": "BEHAVIOUR",
+                "defaultValue": "10000",
+                "description": "Time to wait for a value until the connector throws a QUEUE_TIMEOUT error",
+                "modelProperties": {},
+                "type": {
+                  "format": "java",
+                  "annotations": {
+                    "classInformation": {
+                      "implementedInterfaces": ["java.lang.Comparable"],
+                      "parent": "java.lang.Number",
+                      "classname": "java.lang.Long",
+                      "hasDefaultConstructor": false,
+                      "isInstantiable": false,
+                      "isFinal": true,
+                      "genericTypes": [],
+                      "isInterface": false,
+                      "isAbstract": false,
+                      "isMap": false
+                    },
+                    "int": {}
+                  },
+                  "type": "Number"
+                },
+                "required": false,
+                "expressionSupport": "SUPPORTED",
+                "hasDynamicType": false,
+                "isConfigOverride": false,
+                "dslConfiguration": {
+                  "allowTopLevelDefinition": false,
+                  "allowsInlineDefinition": false,
+                  "allowsReferences": false
+                },
+                "name": "timeout",
+                "layoutModel": {
+                  "password": false,
+                  "query": false,
+                  "text": false,
+                  "order": 2
+                },
+                "allowedStereotypeModels": [],
+                "isComponentId": false
+              },
+              {
+                "role": "BEHAVIOUR",
+                "defaultValue": "MILLISECONDS",
+                "description": "Time Unit to use to wait for a value to arrive",
+                "modelProperties": {},
+                "type": {
+                  "format": "java",
+                  "annotations": {
+                    "typeId": "java.util.concurrent.TimeUnit",
+                    "enum": {
+                      "values": [
+                        "NANOSECONDS",
+                        "MICROSECONDS",
+                        "MILLISECONDS",
+                        "SECONDS",
+                        "MINUTES",
+                        "HOURS",
+                        "DAYS"
+                      ],
+                      "type": "[Ljava.lang.String;"
+                    }
+                  },
+                  "type": "String"
+                },
+                "required": false,
+                "expressionSupport": "SUPPORTED",
+                "hasDynamicType": false,
+                "isConfigOverride": false,
+                "dslConfiguration": {
+                  "allowTopLevelDefinition": false,
+                  "allowsInlineDefinition": false,
+                  "allowsReferences": false
+                },
+                "name": "timeoutUnit",
+                "layoutModel": {
+                  "password": false,
+                  "query": false,
+                  "text": false,
+                  "order": 3
+                },
+                "allowedStereotypeModels": [],
+                "isComponentId": false
+              }
+            ],
+            "exclusiveParametersModels": [],
+            "showInDsl": false
+          },
+          {
+            "name": "Output",
+            "layoutModel": {
+              "password": false,
+              "query": false,
+              "text": false,
+              "order": 2
+            },
+            "description": "",
+            "modelProperties": {},
+            "parameters": [
+              {
+                "displayModel": {"displayName": "Target Variable"},
+                "role": "BEHAVIOUR",
+                "description": "The name of a variable on which the operation's output will be placed",
+                "modelProperties": {},
+                "type": {
+                  "format": "java",
+                  "type": "String"
+                },
+                "required": false,
+                "expressionSupport": "NOT_SUPPORTED",
+                "hasDynamicType": false,
+                "isConfigOverride": false,
+                "dslConfiguration": {
+                  "allowTopLevelDefinition": false,
+                  "allowsInlineDefinition": false,
+                  "allowsReferences": false
+                },
+                "name": "target",
+                "layoutModel": {
+                  "password": false,
+                  "tabName": "Advanced",
+                  "query": false,
+                  "text": false,
+                  "order": 4
+                },
+                "allowedStereotypeModels": [],
+                "isComponentId": false
+              },
+              {
+                "displayModel": {"displayName": "Target Value"},
+                "role": "BEHAVIOUR",
+                "defaultValue": "#[payload]",
+                "description": "An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable",
+                "modelProperties": {},
+                "type": {
+                  "format": "java",
+                  "type": "String"
+                },
+                "required": false,
+                "expressionSupport": "REQUIRED",
+                "hasDynamicType": false,
+                "isConfigOverride": false,
+                "dslConfiguration": {
+                  "allowTopLevelDefinition": false,
+                  "allowsInlineDefinition": false,
+                  "allowsReferences": false
+                },
+                "name": "targetValue",
+                "layoutModel": {
+                  "password": false,
+                  "tabName": "Advanced",
+                  "query": false,
+                  "text": false,
+                  "order": 5
+                },
+                "allowedStereotypeModels": [],
+                "isComponentId": false
+              }
+            ],
+            "exclusiveParametersModels": [],
+            "showInDsl": false
+          }
+        ],
+        "output": {
+          "hasDynamicType": false,
+          "description": "",
+          "modelProperties": {},
+          "type": {
+            "format": "java",
+            "annotations": {
+              "classInformation": {
+                "implementedInterfaces": [],
+                "parent": "",
+                "classname": "java.io.Serializable",
+                "hasDefaultConstructor": false,
+                "isInstantiable": false,
+                "isFinal": false,
+                "genericTypes": [],
+                "isInterface": true,
+                "isAbstract": true,
+                "isMap": false
+              },
+              "typeId": "java.io.Serializable",
+              "typeAlias": {"value": "Serializable"}
+            },
+            "type": "Object",
+            "fields": []
+          }
+        },
+        "outputAttributes": {
+          "hasDynamicType": false,
+          "description": "",
+          "modelProperties": {},
+          "type": {
+            "format": "java",
+            "type": "Void"
+          }
+        },
+        "supportsStreaming": false,
+        "requiresConnection": false,
+        "blocking": true,
+        "name": "dequeue",
+        "stereotype": {
+          "parent": {
+            "parent": {
+              "namespace": "MULE",
+              "type": "PROCESSOR"
+            },
+            "namespace": "MUNIT-TOOLS",
+            "type": "PROCESSOR"
+          },
+          "namespace": "MUNIT-TOOLS",
+          "type": "DEQUEUE"
+        },
+        "nestedComponents": [],
+        "transactional": false,
+        "notifications": [],
+        "errors": ["MUNIT-TOOLS:QUEUE_TIMEOUT"]
+      },
+      {
+        "displayModel": {"summary": "Fail with an assertion"},
+        "kind": "operation",
+        "executionType": "CPU_LITE",
+        "description": "Fails with a AssertionError with the given message",
+        "modelProperties": {},
+        "parameterGroupModels": [{
+          "name": "General",
+          "layoutModel": {
+            "password": false,
+            "query": false,
+            "text": false,
+            "order": 1
+          },
+          "description": "",
+          "modelProperties": {},
+          "parameters": [{
+            "role": "BEHAVIOUR",
+            "defaultValue": "",
+            "description": "message for the assertion failure",
+            "modelProperties": {},
+            "type": {
+              "format": "java",
+              "type": "String"
+            },
+            "required": false,
+            "expressionSupport": "SUPPORTED",
+            "hasDynamicType": false,
+            "isConfigOverride": false,
+            "dslConfiguration": {
+              "allowTopLevelDefinition": false,
+              "allowsInlineDefinition": false,
+              "allowsReferences": false
+            },
+            "name": "message",
+            "layoutModel": {
+              "password": false,
+              "query": false,
+              "text": false,
+              "order": 1
+            },
+            "allowedStereotypeModels": [],
+            "isComponentId": false
+          }],
+          "exclusiveParametersModels": [],
+          "showInDsl": false
+        }],
+        "output": {
+          "hasDynamicType": false,
+          "description": "",
+          "modelProperties": {},
+          "type": {
+            "format": "java",
+            "type": "Void"
+          }
+        },
+        "outputAttributes": {
+          "hasDynamicType": false,
+          "description": "",
+          "modelProperties": {},
+          "type": {
+            "format": "java",
+            "type": "Void"
+          }
+        },
+        "supportsStreaming": false,
+        "requiresConnection": false,
+        "blocking": true,
+        "name": "fail",
+        "stereotype": {
+          "parent": {
+            "parent": {
+              "namespace": "MULE",
+              "type": "PROCESSOR"
+            },
+            "namespace": "MUNIT-TOOLS",
+            "type": "PROCESSOR"
+          },
+          "namespace": "MUNIT-TOOLS",
+          "type": "FAIL"
+        },
+        "nestedComponents": [],
+        "transactional": false,
+        "notifications": [],
+        "errors": []
+      },
+      {
+        "displayModel": {"summary": "Mock the Processor when it matches processor name and attributes"},
+        "kind": "operation",
+        "executionType": "CPU_LITE",
+        "description": "Mocks the processor that has the given withAttributes, replacing it with the given answer. <p> During the test execution, if any processor tries to be executed, and it matches the processor name and the withAttributes, its execution its not performed, and instead the answer is used. If Answer#getThenReturn() thenReturn is specified, then that event is returned, or if Answer#getThenCall() thenCall is specified, the given flow is invoked, and the resulting event is returned. If no Answer is specified, the incoming event is returned.",
+        "modelProperties": {},
+        "parameterGroupModels": [
+          {
+            "name": "General",
+            "layoutModel": {
+              "password": false,
+              "query": false,
+              "text": false,
+              "order": 1
+            },
+            "description": "",
+            "modelProperties": {},
+            "parameters": [
+              {
+                "displayModel": {"example": "http:request"},
+                "role": "BEHAVIOUR",
+                "description": "identifier of the processor to mock",
+                "modelProperties": {},
+                "type": {
+                  "format": "java",
+                  "type": "String"
+                },
+                "required": true,
+                "expressionSupport": "SUPPORTED",
+                "hasDynamicType": false,
+                "isConfigOverride": false,
+                "dslConfiguration": {
+                  "allowTopLevelDefinition": false,
+                  "allowsInlineDefinition": false,
+                  "allowsReferences": false
+                },
+                "name": "processor",
+                "layoutModel": {
+                  "password": false,
+                  "query": false,
+                  "text": false,
+                  "order": 1
+                },
+                "allowedStereotypeModels": [],
+                "isComponentId": false
+              },
+              {
+                "role": "BEHAVIOUR",
+                "description": "additional attributes to identify the processor",
+                "modelProperties": {},
+                "type": {
+                  "item": {"type": "@ref:org.mule.munit.common.model.Attribute"},
+                  "format": "java",
+                  "annotations": {"classInformation": {
+                    "implementedInterfaces": ["java.util.Collection"],
+                    "parent": "",
+                    "classname": "java.util.List",
+                    "hasDefaultConstructor": false,
+                    "isInstantiable": false,
+                    "isFinal": false,
+                    "genericTypes": ["org.mule.munit.common.model.Attribute"],
+                    "isInterface": true,
+                    "isAbstract": true,
+                    "isMap": false
+                  }},
+                  "type": "Array"
+                },
+                "required": false,
+                "expressionSupport": "NOT_SUPPORTED",
+                "hasDynamicType": false,
+                "isConfigOverride": false,
+                "dslConfiguration": {
+                  "allowTopLevelDefinition": false,
+                  "allowsInlineDefinition": true,
+                  "allowsReferences": true
+                },
+                "name": "withAttributes",
+                "layoutModel": {
+                  "password": false,
+                  "query": false,
+                  "text": false,
+                  "order": 2
+                },
+                "allowedStereotypeModels": [],
+                "isComponentId": false
+              }
+            ],
+            "exclusiveParametersModels": [],
+            "showInDsl": false
+          },
+          {
+            "name": "Answer",
+            "layoutModel": {
+              "password": false,
+              "query": false,
+              "text": false,
+              "order": 2
+            },
+            "description": "",
+            "modelProperties": {},
+            "parameters": [
+              {
+                "role": "BEHAVIOUR",
+                "description": "",
+                "modelProperties": {},
+                "type": {
+                  "format": "java",
+                  "type": "@ref:org.mule.munit.common.model.Event"
+                },
+                "required": false,
+                "expressionSupport": "NOT_SUPPORTED",
+                "hasDynamicType": false,
+                "isConfigOverride": false,
+                "dslConfiguration": {
+                  "allowTopLevelDefinition": false,
+                  "allowsInlineDefinition": true,
+                  "allowsReferences": true
+                },
+                "name": "thenReturn",
+                "layoutModel": {
+                  "password": false,
+                  "query": false,
+                  "text": false,
+                  "order": 3
+                },
+                "allowedStereotypeModels": [],
+                "isComponentId": false
+              },
+              {
+                "role": "BEHAVIOUR",
+                "description": "",
+                "modelProperties": {},
+                "type": {
+                  "format": "java",
+                  "type": "@ref:org.mule.munit.common.model.FlowName"
+                },
+                "required": false,
+                "expressionSupport": "NOT_SUPPORTED",
+                "hasDynamicType": false,
+                "isConfigOverride": false,
+                "dslConfiguration": {
+                  "allowTopLevelDefinition": false,
+                  "allowsInlineDefinition": true,
+                  "allowsReferences": true
+                },
+                "name": "thenCall",
+                "layoutModel": {
+                  "password": false,
+                  "query": false,
+                  "text": false,
+                  "order": 4
+                },
+                "allowedStereotypeModels": [],
+                "isComponentId": false
+              }
+            ],
+            "exclusiveParametersModels": [{
+              "isOneRequired": false,
+              "exclusiveParameterNames": [
+                "thenReturn",
+                "thenCall"
+              ]
+            }],
+            "showInDsl": false
+          }
+        ],
+        "output": {
+          "hasDynamicType": false,
+          "description": "",
+          "modelProperties": {},
+          "type": {
+            "format": "java",
+            "type": "Void"
+          }
+        },
+        "outputAttributes": {
+          "hasDynamicType": false,
+          "description": "",
+          "modelProperties": {},
+          "type": {
+            "format": "java",
+            "type": "Void"
+          }
+        },
+        "supportsStreaming": false,
+        "requiresConnection": false,
+        "blocking": true,
+        "name": "mockWhen",
+        "stereotype": {
+          "parent": {
+            "parent": {
+              "namespace": "MULE",
+              "type": "PROCESSOR"
+            },
+            "namespace": "MUNIT-TOOLS",
+            "type": "PROCESSOR"
+          },
+          "namespace": "MUNIT-TOOLS",
+          "type": "MOCK_WHEN"
+        },
+        "nestedComponents": [],
+        "transactional": false,
+        "notifications": [],
+        "errors": []
+      },
+      {
+        "kind": "operation",
+        "executionType": "CPU_LITE",
+        "description": "Pushes the given value to a temporary queue so this can be consumed later on demand",
+        "modelProperties": {},
+        "parameterGroupModels": [{
+          "name": "General",
+          "layoutModel": {
+            "password": false,
+            "query": false,
+            "text": false,
+            "order": 1
+          },
+          "description": "",
+          "modelProperties": {},
+          "parameters": [
+            {
+              "role": "PRIMARY_CONTENT",
+              "defaultValue": "#[payload]",
+              "description": "Value to queue",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "annotations": {
+                  "classInformation": {
+                    "implementedInterfaces": [],
+                    "parent": "",
+                    "classname": "java.io.Serializable",
+                    "hasDefaultConstructor": false,
+                    "isInstantiable": false,
+                    "isFinal": false,
+                    "genericTypes": [],
+                    "isInterface": true,
+                    "isAbstract": true,
+                    "isMap": false
+                  },
+                  "typeId": "java.io.Serializable",
+                  "typeAlias": {"value": "Serializable"}
+                },
+                "type": "Object",
+                "fields": []
+              },
+              "required": false,
+              "expressionSupport": "SUPPORTED",
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": true,
+                "allowsReferences": false
+              },
+              "name": "value",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 1
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            },
+            {
+              "role": "BEHAVIOUR",
+              "description": "The name of the queue where dequeue a value",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "required": false,
+              "expressionSupport": "SUPPORTED",
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": false
+              },
+              "name": "queueName",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 2
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            }
+          ],
+          "exclusiveParametersModels": [],
+          "showInDsl": false
+        }],
+        "output": {
+          "hasDynamicType": false,
+          "description": "",
+          "modelProperties": {},
+          "type": {
+            "format": "java",
+            "type": "Void"
+          }
+        },
+        "outputAttributes": {
+          "hasDynamicType": false,
+          "description": "",
+          "modelProperties": {},
+          "type": {
+            "format": "java",
+            "type": "Void"
+          }
+        },
+        "supportsStreaming": false,
+        "requiresConnection": false,
+        "blocking": true,
+        "name": "queue",
+        "stereotype": {
+          "parent": {
+            "parent": {
+              "namespace": "MULE",
+              "type": "PROCESSOR"
+            },
+            "namespace": "MUNIT-TOOLS",
+            "type": "PROCESSOR"
+          },
+          "namespace": "MUNIT-TOOLS",
+          "type": "QUEUE"
+        },
+        "nestedComponents": [],
+        "transactional": false,
+        "notifications": [],
+        "errors": ["MUNIT-TOOLS:QUEUE_TIMEOUT"]
+      },
+      {
+        "displayModel": {"summary": "Removes the data associated with the given key"},
+        "kind": "operation",
+        "executionType": "CPU_LITE",
+        "description": "Removes the value associated to the given key. <p> If no value exist for the key, then a MUNIT-TOOLS:MISSING_KEY error will be thrown.This operation is synchronized on the key level. No other operation will be able to access the same key while this operation is running.",
+        "modelProperties": {},
+        "parameterGroupModels": [
+          {
+            "name": "General",
+            "layoutModel": {
+              "password": false,
+              "query": false,
+              "text": false,
+              "order": 1
+            },
+            "description": "",
+            "modelProperties": {},
+            "parameters": [{
+              "role": "BEHAVIOUR",
+              "description": "the key of the object to be removed",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "required": true,
+              "expressionSupport": "SUPPORTED",
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": false
+              },
+              "name": "key",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 1
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            }],
+            "exclusiveParametersModels": [],
+            "showInDsl": false
+          },
+          {
+            "name": "Output",
+            "layoutModel": {
+              "password": false,
+              "query": false,
+              "text": false,
+              "order": 2
+            },
+            "description": "",
+            "modelProperties": {},
+            "parameters": [
+              {
+                "displayModel": {"displayName": "Target Variable"},
+                "role": "BEHAVIOUR",
+                "description": "The name of a variable on which the operation's output will be placed",
+                "modelProperties": {},
+                "type": {
+                  "format": "java",
+                  "type": "String"
+                },
+                "required": false,
+                "expressionSupport": "NOT_SUPPORTED",
+                "hasDynamicType": false,
+                "isConfigOverride": false,
+                "dslConfiguration": {
+                  "allowTopLevelDefinition": false,
+                  "allowsInlineDefinition": false,
+                  "allowsReferences": false
+                },
+                "name": "target",
+                "layoutModel": {
+                  "password": false,
+                  "tabName": "Advanced",
+                  "query": false,
+                  "text": false,
+                  "order": 2
+                },
+                "allowedStereotypeModels": [],
+                "isComponentId": false
+              },
+              {
+                "displayModel": {"displayName": "Target Value"},
+                "role": "BEHAVIOUR",
+                "defaultValue": "#[payload]",
+                "description": "An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable",
+                "modelProperties": {},
+                "type": {
+                  "format": "java",
+                  "type": "String"
+                },
+                "required": false,
+                "expressionSupport": "REQUIRED",
+                "hasDynamicType": false,
+                "isConfigOverride": false,
+                "dslConfiguration": {
+                  "allowTopLevelDefinition": false,
+                  "allowsInlineDefinition": false,
+                  "allowsReferences": false
+                },
+                "name": "targetValue",
+                "layoutModel": {
+                  "password": false,
+                  "tabName": "Advanced",
+                  "query": false,
+                  "text": false,
+                  "order": 3
+                },
+                "allowedStereotypeModels": [],
+                "isComponentId": false
+              }
+            ],
+            "exclusiveParametersModels": [],
+            "showInDsl": false
+          }
+        ],
+        "output": {
+          "hasDynamicType": false,
+          "description": "",
+          "modelProperties": {},
+          "type": {
+            "format": "java",
+            "annotations": {
+              "classInformation": {
+                "implementedInterfaces": [],
+                "parent": "",
+                "classname": "java.io.Serializable",
+                "hasDefaultConstructor": false,
+                "isInstantiable": false,
+                "isFinal": false,
+                "genericTypes": [],
+                "isInterface": true,
+                "isAbstract": true,
+                "isMap": false
+              },
+              "typeId": "java.io.Serializable",
+              "typeAlias": {"value": "Serializable"}
+            },
+            "type": "Object",
+            "fields": []
+          }
+        },
+        "outputAttributes": {
+          "hasDynamicType": false,
+          "description": "",
+          "modelProperties": {},
+          "type": {
+            "format": "java",
+            "type": "Void"
+          }
+        },
+        "supportsStreaming": false,
+        "requiresConnection": false,
+        "blocking": true,
+        "name": "remove",
+        "stereotype": {
+          "parent": {
+            "parent": {
+              "namespace": "MULE",
+              "type": "PROCESSOR"
+            },
+            "namespace": "MUNIT-TOOLS",
+            "type": "PROCESSOR"
+          },
+          "namespace": "MUNIT-TOOLS",
+          "type": "REMOVE"
+        },
+        "nestedComponents": [],
+        "transactional": false,
+        "notifications": [],
+        "errors": [
+          "MUNIT-TOOLS:INVALID_KEY",
+          "MUNIT-TOOLS:MISSING_KEY"
+        ]
+      },
+      {
+        "displayModel": {"summary": "Retrieves the data associated with the given key"},
+        "kind": "operation",
+        "executionType": "CPU_LITE",
+        "description": "Retrieves the value stored for the given key. <p> If no value exists for the key, then a MUNIT-TOOLS:MISSING_KEY error will be thrown. This operations is synchronized on the key level. No other operation will be able to access the same key while this operation is running",
+        "modelProperties": {},
+        "parameterGroupModels": [
+          {
+            "name": "General",
+            "layoutModel": {
+              "password": false,
+              "query": false,
+              "text": false,
+              "order": 1
+            },
+            "description": "",
+            "modelProperties": {},
+            "parameters": [{
+              "role": "BEHAVIOUR",
+              "description": "the key of the value to be retrieved",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "required": true,
+              "expressionSupport": "SUPPORTED",
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": false
+              },
+              "name": "key",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 1
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            }],
+            "exclusiveParametersModels": [],
+            "showInDsl": false
+          },
+          {
+            "name": "Output",
+            "layoutModel": {
+              "password": false,
+              "query": false,
+              "text": false,
+              "order": 2
+            },
+            "description": "",
+            "modelProperties": {},
+            "parameters": [
+              {
+                "displayModel": {"displayName": "Target Variable"},
+                "role": "BEHAVIOUR",
+                "description": "The name of a variable on which the operation's output will be placed",
+                "modelProperties": {},
+                "type": {
+                  "format": "java",
+                  "type": "String"
+                },
+                "required": false,
+                "expressionSupport": "NOT_SUPPORTED",
+                "hasDynamicType": false,
+                "isConfigOverride": false,
+                "dslConfiguration": {
+                  "allowTopLevelDefinition": false,
+                  "allowsInlineDefinition": false,
+                  "allowsReferences": false
+                },
+                "name": "target",
+                "layoutModel": {
+                  "password": false,
+                  "tabName": "Advanced",
+                  "query": false,
+                  "text": false,
+                  "order": 2
+                },
+                "allowedStereotypeModels": [],
+                "isComponentId": false
+              },
+              {
+                "displayModel": {"displayName": "Target Value"},
+                "role": "BEHAVIOUR",
+                "defaultValue": "#[payload]",
+                "description": "An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable",
+                "modelProperties": {},
+                "type": {
+                  "format": "java",
+                  "type": "String"
+                },
+                "required": false,
+                "expressionSupport": "REQUIRED",
+                "hasDynamicType": false,
+                "isConfigOverride": false,
+                "dslConfiguration": {
+                  "allowTopLevelDefinition": false,
+                  "allowsInlineDefinition": false,
+                  "allowsReferences": false
+                },
+                "name": "targetValue",
+                "layoutModel": {
+                  "password": false,
+                  "tabName": "Advanced",
+                  "query": false,
+                  "text": false,
+                  "order": 3
+                },
+                "allowedStereotypeModels": [],
+                "isComponentId": false
+              }
+            ],
+            "exclusiveParametersModels": [],
+            "showInDsl": false
+          }
+        ],
+        "output": {
+          "hasDynamicType": false,
+          "description": "",
+          "modelProperties": {},
+          "type": {
+            "format": "java",
+            "annotations": {
+              "classInformation": {
+                "implementedInterfaces": [],
+                "parent": "",
+                "classname": "java.io.Serializable",
+                "hasDefaultConstructor": false,
+                "isInstantiable": false,
+                "isFinal": false,
+                "genericTypes": [],
+                "isInterface": true,
+                "isAbstract": true,
+                "isMap": false
+              },
+              "typeId": "java.io.Serializable",
+              "typeAlias": {"value": "Serializable"}
+            },
+            "type": "Object",
+            "fields": []
+          }
+        },
+        "outputAttributes": {
+          "hasDynamicType": false,
+          "description": "",
+          "modelProperties": {},
+          "type": {
+            "format": "java",
+            "type": "Void"
+          }
+        },
+        "supportsStreaming": false,
+        "requiresConnection": false,
+        "blocking": true,
+        "name": "retrieve",
+        "stereotype": {
+          "parent": {
+            "parent": {
+              "namespace": "MULE",
+              "type": "PROCESSOR"
+            },
+            "namespace": "MUNIT-TOOLS",
+            "type": "PROCESSOR"
+          },
+          "namespace": "MUNIT-TOOLS",
+          "type": "RETRIEVE"
+        },
+        "nestedComponents": [],
+        "transactional": false,
+        "notifications": [],
+        "errors": [
+          "MUNIT-TOOLS:INVALID_KEY",
+          "MUNIT-TOOLS:MISSING_KEY"
+        ]
+      },
+      {
+        "displayModel": {"summary": "Run a custom assertion"},
+        "kind": "operation",
+        "executionType": "CPU_LITE",
+        "description": "Runs a custom assertion over the given expression with the parameters params <p> The assertion must implement MunitAssertion",
+        "modelProperties": {},
+        "parameterGroupModels": [{
+          "name": "General",
+          "layoutModel": {
+            "password": false,
+            "query": false,
+            "text": false,
+            "order": 1
+          },
+          "description": "",
+          "modelProperties": {},
+          "parameters": [
+            {
+              "displayModel": {
+                "classValueModel": {"assignableFrom": ["org.mule.munit.assertion.api.MunitAssertion"]},
+                "example": "com.example.CustomAssertion"
+              },
+              "role": "BEHAVIOUR",
+              "description": "full qualified name of the custom assertion class",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "required": true,
+              "expressionSupport": "SUPPORTED",
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": false
+              },
+              "name": "assertion",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 1
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            },
+            {
+              "displayModel": {"example": "#[payload]"},
+              "role": "BEHAVIOUR",
+              "description": "value to be asserted",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "annotations": {
+                  "classInformation": {
+                    "implementedInterfaces": [],
+                    "parent": "",
+                    "classname": "java.lang.Object",
+                    "hasDefaultConstructor": true,
+                    "isInstantiable": true,
+                    "isFinal": false,
+                    "genericTypes": [],
+                    "isInterface": false,
+                    "isAbstract": false,
+                    "isMap": false
+                  },
+                  "typeId": "java.lang.Object",
+                  "typeAlias": {"value": "Object"}
+                },
+                "type": "Object",
+                "fields": []
+              },
+              "required": true,
+              "expressionSupport": "SUPPORTED",
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": true
+              },
+              "name": "expression",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 2
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            },
+            {
+              "role": "BEHAVIOUR",
+              "description": "parameters of the custom assertion",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "annotations": {
+                  "classInformation": {
+                    "implementedInterfaces": [],
+                    "parent": "",
+                    "classname": "java.lang.Object",
+                    "hasDefaultConstructor": true,
+                    "isInstantiable": true,
+                    "isFinal": false,
+                    "genericTypes": [],
+                    "isInterface": false,
+                    "isAbstract": false,
+                    "isMap": false
+                  },
+                  "typeId": "java.lang.Object",
+                  "typeAlias": {"value": "Object"}
+                },
+                "type": "Any"
+              },
+              "required": false,
+              "expressionSupport": "SUPPORTED",
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": true
+              },
+              "name": "params",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 3
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            }
+          ],
+          "exclusiveParametersModels": [],
+          "showInDsl": false
+        }],
+        "output": {
+          "hasDynamicType": false,
+          "description": "",
+          "modelProperties": {},
+          "type": {
+            "format": "java",
+            "type": "Void"
+          }
+        },
+        "outputAttributes": {
+          "hasDynamicType": false,
+          "description": "",
+          "modelProperties": {},
+          "type": {
+            "format": "java",
+            "type": "Void"
+          }
+        },
+        "supportsStreaming": false,
+        "requiresConnection": false,
+        "blocking": true,
+        "name": "runCustom",
+        "stereotype": {
+          "parent": {
+            "parent": {
+              "namespace": "MULE",
+              "type": "PROCESSOR"
+            },
+            "namespace": "MUNIT-TOOLS",
+            "type": "PROCESSOR"
+          },
+          "namespace": "MUNIT-TOOLS",
+          "type": "RUN_CUSTOM"
+        },
+        "nestedComponents": [],
+        "transactional": false,
+        "notifications": [],
+        "errors": []
+      },
+      {
+        "kind": "operation",
+        "executionType": "CPU_LITE",
+        "description": "Causes the currently executing thread to sleep",
+        "modelProperties": {},
+        "parameterGroupModels": [{
+          "name": "General",
+          "layoutModel": {
+            "password": false,
+            "query": false,
+            "text": false,
+            "order": 1
+          },
+          "description": "",
+          "modelProperties": {},
+          "parameters": [
+            {
+              "role": "BEHAVIOUR",
+              "description": "The length of time to sleep",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "annotations": {
+                  "classInformation": {
+                    "implementedInterfaces": ["java.lang.Comparable"],
+                    "parent": "java.lang.Number",
+                    "classname": "java.lang.Long",
+                    "hasDefaultConstructor": false,
+                    "isInstantiable": false,
+                    "isFinal": true,
+                    "genericTypes": [],
+                    "isInterface": false,
+                    "isAbstract": false,
+                    "isMap": false
+                  },
+                  "int": {}
+                },
+                "type": "Number"
+              },
+              "required": true,
+              "expressionSupport": "SUPPORTED",
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": false
+              },
+              "name": "time",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 1
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            },
+            {
+              "role": "BEHAVIOUR",
+              "defaultValue": "MILLISECONDS",
+              "description": "Time Unit to use to sleep",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "annotations": {
+                  "typeId": "java.util.concurrent.TimeUnit",
+                  "enum": {
+                    "values": [
+                      "NANOSECONDS",
+                      "MICROSECONDS",
+                      "MILLISECONDS",
+                      "SECONDS",
+                      "MINUTES",
+                      "HOURS",
+                      "DAYS"
+                    ],
+                    "type": "[Ljava.lang.String;"
+                  }
+                },
+                "type": "String"
+              },
+              "required": false,
+              "expressionSupport": "SUPPORTED",
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": false
+              },
+              "name": "timeUnit",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 2
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            }
+          ],
+          "exclusiveParametersModels": [],
+          "showInDsl": false
+        }],
+        "output": {
+          "hasDynamicType": false,
+          "description": "",
+          "modelProperties": {},
+          "type": {
+            "format": "java",
+            "type": "Void"
+          }
+        },
+        "outputAttributes": {
+          "hasDynamicType": false,
+          "description": "",
+          "modelProperties": {},
+          "type": {
+            "format": "java",
+            "type": "Void"
+          }
+        },
+        "supportsStreaming": false,
+        "requiresConnection": false,
+        "blocking": true,
+        "name": "sleep",
+        "stereotype": {
+          "parent": {
+            "parent": {
+              "namespace": "MULE",
+              "type": "PROCESSOR"
+            },
+            "namespace": "MUNIT-TOOLS",
+            "type": "PROCESSOR"
+          },
+          "namespace": "MUNIT-TOOLS",
+          "type": "SLEEP"
+        },
+        "nestedComponents": [],
+        "transactional": false,
+        "notifications": [],
+        "errors": []
+      },
+      {
+        "displayModel": {"summary": "Stores the given data associated with the given key"},
+        "kind": "operation",
+        "executionType": "CPU_LITE",
+        "description": "Stores the given value using the given key. <p> This operation can be used either for storing new values or updating existing ones. This operation is synchronized on the key level. No other operation will be able to access the same key.",
+        "modelProperties": {},
+        "parameterGroupModels": [{
+          "name": "General",
+          "layoutModel": {
+            "password": false,
+            "query": false,
+            "text": false,
+            "order": 1
+          },
+          "description": "",
+          "modelProperties": {},
+          "parameters": [
+            {
+              "role": "BEHAVIOUR",
+              "description": "the key of the value to be stored",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "required": true,
+              "expressionSupport": "SUPPORTED",
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": false
+              },
+              "name": "key",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 1
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            },
+            {
+              "role": "PRIMARY_CONTENT",
+              "defaultValue": "#[payload]",
+              "description": "the value to be stored",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "annotations": {
+                  "classInformation": {
+                    "implementedInterfaces": [],
+                    "parent": "",
+                    "classname": "java.io.Serializable",
+                    "hasDefaultConstructor": false,
+                    "isInstantiable": false,
+                    "isFinal": false,
+                    "genericTypes": [],
+                    "isInterface": true,
+                    "isAbstract": true,
+                    "isMap": false
+                  },
+                  "typeId": "java.io.Serializable",
+                  "typeAlias": {"value": "Serializable"}
+                },
+                "type": "Object",
+                "fields": []
+              },
+              "required": false,
+              "expressionSupport": "SUPPORTED",
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": true,
+                "allowsReferences": false
+              },
+              "name": "value",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 2
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            },
+            {
+              "role": "BEHAVIOUR",
+              "defaultValue": "false",
+              "description": "whether to fail or update the pre existing value if the key already exists on the store",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "annotations": {"typeId": "boolean"},
+                "type": "Boolean"
+              },
+              "required": false,
+              "expressionSupport": "SUPPORTED",
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": false
+              },
+              "name": "failIfPresent",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 3
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            }
+          ],
+          "exclusiveParametersModels": [],
+          "showInDsl": false
+        }],
+        "output": {
+          "hasDynamicType": false,
+          "description": "",
+          "modelProperties": {},
+          "type": {
+            "format": "java",
+            "type": "Void"
+          }
+        },
+        "outputAttributes": {
+          "hasDynamicType": false,
+          "description": "",
+          "modelProperties": {},
+          "type": {
+            "format": "java",
+            "type": "Void"
+          }
+        },
+        "supportsStreaming": false,
+        "requiresConnection": false,
+        "blocking": true,
+        "name": "store",
+        "stereotype": {
+          "parent": {
+            "parent": {
+              "namespace": "MULE",
+              "type": "PROCESSOR"
+            },
+            "namespace": "MUNIT-TOOLS",
+            "type": "PROCESSOR"
+          },
+          "namespace": "MUNIT-TOOLS",
+          "type": "STORE"
+        },
+        "nestedComponents": [],
+        "transactional": false,
+        "notifications": [],
+        "errors": [
+          "MUNIT-TOOLS:INVALID_KEY",
+          "MUNIT-TOOLS:KEY_ALREADY_EXISTS"
+        ]
+      },
+      {
+        "kind": "operation",
+        "executionType": "CPU_LITE",
+        "description": "Stores a test OAuth token in the supplied ObjectStore",
+        "modelProperties": {},
+        "parameterGroupModels": [{
+          "name": "General",
+          "layoutModel": {
+            "password": false,
+            "query": false,
+            "text": false,
+            "order": 1
+          },
+          "description": "",
+          "modelProperties": {},
+          "parameters": [
+            {
+              "role": "BEHAVIOUR",
+              "description": "the access token",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "required": true,
+              "expressionSupport": "SUPPORTED",
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": false
+              },
+              "name": "accessToken",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 1
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            },
+            {
+              "role": "BEHAVIOUR",
+              "description": "the object store to store the token in",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "type": "@ref:org.mule.runtime.api.store.ObjectStore"
+              },
+              "required": true,
+              "expressionSupport": "SUPPORTED",
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": true
+              },
+              "name": "objectStore",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 2
+              },
+              "allowedStereotypeModels": [{
+                "namespace": "OS",
+                "type": "OBJECT_STORE"
+              }],
+              "isComponentId": false
+            },
+            {
+              "role": "BEHAVIOUR",
+              "defaultValue": "",
+              "description": "the config name of the connector that's going to consume the token",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "required": false,
+              "expressionSupport": "SUPPORTED",
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": false
+              },
+              "name": "ownerConfigName",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 3
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            },
+            {
+              "role": "BEHAVIOUR",
+              "defaultValue": "",
+              "description": "the id of the resource owner",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "required": false,
+              "expressionSupport": "SUPPORTED",
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": false
+              },
+              "name": "resourceOwnerId",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 4
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            },
+            {
+              "role": "BEHAVIOUR",
+              "description": "the refresh token",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "required": false,
+              "expressionSupport": "SUPPORTED",
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": false
+              },
+              "name": "refreshToken",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 5
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            },
+            {
+              "role": "BEHAVIOUR",
+              "description": "the expiration string",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "required": false,
+              "expressionSupport": "SUPPORTED",
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": false
+              },
+              "name": "expiresIn",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 6
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            },
+            {
+              "role": "BEHAVIOUR",
+              "description": "the state parameter used in the OAuth dance",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "required": false,
+              "expressionSupport": "SUPPORTED",
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": false
+              },
+              "name": "state",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 7
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            },
+            {
+              "role": "PRIMARY_CONTENT",
+              "description": "additional parameters returned by the service provider",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "annotations": {"classInformation": {
+                  "implementedInterfaces": [],
+                  "parent": "",
+                  "classname": "java.util.Map",
+                  "hasDefaultConstructor": false,
+                  "isInstantiable": false,
+                  "isFinal": false,
+                  "genericTypes": [
+                    "java.lang.String",
+                    "java.lang.Object"
+                  ],
+                  "isInterface": true,
+                  "isAbstract": true,
+                  "isMap": true
+                }},
+                "type": "Object",
+                "fields": [],
+                "open": {
+                  "annotations": {
+                    "classInformation": {
+                      "implementedInterfaces": [],
+                      "parent": "",
+                      "classname": "java.lang.Object",
+                      "hasDefaultConstructor": true,
+                      "isInstantiable": true,
+                      "isFinal": false,
+                      "genericTypes": [],
+                      "isInterface": false,
+                      "isAbstract": false,
+                      "isMap": false
+                    },
+                    "typeId": "java.lang.Object",
+                    "typeAlias": {"value": "Object"}
+                  },
+                  "type": "Object",
+                  "fields": []
+                }
+              },
+              "required": false,
+              "expressionSupport": "SUPPORTED",
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": true,
+                "allowsReferences": false
+              },
+              "name": "additionalParameters",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 8
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            },
+            {
+              "role": "BEHAVIOUR",
+              "defaultValue": "true",
+              "description": "whether to overwrite the token if already exists or fail instead.",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "annotations": {"typeId": "boolean"},
+                "type": "Boolean"
+              },
+              "required": false,
+              "expressionSupport": "SUPPORTED",
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": false
+              },
+              "name": "overwrite",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 9
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            }
+          ],
+          "exclusiveParametersModels": [],
+          "showInDsl": false
+        }],
+        "output": {
+          "hasDynamicType": false,
+          "description": "",
+          "modelProperties": {},
+          "type": {
+            "format": "java",
+            "type": "Void"
+          }
+        },
+        "outputAttributes": {
+          "hasDynamicType": false,
+          "description": "",
+          "modelProperties": {},
+          "type": {
+            "format": "java",
+            "type": "Void"
+          }
+        },
+        "supportsStreaming": false,
+        "requiresConnection": false,
+        "blocking": true,
+        "name": "store-oauth-token",
+        "stereotype": {
+          "parent": {
+            "parent": {
+              "namespace": "MULE",
+              "type": "PROCESSOR"
+            },
+            "namespace": "MUNIT-TOOLS",
+            "type": "PROCESSOR"
+          },
+          "namespace": "MUNIT-TOOLS",
+          "type": "STORE-OAUTH-TOKEN"
+        },
+        "nestedComponents": [],
+        "transactional": false,
+        "notifications": [],
+        "errors": ["MUNIT-TOOLS:KEY_ALREADY_EXISTS"]
+      },
+      {
+        "displayModel": {"summary": "Verify that a processor is called"},
+        "kind": "operation",
+        "executionType": "CPU_LITE",
+        "description": "Verifies that the processor that has the given withAttributes has been executed. <p> During the test execution, if any processor is executed, and it matches the processor name and the withAttributes it will be counted as called. <p> If the processor was not called the specified number of times, it will throw an AssertionError",
+        "modelProperties": {},
+        "parameterGroupModels": [{
+          "name": "General",
+          "layoutModel": {
+            "password": false,
+            "query": false,
+            "text": false,
+            "order": 1
+          },
+          "description": "",
+          "modelProperties": {},
+          "parameters": [
+            {
+              "displayModel": {"example": "mule:logger"},
+              "role": "BEHAVIOUR",
+              "description": "identifier of the processor to mock",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "required": true,
+              "expressionSupport": "SUPPORTED",
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": false
+              },
+              "name": "processor",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 1
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            },
+            {
+              "role": "BEHAVIOUR",
+              "description": "additional attributes to identify the processor",
+              "modelProperties": {},
+              "type": {
+                "item": {"type": "@ref:org.mule.munit.common.model.Attribute"},
+                "format": "java",
+                "annotations": {"classInformation": {
+                  "implementedInterfaces": ["java.util.Collection"],
+                  "parent": "",
+                  "classname": "java.util.List",
+                  "hasDefaultConstructor": false,
+                  "isInstantiable": false,
+                  "isFinal": false,
+                  "genericTypes": ["org.mule.munit.common.model.Attribute"],
+                  "isInterface": true,
+                  "isAbstract": true,
+                  "isMap": false
+                }},
+                "type": "Array"
+              },
+              "required": false,
+              "expressionSupport": "NOT_SUPPORTED",
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": true,
+                "allowsReferences": true
+              },
+              "name": "withAttributes",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 2
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            },
+            {
+              "role": "BEHAVIOUR",
+              "description": "exact number of times the processor should have been executed",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "annotations": {
+                  "classInformation": {
+                    "implementedInterfaces": ["java.lang.Comparable"],
+                    "parent": "java.lang.Number",
+                    "classname": "java.lang.Integer",
+                    "hasDefaultConstructor": false,
+                    "isInstantiable": false,
+                    "isFinal": true,
+                    "genericTypes": [],
+                    "isInterface": false,
+                    "isAbstract": false,
+                    "isMap": false
+                  },
+                  "int": {}
+                },
+                "type": "Number"
+              },
+              "required": false,
+              "expressionSupport": "SUPPORTED",
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": false
+              },
+              "name": "times",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 3
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            },
+            {
+              "role": "BEHAVIOUR",
+              "description": "minimum number of times the processor should have been executed",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "annotations": {
+                  "classInformation": {
+                    "implementedInterfaces": ["java.lang.Comparable"],
+                    "parent": "java.lang.Number",
+                    "classname": "java.lang.Integer",
+                    "hasDefaultConstructor": false,
+                    "isInstantiable": false,
+                    "isFinal": true,
+                    "genericTypes": [],
+                    "isInterface": false,
+                    "isAbstract": false,
+                    "isMap": false
+                  },
+                  "int": {}
+                },
+                "type": "Number"
+              },
+              "required": false,
+              "expressionSupport": "SUPPORTED",
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": false
+              },
+              "name": "atLeast",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 4
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            },
+            {
+              "role": "BEHAVIOUR",
+              "description": "maximum number of times the processor should have been executed",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "annotations": {
+                  "classInformation": {
+                    "implementedInterfaces": ["java.lang.Comparable"],
+                    "parent": "java.lang.Number",
+                    "classname": "java.lang.Integer",
+                    "hasDefaultConstructor": false,
+                    "isInstantiable": false,
+                    "isFinal": true,
+                    "genericTypes": [],
+                    "isInterface": false,
+                    "isAbstract": false,
+                    "isMap": false
+                  },
+                  "int": {}
+                },
+                "type": "Number"
+              },
+              "required": false,
+              "expressionSupport": "SUPPORTED",
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": false
+              },
+              "name": "atMost",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 5
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            }
+          ],
+          "exclusiveParametersModels": [],
+          "showInDsl": false
+        }],
+        "output": {
+          "hasDynamicType": false,
+          "description": "",
+          "modelProperties": {},
+          "type": {
+            "format": "java",
+            "type": "Void"
+          }
+        },
+        "outputAttributes": {
+          "hasDynamicType": false,
+          "description": "",
+          "modelProperties": {},
+          "type": {
+            "format": "java",
+            "type": "Void"
+          }
+        },
+        "supportsStreaming": false,
+        "requiresConnection": false,
+        "blocking": true,
+        "name": "verifyCall",
+        "stereotype": {
+          "parent": {
+            "parent": {
+              "namespace": "MULE",
+              "type": "PROCESSOR"
+            },
+            "namespace": "MUNIT-TOOLS",
+            "type": "PROCESSOR"
+          },
+          "namespace": "MUNIT-TOOLS",
+          "type": "VERIFY_CALL"
+        },
+        "nestedComponents": [],
+        "transactional": false,
+        "notifications": [],
+        "errors": []
+      }
+    ],
+    "vendor": "Mulesoft",
+    "name": "MUnit Tools",
+    "privilegedPackages": [],
+    "category": "COMMUNITY",
+    "notifications": [],
+    "errors": [
+      {
+        "parent": "MULE:ANY",
+        "error": "MUNIT-TOOLS:MISSING_KEY",
+        "handleable": true
+      },
+      {
+        "error": "MULE:ANY",
+        "handleable": true
+      },
+      {
+        "parent": "MULE:ANY",
+        "error": "MULE:CONNECTIVITY",
+        "handleable": true
+      },
+      {
+        "parent": "MULE:ANY",
+        "error": "MUNIT-TOOLS:INVALID_KEY",
+        "handleable": true
+      },
+      {
+        "parent": "MULE:ANY",
+        "error": "MUNIT-TOOLS:QUEUE_TIMEOUT",
+        "handleable": true
+      },
+      {
+        "parent": "MULE:RETRY_EXHAUSTED",
+        "error": "MUNIT-TOOLS:RETRY_EXHAUSTED",
+        "handleable": true
+      },
+      {
+        "parent": "MULE:ANY",
+        "error": "MULE:RETRY_EXHAUSTED",
+        "handleable": true
+      },
+      {
+        "parent": "MULE:CONNECTIVITY",
+        "error": "MUNIT-TOOLS:CONNECTIVITY",
+        "handleable": true
+      },
+      {
+        "parent": "MULE:ANY",
+        "error": "MUNIT-TOOLS:INVALID_ASSERTION",
+        "handleable": true
+      },
+      {
+        "parent": "MULE:ANY",
+        "error": "MUNIT-TOOLS:SLEEP_INTERRUPT",
+        "handleable": true
+      },
+      {
+        "parent": "MULE:ANY",
+        "error": "MUNIT-TOOLS:KEY_ALREADY_EXISTS",
+        "handleable": true
+      }
+    ]
+  }
+}

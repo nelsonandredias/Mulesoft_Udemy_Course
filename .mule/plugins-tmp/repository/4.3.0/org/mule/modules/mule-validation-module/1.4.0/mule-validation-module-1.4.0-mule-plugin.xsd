@@ -1,0 +1,775 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:mule="http://www.mulesoft.org/schema/mule/core" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.mulesoft.org/schema/mule/validation" attributeFormDefault="unqualified" elementFormDefault="qualified">
+  <xs:import namespace="http://www.w3.org/XML/1998/namespace"></xs:import>
+  <xs:import namespace="http://www.springframework.org/schema/beans" schemaLocation="http://www.springframework.org/schema/beans/spring-beans.xsd"></xs:import>
+  <xs:import namespace="http://www.mulesoft.org/schema/mule/core" schemaLocation="http://www.mulesoft.org/schema/mule/core/current/mule.xsd"></xs:import>
+  <xs:complexType name="org.mule.extension.validation.api.I18NConfig">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:attribute type="mule:expressionString" use="required" name="bundlePath"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="locale"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstract-shared-extension" abstract="true" name="abstract-i18n"></xs:element>
+  <xs:element xmlns:validation="http://www.mulesoft.org/schema/mule/validation" substitutionGroup="validation:abstract-i18n" name="i18n">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="validation:org.mule.extension.validation.api.I18NConfig">
+          <xs:attribute type="xs:string" use="optional" name="name"></xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="org.mule.extension.validation.api.IpFilterList">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" name="ips">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" name="ip">
+                  <xs:complexType>
+                    <xs:attribute type="mule:expressionString" use="required" name="value"></xs:attribute>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionList" use="optional" name="ips"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstract-shared-extension" abstract="true" name="abstract-ip-filter-list"></xs:element>
+  <xs:element xmlns:validation="http://www.mulesoft.org/schema/mule/validation" substitutionGroup="validation:abstract-ip-filter-list" name="ip-filter-list">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="validation:org.mule.extension.validation.api.IpFilterList">
+          <xs:attribute type="xs:string" use="optional" name="name"></xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstract-shared-extension" name="config">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractExtensionType">
+          <xs:annotation>
+            <xs:documentation>Default configuration</xs:documentation>
+          </xs:annotation>
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:expiration-policy"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="i18n">
+              <xs:annotation>
+                <xs:documentation>Allows to configure I18n for the standard error messages</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension xmlns:validation="http://www.mulesoft.org/schema/mule/validation" base="validation:org.mule.extension.validation.api.I18NConfig"></xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute type="xs:string" use="optional" name="i18n">
+            <xs:annotation>
+              <xs:documentation>Allows to configure I18n for the standard error messages</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="xs:string" use="required" name="name">
+            <xs:annotation>
+              <xs:documentation>The identifier of this element used to reference it in other components</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/validation" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="IsBlankStringType" substitutionGroup="mule:abstract-operator" name="is-blank-string">
+    <xs:annotation>
+      <xs:documentation>Validates that value is a blank String.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="IsBlankStringType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1"></xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="value">
+          <xs:annotation>
+            <xs:documentation>the value to check</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="message">
+          <xs:annotation>
+            <xs:documentation>Specifies the message that is to be notified to the user if the validation fails. It's marked as not dynamic to allow eager evaluation of the expression in case that the validation is successful and the message is not needed. Components consuming this value are to manually check if this is an expression and evaluate it in case that the validation failed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/validation" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="IsElapsedType" substitutionGroup="mule:abstract-operator" name="is-elapsed">
+    <xs:annotation>
+      <xs:documentation>Validates the amount of time that has elapsed since the moment in the since parameter is greater than an specified amount of time.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="IsElapsedType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1"></xs:sequence>
+        <xs:attribute type="mule:expressionLong" use="required" name="time">
+          <xs:annotation>
+            <xs:documentation>the interval size</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/validation" type="java.util.concurrent.TimeUnitEnumType" use="required" name="timeUnit">
+          <xs:annotation>
+            <xs:documentation>the interval unit (as a TimeUnit)</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionDateTime" use="required" name="since">
+          <xs:annotation>
+            <xs:documentation>the time to validate</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="message">
+          <xs:annotation>
+            <xs:documentation>Specifies the message that is to be notified to the user if the validation fails. It's marked as not dynamic to allow eager evaluation of the expression in case that the validation is successful and the message is not needed. Components consuming this value are to manually check if this is an expression and evaluate it in case that the validation failed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/validation" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="IsEmailType" substitutionGroup="mule:abstract-operator" name="is-email">
+    <xs:annotation>
+      <xs:documentation>Validates that the email address is valid</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="IsEmailType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1"></xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="email">
+          <xs:annotation>
+            <xs:documentation>an email address</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="message">
+          <xs:annotation>
+            <xs:documentation>Specifies the message that is to be notified to the user if the validation fails. It's marked as not dynamic to allow eager evaluation of the expression in case that the validation is successful and the message is not needed. Components consuming this value are to manually check if this is an expression and evaluate it in case that the validation failed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/validation" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="IsEmptyCollectionType" substitutionGroup="mule:abstract-operator" name="is-empty-collection">
+    <xs:annotation>
+      <xs:documentation>Validates that value is an empty collection.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="IsEmptyCollectionType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1"></xs:sequence>
+        <xs:attribute type="mule:expressionList" use="optional" default="#[payload]" name="values">
+          <xs:annotation>
+            <xs:documentation>the value to check</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="message">
+          <xs:annotation>
+            <xs:documentation>Specifies the message that is to be notified to the user if the validation fails. It's marked as not dynamic to allow eager evaluation of the expression in case that the validation is successful and the message is not needed. Components consuming this value are to manually check if this is an expression and evaluate it in case that the validation failed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/validation" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="IsFalseType" substitutionGroup="mule:abstract-operator" name="is-false">
+    <xs:annotation>
+      <xs:documentation>Validates that the given value is false</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="IsFalseType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1"></xs:sequence>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="expression">
+          <xs:annotation>
+            <xs:documentation>the boolean to test</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="message">
+          <xs:annotation>
+            <xs:documentation>Specifies the message that is to be notified to the user if the validation fails. It's marked as not dynamic to allow eager evaluation of the expression in case that the validation is successful and the message is not needed. Components consuming this value are to manually check if this is an expression and evaluate it in case that the validation failed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/validation" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="IsIpType" substitutionGroup="mule:abstract-operator" name="is-ip">
+    <xs:annotation>
+      <xs:documentation>Validates that an ip address represented as a String is valid</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="IsIpType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1"></xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="ip">
+          <xs:annotation>
+            <xs:documentation>the ip address to validate</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="message">
+          <xs:annotation>
+            <xs:documentation>Specifies the message that is to be notified to the user if the validation fails. It's marked as not dynamic to allow eager evaluation of the expression in case that the validation is successful and the message is not needed. Components consuming this value are to manually check if this is an expression and evaluate it in case that the validation failed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/validation" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="IsNotBlacklistedIpType" substitutionGroup="mule:abstract-operator" name="is-not-blacklisted-ip">
+    <xs:annotation>
+      <xs:documentation>Validates that a ipAddress is not present in the ipList.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="IsNotBlacklistedIpType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" name="black-list">
+            <xs:annotation>
+              <xs:documentation>the list of disallowed addresses</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension xmlns:validation="http://www.mulesoft.org/schema/mule/validation" base="validation:org.mule.extension.validation.api.IpFilterList"></xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="ipAddress">
+          <xs:annotation>
+            <xs:documentation>the address to validate</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="blackList">
+          <xs:annotation>
+            <xs:documentation>the list of disallowed addresses</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="message">
+          <xs:annotation>
+            <xs:documentation>Specifies the message that is to be notified to the user if the validation fails. It's marked as not dynamic to allow eager evaluation of the expression in case that the validation is successful and the message is not needed. Components consuming this value are to manually check if this is an expression and evaluate it in case that the validation failed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/validation" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="IsNotBlankStringType" substitutionGroup="mule:abstract-operator" name="is-not-blank-string">
+    <xs:annotation>
+      <xs:documentation>Validates that value is not a blank String.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="IsNotBlankStringType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1"></xs:sequence>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="value">
+          <xs:annotation>
+            <xs:documentation>the String to check</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="message">
+          <xs:annotation>
+            <xs:documentation>Specifies the message that is to be notified to the user if the validation fails. It's marked as not dynamic to allow eager evaluation of the expression in case that the validation is successful and the message is not needed. Components consuming this value are to manually check if this is an expression and evaluate it in case that the validation failed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/validation" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="IsNotElapsedType" substitutionGroup="mule:abstract-operator" name="is-not-elapsed">
+    <xs:annotation>
+      <xs:documentation>Validates the amount of time that has elapsed since the moment in the since parameter is greater than an specified amount of time.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="IsNotElapsedType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1"></xs:sequence>
+        <xs:attribute type="mule:expressionLong" use="required" name="time">
+          <xs:annotation>
+            <xs:documentation>the interval size</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/validation" type="java.util.concurrent.TimeUnitEnumType" use="required" name="timeUnit">
+          <xs:annotation>
+            <xs:documentation>the interval unit (as a TimeUnit)</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionDateTime" use="required" name="since">
+          <xs:annotation>
+            <xs:documentation>the time to validate</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="message">
+          <xs:annotation>
+            <xs:documentation>Specifies the message that is to be notified to the user if the validation fails. It's marked as not dynamic to allow eager evaluation of the expression in case that the validation is successful and the message is not needed. Components consuming this value are to manually check if this is an expression and evaluate it in case that the validation failed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/validation" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="IsNotEmptyCollectionType" substitutionGroup="mule:abstract-operator" name="is-not-empty-collection">
+    <xs:annotation>
+      <xs:documentation>Validates that value is not an empty collection.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="IsNotEmptyCollectionType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1"></xs:sequence>
+        <xs:attribute type="mule:expressionList" use="optional" default="#[payload]" name="values">
+          <xs:annotation>
+            <xs:documentation>the value to check</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="message">
+          <xs:annotation>
+            <xs:documentation>Specifies the message that is to be notified to the user if the validation fails. It's marked as not dynamic to allow eager evaluation of the expression in case that the validation is successful and the message is not needed. Components consuming this value are to manually check if this is an expression and evaluate it in case that the validation failed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/validation" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="IsNotNullType" substitutionGroup="mule:abstract-operator" name="is-not-null">
+    <xs:annotation>
+      <xs:documentation>Validates that the given value is not null. Keep in mind that the definition of null may vary depending on the value's mimeType. For example, for an application/java mimeType, null means a blank pointer. However, is the mimeType is application/json then the String &amp;quot;null&amp;quot; is also a null value.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="IsNotNullType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1"></xs:sequence>
+        <xs:attribute type="xs:string" use="required" name="value">
+          <xs:annotation>
+            <xs:documentation>the value to test</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="message">
+          <xs:annotation>
+            <xs:documentation>Specifies the message that is to be notified to the user if the validation fails. It's marked as not dynamic to allow eager evaluation of the expression in case that the validation is successful and the message is not needed. Components consuming this value are to manually check if this is an expression and evaluate it in case that the validation failed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/validation" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="IsNullType" substitutionGroup="mule:abstract-operator" name="is-null">
+    <xs:annotation>
+      <xs:documentation>Validates that the given value is null. Keep in mind that the definition of null may vary depending on the value's mimeType. For example, for an application/java mimeType, null means a blank pointer. However, is the mimeType is application/json then the String &amp;quot;null&amp;quot; is also a null value.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="IsNullType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1"></xs:sequence>
+        <xs:attribute type="xs:string" use="required" name="value">
+          <xs:annotation>
+            <xs:documentation>the value to test</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="message">
+          <xs:annotation>
+            <xs:documentation>Specifies the message that is to be notified to the user if the validation fails. It's marked as not dynamic to allow eager evaluation of the expression in case that the validation is successful and the message is not needed. Components consuming this value are to manually check if this is an expression and evaluate it in case that the validation failed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/validation" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="IsNumberType" substitutionGroup="mule:abstract-operator" name="is-number">
+    <xs:annotation>
+      <xs:documentation>Receives a numeric value as a String and validates that it can be parsed per the rules of a numberType</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="IsNumberType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1"></xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="value">
+          <xs:annotation>
+            <xs:documentation>the value to be tested</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="locale">
+          <xs:annotation>
+            <xs:documentation>The locale to use for the format. If not provided it defaults to the system Locale</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="pattern">
+          <xs:annotation>
+            <xs:documentation>The pattern used to format the value</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="minValue">
+          <xs:annotation>
+            <xs:documentation>If provided, check that the parsed value is greater or equal than this value</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="maxValue">
+          <xs:annotation>
+            <xs:documentation>If provided, check that the parsed value is less or equal than this value</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/validation" type="org.mule.extension.validation.api.NumberTypeEnumType" use="required" name="numberType">
+          <xs:annotation>
+            <xs:documentation>the type of number to test value against</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="message">
+          <xs:annotation>
+            <xs:documentation>Specifies the message that is to be notified to the user if the validation fails. It's marked as not dynamic to allow eager evaluation of the expression in case that the validation is successful and the message is not needed. Components consuming this value are to manually check if this is an expression and evaluate it in case that the validation failed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/validation" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="IsTimeType" substitutionGroup="mule:abstract-operator" name="is-time">
+    <xs:annotation>
+      <xs:documentation>Validates that a time in String format is valid for the given pattern and locale. If no pattern is provided, then the locale's default will be used</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="IsTimeType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1"></xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="time">
+          <xs:annotation>
+            <xs:documentation>A date in String format</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="locale">
+          <xs:annotation>
+            <xs:documentation>the locale of the String</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="pattern">
+          <xs:annotation>
+            <xs:documentation>the pattern for the date</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="message">
+          <xs:annotation>
+            <xs:documentation>Specifies the message that is to be notified to the user if the validation fails. It's marked as not dynamic to allow eager evaluation of the expression in case that the validation is successful and the message is not needed. Components consuming this value are to manually check if this is an expression and evaluate it in case that the validation failed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/validation" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="IsTrueType" substitutionGroup="mule:abstract-operator" name="is-true">
+    <xs:annotation>
+      <xs:documentation>Validates that the given value is true</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="IsTrueType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1"></xs:sequence>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="expression">
+          <xs:annotation>
+            <xs:documentation>the boolean to test</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="message">
+          <xs:annotation>
+            <xs:documentation>Specifies the message that is to be notified to the user if the validation fails. It's marked as not dynamic to allow eager evaluation of the expression in case that the validation is successful and the message is not needed. Components consuming this value are to manually check if this is an expression and evaluate it in case that the validation failed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/validation" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="IsUrlType" substitutionGroup="mule:abstract-operator" name="is-url">
+    <xs:annotation>
+      <xs:documentation>Validates that url is a valid one</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="IsUrlType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1"></xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="url">
+          <xs:annotation>
+            <xs:documentation>the URL to validate as a String</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="message">
+          <xs:annotation>
+            <xs:documentation>Specifies the message that is to be notified to the user if the validation fails. It's marked as not dynamic to allow eager evaluation of the expression in case that the validation is successful and the message is not needed. Components consuming this value are to manually check if this is an expression and evaluate it in case that the validation failed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/validation" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="IsWhitelistedIpType" substitutionGroup="mule:abstract-operator" name="is-whitelisted-ip">
+    <xs:annotation>
+      <xs:documentation>Validates that a ipAddress is present in the ipList.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="IsWhitelistedIpType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" name="white-list">
+            <xs:annotation>
+              <xs:documentation>the list of allowed addresses</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension xmlns:validation="http://www.mulesoft.org/schema/mule/validation" base="validation:org.mule.extension.validation.api.IpFilterList"></xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="ipAddress">
+          <xs:annotation>
+            <xs:documentation>the address to validate</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="whiteList">
+          <xs:annotation>
+            <xs:documentation>the list of allowed addresses</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="message">
+          <xs:annotation>
+            <xs:documentation>Specifies the message that is to be notified to the user if the validation fails. It's marked as not dynamic to allow eager evaluation of the expression in case that the validation is successful and the message is not needed. Components consuming this value are to manually check if this is an expression and evaluate it in case that the validation failed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/validation" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="MatchesRegexType" substitutionGroup="mule:abstract-operator" name="matches-regex">
+    <xs:annotation>
+      <xs:documentation>Validates that value matches the regex regular expression</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="MatchesRegexType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1"></xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="value">
+          <xs:annotation>
+            <xs:documentation>the value to check</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="regex">
+          <xs:annotation>
+            <xs:documentation>the regular expression to check against</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="true" name="caseSensitive">
+          <xs:annotation>
+            <xs:documentation>when true matching is case sensitive, otherwise matching is case in-sensitive</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="message">
+          <xs:annotation>
+            <xs:documentation>Specifies the message that is to be notified to the user if the validation fails. It's marked as not dynamic to allow eager evaluation of the expression in case that the validation is successful and the message is not needed. Components consuming this value are to manually check if this is an expression and evaluate it in case that the validation failed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/validation" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ValidateSizeType" substitutionGroup="mule:abstract-operator" name="validate-size">
+    <xs:annotation>
+      <xs:documentation>Validates that value has a size between certain inclusive boundaries. This validator is capable of handling instances of String, Collection, Map and arrays</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ValidateSizeType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1"></xs:sequence>
+        <xs:attribute type="xs:string" use="required" name="value">
+          <xs:annotation>
+            <xs:documentation>the value to validate</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" default="0" name="min">
+          <xs:annotation>
+            <xs:documentation>the minimum expected length (inclusive, defaults to zero)</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="max">
+          <xs:annotation>
+            <xs:documentation>the maximum expected length (inclusive). Leave unspecified or null to allow any max length</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="message">
+          <xs:annotation>
+            <xs:documentation>Specifies the message that is to be notified to the user if the validation fails. It's marked as not dynamic to allow eager evaluation of the expression in case that the validation is successful and the message is not needed. Components consuming this value are to manually check if this is an expression and evaluate it in case that the validation failed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/validation" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="AllType" substitutionGroup="mule:abstract-operator" name="all">
+    <xs:annotation>
+      <xs:documentation>Perform a list of nested validation operations and informs only one VALIDATION:MULTIPLE error which summarizes all of the found errors (if any).</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="AllType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="1" maxOccurs="1">
+          <xs:choice minOccurs="1" maxOccurs="unbounded">
+            <xs:element minOccurs="1" maxOccurs="1" ref="mule:abstract-validator"></xs:element>
+          </xs:choice>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/validation" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="AnyType" substitutionGroup="mule:abstract-operator" name="any">
+    <xs:annotation>
+      <xs:documentation>Perform a list of nested validation operations and informs only one VALIDATION:MULTIPLE error which summarizes all of the found errors (if all failed).</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="AnyType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="1" maxOccurs="1">
+          <xs:choice minOccurs="1" maxOccurs="unbounded">
+            <xs:element minOccurs="1" maxOccurs="1" ref="mule:abstract-validator"></xs:element>
+          </xs:choice>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="java.util.concurrent.TimeUnitEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="NANOSECONDS"></xs:enumeration>
+          <xs:enumeration value="MICROSECONDS"></xs:enumeration>
+          <xs:enumeration value="MILLISECONDS"></xs:enumeration>
+          <xs:enumeration value="SECONDS"></xs:enumeration>
+          <xs:enumeration value="MINUTES"></xs:enumeration>
+          <xs:enumeration value="HOURS"></xs:enumeration>
+          <xs:enumeration value="DAYS"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="org.mule.extension.validation.api.NumberTypeEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="INTEGER"></xs:enumeration>
+          <xs:enumeration value="LONG"></xs:enumeration>
+          <xs:enumeration value="SHORT"></xs:enumeration>
+          <xs:enumeration value="DOUBLE"></xs:enumeration>
+          <xs:enumeration value="FLOAT"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+</xs:schema>

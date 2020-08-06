@@ -1,0 +1,27 @@
+{
+  "extensionModelLoaderDescriptor": {
+    "id": "java",
+    "attributes": {
+      "type": "org.mule.extensions.java.internal.JavaModule",
+      "version": "1.2.6"
+    }
+  },
+  "name": "Java",
+  "requiredProduct": "MULE",
+  "classLoaderModelLoaderDescriptor": {
+    "id": "mule",
+    "attributes": {
+      "privilegedExportedPackages": [],
+      "privilegedArtifactIds": [],
+      "exportedPackages": [
+        "org.mule.extensions.java.api.exception"
+      ],
+      "exportedResources": []
+    }
+  },
+  "bundleDescriptorLoader": {
+    "id": "mule",
+    "attributes": {}
+  },
+  "minMuleVersion": "4.1.1"
+}

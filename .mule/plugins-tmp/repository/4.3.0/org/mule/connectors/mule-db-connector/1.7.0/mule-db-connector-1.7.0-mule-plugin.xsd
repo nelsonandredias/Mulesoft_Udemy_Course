@@ -1,0 +1,2159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:mule="http://www.mulesoft.org/schema/mule/core" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.mulesoft.org/schema/mule/db" attributeFormDefault="unqualified" elementFormDefault="qualified">
+  <xs:import namespace="http://www.w3.org/XML/1998/namespace"></xs:import>
+  <xs:import namespace="http://www.springframework.org/schema/beans" schemaLocation="http://www.springframework.org/schema/beans/spring-beans.xsd"></xs:import>
+  <xs:import namespace="http://www.mulesoft.org/schema/mule/core" schemaLocation="http://www.mulesoft.org/schema/mule/core/current/mule.xsd"></xs:import>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstract-shared-extension" name="config">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractExtensionType">
+          <xs:annotation>
+            <xs:documentation>Default configuration</xs:documentation>
+          </xs:annotation>
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstractConnectionProvider"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:expiration-policy"></xs:element>
+          </xs:sequence>
+          <xs:attribute type="xs:string" use="required" name="name">
+            <xs:annotation>
+              <xs:documentation>The identifier of this element used to reference it in other components</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstractConnectionProvider" name="data-source-connection">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractConnectionProviderType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:reconnection"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="pooling-profile">
+              <xs:annotation>
+                <xs:documentation>Provides a way to configure database connection pooling.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension xmlns:db="http://www.mulesoft.org/schema/mule/db" base="db:org.mule.extension.db.api.config.DbPoolingProfile"></xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="column-types">
+              <xs:annotation>
+                <xs:documentation>Specifies non-standard column types</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element xmlns:db="http://www.mulesoft.org/schema/mule/db" minOccurs="0" maxOccurs="unbounded" ref="db:abstract-column-type"></xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute type="xs:string" use="optional" name="poolingProfile">
+            <xs:annotation>
+              <xs:documentation>Provides a way to configure database connection pooling.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:substitutableName" use="optional" name="columnTypes">
+            <xs:annotation>
+              <xs:documentation>Specifies non-standard column types</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="xs:string" use="required" name="dataSourceRef">
+            <xs:annotation>
+              <xs:documentation>Reference to a JDBC DataSource object. This object is typically created using Spring. When using XA transactions, an XADataSource object must be provided.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="org.mule.extension.db.api.config.DbPoolingProfile">
+    <xs:annotation>
+      <xs:documentation>Provides a way to configure database connection pooling.</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" name="additional-properties">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" name="additional-property">
+                  <xs:complexType>
+                    <xs:attribute type="mule:expressionString" use="required" name="key"></xs:attribute>
+                    <xs:attribute type="xs:string" use="required" name="value"></xs:attribute>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:substitutableInt" use="optional" default="5" name="maxPoolSize"></xs:attribute>
+        <xs:attribute type="mule:substitutableInt" use="optional" default="0" name="minPoolSize"></xs:attribute>
+        <xs:attribute type="mule:substitutableInt" use="optional" default="1" name="acquireIncrement"></xs:attribute>
+        <xs:attribute type="mule:substitutableInt" use="optional" default="5" name="preparedStatementCacheSize"></xs:attribute>
+        <xs:attribute type="mule:substitutableInt" use="optional" default="0" name="maxWait"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/db" type="java.util.concurrent.TimeUnitEnumType" use="optional" default="SECONDS" name="maxWaitUnit"></xs:attribute>
+        <xs:attribute type="mule:substitutableInt" use="optional" default="0" name="maxIdleTime"></xs:attribute>
+        <xs:attribute type="mule:substitutableName" use="optional" name="additionalProperties"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="org.mule.extension.db.api.param.ColumnType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:attribute type="mule:substitutableInt" use="required" name="id"></xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="typeName"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="className"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:db="http://www.mulesoft.org/schema/mule/db" type="db:org.mule.extension.db.api.param.ColumnType" abstract="true" name="abstract-column-type"></xs:element>
+  <xs:element xmlns:db="http://www.mulesoft.org/schema/mule/db" substitutionGroup="db:abstract-column-type" name="column-type">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="db:org.mule.extension.db.api.param.ColumnType"></xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstractConnectionProvider" name="derby-connection">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractConnectionProviderType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:reconnection"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="pooling-profile">
+              <xs:annotation>
+                <xs:documentation>Provides a way to configure database connection pooling.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension xmlns:db="http://www.mulesoft.org/schema/mule/db" base="db:org.mule.extension.db.api.config.DbPoolingProfile"></xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="column-types">
+              <xs:annotation>
+                <xs:documentation>Specifies non-standard column types</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element xmlns:db="http://www.mulesoft.org/schema/mule/db" minOccurs="0" maxOccurs="unbounded" ref="db:abstract-column-type"></xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="connection-properties">
+              <xs:annotation>
+                <xs:documentation>Specifies a list of custom key-value connectionProperties for the config.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element minOccurs="0" maxOccurs="unbounded" name="connection-property">
+                    <xs:complexType>
+                      <xs:attribute type="mule:expressionString" use="required" name="key"></xs:attribute>
+                      <xs:attribute type="mule:expressionString" use="required" name="value"></xs:attribute>
+                    </xs:complexType>
+                  </xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute type="xs:string" use="optional" name="poolingProfile">
+            <xs:annotation>
+              <xs:documentation>Provides a way to configure database connection pooling.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:substitutableName" use="optional" name="columnTypes">
+            <xs:annotation>
+              <xs:documentation>Specifies non-standard column types</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/db" type="org.mule.extension.db.api.param.TransactionIsolationEnumType" use="optional" default="NOT_CONFIGURED" name="transactionIsolation">
+            <xs:annotation>
+              <xs:documentation>The transaction isolation level to set on the driver when connecting the database.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:substitutableBoolean" use="optional" default="false" name="useXaTransactions">
+            <xs:annotation>
+              <xs:documentation>Indicates whether or not the created datasource has to support XA transactions. Default is false.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="database">
+            <xs:annotation>
+              <xs:documentation>Name of the database</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" default="directory" name="subsubProtocol">
+            <xs:annotation>
+              <xs:documentation>Specifies where Derby should look for the database. The available options are: 'directory', 'memory', 'classpath' and 'jar'.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="create">
+            <xs:annotation>
+              <xs:documentation>Indicates if the database should be created if it does not exist.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionMap" use="optional" name="connectionProperties">
+            <xs:annotation>
+              <xs:documentation>Specifies a list of custom key-value connectionProperties for the config.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstractConnectionProvider" name="generic-connection">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractConnectionProviderType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:reconnection"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="pooling-profile">
+              <xs:annotation>
+                <xs:documentation>Provides a way to configure database connection pooling.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension xmlns:db="http://www.mulesoft.org/schema/mule/db" base="db:org.mule.extension.db.api.config.DbPoolingProfile"></xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="column-types">
+              <xs:annotation>
+                <xs:documentation>Specifies non-standard column types</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element xmlns:db="http://www.mulesoft.org/schema/mule/db" minOccurs="0" maxOccurs="unbounded" ref="db:abstract-column-type"></xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute type="xs:string" use="optional" name="poolingProfile">
+            <xs:annotation>
+              <xs:documentation>Provides a way to configure database connection pooling.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:substitutableName" use="optional" name="columnTypes">
+            <xs:annotation>
+              <xs:documentation>Specifies non-standard column types</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/db" type="org.mule.extension.db.api.param.TransactionIsolationEnumType" use="optional" default="NOT_CONFIGURED" name="transactionIsolation">
+            <xs:annotation>
+              <xs:documentation>The transaction isolation level to set on the driver when connecting the database.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:substitutableBoolean" use="optional" default="false" name="useXaTransactions">
+            <xs:annotation>
+              <xs:documentation>Indicates whether or not the created datasource has to support XA transactions. Default is false.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="url">
+            <xs:annotation>
+              <xs:documentation>JDBC URL to use to connect to the database.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="driverClassName">
+            <xs:annotation>
+              <xs:documentation>Fully-qualified name of the database driver class.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="user">
+            <xs:annotation>
+              <xs:documentation>Database username</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="password">
+            <xs:annotation>
+              <xs:documentation>Database password</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstractConnectionProvider" name="mssql-connection">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractConnectionProviderType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:reconnection"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="pooling-profile">
+              <xs:annotation>
+                <xs:documentation>Provides a way to configure database connection pooling.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension xmlns:db="http://www.mulesoft.org/schema/mule/db" base="db:org.mule.extension.db.api.config.DbPoolingProfile"></xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="column-types">
+              <xs:annotation>
+                <xs:documentation>Specifies non-standard column types</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element xmlns:db="http://www.mulesoft.org/schema/mule/db" minOccurs="0" maxOccurs="unbounded" ref="db:abstract-column-type"></xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="connection-properties">
+              <xs:annotation>
+                <xs:documentation>Specifies a list of custom key-value connectionProperties for the config.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element minOccurs="0" maxOccurs="unbounded" name="connection-property">
+                    <xs:complexType>
+                      <xs:attribute type="mule:expressionString" use="required" name="key"></xs:attribute>
+                      <xs:attribute type="mule:expressionString" use="required" name="value"></xs:attribute>
+                    </xs:complexType>
+                  </xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute type="xs:string" use="optional" name="poolingProfile">
+            <xs:annotation>
+              <xs:documentation>Provides a way to configure database connection pooling.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:substitutableName" use="optional" name="columnTypes">
+            <xs:annotation>
+              <xs:documentation>Specifies non-standard column types</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/db" type="org.mule.extension.db.api.param.TransactionIsolationEnumType" use="optional" default="NOT_CONFIGURED" name="transactionIsolation">
+            <xs:annotation>
+              <xs:documentation>The transaction isolation level to set on the driver when connecting the database.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:substitutableBoolean" use="optional" default="false" name="useXaTransactions">
+            <xs:annotation>
+              <xs:documentation>Indicates whether or not the created datasource has to support XA transactions. Default is false.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="host">
+            <xs:annotation>
+              <xs:documentation>Configures the host of the database.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="instanceName">
+            <xs:annotation>
+              <xs:documentation>Configures the name of the SQL server instance where the database is.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="optional" name="port">
+            <xs:annotation>
+              <xs:documentation>Configures the port of the database.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="user">
+            <xs:annotation>
+              <xs:documentation>The user to use for authentication against the database.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="password">
+            <xs:annotation>
+              <xs:documentation>The password to use for authentication against the database.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="databaseName">
+            <xs:annotation>
+              <xs:documentation>Name of the default database to work with.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionMap" use="optional" name="connectionProperties">
+            <xs:annotation>
+              <xs:documentation>Specifies a list of custom key-value connectionProperties for the config.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstractConnectionProvider" name="my-sql-connection">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractConnectionProviderType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:reconnection"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="pooling-profile">
+              <xs:annotation>
+                <xs:documentation>Provides a way to configure database connection pooling.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension xmlns:db="http://www.mulesoft.org/schema/mule/db" base="db:org.mule.extension.db.api.config.DbPoolingProfile"></xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="column-types">
+              <xs:annotation>
+                <xs:documentation>Specifies non-standard column types</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element xmlns:db="http://www.mulesoft.org/schema/mule/db" minOccurs="0" maxOccurs="unbounded" ref="db:abstract-column-type"></xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="connection-properties">
+              <xs:annotation>
+                <xs:documentation>Specifies a list of custom key-value connectionProperties for the config.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element minOccurs="0" maxOccurs="unbounded" name="connection-property">
+                    <xs:complexType>
+                      <xs:attribute type="mule:expressionString" use="required" name="key"></xs:attribute>
+                      <xs:attribute type="mule:expressionString" use="required" name="value"></xs:attribute>
+                    </xs:complexType>
+                  </xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute type="xs:string" use="optional" name="poolingProfile">
+            <xs:annotation>
+              <xs:documentation>Provides a way to configure database connection pooling.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:substitutableName" use="optional" name="columnTypes">
+            <xs:annotation>
+              <xs:documentation>Specifies non-standard column types</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/db" type="org.mule.extension.db.api.param.TransactionIsolationEnumType" use="optional" default="NOT_CONFIGURED" name="transactionIsolation">
+            <xs:annotation>
+              <xs:documentation>The transaction isolation level to set on the driver when connecting the database.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:substitutableBoolean" use="optional" default="false" name="useXaTransactions">
+            <xs:annotation>
+              <xs:documentation>Indicates whether or not the created datasource has to support XA transactions. Default is false.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="host">
+            <xs:annotation>
+              <xs:documentation>Configures the host of the database.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="required" name="port">
+            <xs:annotation>
+              <xs:documentation>Configures the port of the database.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="user">
+            <xs:annotation>
+              <xs:documentation>The user to use for authentication against the database.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="password">
+            <xs:annotation>
+              <xs:documentation>The password to use for authentication against the database.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="database">
+            <xs:annotation>
+              <xs:documentation>The name of the database.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionMap" use="optional" name="connectionProperties">
+            <xs:annotation>
+              <xs:documentation>Specifies a list of custom key-value connectionProperties for the config.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstractConnectionProvider" name="oracle-connection">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractConnectionProviderType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:reconnection"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="pooling-profile">
+              <xs:annotation>
+                <xs:documentation>Provides a way to configure database connection pooling.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension xmlns:db="http://www.mulesoft.org/schema/mule/db" base="db:org.mule.extension.db.api.config.DbPoolingProfile"></xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="column-types">
+              <xs:annotation>
+                <xs:documentation>Specifies non-standard column types</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element xmlns:db="http://www.mulesoft.org/schema/mule/db" minOccurs="0" maxOccurs="unbounded" ref="db:abstract-column-type"></xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute type="xs:string" use="optional" name="poolingProfile">
+            <xs:annotation>
+              <xs:documentation>Provides a way to configure database connection pooling.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:substitutableName" use="optional" name="columnTypes">
+            <xs:annotation>
+              <xs:documentation>Specifies non-standard column types</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/db" type="org.mule.extension.db.api.param.TransactionIsolationEnumType" use="optional" default="NOT_CONFIGURED" name="transactionIsolation">
+            <xs:annotation>
+              <xs:documentation>The transaction isolation level to set on the driver when connecting the database.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:substitutableBoolean" use="optional" default="false" name="useXaTransactions">
+            <xs:annotation>
+              <xs:documentation>Indicates whether or not the created datasource has to support XA transactions. Default is false.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="host">
+            <xs:annotation>
+              <xs:documentation>Configures the host of the database.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="optional" default="1521" name="port">
+            <xs:annotation>
+              <xs:documentation>Configures the port of the database.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="user">
+            <xs:annotation>
+              <xs:documentation>The user to use for authentication against the database.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="password">
+            <xs:annotation>
+              <xs:documentation>The password to use for authentication against the database.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="instance">
+            <xs:annotation>
+              <xs:documentation>The name of the database instance.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="serviceName">
+            <xs:annotation>
+              <xs:documentation>The name of the database service name.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/db" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ListenerType" substitutionGroup="mule:abstract-message-source" name="listener">
+    <xs:annotation>
+      <xs:documentation>Selects from a table at a regular interval and generates one message per each obtained row. &lt;p&gt; Optionally, watermark and id columns can be provided. If a watermark column is provided, the values taken from that column will be used to filter the contents of the next poll, so that only rows with a greater watermark value are returned. If an id column is provided, this component will automatically make sure that the same row is not picked twice by concurrent polls</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ListenerType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageSourceType">
+        <xs:sequence minOccurs="1" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-redelivery-policy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element minOccurs="1" maxOccurs="1" ref="mule:scheduling-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="required" name="table">
+          <xs:annotation>
+            <xs:documentation>The name of the table to select from</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="watermarkColumn">
+          <xs:annotation>
+            <xs:documentation>The name of the column to use for watermark. Values taken from this column will be used to filter the contents of the next poll, so that only rows with a greater watermark value are processed.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="idColumn">
+          <xs:annotation>
+            <xs:documentation>The name of the column to consider as row ID. If provided, this component will make sure that the same row is not processed twice by concurrent polls.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/db" type="org.mule.runtime.extension.api.tx.SourceTransactionalActionEnumType" use="optional" default="NONE" name="transactionalAction">
+          <xs:annotation>
+            <xs:documentation>The type of beginning action that sources can take regarding transactions.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:transactionType" use="optional" default="LOCAL" name="transactionType">
+          <xs:annotation>
+            <xs:documentation>The type of transaction to create. Availability will depend on the runtime version.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:substitutableBoolean" use="optional" name="primaryNodeOnly">
+          <xs:annotation>
+            <xs:documentation>Whether this source should only be executed on the primary node when runnning in Cluster</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:substitutableInt" use="optional" default="0" name="queryTimeout">
+          <xs:annotation>
+            <xs:documentation>Indicates the minimum amount of time before the JDBC driver attempts to cancel a running statement. No timeout is used by default.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/db" type="java.util.concurrent.TimeUnitEnumType" use="optional" default="SECONDS" name="queryTimeoutUnit">
+          <xs:annotation>
+            <xs:documentation>A TimeUnit which qualifies the #queryTimeout</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:substitutableInt" use="optional" name="fetchSize">
+          <xs:annotation>
+            <xs:documentation>Indicates how many rows to fetch from the database when rows are read from a resultSet. This property is required when streaming is true; in that case a default value (10) is used.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:substitutableInt" use="optional" name="maxRows">
+          <xs:annotation>
+            <xs:documentation>Sets the limit for the maximum number of rows that any ResultSet object generated by this message processor can contain for the given number. If the limit is exceeded, the excess rows are silently dropped.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/db" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="BulkDeleteType" substitutionGroup="mule:abstract-operator" name="bulk-delete">
+    <xs:annotation>
+      <xs:documentation>Allows executing one delete statement various times using different parameter bindings. This happens using one single Database statement, which has performance advantages compared to executing one single delete operation various times.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="BulkDeleteType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="bulk-input-parameters">
+            <xs:annotation>
+              <xs:documentation>A List of Maps in which every list item represents a row to be inserted, and the map contains the parameter names as keys and the value the parameter is bound to.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="sql">
+            <xs:annotation>
+              <xs:documentation>The text of the SQL query to be executed</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="parameter-types">
+            <xs:annotation>
+              <xs:documentation>Allows to optionally specify the type of one or more of the parameters in the query. If provided, you're not even required to reference all of the parameters, but you cannot reference a parameter not present in the input values</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element xmlns:db="http://www.mulesoft.org/schema/mule/db" minOccurs="0" maxOccurs="unbounded" ref="db:abstract-parameter-type"></xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:operationTransactionalActionType" use="optional" default="JOIN_IF_POSSIBLE" name="transactionalAction">
+          <xs:annotation>
+            <xs:documentation>The type of joining action that operations can take regarding transactions.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" default="0" name="queryTimeout">
+          <xs:annotation>
+            <xs:documentation>Indicates the minimum amount of time before the JDBC driver attempts to cancel a running statement. No timeout is used by default.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/db" type="java.util.concurrent.TimeUnitEnumType" use="optional" default="SECONDS" name="queryTimeoutUnit">
+          <xs:annotation>
+            <xs:documentation>A TimeUnit which qualifies the #queryTimeout</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="fetchSize">
+          <xs:annotation>
+            <xs:documentation>Indicates how many rows to fetch from the database when rows are read from a resultSet. This property is required when streaming is true; in that case a default value (10) is used.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="maxRows">
+          <xs:annotation>
+            <xs:documentation>Sets the limit for the maximum number of rows that any ResultSet object generated by this message processor can contain for the given number. If the limit is exceeded, the excess rows are silently dropped.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionList" use="optional" name="parameterTypes">
+          <xs:annotation>
+            <xs:documentation>Allows to optionally specify the type of one or more of the parameters in the query. If provided, you're not even required to reference all of the parameters, but you cannot reference a parameter not present in the input values</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="org.mule.extension.db.api.param.ParameterType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:attribute type="xs:string" use="required" name="key"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/db" type="org.mule.extension.db.api.param.JdbcTypeEnumType" use="optional" name="type"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="customType"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:db="http://www.mulesoft.org/schema/mule/db" type="db:org.mule.extension.db.api.param.ParameterType" abstract="true" name="abstract-parameter-type"></xs:element>
+  <xs:element xmlns:db="http://www.mulesoft.org/schema/mule/db" substitutionGroup="db:abstract-parameter-type" name="parameter-type">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="db:org.mule.extension.db.api.param.ParameterType"></xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/db" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="BulkInsertType" substitutionGroup="mule:abstract-operator" name="bulk-insert">
+    <xs:annotation>
+      <xs:documentation>Allows executing one insert statement various times using different parameter bindings. This happens using one single Database statement, which has performance advantages compared to executing one single update operation various times.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="BulkInsertType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="bulk-input-parameters">
+            <xs:annotation>
+              <xs:documentation>A List of Maps in which every list item represents a row to be inserted, and the map contains the parameter names as keys and the value the parameter is bound to.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="sql">
+            <xs:annotation>
+              <xs:documentation>The text of the SQL query to be executed</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="parameter-types">
+            <xs:annotation>
+              <xs:documentation>Allows to optionally specify the type of one or more of the parameters in the query. If provided, you're not even required to reference all of the parameters, but you cannot reference a parameter not present in the input values</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element xmlns:db="http://www.mulesoft.org/schema/mule/db" minOccurs="0" maxOccurs="unbounded" ref="db:abstract-parameter-type"></xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:operationTransactionalActionType" use="optional" default="JOIN_IF_POSSIBLE" name="transactionalAction">
+          <xs:annotation>
+            <xs:documentation>The type of joining action that operations can take regarding transactions.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" default="0" name="queryTimeout">
+          <xs:annotation>
+            <xs:documentation>Indicates the minimum amount of time before the JDBC driver attempts to cancel a running statement. No timeout is used by default.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/db" type="java.util.concurrent.TimeUnitEnumType" use="optional" default="SECONDS" name="queryTimeoutUnit">
+          <xs:annotation>
+            <xs:documentation>A TimeUnit which qualifies the #queryTimeout</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="fetchSize">
+          <xs:annotation>
+            <xs:documentation>Indicates how many rows to fetch from the database when rows are read from a resultSet. This property is required when streaming is true; in that case a default value (10) is used.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="maxRows">
+          <xs:annotation>
+            <xs:documentation>Sets the limit for the maximum number of rows that any ResultSet object generated by this message processor can contain for the given number. If the limit is exceeded, the excess rows are silently dropped.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionList" use="optional" name="parameterTypes">
+          <xs:annotation>
+            <xs:documentation>Allows to optionally specify the type of one or more of the parameters in the query. If provided, you're not even required to reference all of the parameters, but you cannot reference a parameter not present in the input values</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/db" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="BulkUpdateType" substitutionGroup="mule:abstract-operator" name="bulk-update">
+    <xs:annotation>
+      <xs:documentation>Allows executing one update statement various times using different parameter bindings. This happens using one single Database statement, which has performance advantages compared to executing one single update operation various times.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="BulkUpdateType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="bulk-input-parameters">
+            <xs:annotation>
+              <xs:documentation>A List of Maps in which every list item represents a row to be inserted, and the map contains the parameter names as keys and the value the parameter is bound to.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="sql">
+            <xs:annotation>
+              <xs:documentation>The text of the SQL query to be executed</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="parameter-types">
+            <xs:annotation>
+              <xs:documentation>Allows to optionally specify the type of one or more of the parameters in the query. If provided, you're not even required to reference all of the parameters, but you cannot reference a parameter not present in the input values</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element xmlns:db="http://www.mulesoft.org/schema/mule/db" minOccurs="0" maxOccurs="unbounded" ref="db:abstract-parameter-type"></xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:operationTransactionalActionType" use="optional" default="JOIN_IF_POSSIBLE" name="transactionalAction">
+          <xs:annotation>
+            <xs:documentation>The type of joining action that operations can take regarding transactions.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" default="0" name="queryTimeout">
+          <xs:annotation>
+            <xs:documentation>Indicates the minimum amount of time before the JDBC driver attempts to cancel a running statement. No timeout is used by default.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/db" type="java.util.concurrent.TimeUnitEnumType" use="optional" default="SECONDS" name="queryTimeoutUnit">
+          <xs:annotation>
+            <xs:documentation>A TimeUnit which qualifies the #queryTimeout</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="fetchSize">
+          <xs:annotation>
+            <xs:documentation>Indicates how many rows to fetch from the database when rows are read from a resultSet. This property is required when streaming is true; in that case a default value (10) is used.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="maxRows">
+          <xs:annotation>
+            <xs:documentation>Sets the limit for the maximum number of rows that any ResultSet object generated by this message processor can contain for the given number. If the limit is exceeded, the excess rows are silently dropped.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionList" use="optional" name="parameterTypes">
+          <xs:annotation>
+            <xs:documentation>Allows to optionally specify the type of one or more of the parameters in the query. If provided, you're not even required to reference all of the parameters, but you cannot reference a parameter not present in the input values</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/db" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="DeleteType" substitutionGroup="mule:abstract-operator" name="delete">
+    <xs:annotation>
+      <xs:documentation>Deletes data in a database.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="DeleteType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="sql">
+            <xs:annotation>
+              <xs:documentation>The text of the SQL query to be executed</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="parameter-types">
+            <xs:annotation>
+              <xs:documentation>Allows to optionally specify the type of one or more of the parameters in the query. If provided, you're not even required to reference all of the parameters, but you cannot reference a parameter not present in the input values</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element xmlns:db="http://www.mulesoft.org/schema/mule/db" minOccurs="0" maxOccurs="unbounded" ref="db:abstract-parameter-type"></xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="input-parameters">
+            <xs:annotation>
+              <xs:documentation>A Map which keys are the name of an input parameter to be set on the JDBC prepared statement. Each parameter should be referenced in the sql text using a semicolon prefix (E.g: where id = :myParamName)). &lt;p&gt; The map's values will contain the actual assignation for each parameter.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:operationTransactionalActionType" use="optional" default="JOIN_IF_POSSIBLE" name="transactionalAction">
+          <xs:annotation>
+            <xs:documentation>The type of joining action that operations can take regarding transactions.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" default="0" name="queryTimeout">
+          <xs:annotation>
+            <xs:documentation>Indicates the minimum amount of time before the JDBC driver attempts to cancel a running statement. No timeout is used by default.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/db" type="java.util.concurrent.TimeUnitEnumType" use="optional" default="SECONDS" name="queryTimeoutUnit">
+          <xs:annotation>
+            <xs:documentation>A TimeUnit which qualifies the #queryTimeout</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="fetchSize">
+          <xs:annotation>
+            <xs:documentation>Indicates how many rows to fetch from the database when rows are read from a resultSet. This property is required when streaming is true; in that case a default value (10) is used.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="maxRows">
+          <xs:annotation>
+            <xs:documentation>Sets the limit for the maximum number of rows that any ResultSet object generated by this message processor can contain for the given number. If the limit is exceeded, the excess rows are silently dropped.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionList" use="optional" name="parameterTypes">
+          <xs:annotation>
+            <xs:documentation>Allows to optionally specify the type of one or more of the parameters in the query. If provided, you're not even required to reference all of the parameters, but you cannot reference a parameter not present in the input values</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/db" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ExecuteDdlType" substitutionGroup="mule:abstract-operator" name="execute-ddl">
+    <xs:annotation>
+      <xs:documentation>Enables execution of DDL queries against a database.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ExecuteDdlType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="sql">
+            <xs:annotation>
+              <xs:documentation>The text of the SQL query to be executed</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:operationTransactionalActionType" use="optional" default="JOIN_IF_POSSIBLE" name="transactionalAction">
+          <xs:annotation>
+            <xs:documentation>The type of joining action that operations can take regarding transactions.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" default="0" name="queryTimeout">
+          <xs:annotation>
+            <xs:documentation>Indicates the minimum amount of time before the JDBC driver attempts to cancel a running statement. No timeout is used by default.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/db" type="java.util.concurrent.TimeUnitEnumType" use="optional" default="SECONDS" name="queryTimeoutUnit">
+          <xs:annotation>
+            <xs:documentation>A TimeUnit which qualifies the #queryTimeout</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="fetchSize">
+          <xs:annotation>
+            <xs:documentation>Indicates how many rows to fetch from the database when rows are read from a resultSet. This property is required when streaming is true; in that case a default value (10) is used.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="maxRows">
+          <xs:annotation>
+            <xs:documentation>Sets the limit for the maximum number of rows that any ResultSet object generated by this message processor can contain for the given number. If the limit is exceeded, the excess rows are silently dropped.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/db" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ExecuteScriptType" substitutionGroup="mule:abstract-operator" name="execute-script">
+    <xs:annotation>
+      <xs:documentation>Executes a SQL script in one single Database statement. The script is executed as provided by the user, without any parameter binding.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ExecuteScriptType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="sql">
+            <xs:annotation>
+              <xs:documentation>The text of the SQL query to be executed</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:operationTransactionalActionType" use="optional" default="JOIN_IF_POSSIBLE" name="transactionalAction">
+          <xs:annotation>
+            <xs:documentation>The type of joining action that operations can take regarding transactions.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="file">
+          <xs:annotation>
+            <xs:documentation>The location of a file to load. The file can point to a resource on the classpath or on a disk.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" default="0" name="queryTimeout">
+          <xs:annotation>
+            <xs:documentation>Indicates the minimum amount of time before the JDBC driver attempts to cancel a running statement. No timeout is used by default.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/db" type="java.util.concurrent.TimeUnitEnumType" use="optional" default="SECONDS" name="queryTimeoutUnit">
+          <xs:annotation>
+            <xs:documentation>A TimeUnit which qualifies the #queryTimeout</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="fetchSize">
+          <xs:annotation>
+            <xs:documentation>Indicates how many rows to fetch from the database when rows are read from a resultSet. This property is required when streaming is true; in that case a default value (10) is used.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="maxRows">
+          <xs:annotation>
+            <xs:documentation>Sets the limit for the maximum number of rows that any ResultSet object generated by this message processor can contain for the given number. If the limit is exceeded, the excess rows are silently dropped.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/db" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="InsertType" substitutionGroup="mule:abstract-operator" name="insert">
+    <xs:annotation>
+      <xs:documentation>Inserts data into a Database</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="InsertType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="sql">
+            <xs:annotation>
+              <xs:documentation>The text of the SQL query to be executed</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="parameter-types">
+            <xs:annotation>
+              <xs:documentation>Allows to optionally specify the type of one or more of the parameters in the query. If provided, you're not even required to reference all of the parameters, but you cannot reference a parameter not present in the input values</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element xmlns:db="http://www.mulesoft.org/schema/mule/db" minOccurs="0" maxOccurs="unbounded" ref="db:abstract-parameter-type"></xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="input-parameters">
+            <xs:annotation>
+              <xs:documentation>A Map which keys are the name of an input parameter to be set on the JDBC prepared statement. Each parameter should be referenced in the sql text using a semicolon prefix (E.g: where id = :myParamName)). &lt;p&gt; The map's values will contain the actual assignation for each parameter.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="auto-generated-keys-column-indexes">
+            <xs:annotation>
+              <xs:documentation>List of column indexes that indicates which auto-generated keys to make available for retrieval.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" name="auto-generated-keys-column-index">
+                  <xs:complexType>
+                    <xs:attribute type="mule:expressionInt" use="required" name="value"></xs:attribute>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="auto-generated-keys-column-names">
+            <xs:annotation>
+              <xs:documentation>List of column names that indicates which auto-generated keys should be made available for retrieval.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" name="auto-generated-keys-column-name">
+                  <xs:complexType>
+                    <xs:attribute type="mule:expressionString" use="required" name="value"></xs:attribute>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:operationTransactionalActionType" use="optional" default="JOIN_IF_POSSIBLE" name="transactionalAction">
+          <xs:annotation>
+            <xs:documentation>The type of joining action that operations can take regarding transactions.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" default="0" name="queryTimeout">
+          <xs:annotation>
+            <xs:documentation>Indicates the minimum amount of time before the JDBC driver attempts to cancel a running statement. No timeout is used by default.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/db" type="java.util.concurrent.TimeUnitEnumType" use="optional" default="SECONDS" name="queryTimeoutUnit">
+          <xs:annotation>
+            <xs:documentation>A TimeUnit which qualifies the #queryTimeout</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="fetchSize">
+          <xs:annotation>
+            <xs:documentation>Indicates how many rows to fetch from the database when rows are read from a resultSet. This property is required when streaming is true; in that case a default value (10) is used.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="maxRows">
+          <xs:annotation>
+            <xs:documentation>Sets the limit for the maximum number of rows that any ResultSet object generated by this message processor can contain for the given number. If the limit is exceeded, the excess rows are silently dropped.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionList" use="optional" name="parameterTypes">
+          <xs:annotation>
+            <xs:documentation>Allows to optionally specify the type of one or more of the parameters in the query. If provided, you're not even required to reference all of the parameters, but you cannot reference a parameter not present in the input values</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="autoGenerateKeys">
+          <xs:annotation>
+            <xs:documentation>Indicates when to make auto-generated keys available for retrieval.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionList" use="optional" name="autoGeneratedKeysColumnIndexes">
+          <xs:annotation>
+            <xs:documentation>List of column indexes that indicates which auto-generated keys to make available for retrieval.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionList" use="optional" name="autoGeneratedKeysColumnNames">
+          <xs:annotation>
+            <xs:documentation>List of column names that indicates which auto-generated keys should be made available for retrieval.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/db" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="SelectType" substitutionGroup="mule:abstract-operator" name="select">
+    <xs:annotation>
+      <xs:documentation>Selects data from a database. Streaming is automatically applied to avoid preemptive consumption of such results, which may lead to performance and memory issues.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="SelectType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-object-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="sql">
+            <xs:annotation>
+              <xs:documentation>The text of the SQL query to be executed</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="parameter-types">
+            <xs:annotation>
+              <xs:documentation>Allows to optionally specify the type of one or more of the parameters in the query. If provided, you're not even required to reference all of the parameters, but you cannot reference a parameter not present in the input values</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element xmlns:db="http://www.mulesoft.org/schema/mule/db" minOccurs="0" maxOccurs="unbounded" ref="db:abstract-parameter-type"></xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="input-parameters">
+            <xs:annotation>
+              <xs:documentation>A Map which keys are the name of an input parameter to be set on the JDBC prepared statement. Each parameter should be referenced in the sql text using a semicolon prefix (E.g: where id = :myParamName)). &lt;p&gt; The map's values will contain the actual assignation for each parameter.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:operationTransactionalActionType" use="optional" default="JOIN_IF_POSSIBLE" name="transactionalAction">
+          <xs:annotation>
+            <xs:documentation>The type of joining action that operations can take regarding transactions.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" default="0" name="queryTimeout">
+          <xs:annotation>
+            <xs:documentation>Indicates the minimum amount of time before the JDBC driver attempts to cancel a running statement. No timeout is used by default.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/db" type="java.util.concurrent.TimeUnitEnumType" use="optional" default="SECONDS" name="queryTimeoutUnit">
+          <xs:annotation>
+            <xs:documentation>A TimeUnit which qualifies the #queryTimeout</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="fetchSize">
+          <xs:annotation>
+            <xs:documentation>Indicates how many rows to fetch from the database when rows are read from a resultSet. This property is required when streaming is true; in that case a default value (10) is used.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="maxRows">
+          <xs:annotation>
+            <xs:documentation>Sets the limit for the maximum number of rows that any ResultSet object generated by this message processor can contain for the given number. If the limit is exceeded, the excess rows are silently dropped.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionList" use="optional" name="parameterTypes">
+          <xs:annotation>
+            <xs:documentation>Allows to optionally specify the type of one or more of the parameters in the query. If provided, you're not even required to reference all of the parameters, but you cannot reference a parameter not present in the input values</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/db" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="StoredProcedureType" substitutionGroup="mule:abstract-operator" name="stored-procedure">
+    <xs:annotation>
+      <xs:documentation>Invokes a Stored Procedure on the database. &lt;p&gt; When the stored procedure returns one or more ResultSet instances, streaming is automatically applied to avoid preemptive consumption of such results, which may lead to performance and memory issues.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="StoredProcedureType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="sql">
+            <xs:annotation>
+              <xs:documentation>The text of the SQL query to be executed</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="parameter-types">
+            <xs:annotation>
+              <xs:documentation>Allows to optionally specify the type of one or more of the parameters in the query. If provided, you're not even required to reference all of the parameters, but you cannot reference a parameter not present in the input values</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element xmlns:db="http://www.mulesoft.org/schema/mule/db" minOccurs="0" maxOccurs="unbounded" ref="db:abstract-parameter-type"></xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="input-parameters">
+            <xs:annotation>
+              <xs:documentation>A Map which keys are the name of an input parameter to be set on the JDBC prepared statement. Each parameter should be referenced in the sql text using a semicolon prefix (E.g: where id = :myParamName)). &lt;p&gt; The map's values will contain the actual assignation for each parameter.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="in-out-parameters">
+            <xs:annotation>
+              <xs:documentation>A Map which keys are the name of a parameter to be set on the JDBC prepared statement which is both input and output. &lt;p&gt; Each parameter should be referenced in the sql text using a semicolon prefix (E.g: where id = :myParamName)). &lt;p&gt; The map's values will contain the actual assignation for each parameter.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" name="in-out-parameter">
+                  <xs:complexType>
+                    <xs:attribute type="mule:expressionString" use="required" name="key"></xs:attribute>
+                    <xs:attribute type="xs:string" use="required" name="value"></xs:attribute>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="output-parameters">
+            <xs:annotation>
+              <xs:documentation>A list of output parameters to be set on the JDBC prepared statement. Each parameter should be referenced in the sql text using a semicolon prefix (E.g: call multiply(:value, :result))</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element xmlns:db="http://www.mulesoft.org/schema/mule/db" minOccurs="0" maxOccurs="unbounded" ref="db:abstract-output-parameter"></xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="auto-generated-keys-column-indexes">
+            <xs:annotation>
+              <xs:documentation>List of column indexes that indicates which auto-generated keys to make available for retrieval.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" name="auto-generated-keys-column-index">
+                  <xs:complexType>
+                    <xs:attribute type="mule:expressionInt" use="required" name="value"></xs:attribute>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="auto-generated-keys-column-names">
+            <xs:annotation>
+              <xs:documentation>List of column names that indicates which auto-generated keys should be made available for retrieval.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" name="auto-generated-keys-column-name">
+                  <xs:complexType>
+                    <xs:attribute type="mule:expressionString" use="required" name="value"></xs:attribute>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:operationTransactionalActionType" use="optional" default="JOIN_IF_POSSIBLE" name="transactionalAction">
+          <xs:annotation>
+            <xs:documentation>The type of joining action that operations can take regarding transactions.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" default="0" name="queryTimeout">
+          <xs:annotation>
+            <xs:documentation>Indicates the minimum amount of time before the JDBC driver attempts to cancel a running statement. No timeout is used by default.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/db" type="java.util.concurrent.TimeUnitEnumType" use="optional" default="SECONDS" name="queryTimeoutUnit">
+          <xs:annotation>
+            <xs:documentation>A TimeUnit which qualifies the #queryTimeout</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="fetchSize">
+          <xs:annotation>
+            <xs:documentation>Indicates how many rows to fetch from the database when rows are read from a resultSet. This property is required when streaming is true; in that case a default value (10) is used.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="maxRows">
+          <xs:annotation>
+            <xs:documentation>Sets the limit for the maximum number of rows that any ResultSet object generated by this message processor can contain for the given number. If the limit is exceeded, the excess rows are silently dropped.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionList" use="optional" name="parameterTypes">
+          <xs:annotation>
+            <xs:documentation>Allows to optionally specify the type of one or more of the parameters in the query. If provided, you're not even required to reference all of the parameters, but you cannot reference a parameter not present in the input values</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionMap" use="optional" name="inOutParameters">
+          <xs:annotation>
+            <xs:documentation>A Map which keys are the name of a parameter to be set on the JDBC prepared statement which is both input and output. &lt;p&gt; Each parameter should be referenced in the sql text using a semicolon prefix (E.g: where id = :myParamName)). &lt;p&gt; The map's values will contain the actual assignation for each parameter.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionList" use="optional" name="outputParameters">
+          <xs:annotation>
+            <xs:documentation>A list of output parameters to be set on the JDBC prepared statement. Each parameter should be referenced in the sql text using a semicolon prefix (E.g: call multiply(:value, :result))</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="autoGenerateKeys">
+          <xs:annotation>
+            <xs:documentation>Indicates when to make auto-generated keys available for retrieval.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionList" use="optional" name="autoGeneratedKeysColumnIndexes">
+          <xs:annotation>
+            <xs:documentation>List of column indexes that indicates which auto-generated keys to make available for retrieval.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionList" use="optional" name="autoGeneratedKeysColumnNames">
+          <xs:annotation>
+            <xs:documentation>List of column names that indicates which auto-generated keys should be made available for retrieval.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="org.mule.extension.db.api.param.OutputParameter">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:attribute type="xs:string" use="required" name="key"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/db" type="org.mule.extension.db.api.param.JdbcTypeEnumType" use="optional" name="type"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="customType"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:db="http://www.mulesoft.org/schema/mule/db" type="db:org.mule.extension.db.api.param.OutputParameter" abstract="true" name="abstract-output-parameter"></xs:element>
+  <xs:element xmlns:db="http://www.mulesoft.org/schema/mule/db" substitutionGroup="db:abstract-output-parameter" name="output-parameter">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="db:org.mule.extension.db.api.param.OutputParameter"></xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/db" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="UpdateType" substitutionGroup="mule:abstract-operator" name="update">
+    <xs:annotation>
+      <xs:documentation>Updates data in a database.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="UpdateType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="sql">
+            <xs:annotation>
+              <xs:documentation>The text of the SQL query to be executed</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="parameter-types">
+            <xs:annotation>
+              <xs:documentation>Allows to optionally specify the type of one or more of the parameters in the query. If provided, you're not even required to reference all of the parameters, but you cannot reference a parameter not present in the input values</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element xmlns:db="http://www.mulesoft.org/schema/mule/db" minOccurs="0" maxOccurs="unbounded" ref="db:abstract-parameter-type"></xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="input-parameters">
+            <xs:annotation>
+              <xs:documentation>A Map which keys are the name of an input parameter to be set on the JDBC prepared statement. Each parameter should be referenced in the sql text using a semicolon prefix (E.g: where id = :myParamName)). &lt;p&gt; The map's values will contain the actual assignation for each parameter.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="auto-generated-keys-column-indexes">
+            <xs:annotation>
+              <xs:documentation>List of column indexes that indicates which auto-generated keys to make available for retrieval.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" name="auto-generated-keys-column-index">
+                  <xs:complexType>
+                    <xs:attribute type="mule:expressionInt" use="required" name="value"></xs:attribute>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="auto-generated-keys-column-names">
+            <xs:annotation>
+              <xs:documentation>List of column names that indicates which auto-generated keys should be made available for retrieval.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" name="auto-generated-keys-column-name">
+                  <xs:complexType>
+                    <xs:attribute type="mule:expressionString" use="required" name="value"></xs:attribute>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:operationTransactionalActionType" use="optional" default="JOIN_IF_POSSIBLE" name="transactionalAction">
+          <xs:annotation>
+            <xs:documentation>The type of joining action that operations can take regarding transactions.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" default="0" name="queryTimeout">
+          <xs:annotation>
+            <xs:documentation>Indicates the minimum amount of time before the JDBC driver attempts to cancel a running statement. No timeout is used by default.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/db" type="java.util.concurrent.TimeUnitEnumType" use="optional" default="SECONDS" name="queryTimeoutUnit">
+          <xs:annotation>
+            <xs:documentation>A TimeUnit which qualifies the #queryTimeout</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="fetchSize">
+          <xs:annotation>
+            <xs:documentation>Indicates how many rows to fetch from the database when rows are read from a resultSet. This property is required when streaming is true; in that case a default value (10) is used.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="maxRows">
+          <xs:annotation>
+            <xs:documentation>Sets the limit for the maximum number of rows that any ResultSet object generated by this message processor can contain for the given number. If the limit is exceeded, the excess rows are silently dropped.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionList" use="optional" name="parameterTypes">
+          <xs:annotation>
+            <xs:documentation>Allows to optionally specify the type of one or more of the parameters in the query. If provided, you're not even required to reference all of the parameters, but you cannot reference a parameter not present in the input values</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="autoGenerateKeys">
+          <xs:annotation>
+            <xs:documentation>Indicates when to make auto-generated keys available for retrieval.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionList" use="optional" name="autoGeneratedKeysColumnIndexes">
+          <xs:annotation>
+            <xs:documentation>List of column indexes that indicates which auto-generated keys to make available for retrieval.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionList" use="optional" name="autoGeneratedKeysColumnNames">
+          <xs:annotation>
+            <xs:documentation>List of column names that indicates which auto-generated keys should be made available for retrieval.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstractConnectionProvider" name="data-source-connection">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractConnectionProviderType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:reconnection"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="pooling-profile">
+              <xs:annotation>
+                <xs:documentation>Provides a way to configure database connection pooling.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension xmlns:db="http://www.mulesoft.org/schema/mule/db" base="db:org.mule.extension.db.api.config.DbPoolingProfile"></xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="column-types">
+              <xs:annotation>
+                <xs:documentation>Specifies non-standard column types</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element xmlns:db="http://www.mulesoft.org/schema/mule/db" minOccurs="0" maxOccurs="unbounded" ref="db:abstract-column-type"></xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute type="xs:string" use="optional" name="poolingProfile">
+            <xs:annotation>
+              <xs:documentation>Provides a way to configure database connection pooling.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:substitutableName" use="optional" name="columnTypes">
+            <xs:annotation>
+              <xs:documentation>Specifies non-standard column types</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="xs:string" use="required" name="dataSourceRef">
+            <xs:annotation>
+              <xs:documentation>Reference to a JDBC DataSource object. This object is typically created using Spring. When using XA transactions, an XADataSource object must be provided.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstractConnectionProvider" name="derby-connection">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractConnectionProviderType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:reconnection"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="pooling-profile">
+              <xs:annotation>
+                <xs:documentation>Provides a way to configure database connection pooling.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension xmlns:db="http://www.mulesoft.org/schema/mule/db" base="db:org.mule.extension.db.api.config.DbPoolingProfile"></xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="column-types">
+              <xs:annotation>
+                <xs:documentation>Specifies non-standard column types</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element xmlns:db="http://www.mulesoft.org/schema/mule/db" minOccurs="0" maxOccurs="unbounded" ref="db:abstract-column-type"></xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="connection-properties">
+              <xs:annotation>
+                <xs:documentation>Specifies a list of custom key-value connectionProperties for the config.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element minOccurs="0" maxOccurs="unbounded" name="connection-property">
+                    <xs:complexType>
+                      <xs:attribute type="mule:expressionString" use="required" name="key"></xs:attribute>
+                      <xs:attribute type="mule:expressionString" use="required" name="value"></xs:attribute>
+                    </xs:complexType>
+                  </xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute type="xs:string" use="optional" name="poolingProfile">
+            <xs:annotation>
+              <xs:documentation>Provides a way to configure database connection pooling.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:substitutableName" use="optional" name="columnTypes">
+            <xs:annotation>
+              <xs:documentation>Specifies non-standard column types</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/db" type="org.mule.extension.db.api.param.TransactionIsolationEnumType" use="optional" default="NOT_CONFIGURED" name="transactionIsolation">
+            <xs:annotation>
+              <xs:documentation>The transaction isolation level to set on the driver when connecting the database.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:substitutableBoolean" use="optional" default="false" name="useXaTransactions">
+            <xs:annotation>
+              <xs:documentation>Indicates whether or not the created datasource has to support XA transactions. Default is false.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="database">
+            <xs:annotation>
+              <xs:documentation>Name of the database</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" default="directory" name="subsubProtocol">
+            <xs:annotation>
+              <xs:documentation>Specifies where Derby should look for the database. The available options are: 'directory', 'memory', 'classpath' and 'jar'.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="create">
+            <xs:annotation>
+              <xs:documentation>Indicates if the database should be created if it does not exist.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionMap" use="optional" name="connectionProperties">
+            <xs:annotation>
+              <xs:documentation>Specifies a list of custom key-value connectionProperties for the config.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstractConnectionProvider" name="generic-connection">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractConnectionProviderType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:reconnection"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="pooling-profile">
+              <xs:annotation>
+                <xs:documentation>Provides a way to configure database connection pooling.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension xmlns:db="http://www.mulesoft.org/schema/mule/db" base="db:org.mule.extension.db.api.config.DbPoolingProfile"></xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="column-types">
+              <xs:annotation>
+                <xs:documentation>Specifies non-standard column types</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element xmlns:db="http://www.mulesoft.org/schema/mule/db" minOccurs="0" maxOccurs="unbounded" ref="db:abstract-column-type"></xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute type="xs:string" use="optional" name="poolingProfile">
+            <xs:annotation>
+              <xs:documentation>Provides a way to configure database connection pooling.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:substitutableName" use="optional" name="columnTypes">
+            <xs:annotation>
+              <xs:documentation>Specifies non-standard column types</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/db" type="org.mule.extension.db.api.param.TransactionIsolationEnumType" use="optional" default="NOT_CONFIGURED" name="transactionIsolation">
+            <xs:annotation>
+              <xs:documentation>The transaction isolation level to set on the driver when connecting the database.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:substitutableBoolean" use="optional" default="false" name="useXaTransactions">
+            <xs:annotation>
+              <xs:documentation>Indicates whether or not the created datasource has to support XA transactions. Default is false.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="url">
+            <xs:annotation>
+              <xs:documentation>JDBC URL to use to connect to the database.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="driverClassName">
+            <xs:annotation>
+              <xs:documentation>Fully-qualified name of the database driver class.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="user">
+            <xs:annotation>
+              <xs:documentation>Database username</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="password">
+            <xs:annotation>
+              <xs:documentation>Database password</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstractConnectionProvider" name="mssql-connection">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractConnectionProviderType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:reconnection"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="pooling-profile">
+              <xs:annotation>
+                <xs:documentation>Provides a way to configure database connection pooling.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension xmlns:db="http://www.mulesoft.org/schema/mule/db" base="db:org.mule.extension.db.api.config.DbPoolingProfile"></xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="column-types">
+              <xs:annotation>
+                <xs:documentation>Specifies non-standard column types</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element xmlns:db="http://www.mulesoft.org/schema/mule/db" minOccurs="0" maxOccurs="unbounded" ref="db:abstract-column-type"></xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="connection-properties">
+              <xs:annotation>
+                <xs:documentation>Specifies a list of custom key-value connectionProperties for the config.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element minOccurs="0" maxOccurs="unbounded" name="connection-property">
+                    <xs:complexType>
+                      <xs:attribute type="mule:expressionString" use="required" name="key"></xs:attribute>
+                      <xs:attribute type="mule:expressionString" use="required" name="value"></xs:attribute>
+                    </xs:complexType>
+                  </xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute type="xs:string" use="optional" name="poolingProfile">
+            <xs:annotation>
+              <xs:documentation>Provides a way to configure database connection pooling.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:substitutableName" use="optional" name="columnTypes">
+            <xs:annotation>
+              <xs:documentation>Specifies non-standard column types</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/db" type="org.mule.extension.db.api.param.TransactionIsolationEnumType" use="optional" default="NOT_CONFIGURED" name="transactionIsolation">
+            <xs:annotation>
+              <xs:documentation>The transaction isolation level to set on the driver when connecting the database.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:substitutableBoolean" use="optional" default="false" name="useXaTransactions">
+            <xs:annotation>
+              <xs:documentation>Indicates whether or not the created datasource has to support XA transactions. Default is false.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="host">
+            <xs:annotation>
+              <xs:documentation>Configures the host of the database.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="instanceName">
+            <xs:annotation>
+              <xs:documentation>Configures the name of the SQL server instance where the database is.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="optional" name="port">
+            <xs:annotation>
+              <xs:documentation>Configures the port of the database.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="user">
+            <xs:annotation>
+              <xs:documentation>The user to use for authentication against the database.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="password">
+            <xs:annotation>
+              <xs:documentation>The password to use for authentication against the database.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="databaseName">
+            <xs:annotation>
+              <xs:documentation>Name of the default database to work with.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionMap" use="optional" name="connectionProperties">
+            <xs:annotation>
+              <xs:documentation>Specifies a list of custom key-value connectionProperties for the config.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstractConnectionProvider" name="my-sql-connection">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractConnectionProviderType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:reconnection"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="pooling-profile">
+              <xs:annotation>
+                <xs:documentation>Provides a way to configure database connection pooling.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension xmlns:db="http://www.mulesoft.org/schema/mule/db" base="db:org.mule.extension.db.api.config.DbPoolingProfile"></xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="column-types">
+              <xs:annotation>
+                <xs:documentation>Specifies non-standard column types</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element xmlns:db="http://www.mulesoft.org/schema/mule/db" minOccurs="0" maxOccurs="unbounded" ref="db:abstract-column-type"></xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="connection-properties">
+              <xs:annotation>
+                <xs:documentation>Specifies a list of custom key-value connectionProperties for the config.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element minOccurs="0" maxOccurs="unbounded" name="connection-property">
+                    <xs:complexType>
+                      <xs:attribute type="mule:expressionString" use="required" name="key"></xs:attribute>
+                      <xs:attribute type="mule:expressionString" use="required" name="value"></xs:attribute>
+                    </xs:complexType>
+                  </xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute type="xs:string" use="optional" name="poolingProfile">
+            <xs:annotation>
+              <xs:documentation>Provides a way to configure database connection pooling.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:substitutableName" use="optional" name="columnTypes">
+            <xs:annotation>
+              <xs:documentation>Specifies non-standard column types</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/db" type="org.mule.extension.db.api.param.TransactionIsolationEnumType" use="optional" default="NOT_CONFIGURED" name="transactionIsolation">
+            <xs:annotation>
+              <xs:documentation>The transaction isolation level to set on the driver when connecting the database.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:substitutableBoolean" use="optional" default="false" name="useXaTransactions">
+            <xs:annotation>
+              <xs:documentation>Indicates whether or not the created datasource has to support XA transactions. Default is false.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="host">
+            <xs:annotation>
+              <xs:documentation>Configures the host of the database.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="required" name="port">
+            <xs:annotation>
+              <xs:documentation>Configures the port of the database.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="user">
+            <xs:annotation>
+              <xs:documentation>The user to use for authentication against the database.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="password">
+            <xs:annotation>
+              <xs:documentation>The password to use for authentication against the database.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="database">
+            <xs:annotation>
+              <xs:documentation>The name of the database.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionMap" use="optional" name="connectionProperties">
+            <xs:annotation>
+              <xs:documentation>Specifies a list of custom key-value connectionProperties for the config.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstractConnectionProvider" name="oracle-connection">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractConnectionProviderType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:reconnection"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="pooling-profile">
+              <xs:annotation>
+                <xs:documentation>Provides a way to configure database connection pooling.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension xmlns:db="http://www.mulesoft.org/schema/mule/db" base="db:org.mule.extension.db.api.config.DbPoolingProfile"></xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="column-types">
+              <xs:annotation>
+                <xs:documentation>Specifies non-standard column types</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element xmlns:db="http://www.mulesoft.org/schema/mule/db" minOccurs="0" maxOccurs="unbounded" ref="db:abstract-column-type"></xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute type="xs:string" use="optional" name="poolingProfile">
+            <xs:annotation>
+              <xs:documentation>Provides a way to configure database connection pooling.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:substitutableName" use="optional" name="columnTypes">
+            <xs:annotation>
+              <xs:documentation>Specifies non-standard column types</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/db" type="org.mule.extension.db.api.param.TransactionIsolationEnumType" use="optional" default="NOT_CONFIGURED" name="transactionIsolation">
+            <xs:annotation>
+              <xs:documentation>The transaction isolation level to set on the driver when connecting the database.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:substitutableBoolean" use="optional" default="false" name="useXaTransactions">
+            <xs:annotation>
+              <xs:documentation>Indicates whether or not the created datasource has to support XA transactions. Default is false.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="host">
+            <xs:annotation>
+              <xs:documentation>Configures the host of the database.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="optional" default="1521" name="port">
+            <xs:annotation>
+              <xs:documentation>Configures the port of the database.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="user">
+            <xs:annotation>
+              <xs:documentation>The user to use for authentication against the database.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="password">
+            <xs:annotation>
+              <xs:documentation>The password to use for authentication against the database.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="instance">
+            <xs:annotation>
+              <xs:documentation>The name of the database instance.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="serviceName">
+            <xs:annotation>
+              <xs:documentation>The name of the database service name.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:simpleType name="java.util.concurrent.TimeUnitEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="NANOSECONDS"></xs:enumeration>
+          <xs:enumeration value="MICROSECONDS"></xs:enumeration>
+          <xs:enumeration value="MILLISECONDS"></xs:enumeration>
+          <xs:enumeration value="SECONDS"></xs:enumeration>
+          <xs:enumeration value="MINUTES"></xs:enumeration>
+          <xs:enumeration value="HOURS"></xs:enumeration>
+          <xs:enumeration value="DAYS"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="org.mule.extension.db.api.param.TransactionIsolationEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="NONE"></xs:enumeration>
+          <xs:enumeration value="READ_COMMITTED"></xs:enumeration>
+          <xs:enumeration value="READ_UNCOMMITTED"></xs:enumeration>
+          <xs:enumeration value="REPEATABLE_READ"></xs:enumeration>
+          <xs:enumeration value="SERIALIZABLE"></xs:enumeration>
+          <xs:enumeration value="NOT_CONFIGURED"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="org.mule.runtime.extension.api.tx.SourceTransactionalActionEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="ALWAYS_BEGIN"></xs:enumeration>
+          <xs:enumeration value="NONE"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="org.mule.extension.db.api.param.JdbcTypeEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="BIT"></xs:enumeration>
+          <xs:enumeration value="TINYINT"></xs:enumeration>
+          <xs:enumeration value="SMALLINT"></xs:enumeration>
+          <xs:enumeration value="INTEGER"></xs:enumeration>
+          <xs:enumeration value="BIGINT"></xs:enumeration>
+          <xs:enumeration value="FLOAT"></xs:enumeration>
+          <xs:enumeration value="REAL"></xs:enumeration>
+          <xs:enumeration value="DOUBLE"></xs:enumeration>
+          <xs:enumeration value="NUMERIC"></xs:enumeration>
+          <xs:enumeration value="DECIMAL"></xs:enumeration>
+          <xs:enumeration value="CHAR"></xs:enumeration>
+          <xs:enumeration value="VARCHAR"></xs:enumeration>
+          <xs:enumeration value="LONGVARCHAR"></xs:enumeration>
+          <xs:enumeration value="DATE"></xs:enumeration>
+          <xs:enumeration value="TIME"></xs:enumeration>
+          <xs:enumeration value="TIMESTAMP"></xs:enumeration>
+          <xs:enumeration value="BINARY"></xs:enumeration>
+          <xs:enumeration value="VARBINARY"></xs:enumeration>
+          <xs:enumeration value="LONGVARBINARY"></xs:enumeration>
+          <xs:enumeration value="NULL"></xs:enumeration>
+          <xs:enumeration value="OTHER"></xs:enumeration>
+          <xs:enumeration value="JAVA_OBJECT"></xs:enumeration>
+          <xs:enumeration value="DISTINCT"></xs:enumeration>
+          <xs:enumeration value="STRUCT"></xs:enumeration>
+          <xs:enumeration value="ARRAY"></xs:enumeration>
+          <xs:enumeration value="BLOB"></xs:enumeration>
+          <xs:enumeration value="CLOB"></xs:enumeration>
+          <xs:enumeration value="REF"></xs:enumeration>
+          <xs:enumeration value="DATALINK"></xs:enumeration>
+          <xs:enumeration value="BOOLEAN"></xs:enumeration>
+          <xs:enumeration value="ROWID"></xs:enumeration>
+          <xs:enumeration value="NCHAR"></xs:enumeration>
+          <xs:enumeration value="NVARCHAR"></xs:enumeration>
+          <xs:enumeration value="LONGNVARCHAR"></xs:enumeration>
+          <xs:enumeration value="NCLOB"></xs:enumeration>
+          <xs:enumeration value="SQLXML"></xs:enumeration>
+          <xs:enumeration value="UNKNOWN"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+</xs:schema>

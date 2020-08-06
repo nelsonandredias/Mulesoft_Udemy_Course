@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:mule="http://www.mulesoft.org/schema/mule/core" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.mulesoft.org/schema/mule/apikit-soap" attributeFormDefault="unqualified" elementFormDefault="qualified">
+  <xs:import namespace="http://www.w3.org/XML/1998/namespace"></xs:import>
+  <xs:import namespace="http://www.springframework.org/schema/beans" schemaLocation="http://www.springframework.org/schema/beans/spring-beans.xsd"></xs:import>
+  <xs:import namespace="http://www.mulesoft.org/schema/mule/core" schemaLocation="http://www.mulesoft.org/schema/mule/core/current/mule.xsd"></xs:import>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstract-shared-extension" name="config">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractExtensionType">
+          <xs:annotation>
+            <xs:documentation>Configuration element for a SOAP Router.</xs:documentation>
+          </xs:annotation>
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:expiration-policy"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="namespace-prefixes">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element minOccurs="0" maxOccurs="unbounded" name="namespace-prefix">
+                    <xs:complexType>
+                      <xs:attribute type="mule:expressionString" use="required" name="key"></xs:attribute>
+                      <xs:attribute type="mule:expressionString" use="required" name="value"></xs:attribute>
+                    </xs:complexType>
+                  </xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/apikit-soap" type="org.mule.runtime.soap.api.SoapVersionEnumType" use="optional" name="soapVersion">
+            <xs:annotation>
+              <xs:documentation>The soap version of the WSDL.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="address">
+            <xs:annotation>
+              <xs:documentation>The address of the web service.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:substitutableBoolean" use="optional" default="false" name="mtomEnabled">
+            <xs:annotation>
+              <xs:documentation>If should use the MTOM protocol to manage the attachments or not.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:substitutableBoolean" use="optional" default="false" name="inboundValidationEnabled">
+            <xs:annotation>
+              <xs:documentation>If should use the MTOM protocol to manage the attachments or not.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="xs:string" use="optional" default="httpStatus" name="httpStatusVarName">
+            <xs:annotation>
+              <xs:documentation>The variable name for the http status.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:substitutableName" use="optional" name="namespacePrefixes"></xs:attribute>
+          <xs:attribute type="xs:string" use="required" name="name">
+            <xs:annotation>
+              <xs:documentation>The identifier of this element used to reference it in other components</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="wsdlLocation">
+            <xs:annotation>
+              <xs:documentation>The WSDL file URL remote or local.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="service">
+            <xs:annotation>
+              <xs:documentation>The service name.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="port">
+            <xs:annotation>
+              <xs:documentation>The port name.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/apikit-soap" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="FaultType" substitutionGroup="mule:abstract-operator" name="fault">
+    <xs:annotation>
+      <xs:documentation>APIKit for SOAP Fault</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="FaultType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="optional" default="#[payload]" name="payload"></xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="operation"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="fault"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/apikit-soap" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="RouterType" substitutionGroup="mule:abstract-operator" name="router">
+    <xs:annotation>
+      <xs:documentation>APIKit for SOAP Router</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="RouterType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="1" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="message"></xs:element>
+          <xs:element type="xs:string" minOccurs="1" maxOccurs="1" name="attributes"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="optional" name="outputMimeType">
+          <xs:annotation>
+            <xs:documentation>The mime type of the payload that this operation outputs.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="outputEncoding">
+          <xs:annotation>
+            <xs:documentation>The encoding of the payload that this operation outputs.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="org.mule.runtime.soap.api.SoapVersionEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="SOAP11"></xs:enumeration>
+          <xs:enumeration value="SOAP12"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+</xs:schema>

@@ -1,0 +1,29 @@
+{
+  "name": "Spring",
+  "minMuleVersion": "4.1.1",
+  "bundleDescriptorLoader": {
+    "id": "mule",
+    "attributes": {}
+  },
+  "extensionModelLoaderDescriptor": {
+    "id": "crafted",
+    "attributes": {
+      "type": "org.mule.extension.spring.internal.SpringModuleExtensionModelGenerator"
+    }
+  },
+  "classLoaderModelLoaderDescriptor": {
+    "id": "mule",
+    "attributes": {
+      "exportedPackages": [
+        "org.mule.extension.spring.api",
+        "org.mule.extension.spring.api.security",
+        "org.mule.extension.spring.api.spring.editors"
+      ],
+      "exportedResources": [
+        "META-INF/mule.schemas",
+        "META-INF/mule-spring.xsd"
+      ]
+    }
+  },
+  "requiredProduct": "MULE"
+}

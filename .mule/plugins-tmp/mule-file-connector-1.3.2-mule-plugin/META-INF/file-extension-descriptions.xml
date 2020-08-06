@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension-documentation>
+    <configs>
+        <config name="config">
+            <description><![CDATA[Default configuration]]></description>
+            <parameters>
+                <parameter name="defaultWriteEncoding">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="timeBetweenSizeCheck">
+                    <description><![CDATA[Wait time between size checks to determine if a file is ready to be read. This allows a file write to complete before processing. If no value is provided, the check will not be performed. When enabled, Mule performs two size checks waiting the specified time between calls. If both checks return the same value, the file is ready to be read.This attribute works in tandem with #timeBetweenSizeCheckUnit.]]></description>
+                </parameter>
+                <parameter name="timeBetweenSizeCheckUnit">
+                    <description><![CDATA[A TimeUnit which qualifies the #timeBetweenSizeCheck attribute. <p> Defaults to MILLISECONDS]]></description>
+                </parameter>
+                <parameter name="expirationPolicy">
+                    <description><![CDATA[Configures the minimum amount of time that a dynamic configuration instance can remain idle before the runtime considers it eligible for expiration. This does not mean that the platform will expire the instance at the exact moment that it becomes eligible. The runtime will actually purge the instances when it sees it fit.]]></description>
+                </parameter>
+            </parameters>
+        </config>
+    </configs>
+    <connections>
+        <connection name="connection">
+            <description><![CDATA[A ConnectionProvider which provides instances of FileSystem from instances of FileConnector]]></description>
+            <parameters>
+                <parameter name="workingDir">
+                    <description><![CDATA[The directory to be considered as the root of every relative path used with this connector. If not provided, it will default to the value of the user.home system property. If that system property is not set, then the connector will fail to initialise.]]></description>
+                </parameter>
+                <parameter name="reconnection">
+                    <description><![CDATA[When the application is deployed, a connectivity test is performed on all connectors. If set to true, deployment will fail if the test doesn't pass after exhausting the associated reconnection strategy]]></description>
+                </parameter>
+            </parameters>
+        </connection>
+        <connection name="connection">
+            <description><![CDATA[A ConnectionProvider which provides instances of FileSystem from instances of FileConnector]]></description>
+            <parameters>
+                <parameter name="workingDir">
+                    <description><![CDATA[The directory to be considered as the root of every relative path used with this connector. If not provided, it will default to the value of the user.home system property. If that system property is not set, then the connector will fail to initialise.]]></description>
+                </parameter>
+                <parameter name="reconnection">
+                    <description><![CDATA[When the application is deployed, a connectivity test is performed on all connectors. If set to true, deployment will fail if the test doesn't pass after exhausting the associated reconnection strategy]]></description>
+                </parameter>
+            </parameters>
+        </connection>
+    </connections>
+    <extension name="File">
+        <description><![CDATA[File connector used to manipulate file systems mounted on the host operation system. <p> This class serves as both extension definition and configuration. Operations are based on the standard BaseFileSystemOperations]]></description>
+        <parameters/>
+    </extension>
+    <operations>
+        <operation name="copy">
+            <description><![CDATA[Copies the file at the sourcePath into the targetPath. <p> If targetPath doesn't exist, and neither does its parent, then an attempt will be made to create depending on the value of the createParentFolder argument. If such argument is , then a FILE:ILLEGAL_PATH will be thrown. <p> If the target file already exists, then it will be overwritten if the overwrite argument is true. Otherwise, FILE:FILE_ALREADY_EXISTS error will be thrown. <p> As for the sourcePath, it can either be a file or a directory. If it points to a directory, then it will be copied recursively.]]></description>
+            <parameters>
+                <parameter name="sourcePath">
+                    <description><![CDATA[the path to the file to be copied]]></description>
+                </parameter>
+                <parameter name="targetPath">
+                    <description><![CDATA[the target directory where the file is going to be copied]]></description>
+                </parameter>
+                <parameter name="createParentDirectories">
+                    <description><![CDATA[whether or not to attempt creating any parent directories which don't exists.]]></description>
+                </parameter>
+                <parameter name="overwrite">
+                    <description><![CDATA[whether or not overwrite the file if the target destination already exists.]]></description>
+                </parameter>
+                <parameter name="renameTo">
+                    <description><![CDATA[copied file's new name. If not provided, original file name will be kept.]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="createDirectory">
+            <description><![CDATA[Creates a new directory on directoryPath]]></description>
+            <parameters>
+                <parameter name="directoryPath">
+                    <description><![CDATA[the new directory's name]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="delete">
+            <description><![CDATA[Deletes the file pointed by path, provided that it's not locked]]></description>
+            <parameters>
+                <parameter name="path">
+                    <description><![CDATA[the path to the file to be deleted]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="list">
+            <description><![CDATA[Lists all the files in the directoryPath which match the given matcher. <p> If the listing encounters a directory, the output list will include its contents depending on the value of the recursive parameter. <p>]]></description>
+            <parameters>
+                <parameter name="directoryPath">
+                    <description><![CDATA[the path to the directory to be listed]]></description>
+                </parameter>
+                <parameter name="recursive">
+                    <description><![CDATA[whether to include the contents of sub-directories. Defaults to false.]]></description>
+                </parameter>
+                <parameter name="matcher">
+                    <description><![CDATA[a matcher used to filter the output list]]></description>
+                </parameter>
+                <parameter name="timeBetweenSizeCheck">
+                    <description><![CDATA[wait time between size checks to determine if a file is ready to be read.]]></description>
+                </parameter>
+                <parameter name="timeBetweenSizeCheckUnit">
+                    <description><![CDATA[time unit to be used in the wait time between size checks.]]></description>
+                </parameter>
+                <parameter name="streamingStrategy">
+                    <description><![CDATA[Configure if repeatable streams should be used and their behaviour]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="move">
+            <description><![CDATA[Moves the file at the sourcePath into the targetPath. <p> If targetPath doesn't exist, and neither does its parent, then an attempt will be made to create depending on the value of the createParentFolder argument. If such argument is , then a FILE:ILLEGAL_PATH will be thrown. <p> If the target file already exists, then it will be overwritten if the overwrite argument is true. Otherwise, FILE:FILE_ALREADY_EXISTS error will be thrown. <p> As for the sourcePath, it can either be a file or a directory. If it points to a directory, then it will be moved recursively.]]></description>
+            <parameters>
+                <parameter name="sourcePath">
+                    <description><![CDATA[the path to the file to be copied]]></description>
+                </parameter>
+                <parameter name="targetPath">
+                    <description><![CDATA[the target directory]]></description>
+                </parameter>
+                <parameter name="createParentDirectories">
+                    <description><![CDATA[whether or not to attempt creating any parent directories which don't exists.]]></description>
+                </parameter>
+                <parameter name="overwrite">
+                    <description><![CDATA[whether or not overwrite the file if the target destination already exists.]]></description>
+                </parameter>
+                <parameter name="renameTo">
+                    <description><![CDATA[moved file's new name. If not provided, original file name will be kept.]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="read">
+            <description><![CDATA[Obtains the content and metadata of a file at a given path. The operation itself returns a Message which payload is a InputStream with the file's content, and the metadata is represent as a LocalFileAttributes object that's placed as the message Message#getAttributes() attributes. <p> If the lock parameter is set to true, then a file system level lock will be placed on the file until the input stream this operation returns is closed or fully consumed. Because the lock is actually provided by the host file system, its behavior might change depending on the mounted drive and the operation system on which mule is running. Take that into consideration before blindly relying on this lock. <p> This method also makes a best effort to determine the mime type of the file being read. The file's extension will be used to make an educated guess on the file's mime type. The user also has the chance to force the output encoding and mimeType through the outputEncoding and outputMimeType optional parameters.]]></description>
+            <parameters>
+                <parameter name="path">
+                    <description><![CDATA[the path to the file to be read]]></description>
+                </parameter>
+                <parameter name="lock">
+                    <description><![CDATA[whether or not to lock the file. Defaults to false.]]></description>
+                </parameter>
+                <parameter name="timeBetweenSizeCheck">
+                    <description><![CDATA[wait time between size checks to determine if a file is ready to be read.]]></description>
+                </parameter>
+                <parameter name="timeBetweenSizeCheckUnit">
+                    <description><![CDATA[time unit to be used in the wait time between size checks.]]></description>
+                </parameter>
+                <parameter name="outputMimeType">
+                    <description><![CDATA[The mime type of the payload that this operation outputs.]]></description>
+                </parameter>
+                <parameter name="outputEncoding">
+                    <description><![CDATA[The encoding of the payload that this operation outputs.]]></description>
+                </parameter>
+                <parameter name="streamingStrategy">
+                    <description><![CDATA[Configure if repeatable streams should be used and their behaviour]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="rename">
+            <description><![CDATA[Renames the file pointed by path to the name provided on the to parameter <p> to argument should not contain any path separator. FILE:ILLEGAL_PATH will be thrown if this precondition is not honored.]]></description>
+            <parameters>
+                <parameter name="path">
+                    <description><![CDATA[the path to the file to be renamed]]></description>
+                </parameter>
+                <parameter name="to">
+                    <description><![CDATA[the file's new name]]></description>
+                </parameter>
+                <parameter name="overwrite">
+                    <description><![CDATA[whether or not overwrite the file if the target destination already exists.]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="write">
+            <description><![CDATA[Writes the content into the file pointed by path. <p> If the directory on which the file is attempting to be written doesn't exist, then the operation will either throw FILE:ILLEGAL_PATH error or create such folder depending on the value of the createParentDirectory. <p> If the file itself already exists, then the behavior depends on the supplied mode. <p> This operation also supports locking support depending on the value of the lock argument, but following the same rules and considerations as described in the read operation.]]></description>
+            <parameters>
+                <parameter name="path">
+                    <description><![CDATA[the path of the file to be written]]></description>
+                </parameter>
+                <parameter name="content">
+                    <description><![CDATA[the content to be written into the file. Defaults to the current Message payload]]></description>
+                </parameter>
+                <parameter name="encoding">
+                    <description><![CDATA[this parameter is deprecated and will do nothing if configured]]></description>
+                </parameter>
+                <parameter name="createParentDirectories">
+                    <description><![CDATA[whether or not to attempt creating any parent directories which don't exists.]]></description>
+                </parameter>
+                <parameter name="lock">
+                    <description><![CDATA[whether or not to lock the file. Defaults to false]]></description>
+                </parameter>
+                <parameter name="mode">
+                    <description><![CDATA[a FileWriteMode. Defaults to OVERWRITE]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+    </operations>
+    <sources>
+        <source name="listener">
+            <description><![CDATA[Polls a directory looking for files that have been created or updated. One message will be generated for each file that is found. <p> The key part of this functionality is how to determine that a file is actually new. There're three strategies for that: <ul> <li>Set the <i>autoDelete</i> parameter to <i>true</i>: This will delete each processed file after it has been processed, causing all files obtained in the next poll to be necessarily new</li> <li>Set <i>moveToDirectory</i> parameter: This will move each processed file to a different directory after it has been processed, achieving the same effect as <i>autoDelete</i> but without loosing the file</li> <li></li> <li>Use the <i>watermarkMode</i> parameter to only pick files that have been created/updated after the last poll was executed.</li> </ul> <p> A matcher can also be used for additional filtering of files.]]></description>
+            <parameters>
+                <parameter name="directory">
+                    <description><![CDATA[The directory on which polled files are contained]]></description>
+                </parameter>
+                <parameter name="recursive">
+                    <description><![CDATA[Whether or not to also files contained in sub directories.]]></description>
+                </parameter>
+                <parameter name="matcher">
+                    <description><![CDATA[A matcher used to filter events on files which do not meet the matcher's criteria]]></description>
+                </parameter>
+                <parameter name="watermarkMode">
+                    <description><![CDATA[Controls whether or not to do watermarking, and if so, if the watermark should consider the file's modification or creation timestamps]]></description>
+                </parameter>
+                <parameter name="timeBetweenSizeCheck">
+                    <description><![CDATA[Wait time in milliseconds between size checks to determine if a file is ready to be read. This allows a file write to complete before processing. You can disable this feature by omitting a value. When enabled, Mule performs two size checks waiting the specified time between calls. If both checks return the same value, the file is ready to be read.]]></description>
+                </parameter>
+                <parameter name="timeBetweenSizeCheckUnit">
+                    <description><![CDATA[A TimeUnit which qualifies the #timeBetweenSizeCheck attribute.]]></description>
+                </parameter>
+                <parameter name="primaryNodeOnly">
+                    <description><![CDATA[Whether this source should only be executed on the primary node when runnning in Cluster]]></description>
+                </parameter>
+                <parameter name="schedulingStrategy">
+                    <description><![CDATA[Configures the scheduler that triggers the polling]]></description>
+                </parameter>
+                <parameter name="redeliveryPolicy">
+                    <description><![CDATA[Defines a policy for processing the redelivery of the same message]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+                <parameter name="autoDelete">
+                    <description><![CDATA[Whether each file should be deleted after processing or not]]></description>
+                </parameter>
+                <parameter name="moveToDirectory">
+                    <description><![CDATA[If provided, each processed file will be moved to a directory pointed by this path.]]></description>
+                </parameter>
+                <parameter name="renameTo">
+                    <description><![CDATA[This parameter works in tandem with moveToDirectory. Use this parameter to enter the name under which the file should be moved. Do not set this parameter if moveToDirectory hasn't been set as well.]]></description>
+                </parameter>
+                <parameter name="applyPostActionWhenFailed">
+                    <description><![CDATA[Whether any of the post actions (autoDelete and moveToDirectory) should also be applied in case the file failed to be processed. If set to false, no failed files will be moved nor deleted.]]></description>
+                </parameter>
+            </parameters>
+        </source>
+    </sources>
+    <types>
+        <type name="org.mule.extension.file.api.LocalFileAttributes">
+            <description><![CDATA[Implementation of FileAttributes for files obtained from a local file system.
+
+ @since 1.0]]></description>
+            <parameters>
+                <parameter name="path">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="fileName">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="lastModifiedTime">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="lastAccessTime">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="creationTime">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="size">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="regularFile">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="directory">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="symbolicLink">
+                    <description><![CDATA[]]></description>
+                </parameter>
+            </parameters>
+        </type>
+        <type name="org.mule.extension.file.api.LocalFileMatcher">
+            <description><![CDATA[A specialization of FileMatcher used to do assertions on files stored on a local file system. The file's
+ properties are to be represented on an instance of LocalFileAttributes
+ <p>
+ It adds capabilities to consider creation, update and access timestamps.
+
+ @since 1.0]]></description>
+            <parameters>
+                <parameter name="filenamePattern">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="pathPattern">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="directories">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="regularFiles">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="symLinks">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="minSize">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="maxSize">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="createdSince">
+                    <description><![CDATA[Files created before this date are rejected.]]></description>
+                </parameter>
+                <parameter name="createdUntil">
+                    <description><![CDATA[Files created after this date are rejected]]></description>
+                </parameter>
+                <parameter name="updatedSince">
+                    <description><![CDATA[Files modified before this date are rejected]]></description>
+                </parameter>
+                <parameter name="updatedUntil">
+                    <description><![CDATA[Files modified after this date are rejected]]></description>
+                </parameter>
+                <parameter name="accessedSince">
+                    <description><![CDATA[Files which were last accessed before this date are rejected]]></description>
+                </parameter>
+                <parameter name="accessedUntil">
+                    <description><![CDATA[Files which were last accessed after this date are rejected]]></description>
+                </parameter>
+                <parameter name="notUpdatedInTheLast">
+                    <description><![CDATA[Minimum time that should have passed since a file was updated to not be rejected. This attribute works in tandem with #timeUnit.]]></description>
+                </parameter>
+                <parameter name="updatedInTheLast">
+                    <description><![CDATA[Maximum time that should have passed since a file was updated to not be rejected. This attribute works in tandem with #timeUnit.]]></description>
+                </parameter>
+                <parameter name="timeUnit">
+                    <description><![CDATA[A #notUpdatedInTheLast attributes.
+ <p>
+ Defaults to MILLISECONDS]]></description>
+                </parameter>
+            </parameters>
+        </type>
+    </types>
+</extension-documentation>
