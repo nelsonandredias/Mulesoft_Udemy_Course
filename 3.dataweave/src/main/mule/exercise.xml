@@ -34,9 +34,12 @@ var itemsList = {
 
 output application/json
 ---
-using (sum_items_cost = [0, 1, 2, 3, 4, 5] reduce ((elt, acc) -> acc + elt))
+using (sum_prices_cost = [17, 10, 20, 5, 10] reduce ((element, accumulated) -> accumulated + element))
 {
-	"prices": itemsList.items.item.*unit_price
+	"products": itemsList.items.*item default [] map ((currItem) -> 
+		using (item_total_price = currItem.quantity * currItem.unit_price)
+		if (item_total_price < sum_prices_cost) (currItem.description) else ""
+	)
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
